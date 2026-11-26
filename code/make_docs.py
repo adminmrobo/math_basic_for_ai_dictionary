@@ -3,7 +3,7 @@
 import os, sys, importlib
 R = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 sys.path.insert(0, os.path.join(R, 'build')); sys.path.insert(0, os.path.join(R, 'build', 'content'))
-from gen import TOC, NAME
+from gen import TOC, NAME, cover_alt
 STYLE = ('16-bit RPG pixel art, crisp hard pixel edges, limited palette, bright daytime laboratory with a WHITE background and light grey checker floor, '
          'chibi characters from the attached character sheet (keep faces, hair and clothes exactly), no text except the short math formulas given, no logos, no watermark.')
 L = ['# 그림 지시문 — 수리 도감', '', '지금 저장소의 표지·웃는 그림은 연구소 캐릭터 팩(96px)과 픽셀 도형으로 조립한 **임시 그림**입니다(art/scenes.py).',
@@ -12,10 +12,10 @@ L = ['# 그림 지시문 — 수리 도감', '', '지금 저장소의 표지·�
      '- 순서: 목차 표지를 먼저 받아 그림체를 확인 → 나머지에 그 표지를 참고 그림으로 함께 올리기', '- 공통 스타일: `' + STYLE + '`', '- 금지: 그림 속 긴 한글 문장(말풍선 대사는 페이지의 HTML이 맡음)', '']
 L += ['## 표지 (img/cover_*.webp, 16:9)', '', '| 파일 | 지시문 |', '|---|---|',
       '| cover_index.webp | White lab, big blackboard with "f(x)  Ax=b  P(A|B)  σ²  ∂f/∂x  ∇f  λ  θ ← θ − α∇f", all nine lab members lined up in front (Doctor center). |',
-      '| cover_practice.webp | Control room with monitors showing bar charts and a loss curve, blackboard "SHOP cos θ / CLINIC P(D|T) / TRAIN α / PCA k=1", Doctor, Haru, Fruit-fly, Abacus-bot. |']
+      '| cover_practice.webp | Control room with monitors showing bar charts and a loss curve, blackboard "SHOP cos θ / CLINIC P(D|T) / TRAIN α / PCA k=1", all nine lab members gathered, Doctor in front center. |']
 for key, out, slide, short, sub, host, part in TOC:
     C = importlib.import_module(key).CH
-    L.append(f'| cover_{key}.webp | {slide} {short} — 안내 {NAME[host]}. {C["cover_alt"]} |')
+    L.append(f'| cover_{key}.webp | {slide} {short} — 연구소 식구 아홉 명이 모두 모인 장면, 안내 {NAME[host]}가 맨 앞 가운데. {cover_alt(key)} 칠판 식과 소품: {C["cover_alt"]} |')
 L += ['', '## 웃는 그림 (img/toon/*_a.webp, *_b.webp, 3:2)', '']
 for key, out, slide, short, sub, host, part in TOC:
     C = importlib.import_module(key).CH

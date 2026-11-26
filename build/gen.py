@@ -56,6 +56,12 @@ SIS = {'ch01': ('index.html#c01', '1부 1장 함수'), 'ch02': ('index.html#c02'
        'ch13': ('part3.html#c15', '3부 15장 최적화'), 'ch14': ('part2.html#c08', '2부 8장 고유값·PCA'), 'ch15': ('index.html', '1~3부 전체')}
 
 
+def cover_alt(key):
+    k, out, slide, short, sub, host, part = TOCD[key]
+    return (f'흰 연구실 칠판에 {slide} {short}의 대표 식이 적혀 있고, 연구소 식구 아홉 명(박사·하루·초파리·주판봇·시아·모아·X1·X2·X3)이 모두 모여 있다. '
+            f'이번 장 안내인 {NAME[host]}가 맨 앞 가운데에 서고, 나머지 식구는 뒷줄에서 함께 설명을 듣는다. 16비트 픽셀아트.')
+
+
 def esc(s):
     return html.escape(str(s), quote=True)
 
@@ -198,7 +204,7 @@ def chapter(C):
   <a class="logo" href="index.html">수리 <i>도감</i> {C["no"]:02d}</a>
   <div class="links">{navh}</div>
 </div></nav>
-<div class="cover" id="cover"><div class="frame"><img class="art" src="img/cover_{key}.webp" width="1920" height="1080" alt="{esc(C["cover_alt"])}" fetchpriority="high"><span class="cap">수리 도감 · {slide}</span><span class="cover-chip">{C["no"]:02d}장 {C["title"]} · 안내 {NAME[host]}</span></div></div>
+<div class="cover" id="cover"><div class="frame"><img class="art" src="img/cover_{key}.webp" width="1920" height="1080" alt="{esc(cover_alt(key))}" fetchpriority="high"><span class="cap">수리 도감 · {slide}</span><span class="cover-chip">{C["no"]:02d}장 {C["title"]} · 안내 {NAME[host]}</span></div></div>
 <header class="hero" id="top"><div class="wrap">
   <div class="eyebrow">수리 도감 · 인공지능을 위한 수리적 기초 · {part} · 원자료 {slide} <span class="diff">이번 장 안내: {NAME[host]}</span></div>
   <h1>{C["no"]:02d}장 {C["title"]}</h1>

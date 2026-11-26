@@ -48,7 +48,7 @@ def build():
 </style></head>
 <body>
 <nav class="top" aria-label="섹션 바로가기"><div class="row"><a class="logo" href="index.html">수리 <i>도감</i> 연습장</a><div class="links"><a href="#shop">추천 매장</a><a href="#clinic">검사실</a><a href="#train">학습 관제실</a><a href="#compress">압축실</a><a href="#wrap">마무리</a><a href="index.html">목차</a></div></div></nav>
-<div class="cover" id="cover"><div class="frame"><img class="art" src="img/cover_practice.webp" width="1920" height="1080" alt="흰 연구실의 관제 모니터 앞에 박사·하루·초파리·주판봇이 서 있다. 칠판에 SHOP cos θ, CLINIC P(D|T), TRAIN α, PCA k=1. 16비트 픽셀아트." fetchpriority="high"><span class="cap">수리 도감 · 마지막 장</span><span class="cover-chip">실전 연습장 — 네 현장</span></div></div>
+<div class="cover" id="cover"><div class="frame"><img class="art" src="img/cover_practice.webp" width="1920" height="1080" alt="흰 연구실의 관제 모니터 앞에 연구소 식구 아홉 명이 모두 모여 있고 박사가 맨 앞 가운데에 서 있다. 칠판에 SHOP cos θ, CLINIC P(D|T), TRAIN α, PCA k=1. 16비트 픽셀아트." fetchpriority="high"><span class="cap">수리 도감 · 마지막 장</span><span class="cover-chip">실전 연습장 — 네 현장</span></div></div>
 <header class="hero" id="top"><div class="wrap">
 <div class="eyebrow">수리 도감 · 마지막 장 · 실전 연습장</div>
 <h1>실전 연습장 — 공식으로 현장 운영하기</h1>

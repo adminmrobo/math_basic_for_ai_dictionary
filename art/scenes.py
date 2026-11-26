@@ -82,7 +82,10 @@ class Scene:
     def spr(self, mood, x, y, flip=False, scale=1):
         im = SPR[mood]
         if flip: im = im.transpose(Image.FLIP_LEFT_RIGHT)
-        if scale != 1: im = im.resize((int(96 * scale), int(96 * scale)), Image.NEAREST)
+        if scale < 1:   # 줄일 때는 부드럽게 줄인 뒤 투명도를 다시 0/255로 (가장자리 픽셀 경계 유지)
+            im = im.resize((int(96 * scale), int(96 * scale)), Image.LANCZOS)
+            im.putalpha(im.split()[3].point(lambda v: 255 if v > 110 else 0))
+        elif scale != 1: im = im.resize((int(96 * scale), int(96 * scale)), Image.NEAREST)
         if self.W == 600 and y >= 150 and scale == 1: y = int(self.H * 0.84) - 92   # 웃는 그림: 캐릭터는 바닥선에 선다
         self.im.paste(im, (int(x), int(y)), im)
 

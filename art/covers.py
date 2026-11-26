@@ -1,18 +1,28 @@
 # -*- coding: utf-8 -*-
-"""표지 17장 장면 명세 (480×270 격자). 안내 담당이 가운데, 양옆에 연구소 식구 둘, 칠판에 장의 대표 식."""
+"""표지 17장 장면 명세 (480×270 격자). 연구소 식구 아홉 명이 모두 모이고, 이번 장 안내 담당이 맨 앞 가운데. 칠판에 장의 대표 식."""
 HOSTM = {'doc': 'doc_board', 'asst': 'asst_proud', 'fly': 'fly_point', 'robo': 'robo_calc', 'sia': 'sia_guide', 'moa': 'moa_sparkle', 'x1': 'x1_hint', 'x2': 'x2_hint', 'x3': 'x3_hint'}
+# 뒷줄에 서는 식구들의 표정 (모두 모인 연구소)
+CREW = [('doc', 'doc_front'), ('asst', 'asst_smile'), ('fly', 'fly_point'), ('robo', 'robo_happy'), ('sia', 'sia_smile'), ('moa', 'moa_smile'), ('x1', 'x1_hint'), ('x2', 'x2_hint'), ('x3', 'x3_hint')]
+BACK_X = [4, 60, 116, 172, 252, 308, 364, 420]
 
 
-def cv(tag, lines, host, left, right, props=(), host_y=150):
-    spec = [('bg', 'lab'), ('board', 92, 20, 296, 112, lines, True), ('tag', 400, 8, tag, 'teal')]
+def crew(host, host_mood=None):
+    """연구소 식구 아홉 명이 모두 모인 줄: 안내 담당은 맨 앞 가운데(96px), 나머지 여덟은 뒷줄(57px)에서 가운데를 본다."""
+    others = [m for k, m in CREW if k != host]
+    spec = [('spr', m, BACK_X[i], 132, i >= 4, 0.6) for i, m in enumerate(others)]
+    spec += [('star', 180, 236), ('star', 300, 236), ('spr', host_mood or HOSTM[host], 192, 174)]
+    return spec
+
+
+def cv(tag, lines, host, left=None, right=None, props=()):
+    spec = [('bg', 'lab'), ('board', 92, 12, 296, 100, lines, True), ('tag', 400, 8, tag, 'teal')]
     def up(e):
         e = list(e)
         if e[0] in ('arrow', 'line'): e[2] -= 100; e[4] -= 100
         else: e[2] -= 100
         return tuple(e)
     spec += [up(e) for e in props]
-    spec += [('spr', left, 18, 168), ('spr', right, 366, 168, True), ('spr', HOSTM[host], 192, host_y)]
-    return spec
+    return spec + crew(host)
 
 
 COVERS = {
@@ -34,7 +44,6 @@ COVERS = {
  'ch13': cv('MATH-13', ['θ ← θ − α∇f', 'α = 0.1', 'argmin J(w,b)'], 'fly', 'robo_sigh', 'x2_hint', [('curve', 398, 140, 74, 56, 'parab', 'teal', 2), ('ball', 412, 158, 5, 'red')]),
  'ch14': cv('MATH-14', ['Ax = λx', 'det(A−λI) = 0', 'PC1  PC2'], 'doc', 'asst_firm', 'moa_sparkle', [('dots', 400, 140, 70, 55, 'cloud', 18), ('arrow', 410, 192, 466, 146, 'red', 2)]),
  'ch15': cv('MATH-15', ['σ(x)=1/(1+e⁻ˣ)', 'max(0, x)', 'softmax'], 'x3', 'x1_hint', 'x2_hint', [('star', 30, 140), ('star', 450, 140), ('tag', 6, 140, 'QUICK!', 'red')]),
- 'practice': [('bg', 'lab'), ('board', 20, 16, 200, 100, ['SHOP  cos θ', 'CLINIC P(D|T)', 'TRAIN α', 'PCA  k=1']), ('tag', 400, 8, 'PRACTICE', 'red'),
-              ('box', 250, 20, 210, 110, 'white'), ('bars', 262, 40, 80, 70, [3, 5, 2, 6, 4], 'teal'), ('curve', 360, 40, 90, 70, 'decay', 'red', 2),
-              ('spr', 'doc_judge', 40, 160), ('spr', 'asst_report', 140, 168), ('spr', 'fly_type', 240, 164), ('spr', 'robo_wow', 340, 170, True)],
+ 'practice': [('bg', 'lab'), ('board', 20, 12, 200, 100, ['SHOP  cos θ', 'CLINIC P(D|T)', 'TRAIN α', 'PCA  k=1']), ('tag', 400, 8, 'PRACTICE', 'red'),
+              ('box', 250, 14, 210, 100, 'white'), ('bars', 262, 30, 80, 70, [3, 5, 2, 6, 4], 'teal'), ('curve', 360, 30, 90, 70, 'decay', 'red', 2)] + crew('doc', 'doc_judge'),
 }
