@@ -59,7 +59,7 @@
 │  ├─ check_browser.py            390·1280px 가로 넘침·콘솔 오류·빈 그림 검사
 │  ├─ check_links.py · check_words.sh   내부 링크·금지 단어 검사
 │  └─ make_docs.py · shot.py
-├─ docs/PLAN.md · IMAGE_PROMPTS.md · AHNBOAT_CARD.md
+├─ docs/PLAN.md · IMAGE_PROMPTS.md · AHNBOAT_CARD.md · genspark/(GENSPARK_PROMPTS.md · refs.zip, 48장 요청 꾸러미)
 └─ img/  표지 17장, toon/ 웃는 그림 30장, og/ 공유 미리보기 960×540
 ```
 
