@@ -250,12 +250,14 @@ if __name__ == '__main__':
     from gen import TOC
     keys = sys.argv[1:] or [t[0] for t in TOC] + ['index', 'practice']
     covers = importlib.import_module('covers')
+    RECV = set(json.load(open(os.path.join(R, 'img', 'received.json')))['applied']) if os.path.exists(os.path.join(R, 'img', 'received.json')) else set()   # Genspark에서 받아 반영한 그림은 덮어쓰지 않는다
     for k in keys:
-        if k in covers.COVERS:
+        if k in covers.COVERS and 'img/cover_%s.webp' % k not in RECV:
             s = Scene(480, 270); run(s, covers.COVERS[k]); big = s.save(os.path.join(R, 'img', 'cover_%s.webp' % k), 4)
             big.resize((960, 540), Image.NEAREST).save(os.path.join(R, 'img', 'og', '%s.png' % k), optimize=True)
         if k.startswith('ch'):
             C = importlib.import_module(k).CH
             for i, t in enumerate(C['toons']):
+                if 'img/toon/%s_%s.webp' % (k, 'ab'[i]) in RECV: continue
                 s = Scene(600, 400); run(s, t['scene']); s.save(os.path.join(R, 'img', 'toon', '%s_%s.webp' % (k, 'ab'[i])), 2)
         print('art', k)

@@ -35,7 +35,7 @@
 .dexwarn{background:var(--eye-soft);border-radius:8px;padding:8px 12px;font-size:15px}
 @media(max-width:760px){.dexgrid{grid-template-columns:1fr}}
 .toon{margin:26px auto;max-width:820px;border:1px solid var(--rule);border-radius:14px;overflow:hidden;background:#fff}
-.toon .tframe{background:#fff;border-bottom:1px solid var(--rule)}.toon img{display:block;width:100%;height:auto;image-rendering:pixelated;image-rendering:crisp-edges}
+.toon .tframe{background:#fff;border-bottom:1px solid var(--rule)}.toon img{display:block;width:100%;height:auto}
 .toon figcaption{padding:12px 16px}.toon .ttl{display:block;margin-bottom:8px;color:var(--amber)}
 .tline{display:flex;gap:10px;align-items:center;margin:6px 0}.tline img{width:40px;height:40px;flex:none;border-radius:8px;border:1px solid var(--rule)}.tline p{margin:0}
 .tpoint{margin:10px 0 0;background:var(--panel);border-radius:8px;padding:8px 12px;font-size:15px}
@@ -88,7 +88,7 @@ pre.out{background:#0f1720;color:#d8e6f0}
 <div class="chain"><span class="">05 연립일차방정식</span><i>→</i><span class="">06 확률 기초</span><i>→</i><span class="on">07 조건부 확률과 베이즈</span><i>→</i><span class="">08 통계 기초</span><i>→</i><span class="">09 확률분포</span></div>
 <p class="where"><b>도감 속 자리</b> 6장의 곱셈 법칙에서 "독립이 아니면?"으로 남겨 둔 질문의 답입니다. 9장(확률분포)과 함께 베이지안 통계·나이브 베이즈 분류기의 바탕이 됩니다.</p>
 <div class="sis"><img data-mood="asst_report" alt="" aria-hidden="true"><p><b>조교 하루의 길 안내</b> 같은 주제를 생선 가게 AI 모델 이야기로 차례차례 따라가고 싶다면 「인공지능을 위한 수학」 <a href="https://adminmrobo.github.io/math_for_ai_lab/part2.html#c10">2부 10장 조건부 확률·베이즈</a>을 함께 보세요. 이야기로 흐름을 잡고, 이 도감으로 낱말을 찾아보는 식으로 쓰면 좋아요.</p></div>
-<figure class="toon" id="toon1"><div class="tframe"><img src="img/toon/ch07_a.webp" width="1200" height="800" loading="lazy" alt="픽셀아트. 시아가 &quot;양성&quot; 쪽지를 들고 하얗게 질려 있고, 모아가 1000명을 작은 점으로 그린 큰 판을 펼쳐 보이며 &quot;양성 59명 중 진짜는 10명&quot;이라고 짚는다. 하루는 놀라서 땀을 흘린다."></div><figcaption><b class="ttl">웃는 그림 1 · 99% 검사의 배신</b><div class="tline"><img data-mood="asst_shock" alt="" aria-hidden="true"><p><b>조교 하루</b> 99% 정확한 검사에서 양성이면… 99% 확률로 병이라는 거 아니에요?!</p></div><div class="tline"><img data-mood="moa_report" alt="" aria-hidden="true"><p><b>모아</b> 1000명 판을 보세요. 양성은 약 60명인데 진짜 환자는 10명 정도예요. 계산하면 16.7%.</p></div><div class="tline"><img data-mood="doc_think" alt="" aria-hidden="true"><p><b>박사</b> 병이 1%로 드물어서 그래요. 건강한 990명의 5%가 만드는 거짓 양성이 더 많죠.</p></div><p class=tpoint><b>그림 속 수학</b> 사후확률 P(D|T)는 민감도만이 아니라 사전확률(유병률)에 크게 좌우된다. 드문 병일수록 양성 중 거짓 양성의 비율이 높다.</p></figcaption></figure>
+<figure class="toon" id="toon1"><div class="tframe"><img src="img/toon/ch07_a.webp" width="1200" height="800" loading="lazy" alt="픽셀아트. 시아가 &quot;양성&quot; 쪽지를 들고 하얗게 질려 있고, 모아가 1000명을 작은 점으로 그린 큰 판을 펼쳐 보이며 &quot;양성 59명 중 진짜는 10명&quot;이라고 짚는다. 하루는 놀라서 땀을 흘린다."></div><figcaption><b class="ttl">웃는 그림 1 · 99% 검사의 배신</b><div class="tline"><img data-mood="asst_shock" alt="" aria-hidden="true"><p><b>조교 하루</b> 99% 정확한 검사에서 양성이면… 99% 확률로 병이라는 거 아니에요?!</p></div><div class="tline"><img data-mood="moa_report" alt="" aria-hidden="true"><p><b>모아</b> 1000명 판을 보세요. 양성 59명 중 진짜 환자는 10명, 사람 수로 세면 10/59 ≈ 16.9%. 정확히 계산하면 16.7%예요.</p></div><div class="tline"><img data-mood="doc_think" alt="" aria-hidden="true"><p><b>박사</b> 병이 1%로 드물어서 그래요. 건강한 990명의 5%가 만드는 거짓 양성이 더 많죠.</p></div><p class=tpoint><b>그림 속 수학</b> 사후확률 P(D|T)는 민감도만이 아니라 사전확률(유병률)에 크게 좌우된다. 드문 병일수록 양성 중 거짓 양성의 비율이 높다.</p></figcaption></figure>
 </div></section>
 <section class="sec" id="dex" aria-labelledby="h-dex"><div class="wrap">
 <h2 id="h-dex"><span class="hex">도감</span>도감 항목 — 8개</h2>
