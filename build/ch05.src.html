@@ -1,0 +1,230 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>05장 연립일차방정식 — Ax = b와 선형 회귀 | 수리 도감 — 인공지능을 위한 수리적 기초</title>
+<meta name="description" content="수리 도감 05장. 연립방정식을 행렬 Ax = b로 쓰고, 역행렬과 크라메르 공식으로 풀고, 해가 하나·무수히 많음·없음을 가르고, 선형 회귀의 정규방정식까지 시아가 안내합니다.">
+<meta property="og:type" content="article"><meta property="og:title" content="05장 연립일차방정식 — Ax = b와 선형 회귀 | 수리 도감 — 인공지능을 위한 수리적 기초"><meta property="og:description" content="수리 도감 05장. 연립방정식을 행렬 Ax = b로 쓰고, 역행렬과 크라메르 공식으로 풀고, 해가 하나·무수히 많음·없음을 가르고, 선형 회귀의 정규방정식까지 시아가 안내합니다.">
+<meta property="og:image" content="https://adminmrobo.github.io/math_basic_for_ai_dictionary/img/og/ch05.png"><meta property="og:url" content="https://adminmrobo.github.io/math_basic_for_ai_dictionary/05_linear_systems.html"><meta name="twitter:card" content="summary_large_image">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+KR:wght@400;500;700&display=swap" rel="stylesheet">
+<!--@@CSS@@-->
+<style>
+.tl,.tr{font-weight:700;font-size:13.5px;margin-bottom:4px}.tl{color:var(--amber)}.tr{color:var(--terrain)}
+.hex{display:inline-grid;place-items:center;min-width:44px;height:34px;padding:0 10px;margin-right:10px;border-radius:8px;background:var(--terrain);color:#fff;font-size:17px;vertical-align:4px}
+.sec{padding:40px 0;border-top:1px solid var(--rule)}
+.cast{display:grid;gap:10px}.castc{display:flex;gap:10px;align-items:center;background:var(--panel);border:1px solid var(--rule);border-left:4px solid var(--cc);border-radius:10px;padding:8px 10px}
+.castc.host{background:#fff;box-shadow:0 0 0 2px var(--cc)}
+.castc img{width:60px;height:60px;flex:none}.castc p{margin:0;font-size:13.5px;color:var(--muted);line-height:1.55}
+.cover img.art{image-rendering:pixelated;image-rendering:crisp-edges}
+.diff{display:inline-block;border:1px solid var(--c-asst);color:var(--c-asst);border-radius:999px;padding:0 10px;font-size:12.5px;margin-left:6px}
+.hostcard{display:flex;gap:14px;align-items:center;border:2px solid var(--cc);border-radius:14px;padding:12px 16px;margin:10px 0 16px;background:#fff}
+.hostcard img{width:84px;height:84px;flex:none}.hostcard p{margin:4px 0 0;color:var(--muted)}
+.chain span.on{background:var(--terrain);color:#fff;border-color:var(--terrain)}
+.where{background:var(--panel);border-radius:10px;padding:10px 14px}
+.sis{display:flex;gap:12px;align-items:center;border:1px solid var(--c-asst);border-radius:12px;padding:10px 14px;margin:10px 0;background:#fff7fb}.sis img{width:56px;height:56px;flex:none}.sis p{margin:0}
+.dexidx{display:flex;flex-wrap:wrap;gap:6px;margin:10px 0 18px}.dexidx a{border:1px solid var(--rule);border-radius:999px;padding:3px 12px;font-size:14px;text-decoration:none;background:var(--panel)}
+.dexidx a:hover{border-color:var(--terrain)}
+.dex{border:1px solid var(--rule);border-top:4px solid var(--terrain);border-radius:14px;padding:16px 20px 12px;margin:0 0 22px;background:#fff;scroll-margin-top:70px}
+.dex header{display:flex;gap:12px;align-items:baseline;flex-wrap:wrap}.dex h3{margin:0;font-size:21px}.dex h3 small{font-size:14px;color:var(--muted);font-weight:500}
+.dexno{font:700 13px/1 var(--font);color:#fff;background:var(--c-x);border-radius:6px;padding:4px 8px}
+.dex .one{font-size:17px;font-weight:600;color:var(--terrain);margin:8px 0 10px}
+.dexgrid{display:grid;grid-template-columns:1.2fr 1fr;gap:14px;margin-bottom:10px}
+.dexgrid .dw{line-height:1.8}.dexgrid .try{background:var(--amber-soft);border:1px dashed #e8b67a;border-radius:10px;padding:10px 14px}.dexgrid .try ol{margin:6px 0 0;padding-left:22px}
+.dexwarn{background:var(--eye-soft);border-radius:8px;padding:8px 12px;font-size:15px}
+@media(max-width:760px){.dexgrid{grid-template-columns:1fr}}
+.toon{margin:26px auto;max-width:820px;border:1px solid var(--rule);border-radius:14px;overflow:hidden;background:#fff}
+.toon .tframe{background:#fff;border-bottom:1px solid var(--rule)}.toon img{display:block;width:100%;height:auto;image-rendering:pixelated;image-rendering:crisp-edges}
+.toon figcaption{padding:12px 16px}.toon .ttl{display:block;margin-bottom:8px;color:var(--amber)}
+.tline{display:flex;gap:10px;align-items:center;margin:6px 0}.tline img{width:40px;height:40px;flex:none;border-radius:8px;border:1px solid var(--rule)}.tline p{margin:0}
+.tpoint{margin:10px 0 0;background:var(--panel);border-radius:8px;padding:8px 12px;font-size:15px}
+.labbox{border:1px solid var(--rule);border-radius:14px;padding:14px 18px;margin:16px 0;background:#fff}
+.labh{font-weight:700;font-size:17px;margin-bottom:6px}.lno{display:inline-grid;place-items:center;width:28px;height:28px;border-radius:50%;background:var(--terrain);color:#fff;margin-right:6px}
+.codewrap{position:relative}.cpy{position:absolute;right:8px;top:8px;font:600 12.5px var(--font);border:1px solid var(--rule);background:#fff;border-radius:8px;padding:3px 10px;cursor:pointer}
+pre.prompt,pre.code,pre.out{white-space:pre-wrap;word-break:break-word;background:#f7f9fb;border:1px solid var(--rule);border-radius:10px;padding:14px 16px;font:13.5px/1.65 ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;max-height:520px;overflow:auto;margin:8px 0}
+pre.prompt{background:#fbf8ff;border-color:#d9c8f0;font-family:var(--font);font-size:14.5px}
+pre.out{background:#0f1720;color:#d8e6f0}
+.colabbtns{display:flex;flex-wrap:wrap;gap:8px}.colabbtns a.bt{text-decoration:none}
+.panel .row2{display:grid;grid-template-columns:1fr 1fr;gap:14px}@media(max-width:760px){.panel .row2{grid-template-columns:1fr}}
+.panel .cv{width:100%;height:300px;display:block;border:1px solid var(--rule);border-radius:10px;background:#fff;touch-action:none}
+.panel .cv.tall{height:360px}
+.panel .rd{display:grid;grid-template-columns:repeat(auto-fit,minmax(130px,1fr));gap:8px;margin:10px 0}
+.panel .rd div{background:var(--panel);border-radius:10px;padding:8px 10px}.panel .rd b{display:block;font-size:19px}.panel .rd span{font-size:12.5px;color:var(--muted)}
+.panel .sl{display:flex;align-items:center;gap:10px;margin:6px 0;flex-wrap:wrap}.panel .sl label{min-width:140px;font-size:14.5px}.panel .sl input[type=range]{flex:1;min-width:140px}
+.panel .msg{background:#f4fbfb;border:1px dashed var(--terrain);border-radius:10px;padding:10px 14px;margin:8px 0;font-size:15px}
+.panel textarea,.panel input[type=text]{width:100%;font:15px var(--font);padding:8px 10px;border:1px solid var(--rule);border-radius:8px}
+.panel table.mt{border-collapse:collapse;margin:6px 0}.panel table.mt td{border:1px solid var(--rule);min-width:44px;text-align:center;padding:4px 6px;font-variant-numeric:tabular-nums}
+.panel table.mt td.hl{background:var(--amber-soft);font-weight:700}.panel table.mt td.hl2{background:var(--info-soft);font-weight:700}
+.panel .step{font-variant-numeric:tabular-nums}
+.ptitle{font-weight:700;margin-bottom:6px}
+</style>
+</head>
+<body>
+<nav class="top" aria-label="섹션 바로가기"><div class="row">
+  <a class="logo" href="index.html">수리 <i>도감</i> 05</a>
+  <div class="links"><a href="#dex">도감 항목</a><a href="#lab">실험실</a><a href="#ai">AI 판단</a><a href="#colab">코랩 실습</a><a href="#sum">정리</a><a href="#kg">색인</a><a href="06_probability.html">06장 →</a></div>
+</div></nav>
+<div class="cover" id="cover"><div class="frame"><img class="art" src="img/cover_ch05.webp" width="1920" height="1080" alt="칠판에 2x + 3y = 7, x − y = 1과 해 x=2, y=1이 적혀 있고 시아가 안내하듯 손을 펼친다. X2와 주판봇이 놀란 얼굴로 본다. 빨강·파랑 두 직선이 초록 점에서 만난다. 16비트 픽셀아트." fetchpriority="high"><span class="cap">수리 도감 · MATH-05</span><span class="cover-chip">05장 연립일차방정식 — Ax = b와 선형 회귀 · 안내 시아</span></div></div>
+<header class="hero" id="top"><div class="wrap">
+  <div class="eyebrow">수리 도감 · 인공지능을 위한 수리적 기초 · 선형대수 · 원자료 MATH-05 <span class="diff">이번 장 안내: 시아</span></div>
+  <h1>05장 연립일차방정식 — Ax = b와 선형 회귀</h1>
+  <p class="question">점 세 개를 가장 잘 지나는 직선은 어떻게 "한 번에" 계산될까?</p>
+  <p class="lead">중학교에서 푼 연립방정식을 행렬로 옮기면 Ax = b 한 줄이 됩니다. 그러면 4장의 역행렬로 x = A⁻¹b를 바로 구할 수 있고, 행렬식으로 해가 몇 개인지도 미리 알 수 있어요. 이 장의 끝에서 이 방법이 선형 회귀의 공식 β = (XᵀX)⁻¹Xᵀy가 되는 것을 확인합니다.</p>
+  <p class="byline">글 · 안상선 ((주)M-Robo 대표) · <a href="https://adminmrobo.github.io/who_am_i/who_am_i.html">저자 소개</a> · 2026-11-26 · v1.0</p>
+  <div class="start"><b>처음이라면</b> 「행렬로 쓰기」와 「해의 종류」를 읽고, 실험실에서 평행한 두 직선 버튼을 눌러 보세요. 직선이 만나지 않는 모습이 det = 0의 뜻이에요.</div>
+  <div class="kpis" aria-label="숫자 요약"><div class="kpi m"><b>7개</b><span>도감 항목 (슬라이드 MATH-05의 모든 상자)</span></div><div class="kpi g"><b>1개</b><span>직접 움직이는 실험실</span></div><div class="kpi a"><b>2 + 2</b><span>웃는 그림 둘, 코랩 실습 둘(AI 프롬프트·실제 코드)</span></div><div class="kpi r"><b>4문제</b><span>확인 퀴즈</span></div></div>
+</div></header>
+<main>
+<section class="sec" id="plain" aria-labelledby="h-plain"><div class="wrap"><h2 id="h-plain">처음 오신 분께 — 이 장을 3줄로</h2><ol class="plain3"><li><b>무엇을</b> 연립방정식 = 행렬 방정식 Ax = b. 역행렬(x = A⁻¹b)과 크라메르 공식으로 풀고, 행렬식으로 해의 종류를 판정합니다.</li><li><b>왜 중요한가</b> 미지수가 수십 개여도 같은 방법으로 풀립니다. 선형 회귀의 가중치도 이렇게 구해요.</li><li><b>AI에서는</b> 선형 회귀의 정규방정식, 최소제곱, 릿지 회귀가 모두 "연립방정식 풀기"입니다.</li></ol>
+<p class="plain-note">코드와 수식을 몰라도 됩니다. 항목마다 "말로 먼저"와 "숫자로 한 번 해 보기"가 먼저 나오고, 식은 "식으로 보면"을 펼칠 때만 나옵니다. 여기서 한 번 멈춰도 괜찮아요.</p>
+<details class="abbr"><summary>기호·영어 약어 풀이 (5개)</summary><div class="abbr-list"><div><b>Ax = b</b> <span>에이 엑스 이퀄 비</span> — 계수 행렬 × 미지수 = 상수</div><div><b>det(A)</b> <span>행렬식</span> — 2 × 2는 ad − bc</div><div><b>Aₓ, A_y</b> <span>크라메르 행렬</span> — A의 열 하나를 b로 바꾼 것</div><div><b>β</b> <span>베타</span> — 회귀 계수(가중치)</div><div><b>XᵀX</b> <span>엑스 전치 엑스</span> — 정규방정식의 정사각 행렬</div></div></details></div></section>
+<section class="sec" id="cast" aria-labelledby="h-cast" style="padding:18px 0 0;border:0"><div class="wrap"><h3 id="h-cast">연구소 식구 — 열다섯 장을 돌아가며 안내합니다</h3>
+<div class="cast" style="grid-template-columns:repeat(auto-fit,minmax(230px,1fr))"><div class="castc" style="--cc:var(--c-doc)"><img data-mood="doc_board" alt="" aria-hidden="true"><div><b>박사</b><p>연구소 책임자. 장마다 상황 질문으로 문을 열고 해석 문장으로 닫아요.</p></div></div><div class="castc" style="--cc:var(--c-asst)"><img data-mood="asst_smile" alt="" aria-hidden="true"><div><b>조교 하루</b><p>수식 담당. 기호 하나씩 읽는 법과 뜻부터 풀어 줘요.</p></div></div><div class="castc" style="--cc:var(--c-fly)"><img data-mood="fly_point" alt="" aria-hidden="true"><div><b>조교 초파리</b><p>실험 담당. "이걸 눌러 봐"로 실험판을 열고, 답이 그럴듯한지 의심해요.</p></div></div><div class="castc" style="--cc:var(--c-robo)"><img data-mood="robo_calc" alt="" aria-hidden="true"><div><b>조교 주판봇</b><p>계산 담당. 1초 만에 답을 내지만 가끔 너무 빨라요. AI 판단 코너의 단골.</p></div></div><div class="castc host" style="--cc:var(--c-sia)"><img data-mood="sia_smile" alt="" aria-hidden="true"><div><b>시아 · 이번 장 안내</b><p>직관파 연구원. 비유부터 꺼내 "그러니까 이런 거죠?"라고 물어요.</p></div></div><div class="castc" style="--cc:var(--c-moa)"><img data-mood="moa_smile" alt="" aria-hidden="true"><div><b>모아</b><p>꼼꼼파 연구원. "그건 언제나 그래요?" 하고 조건과 예외를 물어요.</p></div></div><div class="castc" style="--cc:var(--c-x)"><img data-mood="x1_hint" alt="" aria-hidden="true"><div><b>X1</b><p>막내 연구원. 손을 번쩍 들고 엉뚱한 질문을 해요.</p></div></div><div class="castc" style="--cc:var(--c-x)"><img data-mood="x2_hint" alt="" aria-hidden="true"><div><b>X2</b><p>막내 연구원. 필기를 가장 열심히 해요.</p></div></div><div class="castc" style="--cc:var(--c-x)"><img data-mood="x3_hint" alt="" aria-hidden="true"><div><b>X3</b><p>막내 연구원. 게임과 퀴즈 시간에 가장 신나요.</p></div></div></div></div></section>
+<section class="sec" id="open" aria-labelledby="h-open"><div class="wrap">
+<h2 id="h-open"><span class="hex">05</span>두 직선이 만나는 곳</h2>
+<div class="hostcard" style="--cc:var(--c-sia)"><img data-mood="sia_smile" alt="" aria-hidden="true"><div><b>이번 장 안내 · 시아</b><p>직관파 시아가 "두 직선이 만나는 곳"이라는 그림으로 이 장을 안내합니다. 식보다 그림을 먼저 보고 싶은 분께 맞춰서요.</p></div></div>
+<div data-dlg="open"></div>
+<div class="chain"><span class="">03 벡터 연산</span><i>→</i><span class="">04 행렬 연산</span><i>→</i><span class="on">05 연립일차방정식</span><i>→</i><span class="">06 확률 기초</span><i>→</i><span class="">07 조건부 확률과 베이즈</span></div>
+<p class="where"><b>도감 속 자리</b> 4장의 행렬곱·역행렬을 처음으로 "문제 풀이"에 쓰는 장입니다. 여기서 본 정규방정식은 13장(경사하강)에서 다른 길로 같은 답을 찾고, 15장 총정리에 다시 나옵니다.</p>
+<div class="sis"><img data-mood="asst_report" alt="" aria-hidden="true"><p><b>조교 하루의 길 안내</b> 같은 주제를 생선 가게 AI 모델 이야기로 차례차례 따라가고 싶다면 「인공지능을 위한 수학」 <a href="https://adminmrobo.github.io/math_for_ai_lab/index.html#c05">1부 5장 연립방정식</a>을 함께 보세요. 이야기로 흐름을 잡고, 이 도감으로 낱말을 찾아보는 식으로 쓰면 좋아요.</p></div>
+<figure class="toon" id="toon1"><div class="tframe"><img src="img/toon/ch05_a.webp" width="1200" height="800" loading="lazy" alt="픽셀아트. 바닥에 그은 빨간 선과 파란 선이 끝까지 나란히 달리고, 두 선 위를 걷던 시아와 X2가 서로 손을 뻗지만 닿지 않는다. 주판봇 화면에 &quot;det = 0, NO SOLUTION&quot;."></div><figcaption><b class="ttl">웃는 그림 1 · 평행선의 짝사랑</b><div class="tline"><img data-mood="sia_signal" alt="" aria-hidden="true"><p><b>시아</b> X2야, 이 선 따라가면 만날 수 있겠지?</p></div><div class="tline"><img data-mood="x2_hint" alt="" aria-hidden="true"><p><b>X2</b> (필기) 기울기 둘 다 −1… 영원히 평행…</p></div><div class="tline"><img data-mood="robo_sigh" alt="" aria-hidden="true"><p><b>조교 주판봇</b> 행렬식 0. 해 없음. 만남 불가.</p></div><p class=tpoint><b>그림 속 수학</b> 기울기가 같고 절편이 다른 두 직선(평행)은 해가 없다. 이때 det A = 0.</p></figcaption></figure>
+</div></section>
+<section class="sec" id="dex" aria-labelledby="h-dex"><div class="wrap">
+<h2 id="h-dex"><span class="hex">도감</span>도감 항목 — 7개</h2>
+<p>슬라이드 MATH-05의 상자를 하나도 빼지 않고 항목으로 옮겼습니다. 이름표를 눌러 바로 가세요.</p>
+<div class="dexidx"><a href="#m05-what">연립일차방정식이란</a><a href="#m05-matrix">행렬로 쓰기</a><a href="#m05-inverse">역행렬로 풀기</a><a href="#m05-cramer">크라메르 공식</a><a href="#m05-types">해의 종류</a><a href="#m05-ml">ML에서의 쓰임</a><a href="#m05-regression">예: 선형 회귀</a></div>
+<article class="dex" id="m05-what" data-dex="연립일차방정식이란"><header><span class="dexno">05-01</span><h3>연립일차방정식이란 <small>What is a System of Linear Equations</small></h3></header><p class="one">미지수가 여러 개인 일차방정식들의 묶음. 모두 동시에 참이 되는 값을 찾는다.</p><div class="dexgrid"><div class="dw"><b>말로 먼저</b> 2x + 3y = 7과 x − y = 1은 각각 직선 하나예요. 두 식을 동시에 만족하는 (x, y)는 두 직선이 만나는 점입니다. "일차"는 x², xy 같은 항 없이 x, y가 한 번씩만 곱해진다는 뜻이에요.</div><div class="try"><b>숫자로 한 번 해 보기</b><ol><li>식 ①: 2x + 3y = 7</li><li>식 ②: x − y = 1 → x = y + 1</li><li>①에 넣으면 2(y+1) + 3y = 7 → 5y = 5 → y = 1, x = 2</li></ol></div></div><div class="pair"><div><div class="tl">학교 수학으로 보면</div>중2 연립일차방정식(대입법·가감법).</div><div><div class="tr">AI에서는</div>데이터 점 하나하나가 식 하나, 모델의 가중치가 미지수예요.</div></div></article>
+<article class="dex" id="m05-matrix" data-dex="행렬로 쓰기"><header><span class="dexno">05-02</span><h3>행렬로 쓰기 <small>Matrix Representation</small></h3></header><p class="one">Ax = b. A는 계수 행렬, x는 미지수 벡터, b는 상수 벡터.</p><div class="dexgrid"><div class="dw"><b>말로 먼저</b> 2x + 3y = 7, x − y = 1의 계수를 그대로 표에 옮기면 A = [[2 3], [1 −1]], 미지수 x = [x, y]ᵀ, 오른쪽 값 b = [7, 1]ᵀ. 4장의 행렬곱으로 A × x를 계산하면 원래 두 식의 왼쪽이 그대로 나와요.</div><div class="try"><b>숫자로 한 번 해 보기</b><ol><li>A = [[2, 3], [1, −1]] (2 × 2)</li><li>x = [x, y]ᵀ (2 × 1), b = [7, 1]ᵀ (2 × 1)</li><li>A × [2, 1]ᵀ = [2·2 + 3·1, 2 − 1] = [7, 1] = b ✔</li></ol></div></div><div class="pair"><div><div class="tl">학교 수학으로 보면</div>연립방정식의 계수 정리 + 행렬의 곱.</div><div><div class="tr">AI에서는</div>데이터 n개, 가중치 d개면 A는 n × d 행렬. 미지수가 수천 개여도 식은 Ax = b 한 줄.</div></div><details class="eqx"><summary>식으로 보면 (몰라도 됩니다)</summary><table class="ez-tb"><thead><tr><th>식 조각</th><th>읽는 법</th><th>뜻</th></tr></thead><tbody><tr><td class="m">Ax = b</td><td>에이 엑스는 비</td><td>계수 행렬 × 미지수 벡터 = 상수 벡터</td></tr></tbody></table></details></article>
+<article class="dex" id="m05-inverse" data-dex="역행렬로 풀기"><header><span class="dexno">05-03</span><h3>역행렬로 풀기 <small>Solving Using Matrix Inverse</small></h3></header><p class="one">A가 가역(det A ≠ 0)이면 x = A⁻¹b.</p><div class="dexgrid"><div class="dw"><b>말로 먼저</b> 숫자 방정식 3x = 6을 양변에 1/3을 곱해 풀듯, Ax = b의 양변 앞에 A⁻¹을 곱하면 x = A⁻¹b예요. 원자료 예: det A = 2(−1) − 3(1) = −5, A⁻¹ = (1/−5)[[−1 −3], [−1 2]].</div><div class="try"><b>숫자로 한 번 해 보기</b><ol><li>A⁻¹b = (1/−5) × [[−1, −3], [−1, 2]] × [7, 1]ᵀ</li><li>= (1/−5) × [−7 − 3, −7 + 2] = (1/−5) × [−10, −5]</li><li>= [2, 1] → x = 2, y = 1</li></ol></div></div><div class="pair"><div><div class="tl">학교 수학으로 보면</div>일차방정식 ax = b → x = b/a의 행렬판.</div><div><div class="tr">AI에서는</div>실제 코드에서는 역행렬을 직접 구하지 않고 np.linalg.solve(A, b)를 씁니다. 더 빠르고 오차가 적어요.</div></div><details class="eqx"><summary>식으로 보면 (몰라도 됩니다)</summary><table class="ez-tb"><thead><tr><th>식 조각</th><th>읽는 법</th><th>뜻</th></tr></thead><tbody><tr><td class="m">x = A⁻¹b</td><td>엑스는 에이 역 비</td><td>det A ≠ 0일 때</td></tr></tbody></table></details></article>
+<article class="dex" id="m05-cramer" data-dex="크라메르 공식"><header><span class="dexno">05-04</span><h3>크라메르 공식 <small>Cramer's Rule</small></h3></header><p class="one">x = det(Aₓ)/det(A), y = det(A_y)/det(A). A의 열 하나를 b로 바꿔 끼운다.</p><div class="dexgrid"><div class="dw"><b>말로 먼저</b> Aₓ는 A의 첫째 열(x의 계수)을 b로 바꾼 행렬, A_y는 둘째 열을 b로 바꾼 행렬이에요. 각 행렬식을 det A로 나누면 답이 나옵니다.</div><div class="try"><b>숫자로 한 번 해 보기</b><ol><li>det A = 2(−1) − 3(1) = −5</li><li>Aₓ = [[7, 3], [1, −1]] → det = 7(−1) − 3(1) = −10 → x = −10/−5 = 2</li><li>A_y = [[2, 7], [1, 1]] → det = 2(1) − 7(1) = −5 → y = −5/−5 = 1</li></ol></div></div><div class="pair"><div><div class="tl">학교 수학으로 보면</div>행렬식과 가감법의 정리.</div><div><div class="tr">AI에서는</div>미지수가 많으면 행렬식 계산이 매우 느려 실제 AI에서는 잘 쓰지 않아요. 2~3개짜리를 손으로 풀 때 편리합니다.</div></div><details class="eqx"><summary>식으로 보면 (몰라도 됩니다)</summary><table class="ez-tb"><thead><tr><th>식 조각</th><th>읽는 법</th><th>뜻</th></tr></thead><tbody><tr><td class="m">x = det(Aₓ) / det(A)</td><td>크라메르</td><td>x 열을 b로 바꾼 행렬식 ÷ 원래 행렬식</td></tr></tbody></table></details></article>
+<div data-dlg="mid"></div>
+<article class="dex" id="m05-types" data-dex="해의 종류"><header><span class="dexno">05-05</span><h3>해의 종류 <small>Types of Solutions</small></h3></header><p class="one">det A ≠ 0 → 해가 하나. det A = 0 → 해가 무수히 많거나(겹침) 없음(평행).</p><div class="dexgrid"><div class="dw"><b>말로 먼저</b> 두 직선은 ① 한 점에서 만나거나, ② 완전히 겹치거나, ③ 평행해서 안 만납니다. det A = 0은 두 직선의 기울기가 같다는 뜻이라 ②나 ③이에요. 오른쪽 값 b까지 비례하면 겹침, 아니면 평행.</div><div class="try"><b>숫자로 한 번 해 보기</b><ol><li>x + y = 2, 2x + 2y = 4 → 둘째 식 = 첫째 × 2 → 겹침, 해 무수히 많음</li><li>x + y = 2, x + y = 3 → 같은 왼쪽, 다른 오른쪽 → 평행, 해 없음</li><li>두 경우 모두 det = 1×1 − 1×1 = 0 (2x+2y 경우는 1×2 − 1×2 = 0)</li></ol></div></div><div class="pair"><div><div class="tl">학교 수학으로 보면</div>중2 연립방정식의 해가 없는 경우·무수히 많은 경우.</div><div><div class="tr">AI에서는</div>특성 두 개가 사실상 같은 정보(키 cm와 키 inch)면 XᵀX의 행렬식이 0에 가까워져 회귀 계수가 크게 흔들려요(다중공선성, 10장).</div></div></article>
+<article class="dex" id="m05-ml" data-dex="ML에서의 쓰임"><header><span class="dexno">05-06</span><h3>ML에서의 쓰임 <small>Real-World Use in ML</small></h3></header><p class="one">선형 회귀(정규방정식), 최소제곱 최적화, 가중치 구하기, 릿지 회귀.</p><div class="dexgrid"><div class="dw"><b>말로 먼저</b> 점이 직선 위에 딱 맞지 않으면 Ax = b의 해가 없어요(식이 미지수보다 많음). 그때는 "오차 제곱의 합이 가장 작은" 해를 찾는데(최소제곱), 그 답이 정규방정식 (XᵀX)β = Xᵀy의 해 β = (XᵀX)⁻¹Xᵀy입니다.</div><div class="try"><b>숫자로 한 번 해 보기</b><ol><li>식(데이터) 3개, 미지수(β₀, β₁) 2개 → 딱 맞는 해 없음</li><li>양변에 Xᵀ를 곱하면 2 × 2 정사각 방정식이 됨</li><li>릿지: (XᵀX + λI)β = Xᵀy — 흔들림을 막는 λ를 더함</li></ol></div></div><div class="pair"><div><div class="tl">학교 수학으로 보면</div>연립방정식 + 행렬의 곱 + 역행렬.</div><div><div class="tr">AI에서는</div>sklearn의 LinearRegression이 안에서 하는 일이 이것(최소제곱)이에요.</div></div><details class="eqx"><summary>식으로 보면 (몰라도 됩니다)</summary><table class="ez-tb"><thead><tr><th>식 조각</th><th>읽는 법</th><th>뜻</th></tr></thead><tbody><tr><td class="m">(XᵀX)β = Xᵀy</td><td>정규방정식</td><td>최소제곱 해의 조건</td></tr><tr><td class="m">β = (XᵀX)⁻¹Xᵀy</td><td>베타</td><td>회귀 계수</td></tr></tbody></table></details></article>
+<article class="dex" id="m05-regression" data-dex="예: 선형 회귀"><header><span class="dexno">05-07</span><h3>예: 선형 회귀 <small>Example: Linear Regression</small></h3></header><p class="one">점 (1, 2), (2, 3), (3, 5)에 y = β₀ + β₁x를 맞추면 β₀ ≈ 0.333, β₁ = 1.5.</p><div class="dexgrid"><div class="dw"><b>말로 먼저</b> 설계 행렬 X의 첫째 열은 모두 1(절편 β₀ 자리), 둘째 열은 x예요. XᵀX와 Xᵀy를 계산해 2 × 2 방정식을 풀면 됩니다.</div><div class="try"><b>숫자로 한 번 해 보기</b><ol><li>XᵀX = [[3, 6], [6, 14]], Xᵀy = [10, 23]</li><li>det = 3×14 − 6×6 = 6</li><li>β₀ = (14×10 − 6×23)/6 = 2/6 ≈ 0.333, β₁ = (−6×10 + 3×23)/6 = 9/6 = 1.5</li><li>직선 y ≈ 0.333 + 1.5x → x = 4이면 약 6.33</li></ol></div></div><div class="pair"><div><div class="tl">학교 수학으로 보면</div>일차함수 y = ax + b + 연립방정식.</div><div><div class="tr">AI에서는</div>"공부 시간 → 점수" 예측 같은 가장 기본 모델. 13장에서 경사하강으로도 같은 답을 찾습니다.</div></div><p class="dexwarn"><b>헷갈리기 쉬운 점</b> 원자료 7번 상자는 점과 공식만 보여 주고 답을 계산하지 않았습니다. 이 도감에서 계산해 넣었어요.</p><details class="eqx"><summary>식으로 보면 (몰라도 됩니다)</summary><table class="ez-tb"><thead><tr><th>식 조각</th><th>읽는 법</th><th>뜻</th></tr></thead><tbody><tr><td class="m">y = β₀ + β₁x</td><td>와이는 베타영 더하기 베타일 엑스</td><td>절편 + 기울기 × x</td></tr><tr><td class="m">Xβ = y</td><td>행렬 형태</td><td>설계 행렬 × 계수 = 정답</td></tr></tbody></table></details></article>
+</div></section>
+<section class="sec" id="lab" aria-labelledby="h-lab"><div class="wrap">
+<h2 id="h-lab"><span class="hex">실험</span>두 직선 실험실 — 해가 하나, 무수히, 없음</h2>
+<div data-dlg="lab_o"></div>
+<div class="easy"><details class="ez-why" open><summary>왜 이 방법을 쓰나</summary><ol><li>문제: 미지수가 2개면 손으로 풀지만, 데이터 1000개·가중치 50개면 대입법으로는 끝이 안 납니다.</li><li>앞 방법의 한계: 대입법·가감법은 미지수마다 손이 많이 가고, 해가 있는지 미리 알 수 없습니다.</li><li><b>이 방법의 해법: 식을 Ax = b로 묶으면 행렬식으로 해의 존재를 먼저 판정하고, 역행렬(또는 컴퓨터의 solve)로 한 번에 풉니다.</b></li></ol><p class="ez-easy"><b>쉽게 말하면</b> 문제집을 한 문제씩 푸는 대신 공식에 표를 통째로 넣는 것.</p></details><div class="ez-math"><div class="ez-t">연구원이 묻고, 조교 하루가 풀어 봅니다</div><div class="ez-q"><img data-mood="x2_hint" alt="" aria-hidden="true"><p><b style="display:block;font-size:12.5px;color:var(--muted)">X2</b>det A = 0이면 왜 해가 하나로 안 정해져요?</p></div><p><b>말로 먼저</b> 행렬식 ad − bc = 0은 두 직선의 기울기가 같다는 뜻이에요. 기울기가 같은 두 직선은 겹치거나 평행할 뿐, 한 점에서 만날 수 없어요.</p><p><b>학교 수학으로 보면</b> 중2 일차함수의 기울기, 평행한 직선.</p><div class="try" style="background:#fff;border:1px dashed #e8b67a;border-radius:10px;padding:10px 14px"><b>숫자로 한 번 해 보기</b><ol style="margin:6px 0 0;padding-left:22px"><li>x + y = 2와 x + y = 3: 둘 다 기울기 −1</li><li>ad − bc = 1×1 − 1×1 = 0</li><li>그래프: 평행선 → 해 없음</li></ol></div><details class="eqx"><summary>식으로 보면 (몰라도 됩니다)</summary><table class="ez-tb"><thead><tr><th>식 조각</th><th>읽는 법</th><th>뜻</th></tr></thead><tbody><tr><td>ad − bc</td><td>행렬식</td><td>0이면 기울기가 같음</td></tr><tr><td>a/b = c/d</td><td>기울기 비교</td><td>ad = bc와 같은 말</td></tr></tbody></table></details><div class="ez-q ez-c"><img data-mood="asst_spark" alt="" aria-hidden="true"><p><b style="display:block;font-size:12.5px;color:var(--muted)">조교 하루</b>실험실에서 a₂, b₂를 a₁, b₁과 같은 비율로 맞추면 det가 0이 되는 순간을 볼 수 있어요.</p></div></div></div>
+<div class="dialog lvtalk" data-dlg="lab_t"></div>
+<div class="panel" id="w-ch05" data-w="sys"></div>
+<div class="say" data-who="doc"><img class="who" data-mood="doc_judge" alt="" aria-hidden="true"><div><b class="name">박사의 정리</b><p>연립방정식의 해는 "직선들이 만나는 곳"이고, 행렬식은 "만날 수 있는가"를 미리 알려 주는 신호입니다. 데이터에 맞는 직선을 찾는 회귀도 결국 이 질문이에요. 다만 점이 많으면 정확히 만나는 곳이 없어서, 가장 가까운 곳(최소제곱)을 찾습니다.</p></div></div>
+<div class="lim"><b>이 실험의 한계</b> 실험실은 미지수 2개(직선 2개)만 보여 줍니다. 미지수가 3개면 평면 3장이 만나는 점이고, 그 이상은 그림 대신 계산으로만 볼 수 있어요.</div>
+<figure class="toon" id="toon2"><div class="tframe"><img src="img/toon/ch05_b.webp" width="1200" height="800" loading="lazy" alt="픽셀아트. 칠판에 x + y = 2와 2x + 2y = 4가 나란히 적혀 있고, 확대경으로 보던 모아가 &quot;같은 식이잖아!&quot;라며 놀란다. 그 아래 무수히 많은 점이 한 직선 위에 줄지어 있다."></div><figcaption><b class="ttl">웃는 그림 2 · 쌍둥이 방정식</b><div class="tline"><img data-mood="moa_sparkle" alt="" aria-hidden="true"><p><b>모아</b> 둘째 식은 첫째 식을 두 배 한 거잖아요! 식이 사실 하나뿐이에요.</p></div><div class="tline"><img data-mood="fly_magnify" alt="" aria-hidden="true"><p><b>조교 초파리</b> 그러니 직선도 하나, 그 위의 모든 점이 해야. 무수히 많아.</p></div><div class="tline"><img data-mood="asst_smile" alt="" aria-hidden="true"><p><b>조교 하루</b> 식이 두 개처럼 보여도 정보는 하나. 미지수 2개를 정하기엔 부족해요.</p></div><p class=tpoint><b>그림 속 수학</b> 한 식이 다른 식의 배수면 두 직선이 겹쳐 해가 무수히 많다. 정보가 겹친 것.</p></figcaption></figure>
+<div class="aibox" id="ai"><div class="aihead"><span class="aitag">AI 판단 코너</span>주판봇의 "점 3개면 직선이 딱 하나로 지나간다"</div><div data-dlg="ai_d"></div><p>박사는 늘 두 가지를 묻습니다. "가정이 맞나? 숫자가 그럴듯한가?"</p><ol><li>가정이 맞나? 점 (1, 2), (2, 3), (3, 5)가 정말 한 직선 위에 있나요? 기울기를 두 번 재 보세요.</li><li>숫자가 그럴듯한가? 주판봇의 직선 y = x + 1에 x = 3을 넣으면 5가 나오나요?</li></ol><details class="eqx"><summary>확인해 보기 (먼저 스스로 따져 본 뒤 펼치세요)</summary><p class="aiverdict">(1,2)→(2,3)의 기울기는 1인데 (2,3)→(3,5)의 기울기는 2라서 세 점은 한 직선 위에 없습니다. 주판봇의 y = x + 1은 앞 두 점만 지나고 (3, 5)에서는 4를 내 1만큼 빗나가요. 세 점 모두에 가장 가까운 직선은 최소제곱 해 y ≈ 0.333 + 1.5x이고, 이 직선도 어느 점은 조금씩 빗나갑니다(정답 − 예측 = 0.17, −0.33, 0.17).</p><div data-dlg="ai_e"></div></details></div>
+<h3 id="quiz">확인 퀴즈</h3>
+<div class="quiz" data-quiz="q"></div>
+</div></section>
+<section class="sec" id="colab" aria-labelledby="h-colab"><div class="wrap">
+<h2 id="h-colab"><span class="hex">실습</span>코랩 실습실 — 배운 것을 직접 돌려 보기</h2>
+<p>두 가지 방법이 있어요. ① 생성 AI에게 프롬프트를 주고 코드를 만들게 해 보기, ② 연구소가 미리 만들어 검사까지 마친 코드를 돌려 보기. 둘을 나란히 돌려 결과를 비교하면, AI가 낸 코드를 믿어도 되는지 스스로 판단하는 연습이 됩니다.</p>
+<div data-dlg="colab"></div>
+<div class="labbox"><div class="labh"><span class="lno">①</span> 생성 AI로 실습하기 — 코랩 파이썬 프롬프트</div>
+<p>구글 코랩(Colab)의 Gemini 창이나 ChatGPT·Claude 같은 생성 AI에 아래 글을 그대로 붙여 넣으세요. AI가 만든 코드를 코랩 셀에 붙여 넣고 실행합니다.</p>
+<div class="codewrap"><button type="button" class="cpy" data-copy="p-ch05">복사</button><pre class="prompt" id="p-ch05">너는 고등학생에게 연립방정식과 선형 회귀를 가르치는 파이썬 선생님이야. 구글 코랩에서 실행되는 코드를 만들어 줘.
+주제: Ax = b, 역행렬 풀이, 크라메르 공식, 해의 종류, 정규방정식
+요구 사항:
+1. 2x + 3y = 7, x - y = 1을 numpy 행렬 A, b로 만들고 (a) np.linalg.inv(A) @ b (b) np.linalg.solve(A, b) (c) 크라메르 공식 세 가지로 풀어 결과를 비교해 줘.
+2. 해가 무수히 많은 예(x+y=2, 2x+2y=4)와 해가 없는 예(x+y=2, x+y=3)의 행렬식을 계산하고, 두 경우를 자동으로 구분하는 함수를 만들어 줘.
+3. 세 경우의 두 직선을 matplotlib으로 1×3 그림에 그려 줘(영어 제목).
+4. 점 (1,2), (2,3), (3,5)에 대해 설계 행렬 X(첫 열은 1)를 만들고 정규방정식 β = (XᵀX)⁻¹Xᵀy로 β를 구한 뒤, sklearn LinearRegression 결과와 비교해 줘. 점과 직선도 그려 줘.
+5. 모든 줄에 한국어 주석.</pre></div></div>
+<div class="labbox"><div class="labh"><span class="lno">②</span> 실제로 돌아가는 코드 — 파이썬 · 코랩</div>
+<p>연구소가 직접 실행해 결과를 확인한 코드입니다. 버튼 하나로 코랩에서 바로 열 수 있어요(구글 계정만 있으면 설치할 것이 없습니다).</p>
+<p class="colabbtns"><a class="bt primary" href="https://colab.research.google.com/github/adminmrobo/math_basic_for_ai_dictionary/blob/main/colab/ch05_linear_systems.ipynb" target="_blank" rel="noopener">코랩에서 열기</a> <a class="bt" href="code/colab_py/ch05_linear_systems.py" download>.py 내려받기</a> <a class="bt" href="colab/ch05_linear_systems.ipynb" download>.ipynb 내려받기</a></p>
+<details class="fold"><summary>코드 펼치기 (몰라도 됩니다 · 46줄)</summary><div class="codewrap"><button type="button" class="cpy" data-copy="c-ch05">복사</button><pre class="code" id="c-ch05"><code># %% 1. Ax = b를 세 가지로 풀기
+import numpy as np
+import matplotlib.pyplot as plt
+from sklearn.linear_model import LinearRegression
+
+A = np.array([[2, 3], [1, -1]], dtype=float); b = np.array([7, 1], dtype=float)
+print(&quot;(a) A^-1 b      =&quot;, np.linalg.inv(A) @ b)
+print(&quot;(b) solve(A, b) =&quot;, np.linalg.solve(A, b))
+detA = np.linalg.det(A)
+Ax = A.copy(); Ax[:, 0] = b          # x 열을 b로
+Ay = A.copy(); Ay[:, 1] = b          # y 열을 b로
+print(f&quot;(c) 크라메르: det A = {detA:.0f}, x = {np.linalg.det(Ax):.0f}/{detA:.0f} = {np.linalg.det(Ax)/detA:.0f}, y = {np.linalg.det(Ay)/detA:.0f}&quot;)
+
+# %% 2. 해의 종류 판정
+def kind(a1, b1, c1, a2, b2, c2):
+    D = a1 * b2 - b1 * a2
+    if abs(D) &gt; 1e-12:
+        return f&quot;해가 하나 (det = {D})&quot;
+    same = abs(a1 * c2 - a2 * c1) &lt; 1e-12 and abs(b1 * c2 - b2 * c1) &lt; 1e-12
+    return &quot;해가 무수히 많음 (det = 0, 겹침)&quot; if same else &quot;해가 없음 (det = 0, 평행)&quot;
+
+cases = {&quot;unique&quot;: (2, 3, 7, 1, -1, 1), &quot;infinite&quot;: (1, 1, 2, 2, 2, 4), &quot;none&quot;: (1, 1, 2, 1, 1, 3)}
+for name, c in cases.items():
+    print(f&quot;{name:9s} {c} -&gt; {kind(*c)}&quot;)
+
+# %% 3. 세 경우를 그림으로
+xs = np.linspace(-1, 4, 50)
+fig, axes = plt.subplots(1, 3, figsize=(12, 3.6))
+for ax, (name, (a1, b1, c1, a2, b2, c2)) in zip(axes, cases.items()):
+    ax.plot(xs, (c1 - a1 * xs) / b1, &quot;r&quot;, lw=2, label=&quot;eq 1&quot;)
+    ax.plot(xs, (c2 - a2 * xs) / b2, &quot;b--&quot;, lw=2, label=&quot;eq 2&quot;)
+    ax.set_title(name); ax.set_ylim(-3, 5); ax.grid(alpha=0.3); ax.legend()
+plt.tight_layout(); plt.show()
+
+# %% 4. 정규방정식으로 선형 회귀
+x = np.array([1, 2, 3], dtype=float); y = np.array([2, 3, 5], dtype=float)
+X = np.column_stack([np.ones_like(x), x])        # 설계 행렬: [1, x]
+XtX, Xty = X.T @ X, X.T @ y
+print(&quot;X^T X =\n&quot;, XtX, &quot;\nX^T y =&quot;, Xty)
+beta = np.linalg.inv(XtX) @ Xty
+print(f&quot;정규방정식: beta0 = {beta[0]:.3f}, beta1 = {beta[1]:.3f}&quot;)
+lr = LinearRegression().fit(x.reshape(-1, 1), y)
+print(f&quot;sklearn   : beta0 = {lr.intercept_:.3f}, beta1 = {lr.coef_[0]:.3f}&quot;)
+print(&quot;각 점의 오차(정답 - 예측):&quot;, (y - X @ beta).round(3))
+plt.scatter(x, y, s=60, label=&quot;data&quot;); plt.plot(xs, beta[0] + beta[1] * xs, &quot;g&quot;, label=&quot;y = 0.333 + 1.5x&quot;)
+plt.legend(); plt.grid(alpha=0.3); plt.title(&quot;Least squares line&quot;); plt.show()</code></pre></div></details>
+<details class="fold"><summary>실행하면 이렇게 나옵니다 (연구소에서 돌린 결과)</summary><pre class="out">(a) A^-1 b      = [2. 1.]
+(b) solve(A, b) = [2. 1.]
+(c) 크라메르: det A = -5, x = -10/-5 = 2, y = 1
+unique    (2, 3, 7, 1, -1, 1) -&gt; 해가 하나 (det = -5)
+infinite  (1, 1, 2, 2, 2, 4) -&gt; 해가 무수히 많음 (det = 0, 겹침)
+none      (1, 1, 2, 1, 1, 3) -&gt; 해가 없음 (det = 0, 평행)
+X^T X =
+ [[ 3.  6.]
+ [ 6. 14.]] 
+X^T y = [10. 23.]
+정규방정식: beta0 = 0.333, beta1 = 1.500
+sklearn   : beta0 = 0.333, beta1 = 1.500
+각 점의 오차(정답 - 예측): [ 0.167 -0.333  0.167]</pre><p class="muted" style="font-size:13px">그래프 창은 코랩 화면에 함께 나타납니다. 무작위 실험이 있는 코드는 seed를 고정해 같은 숫자가 나오게 했어요.</p></details></div>
+<div class="labbox"><div class="labh"><span class="lno">③</span> 비교 과제 — AI 코드와 연구소 코드 맞대 보기</div><ol><li>세 가지 풀이가 모두 x = 2, y = 1을 내는지 비교하세요.</li><li>회귀 계수가 β₀ ≈ 0.333, β₁ = 1.5인지 연구소 코드와 맞춰 보세요.</li><li>AI가 해가 없는 경우에 np.linalg.solve를 그냥 불렀다면 어떤 오류가 나는지 확인하고, 행렬식 검사를 먼저 하도록 고쳐 달라고 다시 요청해 보세요.</li></ol></div>
+</div></section>
+<section class="sec" id="sum" aria-labelledby="h-sum"><div class="wrap">
+<h2 id="h-sum">정리 — 만나는 점을 한 번에 찾는다</h2>
+<div class="tblwrap"><table class="cmp"><thead><tr><th>질문</th><th>답 한 줄</th></tr></thead><tbody><tr><td>연립방정식을 행렬로 쓰면?</td><td>Ax = b. A 계수 행렬, x 미지수, b 상수.</td></tr><tr><td>역행렬로 풀면?</td><td>x = A⁻¹b. 원자료 예의 답은 x = 2, y = 1.</td></tr><tr><td>크라메르 공식은?</td><td>x = det(Aₓ)/det(A). 열 하나를 b로 바꿔 끼운 행렬식.</td></tr><tr><td>해의 종류는?</td><td>det ≠ 0 하나, det = 0이면 겹침(무수히) 또는 평행(없음).</td></tr><tr><td>회귀와의 관계는?</td><td>정규방정식 β = (XᵀX)⁻¹Xᵀy가 최소제곱 해.</td></tr></tbody></table></div>
+<h3>용어 대응 카드</h3><div class="gloss"><div><b>연립일차방정식이란</b> = 미지수가 여러 개인 일차방정식들의 묶음. 모두 동시에 참이 되는 값을 찾는다.</div><div><b>행렬로 쓰기</b> = Ax = b. A는 계수 행렬, x는 미지수 벡터, b는 상수 벡터.</div><div><b>역행렬로 풀기</b> = A가 가역(det A ≠ 0)이면 x = A⁻¹b.</div><div><b>크라메르 공식</b> = x = det(Aₓ)/det(A), y = det(A_y)/det(A). A의 열 하나를 b로 바꿔 끼운다.</div><div><b>해의 종류</b> = det A ≠ 0 → 해가 하나. det A = 0 → 해가 무수히 많거나(겹침) 없음(평행).</div><div><b>ML에서의 쓰임</b> = 선형 회귀(정규방정식), 최소제곱 최적화, 가중치 구하기, 릿지 회귀.</div><div><b>예: 선형 회귀</b> = 점 (1, 2), (2, 3), (3, 5)에 y = β₀ + β₁x를 맞추면 β₀ ≈ 0.333, β₁ = 1.5.</div></div>
+<h3>원자료와 다르게 쓴 곳</h3><ul><li>원자료 5번 표의 "Unique Solution" 예시(x = 1, y = 2)는 조건 없이 값만 적혀 있어, 이 도감에서는 실제 식 2x + 3y = 7, x − y = 1의 해(x = 2, y = 1)로 설명했습니다.</li><li>원자료 7번 상자의 회귀 예에 대해 β₀ ≈ 0.333, β₁ = 1.5를 직접 계산해 넣었습니다.</li></ul>
+<h3>비유와 예시의 한계</h3><ul><li>직선 그림은 미지수 2개까지만 보입니다.</li><li>역행렬 공식은 개념용입니다. 실제 큰 문제는 solve나 경사하강(13장)으로 풉니다.</li></ul>
+<div class="next"><a href="04_matrix_ops.html"><b>← 04장 행렬 연산</b><br>곱셈·전치·역행렬</a><a href="index.html"><b>도감 목차</b><br>열다섯 장과 항목 찾기</a><a href="06_probability.html"><b>06장 확률 기초 →</b><br>사건·덧셈·곱셈</a></div>
+</div></section>
+<section class="sec" id="outro" aria-labelledby="h-outro"><div class="wrap"><h2 id="h-outro">아웃트로 — 다음 장으로</h2><div data-dlg="outro"></div></div></section>
+</main>
+<footer><div class="wrap">
+<h3>출처</h3>
+<table><thead><tr><th>#</th><th>자료</th><th>이 페이지에서 쓴 곳</th></tr></thead><tbody><tr><td>[1]</td><td>연구소 수학 노트 MATH-05 「Systems of Linear Equations」 (인포그래픽 한 장)</td><td>도감 항목 전부, 예시 숫자</td></tr></tbody></table>
+<h3>예시값·설명용 모형인 것</h3><ul><li>항목의 숫자 예시는 설명용이며 연구소가 검산했습니다(code/check_numbers.py).</li><li>코랩 코드는 교육용 예제이며 실제 서비스에 그대로 쓰는 코드가 아닙니다.</li></ul>
+<p>캐릭터 이름·설정·그림은 저작권자 안상선의 허락 없이 사용할 수 없습니다.</p>
+<p>글 · 안상선 ((주)M-Robo 대표) · <a href="https://adminmrobo.github.io/who_am_i/who_am_i.html">저자 소개</a> · <a href="index.html">수리 도감 목차</a> · 자매편 <a href="https://adminmrobo.github.io/hello_space_lab/index.html">좌표 첫걸음</a> · <a href="https://adminmrobo.github.io/optimization_3d_map/first_step_0.html">최적화 첫걸음</a></p>
+</div></footer>
+<script>
+/*@@SPRITES@@*/
+/*@@COMMON@@*/
+/*@@MATHLAB@@*/
+(function(){
+'use strict';
+U.dialogues({"open": [["sia", "sia_guide", "5장은 제가 안내해요! 상황 하나: 편의점에서 김밥 2줄과 음료 3개가 7천 원, 김밥 1줄이 음료 1개보다 천 원 비싸요. 각각 얼마일까요?"], ["x1", "x1_hint", "어… 중학교 때 풀던 문제 같아요!"], ["sia", "sia_explain", "맞아요. 2x + 3y = 7, x − y = 1. 오늘은 이걸 행렬로 바꿔서 \"한 번에\" 푸는 법을 봐요. 그림으로는 두 직선이 만나는 점이에요."], ["moa", "moa_report", "그런데 직선이 안 만나면요?"], ["sia", "sia_smile", "그것도 미리 알 수 있어요! 행렬식이라는 신호등이 있거든요. 식이 많아 보여도 그림부터 보면 괜찮아요."]], "mid": [["x3", "x3_hint", "크라메르 공식은 열을 바꿔 끼우는 게임 같아요."], ["asst", "asst_smile", "좋은 비유예요. 이제 해의 종류와, 이 모든 게 AI에서 어떻게 쓰이는지 봅니다."]], "lab_o": [["doc", "doc_board", "상황: 두 상품의 가격을 영수증 두 장으로 알아내려 합니다. 그런데 두 영수증이 사실 같은 내용이라면?"]], "lab_t": [["robo", "robo_calc", "식이 두 개니까 답은 무조건 하나!"], ["fly", "fly_point", "정말? 이걸 눌러 봐. 「겹치는 두 직선」과 「평행한 두 직선」 버튼."], ["asst", "asst_report", "보고: 두 경우 모두 det = 0이에요. 겹치면 답이 무수히, 평행하면 답이 없어요."]], "ai_d": [["robo", "robo_happy", "점 (1,2), (2,3), (3,5)를 지나는 직선은 y = x + 1! 완벽!"], ["doc", "doc_think", "정말 세 점을 다 지나는지, 하나씩 넣어 볼까요?"]], "ai_e": [["robo", "robo_sigh", "(3, 5)에서 4가 나오네… 앞 두 점만 봤다."], ["sia", "sia_think", "그러니까 모든 점에 조금씩 가까운 직선이 최소제곱이군요."]], "colab": [["sia", "sia_guide", "세 가지 풀이가 같은 답을 내는지 꼭 비교해 보세요. 그리고 해가 없는 경우에 AI 코드가 어떻게 반응하는지도요!"]], "outro": [["doc", "doc_judge", "해석 문장: \"연립방정식은 직선들이 만나는 곳을 찾는 일이고, 행렬식은 만날 수 있는지 알려 준다. 회귀는 가장 가까운 곳을 찾는 일이다.\""], ["x3", "x3_hint", "여기까지는 답이 딱 정해졌는데… 세상일은 그렇게 딱 안 떨어지잖아요?"], ["x1", "x1_hint", "그래서 6장은 제가 안내합니다! 주사위처럼 \"아마도\"를 숫자로 다루는 확률이요!"]]});
+U.fillImgs();
+ML.mountAll();
+ML.copyButtons();
+U.Gloss({"연립일차방정식이란": ["연립일차방정식이란", "What is a System of Linear Equations", "미지수가 여러 개인 일차방정식들의 묶음. 모두 동시에 참이 되는 값을 찾는다."], "행렬로 쓰기": ["행렬로 쓰기", "Matrix Representation", "Ax = b. A는 계수 행렬, x는 미지수 벡터, b는 상수 벡터."], "역행렬로 풀기": ["역행렬로 풀기", "Solving Using Matrix Inverse", "A가 가역(det A ≠ 0)이면 x = A⁻¹b."], "크라메르 공식": ["크라메르 공식", "Cramer's Rule", "x = det(Aₓ)/det(A), y = det(A_y)/det(A). A의 열 하나를 b로 바꿔 끼운다."], "해의 종류": ["해의 종류", "Types of Solutions", "det A ≠ 0 → 해가 하나. det A = 0 → 해가 무수히 많거나(겹침) 없음(평행)."], "ML에서의 쓰임": ["ML에서의 쓰임", "Real-World Use in ML", "선형 회귀(정규방정식), 최소제곱 최적화, 가중치 구하기, 릿지 회귀."], "예: 선형 회귀": ["예: 선형 회귀", "Example: Linear Regression", "점 (1, 2), (2, 3), (3, 5)에 y = β₀ + β₁x를 맞추면 β₀ ≈ 0.333, β₁ = 1.5."]},["연립일차방정식이란", "행렬로 쓰기", "역행렬로 풀기", "크라메르 공식", "해의 종류", "ML에서의 쓰임"]);
+U.Study({quiz:{"q": [{"q": "2x + 3y = 7, x − y = 1을 Ax = b로 쓸 때 A는?", "o": ["[[2, 3], [1, −1]]", "[[2, 1], [3, −1]]", "[[7, 1]]", "[[2, 3, 7], [1, −1, 1]]"], "a": 0, "why": "각 식의 계수를 한 행씩 옮깁니다.", "hint": "식 하나 = 행 하나."}, {"q": "det A = 2(−1) − 3(1)은?", "o": ["−5", "1", "5", "−1"], "a": 0, "why": "−2 − 3 = −5.", "hint": "ad − bc."}, {"q": "det A = 0이면 해는?", "o": ["없거나 무수히 많다", "반드시 하나다", "반드시 0이다", "반드시 없다"], "a": 0, "why": "기울기가 같아 평행(없음)이거나 겹침(무수히 많음).", "hint": "두 직선의 기울기가 같을 때를 떠올려 보세요."}, {"q": "선형 회귀의 정규방정식 해는?", "o": ["β = (XᵀX)⁻¹Xᵀy", "β = X⁻¹y", "β = XᵀXy", "β = y / X"], "a": 0, "why": "최소제곱 해. X는 정사각이 아니라 역행렬이 없어서 XᵀX를 만듭니다.", "hint": "X가 정사각이 아닐 때 정사각을 만드는 방법."}]}});
+U.start();
+})();
+</script>
+</body>
+</html>

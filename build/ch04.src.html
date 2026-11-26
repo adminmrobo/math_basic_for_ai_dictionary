@@ -1,0 +1,261 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>04장 행렬 연산 — 곱셈·전치·역행렬 | 수리 도감 — 인공지능을 위한 수리적 기초</title>
+<meta name="description" content="수리 도감 04장. 행렬의 덧셈·뺄셈, 행렬곱(행 × 열), 전치, 역행렬, 단위행렬, 영행렬을 계산 담당 주판봇이 안내합니다. 결과 숫자 하나가 어디서 왔는지 보여 주는 행렬곱 실험실.">
+<meta property="og:type" content="article"><meta property="og:title" content="04장 행렬 연산 — 곱셈·전치·역행렬 | 수리 도감 — 인공지능을 위한 수리적 기초"><meta property="og:description" content="수리 도감 04장. 행렬의 덧셈·뺄셈, 행렬곱(행 × 열), 전치, 역행렬, 단위행렬, 영행렬을 계산 담당 주판봇이 안내합니다. 결과 숫자 하나가 어디서 왔는지 보여 주는 행렬곱 실험실.">
+<meta property="og:image" content="https://adminmrobo.github.io/math_basic_for_ai_dictionary/img/og/ch04.png"><meta property="og:url" content="https://adminmrobo.github.io/math_basic_for_ai_dictionary/04_matrix_ops.html"><meta name="twitter:card" content="summary_large_image">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+KR:wght@400;500;700&display=swap" rel="stylesheet">
+<!--@@CSS@@-->
+<style>
+.tl,.tr{font-weight:700;font-size:13.5px;margin-bottom:4px}.tl{color:var(--amber)}.tr{color:var(--terrain)}
+.hex{display:inline-grid;place-items:center;min-width:44px;height:34px;padding:0 10px;margin-right:10px;border-radius:8px;background:var(--terrain);color:#fff;font-size:17px;vertical-align:4px}
+.sec{padding:40px 0;border-top:1px solid var(--rule)}
+.cast{display:grid;gap:10px}.castc{display:flex;gap:10px;align-items:center;background:var(--panel);border:1px solid var(--rule);border-left:4px solid var(--cc);border-radius:10px;padding:8px 10px}
+.castc.host{background:#fff;box-shadow:0 0 0 2px var(--cc)}
+.castc img{width:60px;height:60px;flex:none}.castc p{margin:0;font-size:13.5px;color:var(--muted);line-height:1.55}
+.cover img.art{image-rendering:pixelated;image-rendering:crisp-edges}
+.diff{display:inline-block;border:1px solid var(--c-asst);color:var(--c-asst);border-radius:999px;padding:0 10px;font-size:12.5px;margin-left:6px}
+.hostcard{display:flex;gap:14px;align-items:center;border:2px solid var(--cc);border-radius:14px;padding:12px 16px;margin:10px 0 16px;background:#fff}
+.hostcard img{width:84px;height:84px;flex:none}.hostcard p{margin:4px 0 0;color:var(--muted)}
+.chain span.on{background:var(--terrain);color:#fff;border-color:var(--terrain)}
+.where{background:var(--panel);border-radius:10px;padding:10px 14px}
+.sis{display:flex;gap:12px;align-items:center;border:1px solid var(--c-asst);border-radius:12px;padding:10px 14px;margin:10px 0;background:#fff7fb}.sis img{width:56px;height:56px;flex:none}.sis p{margin:0}
+.dexidx{display:flex;flex-wrap:wrap;gap:6px;margin:10px 0 18px}.dexidx a{border:1px solid var(--rule);border-radius:999px;padding:3px 12px;font-size:14px;text-decoration:none;background:var(--panel)}
+.dexidx a:hover{border-color:var(--terrain)}
+.dex{border:1px solid var(--rule);border-top:4px solid var(--terrain);border-radius:14px;padding:16px 20px 12px;margin:0 0 22px;background:#fff;scroll-margin-top:70px}
+.dex header{display:flex;gap:12px;align-items:baseline;flex-wrap:wrap}.dex h3{margin:0;font-size:21px}.dex h3 small{font-size:14px;color:var(--muted);font-weight:500}
+.dexno{font:700 13px/1 var(--font);color:#fff;background:var(--c-x);border-radius:6px;padding:4px 8px}
+.dex .one{font-size:17px;font-weight:600;color:var(--terrain);margin:8px 0 10px}
+.dexgrid{display:grid;grid-template-columns:1.2fr 1fr;gap:14px;margin-bottom:10px}
+.dexgrid .dw{line-height:1.8}.dexgrid .try{background:var(--amber-soft);border:1px dashed #e8b67a;border-radius:10px;padding:10px 14px}.dexgrid .try ol{margin:6px 0 0;padding-left:22px}
+.dexwarn{background:var(--eye-soft);border-radius:8px;padding:8px 12px;font-size:15px}
+@media(max-width:760px){.dexgrid{grid-template-columns:1fr}}
+.toon{margin:26px auto;max-width:820px;border:1px solid var(--rule);border-radius:14px;overflow:hidden;background:#fff}
+.toon .tframe{background:#fff;border-bottom:1px solid var(--rule)}.toon img{display:block;width:100%;height:auto;image-rendering:pixelated;image-rendering:crisp-edges}
+.toon figcaption{padding:12px 16px}.toon .ttl{display:block;margin-bottom:8px;color:var(--amber)}
+.tline{display:flex;gap:10px;align-items:center;margin:6px 0}.tline img{width:40px;height:40px;flex:none;border-radius:8px;border:1px solid var(--rule)}.tline p{margin:0}
+.tpoint{margin:10px 0 0;background:var(--panel);border-radius:8px;padding:8px 12px;font-size:15px}
+.labbox{border:1px solid var(--rule);border-radius:14px;padding:14px 18px;margin:16px 0;background:#fff}
+.labh{font-weight:700;font-size:17px;margin-bottom:6px}.lno{display:inline-grid;place-items:center;width:28px;height:28px;border-radius:50%;background:var(--terrain);color:#fff;margin-right:6px}
+.codewrap{position:relative}.cpy{position:absolute;right:8px;top:8px;font:600 12.5px var(--font);border:1px solid var(--rule);background:#fff;border-radius:8px;padding:3px 10px;cursor:pointer}
+pre.prompt,pre.code,pre.out{white-space:pre-wrap;word-break:break-word;background:#f7f9fb;border:1px solid var(--rule);border-radius:10px;padding:14px 16px;font:13.5px/1.65 ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;max-height:520px;overflow:auto;margin:8px 0}
+pre.prompt{background:#fbf8ff;border-color:#d9c8f0;font-family:var(--font);font-size:14.5px}
+pre.out{background:#0f1720;color:#d8e6f0}
+.colabbtns{display:flex;flex-wrap:wrap;gap:8px}.colabbtns a.bt{text-decoration:none}
+.panel .row2{display:grid;grid-template-columns:1fr 1fr;gap:14px}@media(max-width:760px){.panel .row2{grid-template-columns:1fr}}
+.panel .cv{width:100%;height:300px;display:block;border:1px solid var(--rule);border-radius:10px;background:#fff;touch-action:none}
+.panel .cv.tall{height:360px}
+.panel .rd{display:grid;grid-template-columns:repeat(auto-fit,minmax(130px,1fr));gap:8px;margin:10px 0}
+.panel .rd div{background:var(--panel);border-radius:10px;padding:8px 10px}.panel .rd b{display:block;font-size:19px}.panel .rd span{font-size:12.5px;color:var(--muted)}
+.panel .sl{display:flex;align-items:center;gap:10px;margin:6px 0;flex-wrap:wrap}.panel .sl label{min-width:140px;font-size:14.5px}.panel .sl input[type=range]{flex:1;min-width:140px}
+.panel .msg{background:#f4fbfb;border:1px dashed var(--terrain);border-radius:10px;padding:10px 14px;margin:8px 0;font-size:15px}
+.panel textarea,.panel input[type=text]{width:100%;font:15px var(--font);padding:8px 10px;border:1px solid var(--rule);border-radius:8px}
+.panel table.mt{border-collapse:collapse;margin:6px 0}.panel table.mt td{border:1px solid var(--rule);min-width:44px;text-align:center;padding:4px 6px;font-variant-numeric:tabular-nums}
+.panel table.mt td.hl{background:var(--amber-soft);font-weight:700}.panel table.mt td.hl2{background:var(--info-soft);font-weight:700}
+.panel .step{font-variant-numeric:tabular-nums}
+.ptitle{font-weight:700;margin-bottom:6px}
+</style>
+</head>
+<body>
+<nav class="top" aria-label="섹션 바로가기"><div class="row">
+  <a class="logo" href="index.html">수리 <i>도감</i> 04</a>
+  <div class="links"><a href="#dex">도감 항목</a><a href="#lab">실험실</a><a href="#ai">AI 판단</a><a href="#colab">코랩 실습</a><a href="#sum">정리</a><a href="#kg">색인</a><a href="05_linear_systems.html">05장 →</a></div>
+</div></nav>
+<div class="cover" id="cover"><div class="frame"><img class="art" src="img/cover_ch04.webp" width="1920" height="1080" alt="칠판에 AB = [58 64; 139 154]와 AA⁻¹ = I가 적혀 있고 주판봇이 주판을 튕긴다. 모아와 초파리가 옆에서 지켜본다. 16비트 픽셀아트." fetchpriority="high"><span class="cap">수리 도감 · MATH-04</span><span class="cover-chip">04장 행렬 연산 — 곱셈·전치·역행렬 · 안내 조교 주판봇</span></div></div>
+<header class="hero" id="top"><div class="wrap">
+  <div class="eyebrow">수리 도감 · 인공지능을 위한 수리적 기초 · 선형대수 · 원자료 MATH-04 <span class="diff">이번 장 안내: 조교 주판봇</span></div>
+  <h1>04장 행렬 연산 — 곱셈·전치·역행렬</h1>
+  <p class="question">사진 앱은 수백만 개의 곱셈을 어떻게 눈 깜짝할 사이에 해낼까?</p>
+  <p class="lead">3장의 내적을 여러 번, 한꺼번에 하는 방법이 행렬곱입니다. 이 장은 행렬끼리 더하고 빼는 법, 곱하는 법(크기 규칙 포함), 행과 열을 뒤집는 전치, 곱해서 단위행렬이 되는 역행렬, 그리고 단위행렬·영행렬을 항목 8개로 정리합니다.</p>
+  <p class="byline">글 · 안상선 ((주)M-Robo 대표) · <a href="https://adminmrobo.github.io/who_am_i/who_am_i.html">저자 소개</a> · 2026-11-26 · v1.0</p>
+  <div class="start"><b>처음이라면</b> 「행렬 곱셈」 항목과 실험실을 먼저 보세요. 결과 행렬의 숫자 하나를 눌러 "행 × 열" 계산이 펼쳐지는 것을 확인하면 이 장의 절반이 끝납니다.</div>
+  <div class="kpis" aria-label="숫자 요약"><div class="kpi m"><b>8개</b><span>도감 항목 (슬라이드 MATH-04의 모든 상자)</span></div><div class="kpi g"><b>1개</b><span>직접 움직이는 실험실</span></div><div class="kpi a"><b>2 + 2</b><span>웃는 그림 둘, 코랩 실습 둘(AI 프롬프트·실제 코드)</span></div><div class="kpi r"><b>4문제</b><span>확인 퀴즈</span></div></div>
+</div></header>
+<main>
+<section class="sec" id="plain" aria-labelledby="h-plain"><div class="wrap"><h2 id="h-plain">처음 오신 분께 — 이 장을 3줄로</h2><ol class="plain3"><li><b>무엇을</b> 덧셈·뺄셈(같은 크기, 같은 자리끼리), 곱셈(앞 행렬의 열 수 = 뒤 행렬의 행 수), 전치, 역행렬, 단위·영행렬.</li><li><b>왜 중요한가</b> 데이터 변환, 모델 학습, 최적화가 모두 행렬 연산이에요. 크기 규칙을 모르면 코드 오류를 고칠 수 없어요.</li><li><b>AI에서는</b> 신경망 한 층 = 입력 행렬 × 가중치 행렬 + 편향. GPU는 이 행렬곱을 아주 빨리 하는 계산기예요.</li></ol>
+<p class="plain-note">코드와 수식을 몰라도 됩니다. 항목마다 "말로 먼저"와 "숫자로 한 번 해 보기"가 먼저 나오고, 식은 "식으로 보면"을 펼칠 때만 나옵니다. 여기서 한 번 멈춰도 괜찮아요.</p>
+<details class="abbr"><summary>기호·영어 약어 풀이 (7개)</summary><div class="abbr-list"><div><b>AB</b> <span>에이 비</span> — 행렬 A와 B의 곱</div><div><b>Aᵀ</b> <span>에이 전치</span> — 행과 열을 바꾼 행렬</div><div><b>A⁻¹</b> <span>에이 역</span> — A와 곱하면 I가 되는 행렬</div><div><b>det</b> <span>determinant, 행렬식</span> — 2 × 2에서 ad − bc</div><div><b>Iₙ</b> <span>단위행렬</span> — n × n, 대각선 1</div><div><b>Oₘₙ</b> <span>영행렬</span> — m × n, 모두 0</div><div><b>GPU</b> <span>Graphics Processing Unit</span> — 행렬 계산을 빨리 하는 칩</div></div></details></div></section>
+<section class="sec" id="cast" aria-labelledby="h-cast" style="padding:18px 0 0;border:0"><div class="wrap"><h3 id="h-cast">연구소 식구 — 열다섯 장을 돌아가며 안내합니다</h3>
+<div class="cast" style="grid-template-columns:repeat(auto-fit,minmax(230px,1fr))"><div class="castc" style="--cc:var(--c-doc)"><img data-mood="doc_board" alt="" aria-hidden="true"><div><b>박사</b><p>연구소 책임자. 장마다 상황 질문으로 문을 열고 해석 문장으로 닫아요.</p></div></div><div class="castc" style="--cc:var(--c-asst)"><img data-mood="asst_smile" alt="" aria-hidden="true"><div><b>조교 하루</b><p>수식 담당. 기호 하나씩 읽는 법과 뜻부터 풀어 줘요.</p></div></div><div class="castc" style="--cc:var(--c-fly)"><img data-mood="fly_point" alt="" aria-hidden="true"><div><b>조교 초파리</b><p>실험 담당. "이걸 눌러 봐"로 실험판을 열고, 답이 그럴듯한지 의심해요.</p></div></div><div class="castc host" style="--cc:var(--c-robo)"><img data-mood="robo_calc" alt="" aria-hidden="true"><div><b>조교 주판봇 · 이번 장 안내</b><p>계산 담당. 1초 만에 답을 내지만 가끔 너무 빨라요. AI 판단 코너의 단골.</p></div></div><div class="castc" style="--cc:var(--c-sia)"><img data-mood="sia_smile" alt="" aria-hidden="true"><div><b>시아</b><p>직관파 연구원. 비유부터 꺼내 "그러니까 이런 거죠?"라고 물어요.</p></div></div><div class="castc" style="--cc:var(--c-moa)"><img data-mood="moa_smile" alt="" aria-hidden="true"><div><b>모아</b><p>꼼꼼파 연구원. "그건 언제나 그래요?" 하고 조건과 예외를 물어요.</p></div></div><div class="castc" style="--cc:var(--c-x)"><img data-mood="x1_hint" alt="" aria-hidden="true"><div><b>X1</b><p>막내 연구원. 손을 번쩍 들고 엉뚱한 질문을 해요.</p></div></div><div class="castc" style="--cc:var(--c-x)"><img data-mood="x2_hint" alt="" aria-hidden="true"><div><b>X2</b><p>막내 연구원. 필기를 가장 열심히 해요.</p></div></div><div class="castc" style="--cc:var(--c-x)"><img data-mood="x3_hint" alt="" aria-hidden="true"><div><b>X3</b><p>막내 연구원. 게임과 퀴즈 시간에 가장 신나요.</p></div></div></div></div></section>
+<section class="sec" id="open" aria-labelledby="h-open"><div class="wrap">
+<h2 id="h-open"><span class="hex">04</span>내적 수백 번을 한 번에</h2>
+<div class="hostcard" style="--cc:var(--c-robo)"><img data-mood="robo_calc" alt="" aria-hidden="true"><div><b>이번 장 안내 · 조교 주판봇</b><p>곱하고 더하는 계산이 쏟아지는 장이라 계산 담당 주판봇이 자원했습니다. 다만 너무 빨리 계산하니 크기 규칙은 함께 확인해 주세요.</p></div></div>
+<div data-dlg="open"></div>
+<div class="chain"><span class="">02 선형대수 기초</span><i>→</i><span class="">03 벡터 연산</span><i>→</i><span class="on">04 행렬 연산</span><i>→</i><span class="">05 연립일차방정식</span><i>→</i><span class="">06 확률 기초</span></div>
+<p class="where"><b>도감 속 자리</b> 3장의 내적이 행렬곱의 부품입니다. 여기서 배운 역행렬로 5장에서 연립방정식을 한 번에 풀고, 14장에서 고유벡터를 찾습니다. 신경망 한 층의 계산도 "입력 행렬 × 가중치 행렬"이에요.</p>
+<div class="sis"><img data-mood="asst_report" alt="" aria-hidden="true"><p><b>조교 하루의 길 안내</b> 같은 주제를 생선 가게 AI 모델 이야기로 차례차례 따라가고 싶다면 「인공지능을 위한 수학」 <a href="https://adminmrobo.github.io/math_for_ai_lab/index.html#c04">1부 4장 행렬 연산</a>을 함께 보세요. 이야기로 흐름을 잡고, 이 도감으로 낱말을 찾아보는 식으로 쓰면 좋아요.</p></div>
+<figure class="toon" id="toon1"><div class="tframe"><img src="img/toon/ch04_a.webp" width="1200" height="800" loading="lazy" alt="픽셀아트. 주판봇이 행렬 A와 B 카드를 순서만 바꿔 계산기에 넣자, 한 번은 2×2 결과, 한 번은 3×3 결과가 튀어나와 두 결과 종이가 서로 다른 크기로 펄럭인다. 모아가 찻잔을 든 채 놀란다."></div><figcaption><b class="ttl">웃는 그림 1 · AB ≠ BA 소동</b><div class="tline"><img data-mood="robo_wow" alt="" aria-hidden="true"><p><b>조교 주판봇</b> 곱셈은 순서 바꿔도 같잖아! 3 × 5 = 5 × 3… 그런데 AB는 2 × 2, BA는 3 × 3?!</p></div><div class="tline"><img data-mood="moa_ok" alt="" aria-hidden="true"><p><b>모아</b> 숫자 곱셈이랑 행렬 곱셈은 규칙이 다른가 봐요.</p></div><div class="tline"><img data-mood="asst_firm" alt="" aria-hidden="true"><p><b>조교 하루</b> 행렬곱은 순서가 중요해요. AB와 BA는 크기부터 다를 수 있습니다.</p></div><p class=tpoint><b>그림 속 수학</b> 행렬곱에서는 교환법칙이 일반적으로 성립하지 않는다: AB ≠ BA.</p></figcaption></figure>
+</div></section>
+<section class="sec" id="dex" aria-labelledby="h-dex"><div class="wrap">
+<h2 id="h-dex"><span class="hex">도감</span>도감 항목 — 8개</h2>
+<p>슬라이드 MATH-04의 상자를 하나도 빼지 않고 항목으로 옮겼습니다. 이름표를 눌러 바로 가세요.</p>
+<div class="dexidx"><a href="#m04-what">행렬이란 (복습)</a><a href="#m04-add">행렬 덧셈</a><a href="#m04-sub">행렬 뺄셈</a><a href="#m04-mul">행렬 곱셈</a><a href="#m04-transpose">전치</a><a href="#m04-inv">역행렬</a><a href="#m04-identity">단위행렬</a><a href="#m04-zero">영행렬과 핵심 정리</a></div>
+<article class="dex" id="m04-what" data-dex="행렬이란 (복습)"><header><span class="dexno">04-01</span><h3>행렬이란 (복습) <small>What is a Matrix</small></h3></header><p class="one">행과 열로 배열한 숫자의 2차원 배열. 표 형태의 데이터를 담는다.</p><div class="dexgrid"><div class="dw"><b>말로 먼저</b> 2장에서 만든 그릇이에요. 이 장에서는 그릇끼리 계산합니다. 행렬 연산은 ML에서 데이터 변환, 모델 학습, 최적화에 두루 쓰여요.</div><div class="try"><b>숫자로 한 번 해 보기</b><ol><li>A = [[1 2 3], [4 5 6]] → 2 × 3</li><li>연산 전에 늘 크기부터 확인</li></ol></div></div><div class="pair"><div><div class="tl">학교 수학으로 보면</div>고등 "행렬" 단원.</div><div><div class="tr">AI에서는</div>딥러닝 프레임워크(PyTorch 등)의 거의 모든 계산이 행렬(텐서) 연산입니다.</div></div></article>
+<article class="dex" id="m04-add" data-dex="행렬 덧셈"><header><span class="dexno">04-02</span><h3>행렬 덧셈 <small>Matrix Addition</small></h3></header><p class="one">크기가 같은 행렬끼리만, 같은 자리끼리 더한다.</p><div class="dexgrid"><div class="dw"><b>말로 먼저</b> [[1 2 3], [4 5 6]] + [[3 1 0], [1 2 4]] = [[4 3 3], [5 7 10]]. 2 × 3과 3 × 2처럼 크기가 다르면 자리가 맞지 않아 더할 수 없어요.</div><div class="try"><b>숫자로 한 번 해 보기</b><ol><li>1행: [1+3, 2+1, 3+0] = [4 3 3]</li><li>2행: [4+1, 5+2, 6+4] = [5 7 10]</li><li>2 × 3 + 3 × 2 → 불가능</li></ol></div></div><div class="pair"><div><div class="tl">학교 수학으로 보면</div>고등 "행렬의 덧셈".</div><div><div class="tr">AI에서는</div>"편향 더하기", 두 사진 겹치기(픽셀끼리 더하기)가 행렬 덧셈이에요.</div></div><details class="eqx"><summary>식으로 보면 (몰라도 됩니다)</summary><table class="ez-tb"><thead><tr><th>식 조각</th><th>읽는 법</th><th>뜻</th></tr></thead><tbody><tr><td class="m">(A + B)ᵢⱼ = Aᵢⱼ + Bᵢⱼ</td><td>에이 더하기 비</td><td>같은 자리끼리</td></tr></tbody></table></details></article>
+<article class="dex" id="m04-sub" data-dex="행렬 뺄셈"><header><span class="dexno">04-03</span><h3>행렬 뺄셈 <small>Matrix Subtraction</small></h3></header><p class="one">크기가 같을 때만, 같은 자리끼리 뺀다.</p><div class="dexgrid"><div class="dw"><b>말로 먼저</b> [[5 4], [3 2]] − [[1 1], [1 1]] = [[4 3], [2 1]]. 두 표가 얼마나 다른지 자리마다 보여 줍니다.</div><div class="try"><b>숫자로 한 번 해 보기</b><ol><li>[5−1, 4−1] = [4 3]</li><li>[3−1, 2−1] = [2 1]</li></ol></div></div><div class="pair"><div><div class="tl">학교 수학으로 보면</div>고등 "행렬의 뺄셈".</div><div><div class="tr">AI에서는</div>예측 행렬 − 정답 행렬 = 오차 행렬. 두 사진의 차이로 움직임을 찾는 것도 행렬 뺄셈.</div></div></article>
+<article class="dex" id="m04-mul" data-dex="행렬 곱셈"><header><span class="dexno">04-04</span><h3>행렬 곱셈 <small>Matrix Multiplication</small></h3></header><p class="one">앞 행렬의 행과 뒤 행렬의 열을 내적한다. (m × k)(k × n) → m × n.</p><div class="dexgrid"><div class="dw"><b>말로 먼저</b> 결과의 i행 j열 숫자 = 앞 행렬 i행 · 뒤 행렬 j열(3장의 내적). 그래서 앞 행렬의 열 수와 뒤 행렬의 행 수가 같아야 짝이 맞아요. 원자료 예: A(2 × 3) × B(3 × 2) = 2 × 2 행렬 [[58 64], [139 154]].</div><div class="try"><b>숫자로 한 번 해 보기</b><ol><li>1행·1열: 1×7 + 2×9 + 3×11 = 7 + 18 + 33 = 58</li><li>1행·2열: 1×8 + 2×10 + 3×12 = 8 + 20 + 36 = 64</li><li>2행·1열: 4×7 + 5×9 + 6×11 = 28 + 45 + 66 = 139</li><li>2행·2열: 4×8 + 5×10 + 6×12 = 32 + 50 + 72 = 154</li></ol></div></div><div class="pair"><div><div class="tl">학교 수학으로 보면</div>고등 "행렬의 곱셈"(교육과정에 따라 선택).</div><div><div class="tr">AI에서는</div>신경망 한 층: (사진 100장 × 픽셀 784) × (784 × 뉴런 128) = 100 × 128. 사진 100장을 한 번에 처리해요.</div></div><p class="dexwarn"><b>헷갈리기 쉬운 점</b> AB와 BA는 대개 다릅니다(곱하는 순서가 중요). 위 예에서 BA는 3 × 3 행렬이 돼요.</p><details class="eqx"><summary>식으로 보면 (몰라도 됩니다)</summary><table class="ez-tb"><thead><tr><th>식 조각</th><th>읽는 법</th><th>뜻</th></tr></thead><tbody><tr><td class="m">(AB)ᵢⱼ = Σₖ AᵢₖBₖⱼ</td><td>에이비 아이제이</td><td>i행과 j열의 내적</td></tr><tr><td class="m">(m × k)(k × n) = m × n</td><td>크기 규칙</td><td>가운데 k가 같아야</td></tr></tbody></table></details></article>
+<div data-dlg="mid"></div>
+<article class="dex" id="m04-transpose" data-dex="전치"><header><span class="dexno">04-05</span><h3>전치 <small>Transpose of a Matrix</small></h3></header><p class="one">행과 열을 맞바꾼 행렬. A가 m × n이면 Aᵀ는 n × m.</p><div class="dexgrid"><div class="dw"><b>말로 먼저</b> [[1 2 3], [4 5 6]]의 첫째 행 [1 2 3]이 Aᵀ의 첫째 열이 됩니다. 대각선을 축으로 뒤집는다고 생각하면 돼요.</div><div class="try"><b>숫자로 한 번 해 보기</b><ol><li>A = [[1 2 3], [4 5 6]] (2 × 3)</li><li>Aᵀ = [[1 4], [2 5], [3 6]] (3 × 2)</li><li>(Aᵀ)ᵀ = A</li></ol></div></div><div class="pair"><div><div class="tl">학교 수학으로 보면</div>고등 "행렬" 심화(전치행렬).</div><div><div class="tr">AI에서는</div>크기를 맞추려고 자주 씁니다. 회귀의 정규방정식 (XᵀX)⁻¹Xᵀy(5장), 공분산 행렬 XᵀX(14장).</div></div><details class="eqx"><summary>식으로 보면 (몰라도 됩니다)</summary><table class="ez-tb"><thead><tr><th>식 조각</th><th>읽는 법</th><th>뜻</th></tr></thead><tbody><tr><td class="m">(Aᵀ)ᵢⱼ = Aⱼᵢ</td><td>전치</td><td>i행 j열 ↔ j행 i열</td></tr></tbody></table></details></article>
+<article class="dex" id="m04-inv" data-dex="역행렬"><header><span class="dexno">04-06</span><h3>역행렬 <small>Inverse of a Matrix</small></h3></header><p class="one">곱하면 단위행렬 I가 되는 짝. 정사각이고 행렬식 ≠ 0일 때만 있다.</p><div class="dexgrid"><div class="dw"><b>말로 먼저</b> 숫자에서 3의 역수 1/3을 곱하면 1이 되듯, 행렬 A에 A⁻¹을 곱하면 I가 됩니다. 2 × 2 행렬 [[a b], [c d]]는 공식으로 바로 구해요: A⁻¹ = 1/(ad − bc) × [[d −b], [−c a]]. ad − bc(행렬식)가 0이면 나눌 수 없으니 역행렬이 없어요.</div><div class="try"><b>숫자로 한 번 해 보기</b><ol><li>A = [[2 1], [1 2]] → ad − bc = 4 − 1 = 3</li><li>A⁻¹ = (1/3) × [[2 −1], [−1 2]]</li><li>확인: A × A⁻¹ = (1/3)[[4−1, −2+2], [2−2, −1+4]] = [[1 0], [0 1]] ✔</li></ol></div></div><div class="pair"><div><div class="tl">학교 수학으로 보면</div>고등 "역행렬"(교육과정에 따라 선택), 역수.</div><div><div class="tr">AI에서는</div>5장에서 방정식 Ax = b를 x = A⁻¹b로 풉니다. 실제 코드는 수치 오차 때문에 역행렬 대신 np.linalg.solve를 더 자주 써요.</div></div><p class="dexwarn"><b>헷갈리기 쉬운 점</b> [[1 2], [2 4]]처럼 한 행이 다른 행의 배수면 행렬식이 0이라 역행렬이 없습니다.</p><details class="eqx"><summary>식으로 보면 (몰라도 됩니다)</summary><table class="ez-tb"><thead><tr><th>식 조각</th><th>읽는 법</th><th>뜻</th></tr></thead><tbody><tr><td class="m">AA⁻¹ = A⁻¹A = I</td><td>에이 곱하기 에이 역</td><td>곱하면 단위행렬</td></tr><tr><td class="m">A⁻¹ = 1/(ad−bc)·[[d, −b], [−c, a]]</td><td>2 × 2 공식</td><td>ad − bc ≠ 0일 때</td></tr></tbody></table></details></article>
+<article class="dex" id="m04-identity" data-dex="단위행렬"><header><span class="dexno">04-07</span><h3>단위행렬 <small>Identity Matrix</small></h3></header><p class="one">대각선이 1, 나머지가 0인 정사각 행렬. I나 Iₙ으로 쓴다. 곱해도 그대로.</p><div class="dexgrid"><div class="dw"><b>말로 먼저</b> I₃ = [[1 0 0], [0 1 0], [0 0 1]]. 숫자 1처럼 A × I = A, I × A = A예요(크기가 맞을 때).</div><div class="try"><b>숫자로 한 번 해 보기</b><ol><li>[[2 1], [1 2]] × I₂ = [[2 1], [1 2]]</li><li>I₃는 3 × 3, 1이 세 개</li></ol></div></div><div class="pair"><div><div class="tl">학교 수학으로 보면</div>고등 "단위행렬".</div><div><div class="tr">AI에서는</div>"아무것도 바꾸지 않는 변환". 신경망의 잔차 연결(입력을 그대로 더함)을 설명할 때 자주 등장해요.</div></div></article>
+<article class="dex" id="m04-zero" data-dex="영행렬과 핵심 정리"><header><span class="dexno">04-08</span><h3>영행렬과 핵심 정리 <small>Zero Matrix & Key Takeaways</small></h3></header><p class="one">모든 수가 0인 행렬 O. 더해도 그대로, 곱하면 0.</p><div class="dexgrid"><div class="dw"><b>말로 먼저</b> O₂ₓ₃ = [[0 0 0], [0 0 0]]. 정리하면: 덧셈·뺄셈은 같은 크기, 곱셈은 (m × n) 규칙, 전치는 행↔열, 역행렬은 정사각이면서 det ≠ 0일 때만, 단위행렬은 그대로, 영행렬은 모두 0.</div><div class="try"><b>숫자로 한 번 해 보기</b><ol><li>A + O = A</li><li>A × O = O (크기가 맞을 때)</li></ol></div></div><div class="pair"><div><div class="tl">학교 수학으로 보면</div>고등 "영행렬".</div><div><div class="tr">AI에서는</div>가중치를 모두 0으로 시작하면 뉴런들이 똑같이 배워 학습이 안 됩니다. 그래서 작은 무작위 값으로 시작해요.</div></div></article>
+</div></section>
+<section class="sec" id="lab" aria-labelledby="h-lab"><div class="wrap">
+<h2 id="h-lab"><span class="hex">실험</span>행렬곱 실험실 — 결과의 숫자 하나는 어디서 왔나</h2>
+<div data-dlg="lab_o"></div>
+<div class="easy"><details class="ez-why" open><summary>왜 이 방법을 쓰나</summary><ol><li>문제: 사진 100장을 뉴런 128개에 넣으려면 내적을 100 × 128 = 12,800번 해야 합니다.</li><li>앞 방법의 한계: 내적을 하나씩 반복하면 느리고, 어느 결과가 어느 짝에서 왔는지 관리하기 어렵습니다.</li><li><b>이 방법의 해법: 데이터를 행렬로, 가중치를 행렬로 묶어 행렬곱 한 번으로 모든 내적을 동시에 계산합니다.</b></li></ol><p class="ez-easy"><b>쉽게 말하면</b> 반 전체 시험지를 한 장씩 채점하지 않고 채점 기계에 한 번에 넣는 것.</p></details><div class="ez-math"><div class="ez-t">연구원이 묻고, 조교 하루가 풀어 봅니다</div><div class="ez-q"><img data-mood="moa_smile" alt="" aria-hidden="true"><p><b style="display:block;font-size:12.5px;color:var(--muted)">모아</b>(2 × 3) × (3 × 2)는 되는데 (2 × 3) × (2 × 3)은 왜 안 돼요?</p></div><p><b>말로 먼저</b> 앞 행렬의 행은 숫자 3개, 뒤 행렬의 열도 숫자 3개여야 내적 짝이 맞아요. (2 × 3)의 행은 3개짜리인데 (2 × 3)의 열은 2개짜리라 하나가 남습니다.</p><p><b>학교 수학으로 보면</b> 벡터의 내적은 크기가 같은 벡터끼리만 된다는 것(3장).</p><div class="try" style="background:#fff;border:1px dashed #e8b67a;border-radius:10px;padding:10px 14px"><b>숫자로 한 번 해 보기</b><ol style="margin:6px 0 0;padding-left:22px"><li>행 [1 2 3] · 열 [7 9 11] = 58 → 짝 3쌍</li><li>행 [1 2 3] · 열 [7 9] → 3번째가 짝이 없음 ✘</li><li>크기: (2 × 3)(3 × 2) → 바깥 둘 = 2 × 2</li></ol></div><details class="eqx"><summary>식으로 보면 (몰라도 됩니다)</summary><table class="ez-tb"><thead><tr><th>식 조각</th><th>읽는 법</th><th>뜻</th></tr></thead><tbody><tr><td>m × k</td><td>앞 행렬</td><td>행 m개, 각 행은 숫자 k개</td></tr><tr><td>k × n</td><td>뒤 행렬</td><td>열 n개, 각 열은 숫자 k개</td></tr><tr><td>m × n</td><td>결과</td><td>바깥 두 수</td></tr></tbody></table></details><div class="ez-q ez-c"><img data-mood="asst_spark" alt="" aria-hidden="true"><p><b style="display:block;font-size:12.5px;color:var(--muted)">조교 하루</b>실험실 아래 「모양 검사기」에서 가운데 두 수를 다르게 해 보세요. "곱할 수 없어요"가 뜹니다.</p></div></div></div>
+<div class="dialog lvtalk" data-dlg="lab_t"></div>
+<div class="panel" id="w-ch04" data-w="matmul"></div>
+<div class="say" data-who="doc"><img class="who" data-mood="doc_judge" alt="" aria-hidden="true"><div><b class="name">박사의 정리</b><p>행렬곱은 "내적을 표 모양으로 한꺼번에" 하는 것입니다. 결과의 숫자 하나하나가 행 하나와 열 하나의 닮음 점수예요. 그래서 크기 규칙은 "짝이 맞나?"를 묻는 규칙이고, AI 코드의 shape 오류도 결국 이 질문입니다.</p></div></div>
+<div class="lim"><b>이 실험의 한계</b> 실험실의 행렬은 2 × 3, 3 × 2로 작습니다. 실제 신경망의 행렬은 수천 × 수천이라 손으로는 할 수 없고, 계산 원리만 같아요.</div>
+<figure class="toon" id="toon2"><div class="tframe"><img src="img/toon/ch04_b.webp" width="1200" height="800" loading="lazy" alt="픽셀아트. 초파리가 [[1 2],[2 4]] 행렬이 그려진 상자에 &quot;역행렬 꺼내기&quot; 열쇠를 꽂는데, 상자에 &quot;det = 0&quot; 자물쇠가 달려 열리지 않는다. 박사가 돋보기로 &quot;둘째 행 = 첫째 행 × 2&quot;를 가리킨다."></div><figcaption><b class="ttl">웃는 그림 2 · 행렬식 0의 저주</b><div class="tline"><img data-mood="fly_clip" alt="" aria-hidden="true"><p><b>조교 초파리</b> 역행렬을 꺼내야 하는데 상자가 안 열려!</p></div><div class="tline"><img data-mood="doc_think" alt="" aria-hidden="true"><p><b>박사</b> 둘째 행이 첫째 행의 두 배군요. ad − bc = 1×4 − 2×2 = 0. 이 상자엔 역행렬이 없어요.</p></div><div class="tline"><img data-mood="x2_hint" alt="" aria-hidden="true"><p><b>X2</b> (필기) 행렬식 0 = 역행렬 없음. 0으로는 나눌 수 없으니까.</p></div><p class=tpoint><b>그림 속 수학</b> 2 × 2 행렬의 행렬식 ad − bc가 0이면 역행렬이 없다. 한 행이 다른 행의 배수일 때 생긴다.</p></figcaption></figure>
+<div class="aibox" id="ai"><div class="aihead"><span class="aitag">AI 판단 코너</span>주판봇의 "[[1 2],[2 4]]의 역행렬은 [[1 1/2],[1/2 1/4]]"</div><div data-dlg="ai_d"></div><p>박사는 늘 두 가지를 묻습니다. "가정이 맞나? 숫자가 그럴듯한가?"</p><ol><li>가정이 맞나? 역행렬은 "숫자마다 역수"를 취하는 것인가요?</li><li>숫자가 그럴듯한가? 주판봇의 답을 원래 행렬에 곱하면 단위행렬이 나오나요? 행렬식은 얼마인가요?</li></ol><details class="eqx"><summary>확인해 보기 (먼저 스스로 따져 본 뒤 펼치세요)</summary><p class="aiverdict">틀렸습니다. 역행렬은 숫자마다 역수를 취하는 것이 아니에요. 게다가 이 행렬은 ad − bc = 1×4 − 2×2 = 0이라 역행렬 자체가 없습니다. 주판봇의 답을 곱해 보면 [[1×1+2×½, …]] = [[2, …]]처럼 단위행렬이 나오지 않아요. 실제 코드에서 np.linalg.inv를 부르면 "Singular matrix" 오류가 납니다.</p><div data-dlg="ai_e"></div></details></div>
+<h3 id="quiz">확인 퀴즈</h3>
+<div class="quiz" data-quiz="q"></div>
+</div></section>
+<section class="sec" id="colab" aria-labelledby="h-colab"><div class="wrap">
+<h2 id="h-colab"><span class="hex">실습</span>코랩 실습실 — 배운 것을 직접 돌려 보기</h2>
+<p>두 가지 방법이 있어요. ① 생성 AI에게 프롬프트를 주고 코드를 만들게 해 보기, ② 연구소가 미리 만들어 검사까지 마친 코드를 돌려 보기. 둘을 나란히 돌려 결과를 비교하면, AI가 낸 코드를 믿어도 되는지 스스로 판단하는 연습이 됩니다.</p>
+<div data-dlg="colab"></div>
+<div class="labbox"><div class="labh"><span class="lno">①</span> 생성 AI로 실습하기 — 코랩 파이썬 프롬프트</div>
+<p>구글 코랩(Colab)의 Gemini 창이나 ChatGPT·Claude 같은 생성 AI에 아래 글을 그대로 붙여 넣으세요. AI가 만든 코드를 코랩 셀에 붙여 넣고 실행합니다.</p>
+<div class="codewrap"><button type="button" class="cpy" data-copy="p-ch04">복사</button><pre class="prompt" id="p-ch04">너는 고등학생에게 행렬 계산을 가르치는 파이썬 선생님이야. 구글 코랩에서 실행되는 코드를 만들어 줘.
+주제: 행렬 덧셈·뺄셈·곱셈·전치·역행렬
+요구 사항:
+1. numpy로 A = [[1,2,3],[4,5,6]], B = [[7,8],[9,10],[11,12]]을 만들고 A @ B를 계산해 줘. 결과 [[58,64],[139,154]]의 각 숫자가 어느 행과 어느 열의 내적인지 반복문으로 풀어서 출력해 줘.
+2. B @ A도 계산해서 A @ B와 크기가 다르다는 것(교환법칙 불성립)을 보여 줘.
+3. 크기가 맞지 않는 A @ A를 try-except로 실행해 오류 메시지를 한국어로 설명해 줘.
+4. 2×2 행렬 [[2,1],[1,2]]의 역행렬을 ad-bc 공식으로 직접 구하고, np.linalg.inv 결과와 비교하고, 곱해서 단위행렬이 되는지 np.allclose로 확인해 줘.
+5. [[1,2],[2,4]]의 행렬식을 구하고 역행렬이 없는 이유를 출력해 줘.
+6. 신경망 한 층 예시: 입력 X(데이터 5개 × 특성 3개)와 가중치 W(3 × 2)를 무작위로 만들고(seed 고정) X @ W의 shape를 출력해 줘.
+7. 모든 줄에 한국어 주석.</pre></div></div>
+<div class="labbox"><div class="labh"><span class="lno">②</span> 실제로 돌아가는 코드 — 파이썬 · 코랩</div>
+<p>연구소가 직접 실행해 결과를 확인한 코드입니다. 버튼 하나로 코랩에서 바로 열 수 있어요(구글 계정만 있으면 설치할 것이 없습니다).</p>
+<p class="colabbtns"><a class="bt primary" href="https://colab.research.google.com/github/adminmrobo/math_basic_for_ai_dictionary/blob/main/colab/ch04_matrix_ops.ipynb" target="_blank" rel="noopener">코랩에서 열기</a> <a class="bt" href="code/colab_py/ch04_matrix_ops.py" download>.py 내려받기</a> <a class="bt" href="colab/ch04_matrix_ops.ipynb" download>.ipynb 내려받기</a></p>
+<details class="fold"><summary>코드 펼치기 (몰라도 됩니다 · 51줄)</summary><div class="codewrap"><button type="button" class="cpy" data-copy="c-ch04">복사</button><pre class="code" id="c-ch04"><code># %% 1. 행렬곱과 그 속의 내적
+import numpy as np
+
+A = np.array([[1, 2, 3], [4, 5, 6]])          # 2 x 3
+B = np.array([[7, 8], [9, 10], [11, 12]])     # 3 x 2
+C = A @ B                                      # 2 x 2
+print(&quot;A @ B =\n&quot;, C)
+for i in range(A.shape[0]):
+    for j in range(B.shape[1]):
+        parts = &quot; + &quot;.join(f&quot;{A[i,k]}x{B[k,j]}&quot; for k in range(A.shape[1]))
+        print(f&quot;C[{i+1}{j+1}] = {parts} = {C[i, j]}&quot;)
+
+# %% 2. 순서를 바꾸면? (AB != BA)
+print(&quot;B @ A 크기:&quot;, (B @ A).shape, &quot;/ A @ B 크기:&quot;, C.shape)
+print(&quot;B @ A =\n&quot;, B @ A)
+
+# %% 3. 크기가 맞지 않으면 오류
+try:
+    A @ A
+except ValueError as e:
+    print(&quot;A @ A 오류:&quot;, str(e)[:60], &quot;...&quot;)
+    print(&quot;-&gt; 앞 행렬의 열 수(3)와 뒤 행렬의 행 수(2)가 달라 곱할 수 없어요.&quot;)
+
+# %% 4. 덧셈·뺄셈·전치
+P = np.array([[3, 1, 0], [1, 2, 4]])
+print(&quot;A + P =\n&quot;, A + P)
+print(&quot;[[5,4],[3,2]] - [[1,1],[1,1]] =\n&quot;, np.array([[5, 4], [3, 2]]) - np.ones((2, 2), dtype=int))
+print(&quot;A.T =\n&quot;, A.T, &quot; shape&quot;, A.T.shape)
+
+# %% 5. 역행렬: 공식으로 직접, 그리고 numpy로
+M = np.array([[2, 1], [1, 2]])
+a, b, c, d = M.ravel()
+det = a * d - b * c
+M_inv = (1 / det) * np.array([[d, -b], [-c, a]])
+print(&quot;det =&quot;, det, &quot;\n공식 역행렬 =\n&quot;, M_inv.round(4))
+print(&quot;np.linalg.inv와 같은가?&quot;, np.allclose(M_inv, np.linalg.inv(M)))
+print(&quot;M @ M_inv =\n&quot;, (M @ M_inv).round(10), &quot;-&gt; 단위행렬?&quot;, np.allclose(M @ M_inv, np.eye(2)))
+
+# %% 6. 역행렬이 없는 행렬
+S = np.array([[1, 2], [2, 4]])
+print(&quot;det(S) =&quot;, round(np.linalg.det(S), 10))
+try:
+    np.linalg.inv(S)
+except np.linalg.LinAlgError as e:
+    print(&quot;역행렬 없음:&quot;, e, &quot;-&gt; 둘째 행이 첫째 행의 2배&quot;)
+
+# %% 7. 신경망 한 층처럼: 데이터 5개 x 특성 3개 @ 가중치 3 x 2
+rng = np.random.default_rng(0)
+X = rng.normal(size=(5, 3)); W = rng.normal(size=(3, 2))
+print(&quot;X&quot;, X.shape, &quot;@ W&quot;, W.shape, &quot;=&quot;, (X @ W).shape)
+print(&quot;단위행렬 곱: A @ I3 == A ?&quot;, np.array_equal(A @ np.eye(3, dtype=int), A))</code></pre></div></details>
+<details class="fold"><summary>실행하면 이렇게 나옵니다 (연구소에서 돌린 결과)</summary><pre class="out">A @ B =
+ [[ 58  64]
+ [139 154]]
+C[11] = 1x7 + 2x9 + 3x11 = 58
+C[12] = 1x8 + 2x10 + 3x12 = 64
+C[21] = 4x7 + 5x9 + 6x11 = 139
+C[22] = 4x8 + 5x10 + 6x12 = 154
+B @ A 크기: (3, 3) / A @ B 크기: (2, 2)
+B @ A =
+ [[ 39  54  69]
+ [ 49  68  87]
+ [ 59  82 105]]
+A @ A 오류: matmul: Input operand 1 has a mismatch in its core dimension ...
+-&gt; 앞 행렬의 열 수(3)와 뒤 행렬의 행 수(2)가 달라 곱할 수 없어요.
+A + P =
+ [[ 4  3  3]
+ [ 5  7 10]]
+[[5,4],[3,2]] - [[1,1],[1,1]] =
+ [[4 3]
+ [2 1]]
+A.T =
+ [[1 4]
+ [2 5]
+ [3 6]]  shape (3, 2)
+det = 3 
+공식 역행렬 =
+ [[ 0.6667 -0.3333]
+ [-0.3333  0.6667]]
+np.linalg.inv와 같은가? True
+M @ M_inv =
+ [[1. 0.]
+ [0. 1.]] -&gt; 단위행렬? True
+det(S) = 0.0
+역행렬 없음: Singular matrix -&gt; 둘째 행이 첫째 행의 2배
+X (5, 3) @ W (3, 2) = (5, 2)
+단위행렬 곱: A @ I3 == A ? True</pre><p class="muted" style="font-size:13px">그래프 창은 코랩 화면에 함께 나타납니다. 무작위 실험이 있는 코드는 seed를 고정해 같은 숫자가 나오게 했어요.</p></details></div>
+<div class="labbox"><div class="labh"><span class="lno">③</span> 비교 과제 — AI 코드와 연구소 코드 맞대 보기</div><ol><li>AI 코드가 A @ B 대신 A * B(같은 자리끼리 곱)를 썼다면 무슨 일이 생기는지 확인해 보세요.</li><li>역행렬 확인에서 == 대신 np.allclose를 써야 하는 이유(소수점 오차)를 AI 코드 결과로 설명해 보세요.</li><li>X @ W의 shape가 (5, 2)인지 두 코드에서 비교하세요.</li></ol></div>
+</div></section>
+<section class="sec" id="sum" aria-labelledby="h-sum"><div class="wrap">
+<h2 id="h-sum">정리 — 행렬곱은 표 모양의 내적</h2>
+<div class="tblwrap"><table class="cmp"><thead><tr><th>질문</th><th>답 한 줄</th></tr></thead><tbody><tr><td>행렬 덧셈·뺄셈의 조건은?</td><td>크기가 같아야 하고, 같은 자리끼리 계산.</td></tr><tr><td>행렬곱 규칙은?</td><td>(m × k)(k × n) = m × n. 결과 숫자 = 행 · 열의 내적.</td></tr><tr><td>AB = BA인가?</td><td>일반적으로 아니다. 크기부터 다를 수 있다.</td></tr><tr><td>역행렬이 있으려면?</td><td>정사각 행렬이고 행렬식 ≠ 0. 2 × 2는 ad − bc ≠ 0.</td></tr><tr><td>단위행렬·영행렬은?</td><td>곱해도 그대로인 I, 모두 0인 O.</td></tr></tbody></table></div>
+<h3>용어 대응 카드</h3><div class="gloss"><div><b>행렬이란 (복습)</b> = 행과 열로 배열한 숫자의 2차원 배열. 표 형태의 데이터를 담는다.</div><div><b>행렬 덧셈</b> = 크기가 같은 행렬끼리만, 같은 자리끼리 더한다.</div><div><b>행렬 뺄셈</b> = 크기가 같을 때만, 같은 자리끼리 뺀다.</div><div><b>행렬 곱셈</b> = 앞 행렬의 행과 뒤 행렬의 열을 내적한다. (m × k)(k × n) → m × n.</div><div><b>전치</b> = 행과 열을 맞바꾼 행렬. A가 m × n이면 Aᵀ는 n × m.</div><div><b>역행렬</b> = 곱하면 단위행렬 I가 되는 짝. 정사각이고 행렬식 ≠ 0일 때만 있다.</div><div><b>단위행렬</b> = 대각선이 1, 나머지가 0인 정사각 행렬. I나 Iₙ으로 쓴다. 곱해도 그대로.</div><div><b>영행렬과 핵심 정리</b> = 모든 수가 0인 행렬 O. 더해도 그대로, 곱하면 0.</div></div>
+<h3>원자료와 다르게 쓴 곳</h3><ul><li>원자료 4번 상자의 "Result matrix size = (m × n)"을 "(m × k)(k × n) = m × n"으로 풀어 썼습니다(가운데 k가 같아야 함을 명시).</li><li>AB ≠ BA, 역행렬이 없는 예([[1 2],[2 4]])를 원자료에 덧붙였습니다.</li></ul>
+<h3>비유와 예시의 한계</h3><ul><li>채점 기계 비유는 "한 번에"만 보여 줍니다. 실제로는 행렬곱 안에서도 곱셈·덧셈을 모두 하며, 다만 GPU가 동시에 처리할 뿐이에요.</li><li>역행렬은 2 × 2 공식만 다뤘습니다. 큰 행렬은 컴퓨터가 다른 방법(소거법)으로 구합니다.</li></ul>
+<div class="next"><a href="03_vector_ops.html"><b>← 03장 벡터 연산</b><br>더하기·내적·길이·각도</a><a href="index.html"><b>도감 목차</b><br>열다섯 장과 항목 찾기</a><a href="05_linear_systems.html"><b>05장 연립일차방정식 →</b><br>Ax = b와 회귀</a></div>
+</div></section>
+<section class="sec" id="outro" aria-labelledby="h-outro"><div class="wrap"><h2 id="h-outro">아웃트로 — 다음 장으로</h2><div data-dlg="outro"></div></div></section>
+</main>
+<footer><div class="wrap">
+<h3>출처</h3>
+<table><thead><tr><th>#</th><th>자료</th><th>이 페이지에서 쓴 곳</th></tr></thead><tbody><tr><td>[1]</td><td>연구소 수학 노트 MATH-04 「Matrix Operations」 (인포그래픽 한 장)</td><td>도감 항목 전부, 예시 숫자</td></tr></tbody></table>
+<h3>예시값·설명용 모형인 것</h3><ul><li>항목의 숫자 예시는 설명용이며 연구소가 검산했습니다(code/check_numbers.py).</li><li>코랩 코드는 교육용 예제이며 실제 서비스에 그대로 쓰는 코드가 아닙니다.</li></ul>
+<p>캐릭터 이름·설정·그림은 저작권자 안상선의 허락 없이 사용할 수 없습니다.</p>
+<p>글 · 안상선 ((주)M-Robo 대표) · <a href="https://adminmrobo.github.io/who_am_i/who_am_i.html">저자 소개</a> · <a href="index.html">수리 도감 목차</a> · 자매편 <a href="https://adminmrobo.github.io/hello_space_lab/index.html">좌표 첫걸음</a> · <a href="https://adminmrobo.github.io/optimization_3d_map/first_step_0.html">최적화 첫걸음</a></p>
+</div></footer>
+<script>
+/*@@SPRITES@@*/
+/*@@COMMON@@*/
+/*@@MATHLAB@@*/
+(function(){
+'use strict';
+U.dialogues({"open": [["robo", "robo_calc", "4장 안내는 계산 담당 주판봇! 질문: 사진 앱이 사진 100장을 한꺼번에 분석할 때 곱셈을 몇 번 할까요?"], ["x1", "x1_hint", "100번이요?"], ["robo", "robo_coin", "사진 하나가 숫자 784개, 뉴런이 128개면 한 층에서만 100 × 784 × 128 ≈ 1,000만 번! 그걸 한 번에 하는 기술이 행렬곱이야."], ["moa", "moa_report", "한 번에 한다는 게 무슨 뜻이에요?"], ["robo", "robo_smile", "내적을 표 모양으로 한꺼번에! 오늘은 덧셈부터 역행렬까지, 크기 규칙과 함께 펼쳐 볼게. 처음엔 숫자가 많아 어지러워도 괜찮아."]], "mid": [["sia", "sia_signal", "덧셈·뺄셈은 쉬운데 곱셈부터 갑자기 달라지네요."], ["doc", "doc_front", "곱셈은 3장의 내적을 떠올리면 돼요. \"행 하나 · 열 하나 = 숫자 하나\"."]], "lab_o": [["doc", "doc_board", "상황: 주문 개수 행렬과 가격 행렬이 있습니다. 가게별 총매출은 어떻게 한 번에 구할까요?"]], "lab_t": [["robo", "robo_calc", "모든 숫자를 그냥 같은 자리끼리 곱하면 되지!"], ["fly", "fly_point", "그건 자리끼리 곱이고 행렬곱이 아니야. 이걸 눌러 봐. 결과 숫자 하나를 누르면 어떤 행과 열이 짝지어졌는지 보여."], ["asst", "asst_report", "보고: 58 = 1×7 + 2×9 + 3×11. 행 하나와 열 하나의 내적이에요."]], "ai_d": [["robo", "robo_happy", "[[1 2],[2 4]]의 역행렬? 숫자마다 역수! [[1, 1/2],[1/2, 1/4]]!"], ["doc", "doc_think", "확인하는 방법이 하나 있죠. 곱해 보는 것."]], "ai_e": [["robo", "robo_blush", "곱했더니 단위행렬이 안 나와… 애초에 행렬식이 0이었네."], ["moa", "moa_ok", "역행렬은 곱해서 I가 나오는지로 확인하면 되겠네요."]], "colab": [["robo", "robo_coin", "A @ B와 A * B는 완전히 달라. AI가 만든 코드가 어느 쪽을 썼는지 꼭 봐!"]], "outro": [["doc", "doc_judge", "해석 문장: \"행렬곱은 내적을 한꺼번에 하는 계산이고, 크기 규칙은 짝이 맞는지를 묻는 규칙이다.\""], ["x2", "x2_hint", "역행렬로 뭘 할 수 있는지 궁금해요. 나눗셈 대신 쓰는 거예요?"], ["sia", "sia_guide", "바로 그거예요! 5장에서 제가 안내할게요. 방정식 여러 개를 역행렬 한 번으로 푸는 법."]]});
+U.fillImgs();
+ML.mountAll();
+ML.copyButtons();
+U.Gloss({"행렬이란 (복습)": ["행렬이란 (복습)", "What is a Matrix", "행과 열로 배열한 숫자의 2차원 배열. 표 형태의 데이터를 담는다."], "행렬 덧셈": ["행렬 덧셈", "Matrix Addition", "크기가 같은 행렬끼리만, 같은 자리끼리 더한다."], "행렬 뺄셈": ["행렬 뺄셈", "Matrix Subtraction", "크기가 같을 때만, 같은 자리끼리 뺀다."], "행렬 곱셈": ["행렬 곱셈", "Matrix Multiplication", "앞 행렬의 행과 뒤 행렬의 열을 내적한다. (m × k)(k × n) → m × n."], "전치": ["전치", "Transpose of a Matrix", "행과 열을 맞바꾼 행렬. A가 m × n이면 Aᵀ는 n × m."], "역행렬": ["역행렬", "Inverse of a Matrix", "곱하면 단위행렬 I가 되는 짝. 정사각이고 행렬식 ≠ 0일 때만 있다."], "단위행렬": ["단위행렬", "Identity Matrix", "대각선이 1, 나머지가 0인 정사각 행렬. I나 Iₙ으로 쓴다. 곱해도 그대로."], "영행렬과 핵심 정리": ["영행렬과 핵심 정리", "Zero Matrix & Key Takeaways", "모든 수가 0인 행렬 O. 더해도 그대로, 곱하면 0."]},["행렬이란 (복습)", "행렬 덧셈", "행렬 뺄셈", "행렬 곱셈", "전치", "역행렬"]);
+U.Study({quiz:{"q": [{"q": "(2 × 3) 행렬과 (3 × 4) 행렬을 곱하면 결과 크기는?", "o": ["2 × 4", "3 × 3", "2 × 3", "곱할 수 없다"], "a": 0, "why": "가운데 3이 같으니 곱할 수 있고, 바깥 두 수 2 × 4.", "hint": "(m × k)(k × n) = m × n."}, {"q": "[[1 2 3],[4 5 6]] × [[7 8],[9 10],[11 12]]의 1행 1열 값은?", "o": ["58", "64", "139", "7"], "a": 0, "why": "1×7 + 2×9 + 3×11 = 58.", "hint": "앞 행렬 1행과 뒤 행렬 1열의 내적."}, {"q": "[[2 1],[1 2]]의 역행렬은?", "o": ["(1/3)[[2 −1],[−1 2]]", "[[1/2 1],[1 1/2]]", "[[2 −1],[−1 2]]", "없다"], "a": 0, "why": "ad − bc = 3, 공식에 넣으면 (1/3)[[2 −1],[−1 2]].", "hint": "1/(ad − bc) × [[d −b], [−c a]]."}, {"q": "A가 2 × 5 행렬이면 Aᵀ의 크기는?", "o": ["5 × 2", "2 × 5", "5 × 5", "10 × 1"], "a": 0, "why": "전치는 행과 열을 바꿉니다.", "hint": "행 ↔ 열."}]}});
+U.start();
+})();
+</script>
+</body>
+</html>

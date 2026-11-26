@@ -1,0 +1,151 @@
+{
+ "version": "1.3",
+ "page": "index",
+ "nodes": [
+  {
+   "id": "lab:concept/math-for-ai",
+   "type": "Concept",
+   "label": {
+    "ko": "인공지능을 위한 수리적 기초",
+    "en": "Mathematical foundations for AI"
+   },
+   "page": "index",
+   "anchor": "#toc",
+   "level": 1,
+   "status": "known",
+   "confidence": "high",
+   "coverage": "explained",
+   "family": "math-for-ai",
+   "domain": [
+    "math",
+    "ai"
+   ],
+   "match": [],
+   "definition": {
+    "ko": "선형대수·확률·통계·미적분·최적화 다섯 분야를 열다섯 장 도감으로."
+   }
+  },
+  {
+   "id": "lab:concept/linear-algebra",
+   "type": "Concept",
+   "label": {
+    "ko": "선형대수",
+    "en": "Linear algebra"
+   },
+   "page": "index",
+   "anchor": "#toc",
+   "level": 1,
+   "status": "known",
+   "confidence": "high",
+   "coverage": "explained",
+   "family": "math-for-ai",
+   "domain": [
+    "math",
+    "ai"
+   ],
+   "match": [],
+   "definition": {
+    "ko": "2~5장: 스칼라·벡터·행렬, 벡터·행렬 연산, 연립방정식."
+   }
+  },
+  {
+   "id": "lab:concept/prob-stats",
+   "type": "Concept",
+   "label": {
+    "ko": "확률·통계",
+    "en": "Probability & statistics"
+   },
+   "page": "index",
+   "anchor": "#toc",
+   "level": 1,
+   "status": "known",
+   "confidence": "high",
+   "coverage": "explained",
+   "family": "math-for-ai",
+   "domain": [
+    "math",
+    "ai"
+   ],
+   "match": [],
+   "definition": {
+    "ko": "6~10장: 확률, 베이즈, 기술통계, 확률분포, 상관."
+   }
+  },
+  {
+   "id": "lab:concept/calc-opt",
+   "type": "Concept",
+   "label": {
+    "ko": "미적분·최적화",
+    "en": "Calculus & optimization"
+   },
+   "page": "index",
+   "anchor": "#toc",
+   "level": 1,
+   "status": "known",
+   "confidence": "high",
+   "coverage": "explained",
+   "family": "math-for-ai",
+   "domain": [
+    "math",
+    "ai"
+   ],
+   "match": [],
+   "definition": {
+    "ko": "11~13장: 미분, 그래디언트, 경사하강."
+   }
+  },
+  {
+   "id": "lab:method/dex-search",
+   "type": "Method",
+   "label": {
+    "ko": "도감 검색",
+    "en": "Dictionary search"
+   },
+   "page": "index",
+   "anchor": "#search",
+   "level": 1,
+   "status": "known",
+   "confidence": "high",
+   "coverage": "explained",
+   "family": "math-for-ai",
+   "domain": [
+    "math",
+    "ai"
+   ],
+   "match": [],
+   "definition": {
+    "ko": "항목 이름·영어·뜻으로 열다섯 장의 항목을 찾는다."
+   }
+  }
+ ],
+ "edges": [
+  {
+   "s": "lab:concept/math-for-ai",
+   "p": "lab:relatedTo",
+   "o": "lab:concept/linear-algebra",
+   "anchor": "#toc",
+   "confidence": "medium"
+  },
+  {
+   "s": "lab:concept/math-for-ai",
+   "p": "lab:relatedTo",
+   "o": "lab:concept/prob-stats",
+   "anchor": "#toc",
+   "confidence": "medium"
+  },
+  {
+   "s": "lab:concept/math-for-ai",
+   "p": "lab:relatedTo",
+   "o": "lab:concept/calc-opt",
+   "anchor": "#toc",
+   "confidence": "medium"
+  },
+  {
+   "s": "lab:concept/math-for-ai",
+   "p": "lab:relatedTo",
+   "o": "lab:method/dex-search",
+   "anchor": "#search",
+   "confidence": "medium"
+  }
+ ]
+}

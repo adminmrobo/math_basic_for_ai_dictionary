@@ -1,0 +1,240 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>01장 수학 기초 — 변수·식·함수 | 수리 도감 — 인공지능을 위한 수리적 기초</title>
+<meta name="description" content="수리 도감 01장. 변수와 상수, 방정식과 식, 함수와 정의역·치역, AI에서 자주 쓰는 함수 네 가지를 박사가 안내합니다. 도감 항목 8개, 함수 기계 실험실, 코랩 실습.">
+<meta property="og:type" content="article"><meta property="og:title" content="01장 수학 기초 — 변수·식·함수 | 수리 도감 — 인공지능을 위한 수리적 기초"><meta property="og:description" content="수리 도감 01장. 변수와 상수, 방정식과 식, 함수와 정의역·치역, AI에서 자주 쓰는 함수 네 가지를 박사가 안내합니다. 도감 항목 8개, 함수 기계 실험실, 코랩 실습.">
+<meta property="og:image" content="https://adminmrobo.github.io/math_basic_for_ai_dictionary/img/og/ch01.png"><meta property="og:url" content="https://adminmrobo.github.io/math_basic_for_ai_dictionary/01_math_basics.html"><meta name="twitter:card" content="summary_large_image">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+KR:wght@400;500;700&display=swap" rel="stylesheet">
+<!--@@CSS@@-->
+<style>
+.tl,.tr{font-weight:700;font-size:13.5px;margin-bottom:4px}.tl{color:var(--amber)}.tr{color:var(--terrain)}
+.hex{display:inline-grid;place-items:center;min-width:44px;height:34px;padding:0 10px;margin-right:10px;border-radius:8px;background:var(--terrain);color:#fff;font-size:17px;vertical-align:4px}
+.sec{padding:40px 0;border-top:1px solid var(--rule)}
+.cast{display:grid;gap:10px}.castc{display:flex;gap:10px;align-items:center;background:var(--panel);border:1px solid var(--rule);border-left:4px solid var(--cc);border-radius:10px;padding:8px 10px}
+.castc.host{background:#fff;box-shadow:0 0 0 2px var(--cc)}
+.castc img{width:60px;height:60px;flex:none}.castc p{margin:0;font-size:13.5px;color:var(--muted);line-height:1.55}
+.cover img.art{image-rendering:pixelated;image-rendering:crisp-edges}
+.diff{display:inline-block;border:1px solid var(--c-asst);color:var(--c-asst);border-radius:999px;padding:0 10px;font-size:12.5px;margin-left:6px}
+.hostcard{display:flex;gap:14px;align-items:center;border:2px solid var(--cc);border-radius:14px;padding:12px 16px;margin:10px 0 16px;background:#fff}
+.hostcard img{width:84px;height:84px;flex:none}.hostcard p{margin:4px 0 0;color:var(--muted)}
+.chain span.on{background:var(--terrain);color:#fff;border-color:var(--terrain)}
+.where{background:var(--panel);border-radius:10px;padding:10px 14px}
+.sis{display:flex;gap:12px;align-items:center;border:1px solid var(--c-asst);border-radius:12px;padding:10px 14px;margin:10px 0;background:#fff7fb}.sis img{width:56px;height:56px;flex:none}.sis p{margin:0}
+.dexidx{display:flex;flex-wrap:wrap;gap:6px;margin:10px 0 18px}.dexidx a{border:1px solid var(--rule);border-radius:999px;padding:3px 12px;font-size:14px;text-decoration:none;background:var(--panel)}
+.dexidx a:hover{border-color:var(--terrain)}
+.dex{border:1px solid var(--rule);border-top:4px solid var(--terrain);border-radius:14px;padding:16px 20px 12px;margin:0 0 22px;background:#fff;scroll-margin-top:70px}
+.dex header{display:flex;gap:12px;align-items:baseline;flex-wrap:wrap}.dex h3{margin:0;font-size:21px}.dex h3 small{font-size:14px;color:var(--muted);font-weight:500}
+.dexno{font:700 13px/1 var(--font);color:#fff;background:var(--c-x);border-radius:6px;padding:4px 8px}
+.dex .one{font-size:17px;font-weight:600;color:var(--terrain);margin:8px 0 10px}
+.dexgrid{display:grid;grid-template-columns:1.2fr 1fr;gap:14px;margin-bottom:10px}
+.dexgrid .dw{line-height:1.8}.dexgrid .try{background:var(--amber-soft);border:1px dashed #e8b67a;border-radius:10px;padding:10px 14px}.dexgrid .try ol{margin:6px 0 0;padding-left:22px}
+.dexwarn{background:var(--eye-soft);border-radius:8px;padding:8px 12px;font-size:15px}
+@media(max-width:760px){.dexgrid{grid-template-columns:1fr}}
+.toon{margin:26px auto;max-width:820px;border:1px solid var(--rule);border-radius:14px;overflow:hidden;background:#fff}
+.toon .tframe{background:#fff;border-bottom:1px solid var(--rule)}.toon img{display:block;width:100%;height:auto;image-rendering:pixelated;image-rendering:crisp-edges}
+.toon figcaption{padding:12px 16px}.toon .ttl{display:block;margin-bottom:8px;color:var(--amber)}
+.tline{display:flex;gap:10px;align-items:center;margin:6px 0}.tline img{width:40px;height:40px;flex:none;border-radius:8px;border:1px solid var(--rule)}.tline p{margin:0}
+.tpoint{margin:10px 0 0;background:var(--panel);border-radius:8px;padding:8px 12px;font-size:15px}
+.labbox{border:1px solid var(--rule);border-radius:14px;padding:14px 18px;margin:16px 0;background:#fff}
+.labh{font-weight:700;font-size:17px;margin-bottom:6px}.lno{display:inline-grid;place-items:center;width:28px;height:28px;border-radius:50%;background:var(--terrain);color:#fff;margin-right:6px}
+.codewrap{position:relative}.cpy{position:absolute;right:8px;top:8px;font:600 12.5px var(--font);border:1px solid var(--rule);background:#fff;border-radius:8px;padding:3px 10px;cursor:pointer}
+pre.prompt,pre.code,pre.out{white-space:pre-wrap;word-break:break-word;background:#f7f9fb;border:1px solid var(--rule);border-radius:10px;padding:14px 16px;font:13.5px/1.65 ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;max-height:520px;overflow:auto;margin:8px 0}
+pre.prompt{background:#fbf8ff;border-color:#d9c8f0;font-family:var(--font);font-size:14.5px}
+pre.out{background:#0f1720;color:#d8e6f0}
+.colabbtns{display:flex;flex-wrap:wrap;gap:8px}.colabbtns a.bt{text-decoration:none}
+.panel .row2{display:grid;grid-template-columns:1fr 1fr;gap:14px}@media(max-width:760px){.panel .row2{grid-template-columns:1fr}}
+.panel .cv{width:100%;height:300px;display:block;border:1px solid var(--rule);border-radius:10px;background:#fff;touch-action:none}
+.panel .cv.tall{height:360px}
+.panel .rd{display:grid;grid-template-columns:repeat(auto-fit,minmax(130px,1fr));gap:8px;margin:10px 0}
+.panel .rd div{background:var(--panel);border-radius:10px;padding:8px 10px}.panel .rd b{display:block;font-size:19px}.panel .rd span{font-size:12.5px;color:var(--muted)}
+.panel .sl{display:flex;align-items:center;gap:10px;margin:6px 0;flex-wrap:wrap}.panel .sl label{min-width:140px;font-size:14.5px}.panel .sl input[type=range]{flex:1;min-width:140px}
+.panel .msg{background:#f4fbfb;border:1px dashed var(--terrain);border-radius:10px;padding:10px 14px;margin:8px 0;font-size:15px}
+.panel textarea,.panel input[type=text]{width:100%;font:15px var(--font);padding:8px 10px;border:1px solid var(--rule);border-radius:8px}
+.panel table.mt{border-collapse:collapse;margin:6px 0}.panel table.mt td{border:1px solid var(--rule);min-width:44px;text-align:center;padding:4px 6px;font-variant-numeric:tabular-nums}
+.panel table.mt td.hl{background:var(--amber-soft);font-weight:700}.panel table.mt td.hl2{background:var(--info-soft);font-weight:700}
+.panel .step{font-variant-numeric:tabular-nums}
+.ptitle{font-weight:700;margin-bottom:6px}
+</style>
+</head>
+<body>
+<nav class="top" aria-label="섹션 바로가기"><div class="row">
+  <a class="logo" href="index.html">수리 <i>도감</i> 01</a>
+  <div class="links"><a href="#dex">도감 항목</a><a href="#lab">실험실</a><a href="#ai">AI 판단</a><a href="#colab">코랩 실습</a><a href="#sum">정리</a><a href="#kg">색인</a><a href="02_linear_algebra.html">02장 →</a></div>
+</div></nav>
+<div class="cover" id="cover"><div class="frame"><img class="art" src="img/cover_ch01.webp" width="1920" height="1080" alt="흰 연구실 칠판에 f(x) = 2x + 3 직선과 x, π 이름표가 붙어 있고, 박사가 지휘봉으로 칠판을 가리킨다. 조교 하루와 주판봇이 옆에 서 있다. 16비트 픽셀아트." fetchpriority="high"><span class="cap">수리 도감 · MATH-01</span><span class="cover-chip">01장 수학 기초 — 변수·식·함수 · 안내 박사</span></div></div>
+<header class="hero" id="top"><div class="wrap">
+  <div class="eyebrow">수리 도감 · 인공지능을 위한 수리적 기초 · 기초 · 원자료 MATH-01 <span class="diff">이번 장 안내: 박사</span></div>
+  <h1>01장 수학 기초 — 변수·식·함수</h1>
+  <p class="question">인공지능은 왜 "수학으로 말한다"고 할까? 첫 단어 네 개 — 변수, 상수, 식, 함수 — 부터 펼쳐 봅니다.</p>
+  <p class="lead">AI 모델은 결국 "숫자를 넣으면 숫자가 나오는 아주 큰 함수"입니다. 이 장은 그 함수를 읽기 위한 첫 단어들을 도감 항목 8개로 모았습니다. 바뀌는 값(변수)과 고정된 값(상수), 둘이 같다는 문장(방정식)과 그냥 계산 덩어리(식), 입력을 출력으로 바꾸는 규칙(함수), 넣을 수 있는 값과 나올 수 있는 값(정의역·치역)까지.</p>
+  <p class="byline">글 · 안상선 ((주)M-Robo 대표) · <a href="https://adminmrobo.github.io/who_am_i/who_am_i.html">저자 소개</a> · 2026-11-26 · v1.0</p>
+  <div class="start"><b>처음이라면</b> 위에서부터 항목을 하나씩 읽고, 가운데 「함수 기계」 실험실에서 a와 b를 움직여 보세요. 20~30분이면 충분합니다.</div>
+  <div class="kpis" aria-label="숫자 요약"><div class="kpi m"><b>8개</b><span>도감 항목 (슬라이드 MATH-01의 모든 상자)</span></div><div class="kpi g"><b>1개</b><span>직접 움직이는 실험실</span></div><div class="kpi a"><b>2 + 2</b><span>웃는 그림 둘, 코랩 실습 둘(AI 프롬프트·실제 코드)</span></div><div class="kpi r"><b>4문제</b><span>확인 퀴즈</span></div></div>
+</div></header>
+<main>
+<section class="sec" id="plain" aria-labelledby="h-plain"><div class="wrap"><h2 id="h-plain">처음 오신 분께 — 이 장을 3줄로</h2><ol class="plain3"><li><b>무엇을</b> 변수·상수·방정식·식·함수·정의역·치역, 그리고 AI에서 자주 쓰는 함수 네 종류(일차·이차·다항·비선형)를 하나씩 봅니다.</li><li><b>왜 중요한가</b> AI 모델은 "입력 → 출력" 규칙, 즉 함수입니다. 함수를 읽을 줄 알면 모델 설명서의 절반을 읽을 수 있어요.</li><li><b>AI에서는</b> 데이터를 담는 그릇이 변수, 학습으로 정해지는 숫자가 가중치(상수처럼 쓰이는 값), 모델 전체가 함수, 성능 점수 계산이 식입니다.</li></ol>
+<p class="plain-note">코드와 수식을 몰라도 됩니다. 항목마다 "말로 먼저"와 "숫자로 한 번 해 보기"가 먼저 나오고, 식은 "식으로 보면"을 펼칠 때만 나옵니다. 여기서 한 번 멈춰도 괜찮아요.</p>
+<details class="abbr"><summary>기호·영어 약어 풀이 (6개)</summary><div class="abbr-list"><div><b>ML</b> <span>Machine Learning</span> — 머신러닝(기계 학습)</div><div><b>f(x)</b> <span>에프 엑스</span> — x를 넣은 함수 f의 출력</div><div><b>π</b> <span>파이</span> — 원주율 3.1416…</div><div><b>e</b> <span>자연상수</span> — 2.718…, 지수함수의 밑</div><div><b>√x</b> <span>루트 x</span> — 제곱해서 x가 되는 양수</div><div><b>PCA</b> <span>Principal Component Analysis</span> — 주성분 분석(14장)</div></div></details></div></section>
+<section class="sec" id="cast" aria-labelledby="h-cast" style="padding:18px 0 0;border:0"><div class="wrap"><h3 id="h-cast">연구소 식구 — 열다섯 장을 돌아가며 안내합니다</h3>
+<div class="cast" style="grid-template-columns:repeat(auto-fit,minmax(230px,1fr))"><div class="castc host" style="--cc:var(--c-doc)"><img data-mood="doc_board" alt="" aria-hidden="true"><div><b>박사 · 이번 장 안내</b><p>연구소 책임자. 장마다 상황 질문으로 문을 열고 해석 문장으로 닫아요.</p></div></div><div class="castc" style="--cc:var(--c-asst)"><img data-mood="asst_smile" alt="" aria-hidden="true"><div><b>조교 하루</b><p>수식 담당. 기호 하나씩 읽는 법과 뜻부터 풀어 줘요.</p></div></div><div class="castc" style="--cc:var(--c-fly)"><img data-mood="fly_point" alt="" aria-hidden="true"><div><b>조교 초파리</b><p>실험 담당. "이걸 눌러 봐"로 실험판을 열고, 답이 그럴듯한지 의심해요.</p></div></div><div class="castc" style="--cc:var(--c-robo)"><img data-mood="robo_calc" alt="" aria-hidden="true"><div><b>조교 주판봇</b><p>계산 담당. 1초 만에 답을 내지만 가끔 너무 빨라요. AI 판단 코너의 단골.</p></div></div><div class="castc" style="--cc:var(--c-sia)"><img data-mood="sia_smile" alt="" aria-hidden="true"><div><b>시아</b><p>직관파 연구원. 비유부터 꺼내 "그러니까 이런 거죠?"라고 물어요.</p></div></div><div class="castc" style="--cc:var(--c-moa)"><img data-mood="moa_smile" alt="" aria-hidden="true"><div><b>모아</b><p>꼼꼼파 연구원. "그건 언제나 그래요?" 하고 조건과 예외를 물어요.</p></div></div><div class="castc" style="--cc:var(--c-x)"><img data-mood="x1_hint" alt="" aria-hidden="true"><div><b>X1</b><p>막내 연구원. 손을 번쩍 들고 엉뚱한 질문을 해요.</p></div></div><div class="castc" style="--cc:var(--c-x)"><img data-mood="x2_hint" alt="" aria-hidden="true"><div><b>X2</b><p>막내 연구원. 필기를 가장 열심히 해요.</p></div></div><div class="castc" style="--cc:var(--c-x)"><img data-mood="x3_hint" alt="" aria-hidden="true"><div><b>X3</b><p>막내 연구원. 게임과 퀴즈 시간에 가장 신나요.</p></div></div></div></div></section>
+<section class="sec" id="open" aria-labelledby="h-open"><div class="wrap">
+<h2 id="h-open"><span class="hex">01</span>AI는 왜 수학으로 말할까</h2>
+<div class="hostcard" style="--cc:var(--c-doc)"><img data-mood="doc_board" alt="" aria-hidden="true"><div><b>이번 장 안내 · 박사</b><p>첫 장이라 연구소 책임자 박사가 직접 문을 엽니다. "도감을 어떻게 읽는지"도 함께 보여 줄게요.</p></div></div>
+<div data-dlg="open"></div>
+<div class="chain"><span class="on">01 수학 기초</span><i>→</i><span class="">02 선형대수 기초</span><i>→</i><span class="">03 벡터 연산</span></div>
+<p class="where"><b>도감 속 자리</b> 도감의 첫 장입니다. 여기서 익힌 "함수"는 2~5장(벡터·행렬로 함수를 한꺼번에 계산하기), 6~10장(확률·통계로 불확실한 출력 다루기), 11~13장(함수의 기울기로 가장 좋은 값 찾기)의 공통 바탕이 됩니다.</p>
+<div class="sis"><img data-mood="asst_report" alt="" aria-hidden="true"><p><b>조교 하루의 길 안내</b> 같은 주제를 생선 가게 AI 모델 이야기로 차례차례 따라가고 싶다면 「인공지능을 위한 수학」 <a href="https://adminmrobo.github.io/math_for_ai_lab/index.html#c01">1부 1장 함수</a>을 함께 보세요. 이야기로 흐름을 잡고, 이 도감으로 낱말을 찾아보는 식으로 쓰면 좋아요.</p></div>
+<figure class="toon" id="toon1"><div class="tframe"><img src="img/toon/ch01_a.webp" width="1200" height="800" loading="lazy" alt="픽셀아트. 왼쪽에 x 이름표를 단 X1이 옷걸이에 걸린 10, 7, −3 숫자 셔츠를 번갈아 입고, 오른쪽에 π 3.14 명찰을 단 주판봇이 팔짱을 끼고 꿈쩍하지 않는다. 박사가 가운데서 웃는다."></div><figcaption><b class="ttl">웃는 그림 1 · 변수의 옷장, 상수의 고집</b><div class="tline"><img data-mood="x1_hint" alt="" aria-hidden="true"><p><b>X1</b> 저는 x예요! 오늘은 10, 내일은 7, 기분 나쁜 날엔 −3!</p></div><div class="tline"><img data-mood="robo_meh" alt="" aria-hidden="true"><p><b>조교 주판봇</b> 나는 π. 3.14159… 어떤 원에서도 안 바뀜. 협상 불가.</p></div><div class="tline"><img data-mood="doc_front" alt="" aria-hidden="true"><p><b>박사</b> 그래서 둘이 한 식에 같이 있으면 일이 됩니다. 2πx처럼요.</p></div><p class=tpoint><b>그림 속 수학</b> 변수는 상자 속 값이 바뀌고, 상수는 고정. 원의 둘레 2πr에서 r은 변수, π와 2는 상수예요.</p></figcaption></figure>
+</div></section>
+<section class="sec" id="dex" aria-labelledby="h-dex"><div class="wrap">
+<h2 id="h-dex"><span class="hex">도감</span>도감 항목 — 8개</h2>
+<p>슬라이드 MATH-01의 상자를 하나도 빼지 않고 항목으로 옮겼습니다. 이름표를 눌러 바로 가세요.</p>
+<div class="dexidx"><a href="#m01-what">ML에서 수학이란</a><a href="#m01-variable">변수</a><a href="#m01-constant">상수</a><a href="#m01-equation">방정식과 식</a><a href="#m01-function">함수</a><a href="#m01-types">ML에서 흔한 함수 네 종류</a><a href="#m01-domain">정의역과 치역</a><a href="#m01-why">ML에서 왜 중요한가</a></div>
+<article class="dex" id="m01-what" data-dex="ML에서 수학이란"><header><span class="dexno">01-01</span><h3>ML에서 수학이란 <small>Mathematics in ML</small></h3></header><p class="one">모델이 어떻게 움직이는지 설명하는 언어이자 도구.</p><div class="dexgrid"><div class="dw"><b>말로 먼저</b> 수학은 ① 데이터를 숫자로 적고(표현), ② 모델을 만들고(규칙), ③ 모델 속 숫자를 고치고(최적화), ④ 얼마나 잘했는지 재는(평가) 네 가지 일을 맡습니다. 주로 쓰는 분야는 선형대수·확률·통계·미적분·최적화 다섯이에요.</div><div class="try"><b>숫자로 한 번 해 보기</b><ol><li>사진 한 장(28×28 흑백) = 숫자 784개 → 선형대수</li><li>"내일 비 올 확률 70%" → 확률</li><li>시험 점수 평균·흩어짐 → 통계</li><li>오차를 줄이는 방향 찾기 → 미적분·최적화</li></ol></div></div><div class="pair"><div><div class="tl">학교 수학으로 보면</div>중학교 "문자와 식", "함수"가 출발점이고 고등학교 수학의 거의 모든 단원이 어딘가에 쓰입니다.</div><div><div class="tr">AI에서는</div>이 도감의 열다섯 장이 다섯 분야를 차례로 맡습니다: 2~5장 선형대수, 6~10장 확률·통계, 11~13장 미적분·최적화, 14장 응용(PCA), 15장 총정리.</div></div></article>
+<article class="dex" id="m01-variable" data-dex="변수"><header><span class="dexno">01-02</span><h3>변수 <small>Variable</small></h3></header><p class="one">바뀔 수 있는 값에 붙인 이름표. 보통 x, y, z로 씁니다.</p><div class="dexgrid"><div class="dw"><b>말로 먼저</b> "x"는 숫자가 들어갈 상자의 이름표예요. 오늘은 10이 들어가고 내일은 7이 들어갈 수 있습니다. 이름표 덕분에 아직 모르는 값도 문장 속에 쓸 수 있어요.</div><div class="try"><b>숫자로 한 번 해 보기</b><ol><li>x = 10이라고 정하면 x + 5 = 15</li><li>같은 식에 x = 7을 넣으면 x + 5 = 12</li><li>이름표는 그대로, 상자 속 값만 바뀝니다</li></ol></div></div><div class="pair"><div><div class="tl">학교 수학으로 보면</div>중1 "문자의 사용과 식의 값"과 같습니다.</div><div><div class="tr">AI에서는</div>표의 한 열(키, 몸무게, 나이…)이 변수입니다. 사람마다 값이 다르니까요. AI 책에서 "특성(feature)"이라고 부르는 것이 대개 이 변수예요.</div></div><details class="eqx"><summary>식으로 보면 (몰라도 됩니다)</summary><table class="ez-tb"><thead><tr><th>식 조각</th><th>읽는 법</th><th>뜻</th></tr></thead><tbody><tr><td class="m">x = 10</td><td>x는 10</td><td>이름표 x에 10을 넣음</td></tr><tr><td class="m">x, y, z</td><td>엑스, 와이, 제트</td><td>흔히 쓰는 변수 이름</td></tr></tbody></table></details></article>
+<article class="dex" id="m01-constant" data-dex="상수"><header><span class="dexno">01-03</span><h3>상수 <small>Constant</small></h3></header><p class="one">바뀌지 않는 고정된 값. π = 3.1416…, e = 2.718…, 5, 10 같은 수.</p><div class="dexgrid"><div class="dw"><b>말로 먼저</b> 상수는 문제를 푸는 동안 움직이지 않는 숫자예요. 원주율 π는 어떤 원에서든 둘레 ÷ 지름 = 3.14159…로 같습니다.</div><div class="try"><b>숫자로 한 번 해 보기</b><ol><li>반지름 1인 원의 둘레 = 2 × π × 1 ≈ 6.283</li><li>반지름 2이면 2 × π × 2 ≈ 12.566 — π는 그대로</li><li>e ≈ 2.718은 11장 지수함수에서 다시 만나요</li></ol></div></div><div class="pair"><div><div class="tl">학교 수학으로 보면</div>중1 원의 둘레와 넓이(π), 고등 지수·로그함수(e).</div><div><div class="tr">AI에서는</div>모델을 쓰는 동안(예측할 때) 가중치는 상수처럼 고정됩니다. 다만 학습하는 동안에는 바뀌는 값이라, 학습 중에는 "변수", 학습 뒤에는 "상수"처럼 보는 것이 정확해요.</div></div><p class="dexwarn"><b>헷갈리기 쉬운 점</b> "상수냐 변수냐"는 숫자 자체가 아니라 그 숫자가 지금 바뀌는 역할인지로 정해집니다.</p><details class="eqx"><summary>식으로 보면 (몰라도 됩니다)</summary><table class="ez-tb"><thead><tr><th>식 조각</th><th>읽는 법</th><th>뜻</th></tr></thead><tbody><tr><td class="m">π ≈ 3.1416</td><td>파이</td><td>원의 둘레 ÷ 지름</td></tr><tr><td class="m">e ≈ 2.718</td><td>자연상수 e</td><td>지수함수 eˣ의 밑</td></tr></tbody></table></details></article>
+<article class="dex" id="m01-equation" data-dex="방정식과 식"><header><span class="dexno">01-04</span><h3>방정식과 식 <small>Equation & Expression</small></h3></header><p class="one">방정식은 "두 식이 같다"는 문장, 식은 변수와 상수를 엮은 계산 덩어리.</p><div class="dexgrid"><div class="dw"><b>말로 먼저</b> 3x + 5는 "x에 3을 곱하고 5를 더한 값"이라는 계산 덩어리(식)일 뿐, 참·거짓이 없습니다. 등호(=)로 두 식을 이으면 2x + 3 = 11처럼 참·거짓이 있는 문장(방정식)이 되고, 참이 되게 하는 x를 찾는 것이 "방정식을 푼다"예요.</div><div class="try"><b>숫자로 한 번 해 보기</b><ol><li>2x + 3 = 11 → 2x = 8 → x = 4</li><li>확인: 2 × 4 + 3 = 11 ✔</li><li>식의 예: 3x + 5, x² + y, 2(x + 1)</li></ol></div></div><div class="pair"><div><div class="tl">학교 수학으로 보면</div>중1 일차방정식, 중2 연립방정식(5장에서 다시).</div><div><div class="tr">AI에서는</div>"오차 = (정답 − 예측)²"은 식, "예측 = 정답"이 되게 하는 값을 찾는 것은 방정식 풀기와 같은 생각이에요. 5장 연립방정식, 13장 최적화로 이어집니다.</div></div><details class="eqx"><summary>식으로 보면 (몰라도 됩니다)</summary><table class="ez-tb"><thead><tr><th>식 조각</th><th>읽는 법</th><th>뜻</th></tr></thead><tbody><tr><td class="m">2x + 3 = 11</td><td>이 x 더하기 삼은 십일</td><td>방정식 — 참이 되는 x는 4</td></tr><tr><td class="m">3x + 5</td><td>삼 x 더하기 오</td><td>식 — 값만 있고 참·거짓이 없음</td></tr></tbody></table></details></article>
+<div data-dlg="mid"></div>
+<article class="dex" id="m01-function" data-dex="함수"><header><span class="dexno">01-05</span><h3>함수 <small>Function</small></h3></header><p class="one">입력 x 하나를 넣으면 출력 y 하나가 정해져 나오는 규칙. y = f(x).</p><div class="dexgrid"><div class="dw"><b>말로 먼저</b> 함수는 자판기와 같아요. 버튼(입력)을 누르면 정해진 음료(출력)가 나옵니다. 같은 버튼에서 매번 다른 음료가 나오면 고장 난 자판기, 즉 함수가 아니에요. f(x) = 2x + 3은 "넣은 수를 두 배 하고 3을 더해서 내보내라"는 규칙입니다.</div><div class="try"><b>숫자로 한 번 해 보기</b><ol><li>x = −2 → 2(−2) + 3 = −1</li><li>x = 0 → 3,  x = 1 → 5</li><li>x = 2 → 7 (원자료 표와 같음)</li></ol></div></div><div class="pair"><div><div class="tl">학교 수학으로 보면</div>중1 "좌표평면과 그래프", 중2 일차함수.</div><div><div class="tr">AI에서는</div>AI 모델 전체가 하나의 함수입니다. 사진(입력) → "고양이일 확률 0.93"(출력). 신경망은 작은 함수 여러 개를 이어 붙인 합성함수예요.</div></div><details class="eqx"><summary>식으로 보면 (몰라도 됩니다)</summary><table class="ez-tb"><thead><tr><th>식 조각</th><th>읽는 법</th><th>뜻</th></tr></thead><tbody><tr><td class="m">y = f(x)</td><td>와이는 에프 엑스</td><td>x를 넣으면 y가 나옴</td></tr><tr><td class="m">f(x) = 2x + 3</td><td>에프 엑스는 이 엑스 더하기 삼</td><td>두 배 하고 3 더하기</td></tr></tbody></table></details></article>
+<article class="dex" id="m01-types" data-dex="ML에서 흔한 함수 네 종류"><header><span class="dexno">01-06</span><h3>ML에서 흔한 함수 네 종류 <small>Types of Functions</small></h3></header><p class="one">일차(직선), 이차(그릇), 다항(구불구불), 비선형(sin, eˣ 등 곡선).</p><div class="dexgrid"><div class="dw"><b>말로 먼저</b> ① 일차 f(x) = ax + b — 곧은 직선. ② 이차 f(x) = ax² + bx + c — 그릇 모양. ③ 다항 f(x) = aₙxⁿ + … + a₁x + a₀ — 여러 번 굽은 곡선. ④ 비선형 — sin x처럼 오르내리거나 eˣ처럼 폭발하는 곡선.</div><div class="try"><b>숫자로 한 번 해 보기</b><ol><li>일차 2x + 3: x가 1 늘면 y는 늘 2씩 증가</li><li>이차 x²: x = −1, 0, 1에서 1, 0, 1 — 바닥이 0</li><li>eˣ: x = 0, 1, 2에서 1, 2.718, 7.389</li></ol></div></div><div class="pair"><div><div class="tl">학교 수학으로 보면</div>중2 일차함수, 중3 이차함수, 고등 다항식·삼각함수·지수함수.</div><div><div class="tr">AI에서는</div>선형 회귀는 일차함수, 손실 함수는 흔히 이차함수 그릇, 다항 회귀는 다항함수, 신경망의 활성화 함수(시그모이드·ReLU)는 비선형 함수입니다.</div></div><details class="eqx"><summary>식으로 보면 (몰라도 됩니다)</summary><table class="ez-tb"><thead><tr><th>식 조각</th><th>읽는 법</th><th>뜻</th></tr></thead><tbody><tr><td class="m">f(x) = ax + b</td><td>일차</td><td>a 기울기, b 절편</td></tr><tr><td class="m">f(x) = ax² + bx + c</td><td>이차</td><td>a > 0이면 아래로 볼록</td></tr><tr><td class="m">aₙxⁿ + … + a₀</td><td>다항</td><td>n차까지 거듭제곱의 합</td></tr><tr><td class="m">sin x, eˣ</td><td>사인, 지수</td><td>비선형</td></tr></tbody></table></details></article>
+<article class="dex" id="m01-domain" data-dex="정의역과 치역"><header><span class="dexno">01-07</span><h3>정의역과 치역 <small>Domain & Range</small></h3></header><p class="one">정의역 = 넣을 수 있는 입력 전체, 치역 = 실제로 나올 수 있는 출력 전체.</p><div class="dexgrid"><div class="dw"><b>말로 먼저</b> f(x) = √x는 음수를 넣을 수 없어요(제곱해서 음수가 되는 실수는 없으니까요). 그래서 정의역은 x ≥ 0, 나오는 값도 0 이상이라 치역은 y ≥ 0입니다.</div><div class="try"><b>숫자로 한 번 해 보기</b><ol><li>√0 = 0, √4 = 2, √9 = 3</li><li>√(−4)는 실수 범위에서 없음 → 정의역 밖</li><li>출력이 음수인 경우가 없음 → 치역 y ≥ 0</li></ol></div></div><div class="pair"><div><div class="tl">학교 수학으로 보면</div>중1 함수의 정의역·공역·치역, 고1 함수 단원.</div><div><div class="tr">AI에서는</div>확률을 내는 함수는 치역이 0~1이어야 해요(시그모이드가 그렇게 만들어 줌). 로그 함수는 정의역이 x > 0이라 0을 넣으면 계산이 터집니다(코드에서 log(0) 오류).</div></div><details class="eqx"><summary>식으로 보면 (몰라도 됩니다)</summary><table class="ez-tb"><thead><tr><th>식 조각</th><th>읽는 법</th><th>뜻</th></tr></thead><tbody><tr><td class="m">f(x) = √x</td><td>루트 x</td><td>정의역 x ≥ 0, 치역 y ≥ 0</td></tr></tbody></table></details></article>
+<article class="dex" id="m01-why" data-dex="ML에서 왜 중요한가"><header><span class="dexno">01-08</span><h3>ML에서 왜 중요한가 <small>Why it is Important in ML</small></h3></header><p class="one">데이터·모델 식 이해, 알고리즘 만들기, 최적화, 경사하강·PCA 같은 고급 주제의 바탕.</p><div class="dexgrid"><div class="dw"><b>말로 먼저</b> 이 장의 단어들은 이후 모든 장에서 계속 나옵니다. 경사하강(13장)은 "함수의 기울기"를, PCA(14장)는 "행렬로 쓴 함수"를 다룹니다. 요약하면: 변수는 바뀌고 상수는 고정, 함수는 입력을 출력으로, 정의역은 가능한 입력, 치역은 가능한 출력.</div><div class="try"><b>숫자로 한 번 해 보기</b><ol><li>핵심 넷: 변수·식·함수·정의역/치역</li><li>연습 방법: 작은 숫자 하나를 직접 넣어 보기</li><li>다음: 2장에서 "숫자 여러 개를 한 번에" 다루는 벡터·행렬</li></ol></div></div><div class="pair"><div><div class="tl">학교 수학으로 보면</div>고등 수학 전체의 "함수적 사고".</div><div><div class="tr">AI에서는</div>모델 설명서의 "입력 차원", "출력 범위", "파라미터"가 각각 정의역, 치역, 상수(가중치)에 해당합니다.</div></div></article>
+</div></section>
+<section class="sec" id="lab" aria-labelledby="h-lab"><div class="wrap">
+<h2 id="h-lab"><span class="hex">실험</span>함수 기계 실험실 — a와 b를 돌려 그래프 바꾸기</h2>
+<div data-dlg="lab_o"></div>
+<div class="easy"><details class="ez-why" open><summary>왜 이 방법을 쓰나</summary><ol><li>문제: "키가 크면 몸무게도 늘어난다"를 컴퓨터가 계산하려면 말이 아닌 규칙이 필요합니다.</li><li>앞 방법의 한계: 말로 쓴 규칙("대충 비례")은 숫자를 넣어 출력을 낼 수 없습니다.</li><li><b>이 방법의 해법: 입력 x를 출력 y로 바꾸는 함수 f(x)로 적으면, 어떤 x든 넣어 y를 계산할 수 있습니다.</b></li></ol><p class="ez-easy"><b>쉽게 말하면</b> 레시피를 "적당히"가 아니라 "설탕 2스푼 + 3g"으로 적는 것.</p></details><div class="ez-math"><div class="ez-t">연구원이 묻고, 조교 하루가 풀어 봅니다</div><div class="ez-q"><img data-mood="sia_smile" alt="" aria-hidden="true"><p><b style="display:block;font-size:12.5px;color:var(--muted)">시아</b>f(x) = 2x + 3에서 2랑 3은 각각 무슨 일을 해요?</p></div><p><b>말로 먼저</b> 2는 "x가 1 늘 때 y가 얼마나 느는지"(기울기), 3은 "x가 0일 때 y가 어디서 출발하는지"(절편)예요.</p><p><b>학교 수학으로 보면</b> 중2 일차함수 y = ax + b의 기울기와 y절편.</p><div class="try" style="background:#fff;border:1px dashed #e8b67a;border-radius:10px;padding:10px 14px"><b>숫자로 한 번 해 보기</b><ol style="margin:6px 0 0;padding-left:22px"><li>x: 0 → 1 이면 y: 3 → 5, 2만큼 증가</li><li>x: 1 → 2 이면 y: 5 → 7, 또 2만큼</li><li>x = 0일 때 y = 3 — 그래프가 y축과 만나는 곳</li></ol></div><details class="eqx"><summary>식으로 보면 (몰라도 됩니다)</summary><table class="ez-tb"><thead><tr><th>식 조각</th><th>읽는 법</th><th>뜻</th></tr></thead><tbody><tr><td>a</td><td>에이, 기울기</td><td>x 한 걸음당 y의 변화</td></tr><tr><td>b</td><td>비, 절편</td><td>x = 0일 때 y</td></tr></tbody></table></details><div class="ez-q ez-c"><img data-mood="asst_spark" alt="" aria-hidden="true"><p><b style="display:block;font-size:12.5px;color:var(--muted)">조교 하루</b>실험실에서 a를 바꾸면 기울기가, b를 바꾸면 높이가 바뀌는지 눈으로 확인해 보세요.</p></div></div></div>
+<div class="dialog lvtalk" data-dlg="lab_t"></div>
+<div class="panel" id="w-ch01" data-w="func"></div>
+<div class="say" data-who="doc"><img class="who" data-mood="doc_judge" alt="" aria-hidden="true"><div><b class="name">박사의 정리</b><p>함수는 "규칙을 숫자로 적은 것"입니다. a·b 같은 숫자를 바꾸면 규칙이 바뀌고, AI가 학습한다는 것은 바로 이 숫자들을 데이터에 맞게 고치는 일이에요. 오늘 손으로 돌린 a, b가 AI의 "가중치"입니다.</p></div></div>
+<div class="lim"><b>이 실험의 한계</b> 실제 모델은 입력이 x 하나가 아니라 수백~수백만 개입니다. 여러 입력을 한 번에 다루는 법은 2~4장(벡터·행렬)에서 봅니다.</div>
+<figure class="toon" id="toon2"><div class="tframe"><img src="img/toon/ch01_b.webp" width="1200" height="800" loading="lazy" alt="픽셀아트. 연구실 자판기 앞에서 시아가 같은 2번 버튼을 눌렀는데 음료가 두 개(5와 9)가 튀어나와 놀라고, 초파리가 돋보기로 자판기를 살핀다. 자판기 위에 f(x)=2x+3 간판."></div><figcaption><b class="ttl">웃는 그림 2 · 고장 난 자판기는 함수가 아니다</b><div class="tline"><img data-mood="sia_think" alt="" aria-hidden="true"><p><b>시아</b> 2번 버튼을 눌렀는데 7이 나와야 하잖아요. 왜 5랑 9가 같이 나와요?</p></div><div class="tline"><img data-mood="fly_magnify" alt="" aria-hidden="true"><p><b>조교 초파리</b> 입력 하나에 출력 둘… 이건 함수 규칙 위반이군. 수리 요청!</p></div><div class="tline"><img data-mood="asst_smile" alt="" aria-hidden="true"><p><b>조교 하루</b> 함수는 "한 입력에 한 출력"이에요. 다른 버튼에서 같은 음료가 나오는 건 괜찮아요.</p></div><p class=tpoint><b>그림 속 수학</b> 함수의 조건: 입력 하나에 출력이 하나로 정해진다. 서로 다른 입력이 같은 출력을 내는 것은 허용(예: x²에서 −1과 1 → 1).</p></figcaption></figure>
+<div class="aibox" id="ai"><div class="aihead"><span class="aitag">AI 판단 코너</span>주판봇의 "√(−4) = −2" 사건</div><div data-dlg="ai_d"></div><p>박사는 늘 두 가지를 묻습니다. "가정이 맞나? 숫자가 그럴듯한가?"</p><ol><li>가정이 맞나? √x는 어떤 x를 넣을 수 있는 함수였나요(정의역)?</li><li>숫자가 그럴듯한가? (−2)²을 계산하면 −4가 나오나요?</li></ol><details class="eqx"><summary>확인해 보기 (먼저 스스로 따져 본 뒤 펼치세요)</summary><p class="aiverdict">틀렸습니다. (−2)² = 4이지 −4가 아니에요. 제곱해서 음수가 되는 실수는 없으므로 √(−4)는 실수 범위에서 정의되지 않습니다(정의역 x ≥ 0 밖). 실제 코드에서도 numpy.sqrt(−4)는 경고와 함께 nan(숫자 아님)을 냅니다.</p><div data-dlg="ai_e"></div></details></div>
+<h3 id="quiz">확인 퀴즈</h3>
+<div class="quiz" data-quiz="q"></div>
+</div></section>
+<section class="sec" id="colab" aria-labelledby="h-colab"><div class="wrap">
+<h2 id="h-colab"><span class="hex">실습</span>코랩 실습실 — 배운 것을 직접 돌려 보기</h2>
+<p>두 가지 방법이 있어요. ① 생성 AI에게 프롬프트를 주고 코드를 만들게 해 보기, ② 연구소가 미리 만들어 검사까지 마친 코드를 돌려 보기. 둘을 나란히 돌려 결과를 비교하면, AI가 낸 코드를 믿어도 되는지 스스로 판단하는 연습이 됩니다.</p>
+<div data-dlg="colab"></div>
+<div class="labbox"><div class="labh"><span class="lno">①</span> 생성 AI로 실습하기 — 코랩 파이썬 프롬프트</div>
+<p>구글 코랩(Colab)의 Gemini 창이나 ChatGPT·Claude 같은 생성 AI에 아래 글을 그대로 붙여 넣으세요. AI가 만든 코드를 코랩 셀에 붙여 넣고 실행합니다.</p>
+<div class="codewrap"><button type="button" class="cpy" data-copy="p-ch01">복사</button><pre class="prompt" id="p-ch01">너는 파이썬을 처음 배우는 고등학생을 돕는 코딩 선생님이야. 구글 코랩에서 바로 실행되는 코드를 한 셀로 만들어 줘.
+주제: &quot;변수·상수·함수·정의역&quot; (머신러닝을 위한 수학 기초)
+요구 사항:
+1. 함수 f(x) = 2x + 3을 파이썬 함수로 만들고, x = -2, -1, 0, 1, 2일 때의 값을 표로 출력해 줘.
+2. 일차(2x+3), 이차(x**2), 다항(0.1x^3 - x), 비선형(sin x, e^x) 함수를 numpy와 matplotlib으로 2×2 그림에 그려 줘. 그래프 제목·축 이름은 영어로.
+3. f(x) = sqrt(x)에 -4를 넣으면 무슨 일이 생기는지 보여 주고, 정의역(x &gt;= 0)을 검사하는 함수를 만들어 줘.
+4. 방정식 2x + 3 = 11의 해를 직접 계산하고, 대입해서 맞는지 확인해 줘.
+5. 줄마다 한국어 주석을 달고, 마지막에 &quot;배운 점&quot; 세 줄을 print로 출력해 줘.</pre></div></div>
+<div class="labbox"><div class="labh"><span class="lno">②</span> 실제로 돌아가는 코드 — 파이썬 · 코랩</div>
+<p>연구소가 직접 실행해 결과를 확인한 코드입니다. 버튼 하나로 코랩에서 바로 열 수 있어요(구글 계정만 있으면 설치할 것이 없습니다).</p>
+<p class="colabbtns"><a class="bt primary" href="https://colab.research.google.com/github/adminmrobo/math_basic_for_ai_dictionary/blob/main/colab/ch01_math_basics.ipynb" target="_blank" rel="noopener">코랩에서 열기</a> <a class="bt" href="code/colab_py/ch01_math_basics.py" download>.py 내려받기</a> <a class="bt" href="colab/ch01_math_basics.ipynb" download>.ipynb 내려받기</a></p>
+<details class="fold"><summary>코드 펼치기 (몰라도 됩니다 · 52줄)</summary><div class="codewrap"><button type="button" class="cpy" data-copy="c-ch01">복사</button><pre class="code" id="c-ch01"><code># %% 1. 함수 f(x) = 2x + 3과 값 표
+import numpy as np
+import matplotlib.pyplot as plt
+
+def f(x):
+    &quot;&quot;&quot;입력 x를 두 배 하고 3을 더해 내보내는 함수&quot;&quot;&quot;
+    return 2 * x + 3
+
+print(&quot;x  | f(x) = 2x + 3&quot;)
+for x in [-2, -1, 0, 1, 2]:
+    print(f&quot;{x:&gt;2} | {f(x):&gt;3}&quot;)
+
+# %% 2. ML에서 흔한 함수 네 종류 그리기
+xs = np.linspace(-3, 3, 200)
+funcs = {
+    &quot;Linear: 2x + 3&quot;: 2 * xs + 3,
+    &quot;Quadratic: x^2&quot;: xs ** 2,
+    &quot;Polynomial: 0.1x^3 - x&quot;: 0.1 * xs ** 3 - xs,
+    &quot;Non-linear: sin(x), e^x&quot;: None,
+}
+fig, axes = plt.subplots(2, 2, figsize=(9, 6))
+for ax, (name, ys) in zip(axes.ravel(), funcs.items()):
+    if ys is None:
+        ax.plot(xs, np.sin(xs), label=&quot;sin(x)&quot;)
+        ax.plot(xs, np.exp(xs) / 5, label=&quot;e^x / 5&quot;)
+        ax.legend()
+    else:
+        ax.plot(xs, ys)
+    ax.axhline(0, color=&quot;gray&quot;, lw=0.8); ax.axvline(0, color=&quot;gray&quot;, lw=0.8)
+    ax.set_title(name)
+plt.tight_layout(); plt.show()
+
+# %% 3. 정의역 검사: sqrt(x)는 x &gt;= 0에서만
+def safe_sqrt(x):
+    if x &lt; 0:
+        return f&quot;{x}은(는) 정의역 밖 (x &gt;= 0 이어야 함)&quot;
+    return np.sqrt(x)
+
+for x in [0, 4, 9, -4]:
+    print(&quot;sqrt(&quot;, x, &quot;) -&gt;&quot;, safe_sqrt(x))
+with np.errstate(invalid=&quot;ignore&quot;):
+    print(&quot;numpy.sqrt(-4) 그대로 계산하면:&quot;, np.sqrt(-4.0))   # nan = 숫자가 아님
+
+# %% 4. 방정식 2x + 3 = 11 풀고 확인하기
+x_sol = (11 - 3) / 2
+print(&quot;해 x =&quot;, x_sol, &quot;/ 대입 확인 2x+3 =&quot;, f(x_sol), &quot;-&gt;&quot;, f(x_sol) == 11)
+
+# %% 5. 상수 pi와 e
+print(&quot;pi =&quot;, round(np.pi, 4), &quot;/ e =&quot;, round(np.e, 3))
+for r in [1, 2]:
+    print(f&quot;반지름 {r}인 원의 둘레 2*pi*r = {2 * np.pi * r:.3f}&quot;)
+print(&quot;배운 점: 1) 함수는 입력 하나에 출력 하나  2) 정의역 밖 입력은 nan  3) 상수는 그대로, 변수만 바뀐다&quot;)</code></pre></div></details>
+<details class="fold"><summary>실행하면 이렇게 나옵니다 (연구소에서 돌린 결과)</summary><pre class="out">x  | f(x) = 2x + 3
+-2 |  -1
+-1 |   1
+ 0 |   3
+ 1 |   5
+ 2 |   7
+sqrt( 0 ) -&gt; 0.0
+sqrt( 4 ) -&gt; 2.0
+sqrt( 9 ) -&gt; 3.0
+sqrt( -4 ) -&gt; -4은(는) 정의역 밖 (x &gt;= 0 이어야 함)
+numpy.sqrt(-4) 그대로 계산하면: nan
+해 x = 4.0 / 대입 확인 2x+3 = 11.0 -&gt; True
+pi = 3.1416 / e = 2.718
+반지름 1인 원의 둘레 2*pi*r = 6.283
+반지름 2인 원의 둘레 2*pi*r = 12.566
+배운 점: 1) 함수는 입력 하나에 출력 하나  2) 정의역 밖 입력은 nan  3) 상수는 그대로, 변수만 바뀐다</pre><p class="muted" style="font-size:13px">그래프 창은 코랩 화면에 함께 나타납니다. 무작위 실험이 있는 코드는 seed를 고정해 같은 숫자가 나오게 했어요.</p></details></div>
+<div class="labbox"><div class="labh"><span class="lno">③</span> 비교 과제 — AI 코드와 연구소 코드 맞대 보기</div><ol><li>AI가 만든 표의 f(x) 값이 연구소 코드의 −1, 1, 3, 5, 7과 같은지 비교하세요.</li><li>AI 코드는 √(−4)를 어떻게 처리했나요? 오류·nan·복소수 중 무엇이 나왔는지 적어 보세요.</li><li>프롬프트의 함수를 f(x) = −x + 4로 바꿔 다시 시켜 보고, 그래프가 오른쪽 아래로 내려가는지 확인하세요.</li></ol></div>
+</div></section>
+<section class="sec" id="sum" aria-labelledby="h-sum"><div class="wrap">
+<h2 id="h-sum">정리 — 함수는 AI를 읽는 첫 단어</h2>
+<div class="tblwrap"><table class="cmp"><thead><tr><th>질문</th><th>답 한 줄</th></tr></thead><tbody><tr><td>변수와 상수의 차이는?</td><td>변수는 값이 바뀌는 이름표, 상수는 고정된 값(π, e, 5).</td></tr><tr><td>방정식과 식의 차이는?</td><td>방정식은 등호가 있는 참·거짓 문장(2x + 3 = 11), 식은 계산 덩어리(3x + 5).</td></tr><tr><td>함수란?</td><td>입력 하나에 출력 하나가 정해지는 규칙. AI 모델 전체가 하나의 큰 함수.</td></tr><tr><td>정의역과 치역은?</td><td>넣을 수 있는 입력 전체와 나올 수 있는 출력 전체. √x는 둘 다 0 이상.</td></tr><tr><td>AI에서 흔한 함수는?</td><td>일차(선형 회귀), 이차(손실 그릇), 다항(다항 회귀), 비선형(활성화 함수).</td></tr></tbody></table></div>
+<h3>용어 대응 카드</h3><div class="gloss"><div><b>ML에서 수학이란</b> = 모델이 어떻게 움직이는지 설명하는 언어이자 도구.</div><div><b>변수</b> = 바뀔 수 있는 값에 붙인 이름표. 보통 x, y, z로 씁니다.</div><div><b>상수</b> = 바뀌지 않는 고정된 값. π = 3.1416…, e = 2.718…, 5, 10 같은 수.</div><div><b>방정식과 식</b> = 방정식은 "두 식이 같다"는 문장, 식은 변수와 상수를 엮은 계산 덩어리.</div><div><b>함수</b> = 입력 x 하나를 넣으면 출력 y 하나가 정해져 나오는 규칙. y = f(x).</div><div><b>ML에서 흔한 함수 네 종류</b> = 일차(직선), 이차(그릇), 다항(구불구불), 비선형(sin, eˣ 등 곡선).</div><div><b>정의역과 치역</b> = 정의역 = 넣을 수 있는 입력 전체, 치역 = 실제로 나올 수 있는 출력 전체.</div><div><b>ML에서 왜 중요한가</b> = 데이터·모델 식 이해, 알고리즘 만들기, 최적화, 경사하강·PCA 같은 고급 주제의 바탕.</div></div>
+<h3>원자료와 다르게 쓴 곳</h3><ul><li>원자료 1번 상자의 문장은 그대로 옮기고, 다섯 분야가 도감의 어느 장인지 덧붙였습니다.</li><li>원자료 "상수" 상자에 "가중치는 학습 중엔 변수, 예측할 땐 상수처럼 쓰인다"는 설명을 보탰습니다(원자료에는 없음).</li></ul>
+<h3>비유와 예시의 한계</h3><ul><li>자판기 비유는 "입력 하나에 출력 하나"만 보여 줍니다. 확률을 내는 모델처럼 출력이 확률인 경우도 함수예요(출력이 "확률 숫자" 하나).</li><li>여기서는 실수 범위만 봤습니다. 복소수까지 넓히면 √(−4) = 2i가 있지만 이 도감에서는 다루지 않아요.</li></ul>
+<div class="next"><a href="index.html"><b>도감 목차</b><br>열다섯 장과 항목 찾기</a><a href="02_linear_algebra.html"><b>02장 선형대수 기초 →</b><br>스칼라·벡터·행렬</a></div>
+</div></section>
+<section class="sec" id="outro" aria-labelledby="h-outro"><div class="wrap"><h2 id="h-outro">아웃트로 — 다음 장으로</h2><div data-dlg="outro"></div></div></section>
+</main>
+<footer><div class="wrap">
+<h3>출처</h3>
+<table><thead><tr><th>#</th><th>자료</th><th>이 페이지에서 쓴 곳</th></tr></thead><tbody><tr><td>[1]</td><td>연구소 수학 노트 MATH-01 「Mathematics Basics for Machine Learning」 (인포그래픽 한 장)</td><td>도감 항목 전부, 예시 숫자</td></tr></tbody></table>
+<h3>예시값·설명용 모형인 것</h3><ul><li>항목의 숫자 예시는 설명용이며 연구소가 검산했습니다(code/check_numbers.py).</li><li>코랩 코드는 교육용 예제이며 실제 서비스에 그대로 쓰는 코드가 아닙니다.</li></ul>
+<p>캐릭터 이름·설정·그림은 저작권자 안상선의 허락 없이 사용할 수 없습니다.</p>
+<p>글 · 안상선 ((주)M-Robo 대표) · <a href="https://adminmrobo.github.io/who_am_i/who_am_i.html">저자 소개</a> · <a href="index.html">수리 도감 목차</a> · 자매편 <a href="https://adminmrobo.github.io/hello_space_lab/index.html">좌표 첫걸음</a> · <a href="https://adminmrobo.github.io/optimization_3d_map/first_step_0.html">최적화 첫걸음</a></p>
+</div></footer>
+<script>
+/*@@SPRITES@@*/
+/*@@COMMON@@*/
+/*@@MATHLAB@@*/
+(function(){
+'use strict';
+U.dialogues({"open": [["doc", "doc_board", "수리 도감에 오신 걸 환영합니다. 첫 장은 제가 안내할게요. 질문 하나: 휴대폰 사진 앱이 \"고양이\"라고 알아맞힐 때, 그 안에서는 무슨 일이 일어날까요?"], ["sia", "sia_think", "음… 사진을 보고 생각하는 거요?"], ["doc", "doc_front", "컴퓨터는 생각 대신 계산을 합니다. 사진을 숫자로 바꾸고, 그 숫자를 정해진 규칙에 넣어 \"고양이일 확률\"을 꺼내요. 그 규칙이 바로 함수입니다."], ["x1", "x1_hint", "그럼 함수만 알면 AI를 다 알아요?"], ["doc", "doc_judge", "첫 단어를 아는 셈이에요. 이 장은 변수·상수·식·함수라는 첫 단어를 도감처럼 펼쳐 봅니다. 처음엔 다들 기호에서 오래 멈춰요. 그래도 괜찮습니다."]], "mid": [["x2", "x2_hint", "(필기 중) 변수는 바뀌고… 상수는 고정… 방정식은 등호가 있는 문장…"], ["asst", "asst_smile", "잘 정리하고 있어요. 이제 함수로 넘어갑니다. 이 도감에서 가장 많이 다시 나올 단어예요."]], "lab_o": [["doc", "doc_board", "상황 하나. 키(cm)로 신발 크기를 예측하는 앱을 만든다면, 앱 안에 무엇이 들어 있어야 할까요?"]], "lab_t": [["robo", "robo_calc", "규칙은 간단! y = 2x + 3. 1초 만에 결정했습니다."], ["fly", "fly_point", "왜 2이고 왜 3인데? 이걸 눌러 봐. a와 b를 돌리면 그래프가 어떻게 변하는지부터 보자."], ["asst", "asst_report", "보고: a는 기울기, b는 위아래 위치를 바꿔요. 제곱근 함수에서는 왼쪽 절반이 비어 있어요 — 정의역 때문이에요."]], "ai_d": [["robo", "robo_happy", "√4 = 2니까 √(−4) = −2! 1초 만에 계산 완료!"], ["doc", "doc_think", "AI가 이렇게 답했다고 해 봅시다. 바로 믿어도 될까요?"]], "ai_e": [["robo", "robo_blush", "정의역 밖 입력을 받아 버렸군… 답을 지어냈네요."], ["fly", "fly_arms", "그래서 결과가 나오면 거꾸로 넣어 보는 거야. 제곱해서 원래 수가 나오는지."]], "colab": [["doc", "doc_front", "이제 직접 돌려 볼 차례예요. 생성 AI에게 먼저 시켜 보고, 연구소 코드와 결과를 맞대 보세요. 답이 다르면 어느 쪽이 맞는지 따지는 것이 오늘의 진짜 연습입니다."]], "outro": [["doc", "doc_judge", "오늘의 해석 문장: \"AI 모델은 입력을 출력으로 바꾸는 함수이고, 학습은 그 함수 속 숫자를 고치는 일이다.\""], ["moa", "moa_report", "그런데 입력이 키 하나가 아니라 키·몸무게·나이처럼 여러 개면요?"], ["asst", "asst_spark", "그 질문이 2장의 문이에요. 숫자 여러 개를 한 묶음으로 다루는 벡터와 행렬 — 다음 안내는 제가 맡습니다!"]]});
+U.fillImgs();
+ML.mountAll();
+ML.copyButtons();
+U.Gloss({"ML에서 수학이란": ["ML에서 수학이란", "Mathematics in ML", "모델이 어떻게 움직이는지 설명하는 언어이자 도구."], "변수": ["변수", "Variable", "바뀔 수 있는 값에 붙인 이름표. 보통 x, y, z로 씁니다."], "상수": ["상수", "Constant", "바뀌지 않는 고정된 값. π = 3.1416…, e = 2.718…, 5, 10 같은 수."], "방정식과 식": ["방정식과 식", "Equation & Expression", "방정식은 \"두 식이 같다\"는 문장, 식은 변수와 상수를 엮은 계산 덩어리."], "함수": ["함수", "Function", "입력 x 하나를 넣으면 출력 y 하나가 정해져 나오는 규칙. y = f(x)."], "ML에서 흔한 함수 네 종류": ["ML에서 흔한 함수 네 종류", "Types of Functions", "일차(직선), 이차(그릇), 다항(구불구불), 비선형(sin, eˣ 등 곡선)."], "정의역과 치역": ["정의역과 치역", "Domain & Range", "정의역 = 넣을 수 있는 입력 전체, 치역 = 실제로 나올 수 있는 출력 전체."], "ML에서 왜 중요한가": ["ML에서 왜 중요한가", "Why it is Important in ML", "데이터·모델 식 이해, 알고리즘 만들기, 최적화, 경사하강·PCA 같은 고급 주제의 바탕."]},["ML에서 수학이란", "변수", "상수", "방정식과 식", "함수", "ML에서 흔한 함수 네 종류"]);
+U.Study({quiz:{"q": [{"q": "f(x) = 2x + 3에서 f(4)는?", "o": ["11", "8", "14", "5"], "a": 0, "why": "2 × 4 + 3 = 11.", "hint": "x 자리에 4를 넣고 두 배 한 뒤 3을 더하세요."}, {"q": "다음 중 \"방정식\"인 것은?", "o": ["2x + 3 = 11", "3x + 5", "x² + y", "2(x + 1)"], "a": 0, "why": "등호로 두 식을 이은 문장만 방정식이고, 나머지는 식(계산 덩어리)입니다.", "hint": "참·거짓을 따질 수 있는 문장을 찾으세요."}, {"q": "f(x) = √x의 정의역은?", "o": ["x ≥ 0", "x ≤ 0", "모든 실수", "x > 1"], "a": 0, "why": "음수의 제곱근은 실수가 아니므로 0 이상만 넣을 수 있어요.", "hint": "√(−1)은 실수일까요?"}, {"q": "AI 모델을 학습할 때 데이터에 맞게 계속 고쳐지는 숫자는?", "o": ["가중치(함수 속 a, b 같은 숫자)", "π", "자연상수 e", "입력 데이터의 개수"], "a": 0, "why": "학습 = 가중치 고치기. π와 e는 언제나 고정된 상수예요.", "hint": "실험실에서 슬라이더로 움직인 것이 무엇이었나요?"}]}});
+U.start();
+})();
+</script>
+</body>
+</html>

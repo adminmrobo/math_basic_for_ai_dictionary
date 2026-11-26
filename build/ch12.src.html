@@ -1,0 +1,235 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>12장 편미분과 그래디언트 — 여러 방향의 기울기 | 수리 도감 — 인공지능을 위한 수리적 기초</title>
+<meta name="description" content="수리 도감 12장. 편미분(다른 변수는 고정), 편미분 계산 예, 2계 편미분과 혼합 편미분, 그래디언트 벡터(가장 가파른 오르막), n변수 그래디언트, 접평면과 선형 근사, 경사하강의 직관, 자주 쓰는 함수의 그래디언트 표를 조교 하루가 등고선 실험실로 안내합니다.">
+<meta property="og:type" content="article"><meta property="og:title" content="12장 편미분과 그래디언트 — 여러 방향의 기울기 | 수리 도감 — 인공지능을 위한 수리적 기초"><meta property="og:description" content="수리 도감 12장. 편미분(다른 변수는 고정), 편미분 계산 예, 2계 편미분과 혼합 편미분, 그래디언트 벡터(가장 가파른 오르막), n변수 그래디언트, 접평면과 선형 근사, 경사하강의 직관, 자주 쓰는 함수의 그래디언트 표를 조교 하루가 등고선 실험실로 안내합니다.">
+<meta property="og:image" content="https://adminmrobo.github.io/math_basic_for_ai_dictionary/img/og/ch12.png"><meta property="og:url" content="https://adminmrobo.github.io/math_basic_for_ai_dictionary/12_gradient.html"><meta name="twitter:card" content="summary_large_image">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+KR:wght@400;500;700&display=swap" rel="stylesheet">
+<!--@@CSS@@-->
+<style>
+.tl,.tr{font-weight:700;font-size:13.5px;margin-bottom:4px}.tl{color:var(--amber)}.tr{color:var(--terrain)}
+.hex{display:inline-grid;place-items:center;min-width:44px;height:34px;padding:0 10px;margin-right:10px;border-radius:8px;background:var(--terrain);color:#fff;font-size:17px;vertical-align:4px}
+.sec{padding:40px 0;border-top:1px solid var(--rule)}
+.cast{display:grid;gap:10px}.castc{display:flex;gap:10px;align-items:center;background:var(--panel);border:1px solid var(--rule);border-left:4px solid var(--cc);border-radius:10px;padding:8px 10px}
+.castc.host{background:#fff;box-shadow:0 0 0 2px var(--cc)}
+.castc img{width:60px;height:60px;flex:none}.castc p{margin:0;font-size:13.5px;color:var(--muted);line-height:1.55}
+.cover img.art{image-rendering:pixelated;image-rendering:crisp-edges}
+.diff{display:inline-block;border:1px solid var(--c-asst);color:var(--c-asst);border-radius:999px;padding:0 10px;font-size:12.5px;margin-left:6px}
+.hostcard{display:flex;gap:14px;align-items:center;border:2px solid var(--cc);border-radius:14px;padding:12px 16px;margin:10px 0 16px;background:#fff}
+.hostcard img{width:84px;height:84px;flex:none}.hostcard p{margin:4px 0 0;color:var(--muted)}
+.chain span.on{background:var(--terrain);color:#fff;border-color:var(--terrain)}
+.where{background:var(--panel);border-radius:10px;padding:10px 14px}
+.sis{display:flex;gap:12px;align-items:center;border:1px solid var(--c-asst);border-radius:12px;padding:10px 14px;margin:10px 0;background:#fff7fb}.sis img{width:56px;height:56px;flex:none}.sis p{margin:0}
+.dexidx{display:flex;flex-wrap:wrap;gap:6px;margin:10px 0 18px}.dexidx a{border:1px solid var(--rule);border-radius:999px;padding:3px 12px;font-size:14px;text-decoration:none;background:var(--panel)}
+.dexidx a:hover{border-color:var(--terrain)}
+.dex{border:1px solid var(--rule);border-top:4px solid var(--terrain);border-radius:14px;padding:16px 20px 12px;margin:0 0 22px;background:#fff;scroll-margin-top:70px}
+.dex header{display:flex;gap:12px;align-items:baseline;flex-wrap:wrap}.dex h3{margin:0;font-size:21px}.dex h3 small{font-size:14px;color:var(--muted);font-weight:500}
+.dexno{font:700 13px/1 var(--font);color:#fff;background:var(--c-x);border-radius:6px;padding:4px 8px}
+.dex .one{font-size:17px;font-weight:600;color:var(--terrain);margin:8px 0 10px}
+.dexgrid{display:grid;grid-template-columns:1.2fr 1fr;gap:14px;margin-bottom:10px}
+.dexgrid .dw{line-height:1.8}.dexgrid .try{background:var(--amber-soft);border:1px dashed #e8b67a;border-radius:10px;padding:10px 14px}.dexgrid .try ol{margin:6px 0 0;padding-left:22px}
+.dexwarn{background:var(--eye-soft);border-radius:8px;padding:8px 12px;font-size:15px}
+@media(max-width:760px){.dexgrid{grid-template-columns:1fr}}
+.toon{margin:26px auto;max-width:820px;border:1px solid var(--rule);border-radius:14px;overflow:hidden;background:#fff}
+.toon .tframe{background:#fff;border-bottom:1px solid var(--rule)}.toon img{display:block;width:100%;height:auto;image-rendering:pixelated;image-rendering:crisp-edges}
+.toon figcaption{padding:12px 16px}.toon .ttl{display:block;margin-bottom:8px;color:var(--amber)}
+.tline{display:flex;gap:10px;align-items:center;margin:6px 0}.tline img{width:40px;height:40px;flex:none;border-radius:8px;border:1px solid var(--rule)}.tline p{margin:0}
+.tpoint{margin:10px 0 0;background:var(--panel);border-radius:8px;padding:8px 12px;font-size:15px}
+.labbox{border:1px solid var(--rule);border-radius:14px;padding:14px 18px;margin:16px 0;background:#fff}
+.labh{font-weight:700;font-size:17px;margin-bottom:6px}.lno{display:inline-grid;place-items:center;width:28px;height:28px;border-radius:50%;background:var(--terrain);color:#fff;margin-right:6px}
+.codewrap{position:relative}.cpy{position:absolute;right:8px;top:8px;font:600 12.5px var(--font);border:1px solid var(--rule);background:#fff;border-radius:8px;padding:3px 10px;cursor:pointer}
+pre.prompt,pre.code,pre.out{white-space:pre-wrap;word-break:break-word;background:#f7f9fb;border:1px solid var(--rule);border-radius:10px;padding:14px 16px;font:13.5px/1.65 ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;max-height:520px;overflow:auto;margin:8px 0}
+pre.prompt{background:#fbf8ff;border-color:#d9c8f0;font-family:var(--font);font-size:14.5px}
+pre.out{background:#0f1720;color:#d8e6f0}
+.colabbtns{display:flex;flex-wrap:wrap;gap:8px}.colabbtns a.bt{text-decoration:none}
+.panel .row2{display:grid;grid-template-columns:1fr 1fr;gap:14px}@media(max-width:760px){.panel .row2{grid-template-columns:1fr}}
+.panel .cv{width:100%;height:300px;display:block;border:1px solid var(--rule);border-radius:10px;background:#fff;touch-action:none}
+.panel .cv.tall{height:360px}
+.panel .rd{display:grid;grid-template-columns:repeat(auto-fit,minmax(130px,1fr));gap:8px;margin:10px 0}
+.panel .rd div{background:var(--panel);border-radius:10px;padding:8px 10px}.panel .rd b{display:block;font-size:19px}.panel .rd span{font-size:12.5px;color:var(--muted)}
+.panel .sl{display:flex;align-items:center;gap:10px;margin:6px 0;flex-wrap:wrap}.panel .sl label{min-width:140px;font-size:14.5px}.panel .sl input[type=range]{flex:1;min-width:140px}
+.panel .msg{background:#f4fbfb;border:1px dashed var(--terrain);border-radius:10px;padding:10px 14px;margin:8px 0;font-size:15px}
+.panel textarea,.panel input[type=text]{width:100%;font:15px var(--font);padding:8px 10px;border:1px solid var(--rule);border-radius:8px}
+.panel table.mt{border-collapse:collapse;margin:6px 0}.panel table.mt td{border:1px solid var(--rule);min-width:44px;text-align:center;padding:4px 6px;font-variant-numeric:tabular-nums}
+.panel table.mt td.hl{background:var(--amber-soft);font-weight:700}.panel table.mt td.hl2{background:var(--info-soft);font-weight:700}
+.panel .step{font-variant-numeric:tabular-nums}
+.ptitle{font-weight:700;margin-bottom:6px}
+</style>
+</head>
+<body>
+<nav class="top" aria-label="섹션 바로가기"><div class="row">
+  <a class="logo" href="index.html">수리 <i>도감</i> 12</a>
+  <div class="links"><a href="#dex">도감 항목</a><a href="#lab">실험실</a><a href="#ai">AI 판단</a><a href="#colab">코랩 실습</a><a href="#sum">정리</a><a href="#kg">색인</a><a href="13_optimization.html">13장 →</a></div>
+</div></nav>
+<div class="cover" id="cover"><div class="frame"><img class="art" src="img/cover_ch12.webp" width="1920" height="1080" alt="칠판에 ∂f/∂x, ∂f/∂y, ∇f = (2x, 2y), z = 2x + 4y − 5가 적혀 있고 조교 하루가 자랑스럽게 서 있다. 초파리가 돋보기를, 시아가 설명하는 손짓을 하며 양옆에 있다. 등고선과 빨간 화살표 소품. 16비트 픽셀아트." fetchpriority="high"><span class="cap">수리 도감 · MATH-12</span><span class="cover-chip">12장 편미분과 그래디언트 — 여러 방향의 기울기 · 안내 조교 하루</span></div></div>
+<header class="hero" id="top"><div class="wrap">
+  <div class="eyebrow">수리 도감 · 인공지능을 위한 수리적 기초 · 미적분·최적화 · 원자료 MATH-12 <span class="diff">이번 장 안내: 조교 하루</span></div>
+  <h1>12장 편미분과 그래디언트 — 여러 방향의 기울기</h1>
+  <p class="question">산 중턱 안개 속에서, 발밑 경사만으로 가장 빨리 내려가는 방향을 어떻게 알까?</p>
+  <p class="lead">11장의 미분은 변수가 하나였습니다. AI 모델의 손실은 가중치 수백만 개의 함수예요. 편미분은 "다른 변수는 그대로 두고 하나만 움직였을 때의 기울기", 그래디언트는 그 편미분들을 모은 벡터입니다. 그래디언트는 가장 가파른 오르막을 가리키고, 그 반대가 13장 경사하강이 걷는 길이에요.</p>
+  <p class="byline">글 · 안상선 ((주)M-Robo 대표) · <a href="https://adminmrobo.github.io/who_am_i/who_am_i.html">저자 소개</a> · 2026-11-26 · v1.0</p>
+  <div class="start"><b>처음이라면</b> 「편미분이란」과 「그래디언트」를 읽고, 실험실 지도 아무 데나 눌러 보세요. 빨간 화살표(오르막)와 초록 화살표(내리막)가 등고선에 직각인 것을 확인하세요.</div>
+  <div class="kpis" aria-label="숫자 요약"><div class="kpi m"><b>8개</b><span>도감 항목 (슬라이드 MATH-12의 모든 상자)</span></div><div class="kpi g"><b>1개</b><span>직접 움직이는 실험실</span></div><div class="kpi a"><b>2 + 2</b><span>웃는 그림 둘, 코랩 실습 둘(AI 프롬프트·실제 코드)</span></div><div class="kpi r"><b>4문제</b><span>확인 퀴즈</span></div></div>
+</div></header>
+<main>
+<section class="sec" id="plain" aria-labelledby="h-plain"><div class="wrap"><h2 id="h-plain">처음 오신 분께 — 이 장을 3줄로</h2><ol class="plain3"><li><b>무엇을</b> 편미분 ∂f/∂x(하나만 움직이기), 그래디언트 ∇f(편미분의 벡터), 2계·혼합 편미분, 접평면.</li><li><b>왜 중요한가</b> 그래디언트는 "가장 빨리 오르는 방향"이라서, 그 반대로 가면 손실을 가장 빨리 줄일 수 있어요.</li><li><b>AI에서는</b> 경사하강·신경망 학습의 핵심. 프레임워크의 loss.backward()가 계산하는 것이 바로 그래디언트.</li></ol>
+<p class="plain-note">코드와 수식을 몰라도 됩니다. 항목마다 "말로 먼저"와 "숫자로 한 번 해 보기"가 먼저 나오고, 식은 "식으로 보면"을 펼칠 때만 나옵니다. 여기서 한 번 멈춰도 괜찮아요.</p>
+<details class="abbr"><summary>기호·영어 약어 풀이 (5개)</summary><div class="abbr-list"><div><b>∂</b> <span>라운드 디(파셜)</span> — 편미분 기호</div><div><b>∂f/∂x = fₓ</b> <span>에프의 엑스 편미분</span> — y는 고정, x만 움직일 때 기울기</div><div><b>∇f</b> <span>나블라 에프, 그래디언트</span> — 편미분들의 벡터</div><div><b>fₓₓ, fₓᵧ</b> <span>2계·혼합 편미분</span> — 한 번 더 편미분</div><div><b>α</b> <span>알파</span> — 학습률(13장)</div></div></details></div></section>
+<section class="sec" id="cast" aria-labelledby="h-cast" style="padding:18px 0 0;border:0"><div class="wrap"><h3 id="h-cast">연구소 식구 — 열다섯 장을 돌아가며 안내합니다</h3>
+<div class="cast" style="grid-template-columns:repeat(auto-fit,minmax(230px,1fr))"><div class="castc" style="--cc:var(--c-doc)"><img data-mood="doc_board" alt="" aria-hidden="true"><div><b>박사</b><p>연구소 책임자. 장마다 상황 질문으로 문을 열고 해석 문장으로 닫아요.</p></div></div><div class="castc host" style="--cc:var(--c-asst)"><img data-mood="asst_smile" alt="" aria-hidden="true"><div><b>조교 하루 · 이번 장 안내</b><p>수식 담당. 기호 하나씩 읽는 법과 뜻부터 풀어 줘요.</p></div></div><div class="castc" style="--cc:var(--c-fly)"><img data-mood="fly_point" alt="" aria-hidden="true"><div><b>조교 초파리</b><p>실험 담당. "이걸 눌러 봐"로 실험판을 열고, 답이 그럴듯한지 의심해요.</p></div></div><div class="castc" style="--cc:var(--c-robo)"><img data-mood="robo_calc" alt="" aria-hidden="true"><div><b>조교 주판봇</b><p>계산 담당. 1초 만에 답을 내지만 가끔 너무 빨라요. AI 판단 코너의 단골.</p></div></div><div class="castc" style="--cc:var(--c-sia)"><img data-mood="sia_smile" alt="" aria-hidden="true"><div><b>시아</b><p>직관파 연구원. 비유부터 꺼내 "그러니까 이런 거죠?"라고 물어요.</p></div></div><div class="castc" style="--cc:var(--c-moa)"><img data-mood="moa_smile" alt="" aria-hidden="true"><div><b>모아</b><p>꼼꼼파 연구원. "그건 언제나 그래요?" 하고 조건과 예외를 물어요.</p></div></div><div class="castc" style="--cc:var(--c-x)"><img data-mood="x1_hint" alt="" aria-hidden="true"><div><b>X1</b><p>막내 연구원. 손을 번쩍 들고 엉뚱한 질문을 해요.</p></div></div><div class="castc" style="--cc:var(--c-x)"><img data-mood="x2_hint" alt="" aria-hidden="true"><div><b>X2</b><p>막내 연구원. 필기를 가장 열심히 해요.</p></div></div><div class="castc" style="--cc:var(--c-x)"><img data-mood="x3_hint" alt="" aria-hidden="true"><div><b>X3</b><p>막내 연구원. 게임과 퀴즈 시간에 가장 신나요.</p></div></div></div></div></section>
+<section class="sec" id="open" aria-labelledby="h-open"><div class="wrap">
+<h2 id="h-open"><span class="hex">12</span>한 방향씩 재고, 화살표로 모으기</h2>
+<div class="hostcard" style="--cc:var(--c-asst)"><img data-mood="asst_smile" alt="" aria-hidden="true"><div><b>이번 장 안내 · 조교 하루</b><p>기호가 가장 많은 장이라, 수식 담당 조교 하루가 2장 이후 두 번째로 안내를 맡았습니다. ∂ 기호 읽는 법부터 하나씩요.</p></div></div>
+<div data-dlg="open"></div>
+<div class="chain"><span class="">10 상관과 공분산</span><i>→</i><span class="">11 미적분 기초</span><i>→</i><span class="on">12 편미분과 그래디언트</span><i>→</i><span class="">13 최적화</span><i>→</i><span class="">14 고윳값·고유벡터와 PCA</span></div>
+<p class="where"><b>도감 속 자리</b> 11장의 미분을 변수 여러 개로 넓힌 장입니다. 3장의 벡터가 "기울기들의 묶음"으로 다시 나오고, 13장은 이 그래디언트의 반대 방향으로 걸어 손실을 줄입니다. 15장 총정리의 헤세 행렬은 이 장의 2계 편미분을 표로 모은 것이에요.</p>
+<div class="sis"><img data-mood="asst_report" alt="" aria-hidden="true"><p><b>조교 하루의 길 안내</b> 같은 주제를 생선 가게 AI 모델 이야기로 차례차례 따라가고 싶다면 「인공지능을 위한 수학」 <a href="https://adminmrobo.github.io/math_for_ai_lab/part3.html#c14">3부 14장 편미분·그래디언트</a>을 함께 보세요. 이야기로 흐름을 잡고, 이 도감으로 낱말을 찾아보는 식으로 쓰면 좋아요.</p></div>
+<figure class="toon" id="toon1"><div class="tframe"><img src="img/toon/ch12_a.webp" width="1200" height="800" loading="lazy" alt="픽셀아트. 짙은 안개 낀 산비탈에서 초파리가 발밑만 보며 초록 화살표(−∇f) 방향으로 한 걸음씩 내려가고, 위쪽에서 주판봇은 빨간 화살표(∇f)를 따라 꼭대기로 올라가 버린다. 하루가 &quot;반대예요!&quot;라고 외친다."></div><figcaption><b class="ttl">웃는 그림 1 · 안개 속 하산 작전</b><div class="tline"><img data-mood="robo_happy" alt="" aria-hidden="true"><p><b>조교 주판봇</b> 그래디언트 방향으로 전진! …어, 왜 점점 높아지지?</p></div><div class="tline"><img data-mood="fly_point" alt="" aria-hidden="true"><p><b>조교 초파리</b> 그래디언트는 오르막이야. 손실을 줄이려면 반대로, 마이너스 그래디언트!</p></div><div class="tline"><img data-mood="asst_shock" alt="" aria-hidden="true"><p><b>조교 하루</b> 주판봇, 꼭대기는 손실 최대예요! 돌아오세요!</p></div><p class=tpoint><b>그림 속 수학</b> ∇f는 가장 가파른 오르막, −∇f는 가장 가파른 내리막. 경사하강은 −∇f 방향으로 간다.</p></figcaption></figure>
+</div></section>
+<section class="sec" id="dex" aria-labelledby="h-dex"><div class="wrap">
+<h2 id="h-dex"><span class="hex">도감</span>도감 항목 — 8개</h2>
+<p>슬라이드 MATH-12의 상자를 하나도 빼지 않고 항목으로 옮겼습니다. 이름표를 눌러 바로 가세요.</p>
+<div class="dexidx"><a href="#m12-what">편미분이란</a><a href="#m12-example">편미분 계산 예</a><a href="#m12-higher">2계 편미분과 혼합 편미분</a><a href="#m12-grad">그래디언트</a><a href="#m12-multi">변수가 n개일 때</a><a href="#m12-tangent">접평면과 선형 근사</a><a href="#m12-gd">경사하강의 직관</a><a href="#m12-table">자주 쓰는 함수의 그래디언트</a></div>
+<article class="dex" id="m12-what" data-dex="편미분이란"><header><span class="dexno">12-01</span><h3>편미분이란 <small>What are Partial Derivatives</small></h3></header><p class="one">다른 변수는 상수로 고정하고 변수 하나에 대해서만 미분한 변화율. ∂f/∂x 또는 fₓ.</p><div class="dexgrid"><div class="dw"><b>말로 먼저</b> f(x, y)에서 "x 방향으로만 한 걸음" 갈 때의 기울기가 ∂f/∂x, "y 방향으로만" 갈 때가 ∂f/∂y예요. 계산 방법은 11장과 같고, 다만 다른 변수를 숫자처럼(상수로) 취급합니다. 여러 변수 함수의 ML과 최적화에 쓰여요.</div><div class="try"><b>숫자로 한 번 해 보기</b><ol><li>f(x, y) = x² + y²</li><li>∂f/∂x: y²는 상수 → 2x</li><li>∂f/∂y: x²는 상수 → 2y</li></ol></div></div><div class="pair"><div><div class="tl">학교 수학으로 보면</div>고등 미분의 확장(대학 미적분학).</div><div><div class="tr">AI에서는</div>손실 L(w₁, w₂, …)의 ∂L/∂w₁ = "w₁만 조금 바꾸면 손실이 얼마나 변하나".</div></div><details class="eqx"><summary>식으로 보면 (몰라도 됩니다)</summary><table class="ez-tb"><thead><tr><th>식 조각</th><th>읽는 법</th><th>뜻</th></tr></thead><tbody><tr><td class="m">fₓ = ∂f/∂x</td><td>에프 엑스</td><td>y 고정, x로 미분</td></tr><tr><td class="m">f_y = ∂f/∂y</td><td>에프 와이</td><td>x 고정, y로 미분</td></tr></tbody></table></details></article>
+<article class="dex" id="m12-example" data-dex="편미분 계산 예"><header><span class="dexno">12-02</span><h3>편미분 계산 예 <small>Example: Finding Partial Derivatives</small></h3></header><p class="one">f(x, y) = x²y + 3xy + y² → ∂f/∂x = 2xy + 3y, ∂f/∂y = x² + 3x + 2y.</p><div class="dexgrid"><div class="dw"><b>말로 먼저</b> x로 미분할 때 y는 숫자처럼: x²y → 2x·y, 3xy → 3y, y² → 0. y로 미분할 때 x는 숫자처럼: x²y → x², 3xy → 3x, y² → 2y.</div><div class="try"><b>숫자로 한 번 해 보기</b><ol><li>∂f/∂x = 2xy + 3y + 0 = 2xy + 3y</li><li>∂f/∂y = x² + 3x + 2y</li><li>점 (1, 2): ∂f/∂x = 4 + 6 = 10, ∂f/∂y = 1 + 3 + 4 = 8</li></ol></div></div><div class="pair"><div><div class="tl">학교 수학으로 보면</div>다항함수의 미분 + "상수 취급".</div><div><div class="tr">AI에서는</div>프레임워크의 자동 미분이 이 계산을 수백만 변수에 대해 합니다.</div></div></article>
+<article class="dex" id="m12-higher" data-dex="2계 편미분과 혼합 편미분"><header><span class="dexno">12-03</span><h3>2계 편미분과 혼합 편미분 <small>Higher Order Partial Derivatives</small></h3></header><p class="one">편미분을 한 번 더. fₓₓ, f_yy, 그리고 순서를 섞은 fₓᵧ, f_yₓ.</p><div class="dexgrid"><div class="dw"><b>말로 먼저</b> f(x, y) = x²y + y³이면 fₓ = 2xy, f_y = x² + 3y². 한 번 더 하면 fₓₓ = 2y, f_yy = 6y, fₓᵧ = 2x, f_yₓ = 2x. 2계 편미분이 연속이면 순서를 바꿔도 같아요(fₓᵧ = f_yₓ). 휘어진 정도(곡률)를 알려 주어 2차 최적화 방법에 씁니다.</div><div class="try"><b>숫자로 한 번 해 보기</b><ol><li>fₓ = 2xy → fₓₓ = 2y, fₓᵧ = 2x</li><li>f_y = x² + 3y² → f_yy = 6y, f_yₓ = 2x</li><li>fₓᵧ = f_yₓ = 2x ✔</li></ol></div></div><div class="pair"><div><div class="tl">학교 수학으로 보면</div>대학 미적분학(슈바르츠·클레로 정리).</div><div><div class="tr">AI에서는</div>2계 편미분을 표로 모은 것이 헤세 행렬(15장). 뉴턴 방법 같은 2차 최적화가 사용해요.</div></div><p class="dexwarn"><b>헷갈리기 쉬운 점</b> 원자료의 조건 "if function is continuous"는 정확히는 "2계 편미분들이 연속이면"입니다.</p></article>
+<article class="dex" id="m12-grad" data-dex="그래디언트"><header><span class="dexno">12-04</span><h3>그래디언트 <small>Gradient</small></h3></header><p class="one">모든 편미분을 모은 벡터 ∇f = (∂f/∂x, ∂f/∂y). 함수가 가장 가파르게 증가하는 방향을 가리킨다.</p><div class="dexgrid"><div class="dw"><b>말로 먼저</b> 편미분 두 개를 화살표 하나로 묶으면, 그 화살표는 "가장 빨리 오르는 방향"을, 길이는 "그 방향의 가파름"을 알려 줘요. 그래디언트는 언제나 등고선에 직각입니다. 경사하강 같은 최적화 알고리즘에 널리 쓰여요.</div><div class="try"><b>숫자로 한 번 해 보기</b><ol><li>f = x²y + 3xy + y² → ∇f = (2xy + 3y, x² + 3x + 2y)</li><li>점 (1, 2)에서 ∇f = (10, 8)</li><li>가파름 ‖∇f‖ = √(100 + 64) ≈ 12.8</li></ol></div></div><div class="pair"><div><div class="tl">학교 수학으로 보면</div>고등 벡터(3장) + 편미분.</div><div><div class="tr">AI에서는</div>loss.backward()가 채우는 .grad가 바로 이 벡터. 가중치 개수만큼의 숫자가 들어 있어요.</div></div><details class="eqx"><summary>식으로 보면 (몰라도 됩니다)</summary><table class="ez-tb"><thead><tr><th>식 조각</th><th>읽는 법</th><th>뜻</th></tr></thead><tbody><tr><td class="m">∇f(x, y) = (∂f/∂x, ∂f/∂y)</td><td>나블라 에프</td><td>가장 가파른 오르막</td></tr></tbody></table></details></article>
+<div data-dlg="mid"></div>
+<article class="dex" id="m12-multi" data-dex="변수가 n개일 때"><header><span class="dexno">12-05</span><h3>변수가 n개일 때 <small>Gradient for Multiple Variables</small></h3></header><p class="one">∇f(x₁, …, xₙ) = (∂f/∂x₁, …, ∂f/∂xₙ). 편미분 n개짜리 벡터.</p><div class="dexgrid"><div class="dw"><b>말로 먼저</b> 변수가 셋이든 백만이든 방법은 같아요. 하나씩 편미분해 줄 세우면 됩니다. f(x, y, z) = x² + y² + z²이면 ∇f = (2x, 2y, 2z).</div><div class="try"><b>숫자로 한 번 해 보기</b><ol><li>f = x² + y² + z² → ∇f = (2x, 2y, 2z)</li><li>점 (1, −1, 2) → ∇f = (2, −2, 4)</li><li>원점 (0, 0, 0) → ∇f = (0, 0, 0): 바닥(최솟값)</li></ol></div></div><div class="pair"><div><div class="tl">학교 수학으로 보면</div>3장 벡터 + 편미분.</div><div><div class="tr">AI에서는</div>GPT 같은 모델은 가중치가 수십억 개라 그래디언트도 수십억 개 숫자짜리 벡터예요.</div></div><details class="eqx"><summary>식으로 보면 (몰라도 됩니다)</summary><table class="ez-tb"><thead><tr><th>식 조각</th><th>읽는 법</th><th>뜻</th></tr></thead><tbody><tr><td class="m">∇f = (∂f/∂x₁, …, ∂f/∂xₙ)</td><td>n변수 그래디언트</td><td>편미분 n개</td></tr></tbody></table></details></article>
+<article class="dex" id="m12-tangent" data-dex="접평면과 선형 근사"><header><span class="dexno">12-06</span><h3>접평면과 선형 근사 <small>Tangent Plane and Linear Approximation</small></h3></header><p class="one">한 점 (a, b) 근처에서 곡면을 평평한 판으로 근사. z = f(a, b) + fₓ(a, b)(x − a) + f_y(a, b)(y − b).</p><div class="dexgrid"><div class="dw"><b>말로 먼저</b> 11장의 접선이 "한 점에서 곡선에 붙인 직선"이라면, 접평면은 "한 점에서 곡면에 붙인 평평한 판"이에요. 점 근처에서는 곡면 대신 이 판으로 계산해도 거의 맞아요(선형 근사).</div><div class="try"><b>숫자로 한 번 해 보기</b><ol><li>f = x² + y², 점 (1, 2): f = 5, fₓ = 2, f_y = 4</li><li>z = 5 + 2(x − 1) + 4(y − 2) = 2x + 4y − 5</li><li>(1.1, 2.1)에서 판 5.6, 실제 f = 1.21 + 4.41 = 5.62 → 거의 같음</li></ol></div></div><div class="pair"><div><div class="tl">학교 수학으로 보면</div>접선의 방정식의 확장.</div><div><div class="tr">AI에서는</div>경사하강의 한 걸음은 "지금 점의 접평면을 믿고 내리막으로" 가는 것. 그래서 걸음이 너무 크면(학습률이 크면) 판과 곡면이 어긋나 빗나갑니다.</div></div><details class="eqx"><summary>식으로 보면 (몰라도 됩니다)</summary><table class="ez-tb"><thead><tr><th>식 조각</th><th>읽는 법</th><th>뜻</th></tr></thead><tbody><tr><td class="m">z = f(a,b) + fₓ(x−a) + f_y(y−b)</td><td>접평면</td><td>점 근처의 평평한 근사</td></tr></tbody></table></details></article>
+<article class="dex" id="m12-gd" data-dex="경사하강의 직관"><header><span class="dexno">12-07</span><h3>경사하강의 직관 <small>Gradient Descent Intuition</small></h3></header><p class="one">그래디언트는 최대 증가 방향 → 반대(−∇f)로 가면 가장 빨리 줄어든다. θ_new = θ_old − α∇f(θ).</p><div class="dexgrid"><div class="dw"><b>말로 먼저</b> 안개 낀 산에서 발밑 경사만 느낄 수 있다면, 가장 가파른 내리막(−그래디언트)으로 한 걸음, 다시 경사를 재고 한 걸음… 이것을 되풀이하면 골짜기 바닥(최솟값)에 닿아요. α(학습률)는 걸음 크기예요.</div><div class="try"><b>숫자로 한 번 해 보기</b><ol><li>f = x² + y², 출발 (1, 2), α = 0.1</li><li>∇f = (2, 4) → (1, 2) − 0.1 × (2, 4) = (0.8, 1.6)</li><li>손실 5 → 3.2로 줄어듦</li></ol></div></div><div class="pair"><div><div class="tl">학교 수학으로 보면</div>벡터의 뺄셈 + 스칼라배(3장).</div><div><div class="tr">AI에서는</div>13장 최적화의 주인공. 거의 모든 딥러닝 학습이 이 한 줄의 변형이에요.</div></div><details class="eqx"><summary>식으로 보면 (몰라도 됩니다)</summary><table class="ez-tb"><thead><tr><th>식 조각</th><th>읽는 법</th><th>뜻</th></tr></thead><tbody><tr><td class="m">θ_new = θ_old − α∇f(θ)</td><td>경사하강</td><td>그래디언트 반대로 α만큼</td></tr></tbody></table></details></article>
+<article class="dex" id="m12-table" data-dex="자주 쓰는 함수의 그래디언트"><header><span class="dexno">12-08</span><h3>자주 쓰는 함수의 그래디언트 <small>Common Functions and Their Gradients</small></h3></header><p class="one">x² + y² → (2x, 2y), xy → (y, x), sin x + cos y → (cos x, −sin y), eˣʸ → (yeˣʸ, xeˣʸ), ln(x² + y²) → (2x/(x² + y²), 2y/(x² + y²)).</p><div class="dexgrid"><div class="dw"><b>말로 먼저</b> 정리: 편미분은 변수 하나에 대한 변화를 재고, 그래디언트는 모든 편미분의 벡터이며, 최적화·신경망·ML에 쓰이고, 접평면과 선형 근사를 찾게 해 주며, 경사하강은 그래디언트로 함수를 최소화합니다.</div><div class="try"><b>숫자로 한 번 해 보기</b><ol><li>xy의 그래디언트 (y, x): 점 (2, 3) → (3, 2)</li><li>eˣʸ: x로 미분하면 연쇄 법칙으로 y·eˣʸ</li><li>ln(x² + y²): 겉 1/u × 속 2x</li></ol></div></div><div class="pair"><div><div class="tl">학교 수학으로 보면</div>11장의 미분 법칙(연쇄 법칙)을 변수마다.</div><div><div class="tr">AI에서는</div>이 표의 함수들은 시험 문제용이고, 실제 손실(MSE·교차 엔트로피)의 그래디언트도 같은 법칙으로 구합니다.</div></div></article>
+</div></section>
+<section class="sec" id="lab" aria-labelledby="h-lab"><div class="wrap">
+<h2 id="h-lab"><span class="hex">실험</span>등고선 지도 실험실 — 어디를 눌러도 화살표가 생긴다</h2>
+<div data-dlg="lab_o"></div>
+<div class="easy"><details class="ez-why" open><summary>왜 이 방법을 쓰나</summary><ol><li>문제: 가중치 두 개(w₁, w₂)로 된 손실 지형에서 어느 쪽으로 움직여야 손실이 가장 빨리 줄지 알고 싶습니다.</li><li>앞 방법의 한계: 11장의 미분은 변수 하나의 기울기만 알려 줘서, 두 방향을 동시에 고려할 수 없습니다.</li><li><b>이 방법의 해법: 변수마다 편미분을 구해 그래디언트 벡터로 묶으면, 가장 가파른 오르막 방향이 화살표 하나로 나옵니다. 그 반대로 갑니다.</b></li></ol><p class="ez-easy"><b>쉽게 말하면</b> 등산 앱이 동쪽 경사와 북쪽 경사를 합쳐 "이 방향이 가장 가파름"이라고 화살표로 보여 주는 것.</p></details><div class="ez-math"><div class="ez-t">연구원이 묻고, 조교 하루가 풀어 봅니다</div><div class="ez-q"><img data-mood="sia_smile" alt="" aria-hidden="true"><p><b style="display:block;font-size:12.5px;color:var(--muted)">시아</b>∂ 기호는 그냥 d랑 뭐가 달라요? 읽는 법부터 모르겠어요.</p></div><p><b>말로 먼저</b> ∂는 "라운드 디" 또는 "파셜"이라고 읽어요. "변수가 여럿인데 그중 하나로만 미분한다"는 표시예요. 계산은 d와 같고, 나머지 변수를 숫자처럼 둔다는 약속만 다릅니다.</p><p><b>학교 수학으로 보면</b> 11장의 dy/dx와 같은 뜻 + "다른 변수는 고정".</p><div class="try" style="background:#fff;border:1px dashed #e8b67a;border-radius:10px;padding:10px 14px"><b>숫자로 한 번 해 보기</b><ol style="margin:6px 0 0;padding-left:22px"><li>f = x²y, y = 3으로 고정하면 f = 3x²</li><li>d(3x²)/dx = 6x</li><li>∂(x²y)/∂x = 2xy → y = 3이면 6x ✔</li></ol></div><details class="eqx"><summary>식으로 보면 (몰라도 됩니다)</summary><table class="ez-tb"><thead><tr><th>식 조각</th><th>읽는 법</th><th>뜻</th></tr></thead><tbody><tr><td>∂f/∂x</td><td>파셜 에프 파셜 엑스</td><td>y 고정, x로 미분</td></tr><tr><td>∇</td><td>나블라</td><td>모든 편미분을 모으라는 명령</td></tr><tr><td>−∇f</td><td>마이너스 그래디언트</td><td>가장 빠른 내리막</td></tr></tbody></table></details><div class="ez-q ez-c"><img data-mood="asst_spark" alt="" aria-hidden="true"><p><b style="display:block;font-size:12.5px;color:var(--muted)">조교 하루</b>실험실에서 「원자료 x²y + 3xy + y²」를 고르고 점 (1, 2)를 눌러 보세요. ∂f/∂x = 10, ∂f/∂y = 8이 나와요.</p></div></div></div>
+<div class="dialog lvtalk" data-dlg="lab_t"></div>
+<div class="panel" id="w-ch12" data-w="grad"></div>
+<div class="say" data-who="doc"><img class="who" data-mood="doc_judge" alt="" aria-hidden="true"><div><b class="name">박사의 정리</b><p>그래디언트는 "지금 이 자리에서 가장 가파르게 오르는 방향"입니다. AI 학습은 이 화살표를 거꾸로 따라가는 일이에요. 다만 화살표는 "지금 이 자리"만 알려 주므로, 몇 걸음마다 다시 재야 합니다.</p></div></div>
+<div class="lim"><b>이 실험의 한계</b> 실험실 지도는 변수 두 개(평면)까지만 그립니다. 실제 손실은 수백만 차원이라 그림 대신 숫자로만 다뤄요.</div>
+<figure class="toon" id="toon2"><div class="tframe"><img src="img/toon/ch12_b.webp" width="1200" height="800" loading="lazy" alt="픽셀아트. 술래잡기 하듯 &quot;얼음!&quot; 팻말 아래 y 이름표를 단 시아가 그대로 굳어 있고, x 이름표를 단 X1만 앞으로 뛰어간다. 하루가 초시계를 들고 &quot;∂f/∂x 측정 중&quot;이라고 적힌 보드를 든다."></div><figcaption><b class="ttl">웃는 그림 2 · y는 잠깐 얼음!</b><div class="tline"><img data-mood="asst_report" alt="" aria-hidden="true"><p><b>조교 하루</b> ∂f/∂x를 잴 거예요. y는 얼음! x만 움직여요.</p></div><div class="tline"><img data-mood="sia_doze" alt="" aria-hidden="true"><p><b>시아</b> (얼음 상태) …저는 상수예요…</p></div><div class="tline"><img data-mood="x1_hint" alt="" aria-hidden="true"><p><b>X1</b> 저만 뛰어요! 제가 움직인 만큼 f가 얼마나 변하는지 재 주세요!</p></div><p class=tpoint><b>그림 속 수학</b> 편미분 ∂f/∂x는 다른 변수(y)를 상수로 고정하고 x만 움직였을 때의 변화율.</p></figcaption></figure>
+<div class="aibox" id="ai"><div class="aihead"><span class="aitag">AI 판단 코너</span>주판봇의 "f = x²y의 ∂f/∂x = 2x"</div><div data-dlg="ai_d"></div><p>박사는 늘 두 가지를 묻습니다. "가정이 맞나? 숫자가 그럴듯한가?"</p><ol><li>가정이 맞나? x로 편미분할 때 y는 사라지나요, 상수로 남나요?</li><li>숫자가 그럴듯한가? y = 3으로 고정한 f = 3x²를 미분하면 얼마인가요? 주판봇의 2x와 같나요?</li></ol><details class="eqx"><summary>확인해 보기 (먼저 스스로 따져 본 뒤 펼치세요)</summary><p class="aiverdict">틀렸습니다. 편미분에서 y는 "없애는" 것이 아니라 "상수로 남겨 두는" 거예요. ∂(x²y)/∂x = 2x·y = 2xy입니다. y = 3이면 3x²의 미분 6x와 맞고, 주판봇의 2x는 y = 1일 때만 우연히 맞아요. 숫자 하나를 고정해 1변수 미분과 비교하는 것이 편미분을 검산하는 가장 쉬운 방법입니다.</p><div data-dlg="ai_e"></div></details></div>
+<h3 id="quiz">확인 퀴즈</h3>
+<div class="quiz" data-quiz="q"></div>
+</div></section>
+<section class="sec" id="colab" aria-labelledby="h-colab"><div class="wrap">
+<h2 id="h-colab"><span class="hex">실습</span>코랩 실습실 — 배운 것을 직접 돌려 보기</h2>
+<p>두 가지 방법이 있어요. ① 생성 AI에게 프롬프트를 주고 코드를 만들게 해 보기, ② 연구소가 미리 만들어 검사까지 마친 코드를 돌려 보기. 둘을 나란히 돌려 결과를 비교하면, AI가 낸 코드를 믿어도 되는지 스스로 판단하는 연습이 됩니다.</p>
+<div data-dlg="colab"></div>
+<div class="labbox"><div class="labh"><span class="lno">①</span> 생성 AI로 실습하기 — 코랩 파이썬 프롬프트</div>
+<p>구글 코랩(Colab)의 Gemini 창이나 ChatGPT·Claude 같은 생성 AI에 아래 글을 그대로 붙여 넣으세요. AI가 만든 코드를 코랩 셀에 붙여 넣고 실행합니다.</p>
+<div class="codewrap"><button type="button" class="cpy" data-copy="p-ch12">복사</button><pre class="prompt" id="p-ch12">너는 고등학생에게 편미분과 그래디언트를 가르치는 파이썬 선생님이야. 구글 코랩에서 실행되는 코드를 만들어 줘.
+주제: 편미분, 그래디언트, 2계·혼합 편미분, 접평면, 경사하강 한 걸음
+요구 사항:
+1. sympy로 f(x, y) = x²y + 3xy + y²의 ∂f/∂x, ∂f/∂y, 그래디언트를 구하고 점 (1, 2)에서의 값을 출력해 줘.
+2. f(x, y) = x²y + y³의 fxx, fyy, fxy, fyx를 구해 fxy = fyx인지 확인해 줘.
+3. 수치 편미분 함수(가운데 차분, h=1e-5)를 만들어 1번 결과와 비교해 줘.
+4. f(x, y) = x² + y²의 등고선 그림 위에 여러 점에서의 그래디언트 화살표(quiver)를 그려 줘(축 비율 같게, 영어 제목).
+5. 같은 함수의 점 (1, 2)에서 접평면 z = 2x + 4y − 5를 구하고, (1.1, 2.1)에서 실제 값과 접평면 값을 비교해 줘.
+6. 출발점 (1, 2), 학습률 0.1로 경사하강을 5번 해서 점과 함수값이 어떻게 줄어드는지 표로 보여 줘.
+7. 모든 줄에 한국어 주석.</pre></div></div>
+<div class="labbox"><div class="labh"><span class="lno">②</span> 실제로 돌아가는 코드 — 파이썬 · 코랩</div>
+<p>연구소가 직접 실행해 결과를 확인한 코드입니다. 버튼 하나로 코랩에서 바로 열 수 있어요(구글 계정만 있으면 설치할 것이 없습니다).</p>
+<p class="colabbtns"><a class="bt primary" href="https://colab.research.google.com/github/adminmrobo/math_basic_for_ai_dictionary/blob/main/colab/ch12_gradient.ipynb" target="_blank" rel="noopener">코랩에서 열기</a> <a class="bt" href="code/colab_py/ch12_gradient.py" download>.py 내려받기</a> <a class="bt" href="colab/ch12_gradient.ipynb" download>.ipynb 내려받기</a></p>
+<details class="fold"><summary>코드 펼치기 (몰라도 됩니다 · 48줄)</summary><div class="codewrap"><button type="button" class="cpy" data-copy="c-ch12">복사</button><pre class="code" id="c-ch12"><code># %% 1. 편미분과 그래디언트 (sympy)
+import numpy as np
+import matplotlib.pyplot as plt
+import sympy as sp
+
+x, y = sp.symbols(&quot;x y&quot;)
+f = x**2 * y + 3 * x * y + y**2
+fx, fy = sp.diff(f, x), sp.diff(f, y)
+print(&quot;∂f/∂x =&quot;, fx, &quot;/ ∂f/∂y =&quot;, fy)
+print(&quot;∇f(1, 2) =&quot;, (fx.subs({x: 1, y: 2}), fy.subs({x: 1, y: 2})))
+
+# %% 2. 2계·혼합 편미분
+g = x**2 * y + y**3
+gxx, gyy = sp.diff(g, x, x), sp.diff(g, y, y)
+gxy, gyx = sp.diff(g, x, y), sp.diff(g, y, x)
+print(&quot;fxx =&quot;, gxx, &quot;/ fyy =&quot;, gyy, &quot;/ fxy =&quot;, gxy, &quot;/ fyx =&quot;, gyx, &quot;/ 같은가?&quot;, sp.simplify(gxy - gyx) == 0)
+
+# %% 3. 수치 편미분으로 검산
+def F(p):
+    a, b = p
+    return a**2 * b + 3 * a * b + b**2
+def num_grad(fn, p, h=1e-5):
+    p = np.array(p, dtype=float); grad = np.zeros_like(p)
+    for i in range(len(p)):
+        e = np.zeros_like(p); e[i] = h
+        grad[i] = (fn(p + e) - fn(p - e)) / (2 * h)
+    return grad
+print(&quot;수치 그래디언트 (1, 2):&quot;, num_grad(F, [1, 2]).round(6))
+
+# %% 4. 등고선과 그래디언트 화살표
+X, Y = np.meshgrid(np.linspace(-3, 3, 200), np.linspace(-3, 3, 200))
+plt.figure(figsize=(5.5, 5)); plt.contour(X, Y, X**2 + Y**2, levels=10, cmap=&quot;viridis&quot;)
+P, Q = np.meshgrid(np.linspace(-2.5, 2.5, 7), np.linspace(-2.5, 2.5, 7))
+plt.quiver(P, Q, 2 * P, 2 * Q, color=&quot;red&quot;)                     # ∇f = (2x, 2y)
+plt.gca().set_aspect(&quot;equal&quot;); plt.title(&quot;Gradient arrows are perpendicular to contours&quot;); plt.show()
+
+# %% 5. 접평면과 선형 근사
+h2 = lambda a, b: a**2 + b**2
+plane = lambda a, b: 2 * a + 4 * b - 5                          # (1, 2)에서의 접평면
+print(f&quot;(1.1, 2.1): 실제 {h2(1.1, 2.1):.4f} / 접평면 {plane(1.1, 2.1):.4f}&quot;)
+print(f&quot;(2.0, 3.0): 실제 {h2(2, 3):.4f} / 접평면 {plane(2, 3):.4f}  &lt;- 멀어지면 어긋남&quot;)
+
+# %% 6. 경사하강 다섯 걸음
+p = np.array([1.0, 2.0]); alpha = 0.1
+print(&quot;걸음 |     점        | f = x^2 + y^2&quot;)
+for t in range(6):
+    print(f&quot;{t:&gt;3}  | ({p[0]:.4f}, {p[1]:.4f}) | {h2(*p):.4f}&quot;)
+    p = p - alpha * np.array([2 * p[0], 2 * p[1]])              # 그래디언트 반대로</code></pre></div></details>
+<details class="fold"><summary>실행하면 이렇게 나옵니다 (연구소에서 돌린 결과)</summary><pre class="out">∂f/∂x = 2*x*y + 3*y / ∂f/∂y = x**2 + 3*x + 2*y
+∇f(1, 2) = (10, 8)
+fxx = 2*y / fyy = 6*y / fxy = 2*x / fyx = 2*x / 같은가? True
+수치 그래디언트 (1, 2): [10.  8.]
+(1.1, 2.1): 실제 5.6200 / 접평면 5.6000
+(2.0, 3.0): 실제 13.0000 / 접평면 11.0000  &lt;- 멀어지면 어긋남
+걸음 |     점        | f = x^2 + y^2
+  0  | (1.0000, 2.0000) | 5.0000
+  1  | (0.8000, 1.6000) | 3.2000
+  2  | (0.6400, 1.2800) | 2.0480
+  3  | (0.5120, 1.0240) | 1.3107
+  4  | (0.4096, 0.8192) | 0.8389
+  5  | (0.3277, 0.6554) | 0.5369</pre><p class="muted" style="font-size:13px">그래프 창은 코랩 화면에 함께 나타납니다. 무작위 실험이 있는 코드는 seed를 고정해 같은 숫자가 나오게 했어요.</p></details></div>
+<div class="labbox"><div class="labh"><span class="lno">③</span> 비교 과제 — AI 코드와 연구소 코드 맞대 보기</div><ol><li>점 (1, 2)에서 그래디언트가 (10, 8)인지 확인하세요.</li><li>경사하강 첫 걸음이 (0.8, 1.6)인지, AI 코드가 + 그래디언트로 잘못 가지 않았는지 보세요.</li><li>quiver 화살표가 등고선(원)에 직각인지 그림으로 확인하세요.</li></ol></div>
+</div></section>
+<section class="sec" id="sum" aria-labelledby="h-sum"><div class="wrap">
+<h2 id="h-sum">정리 — 여러 방향의 기울기를 화살표 하나로</h2>
+<div class="tblwrap"><table class="cmp"><thead><tr><th>질문</th><th>답 한 줄</th></tr></thead><tbody><tr><td>편미분은?</td><td>다른 변수는 고정하고 하나만 미분. x²y + 3xy + y² → ∂f/∂x = 2xy + 3y.</td></tr><tr><td>그래디언트는?</td><td>편미분들의 벡터. 가장 가파른 오르막. (1, 2)에서 (10, 8).</td></tr><tr><td>혼합 편미분은?</td><td>fₓᵧ = f_yₓ (2계 편미분이 연속일 때).</td></tr><tr><td>접평면은?</td><td>한 점 근처의 평평한 근사. x² + y²의 (1, 2)에서 z = 2x + 4y − 5.</td></tr><tr><td>경사하강은?</td><td>θ ← θ − α∇f. 그래디언트 반대로 걸음.</td></tr></tbody></table></div>
+<h3>용어 대응 카드</h3><div class="gloss"><div><b>편미분이란</b> = 다른 변수는 상수로 고정하고 변수 하나에 대해서만 미분한 변화율. ∂f/∂x 또는 fₓ.</div><div><b>편미분 계산 예</b> = f(x, y) = x²y + 3xy + y² → ∂f/∂x = 2xy + 3y, ∂f/∂y = x² + 3x + 2y.</div><div><b>2계 편미분과 혼합 편미분</b> = 편미분을 한 번 더. fₓₓ, f_yy, 그리고 순서를 섞은 fₓᵧ, f_yₓ.</div><div><b>그래디언트</b> = 모든 편미분을 모은 벡터 ∇f = (∂f/∂x, ∂f/∂y). 함수가 가장 가파르게 증가하는 방향을 가리킨다.</div><div><b>변수가 n개일 때</b> = ∇f(x₁, …, xₙ) = (∂f/∂x₁, …, ∂f/∂xₙ). 편미분 n개짜리 벡터.</div><div><b>접평면과 선형 근사</b> = 한 점 (a, b) 근처에서 곡면을 평평한 판으로 근사. z = f(a, b) + fₓ(a, b)(x − a) + f_y(a, b)(y − b).</div><div><b>경사하강의 직관</b> = 그래디언트는 최대 증가 방향 → 반대(−∇f)로 가면 가장 빨리 줄어든다. θ_new = θ_old − α∇f(θ).</div><div><b>자주 쓰는 함수의 그래디언트</b> = x² + y² → (2x, 2y), xy → (y, x), sin x + cos y → (cos x, −sin y), eˣʸ → (yeˣʸ, xeˣʸ), ln(x² + y²) → (2x/(x² + y²), 2y/(x² + y²)).</div></div>
+<h3>원자료와 다르게 쓴 곳</h3><ul><li>원자료 3번의 "fxy = fyx (if function is continuous)"를 "2계 편미분들이 연속이면"으로 정확히 고쳐 썼습니다.</li><li>원자료 4번 3D 그림의 축 이름(x가 두 번 표기)은 이 도감 그림에서 x, y로 바로잡았습니다.</li></ul>
+<h3>비유와 예시의 한계</h3><ul><li>안개 속 하산 비유는 "발밑 경사만 안다"는 점을 잘 보여 주지만, 실제 손실 지형에는 평평한 곳·여러 골짜기가 있어 늘 가장 낮은 곳에 닿지는 않습니다(13장).</li><li>실험실은 2변수만 그립니다.</li></ul>
+<div class="next"><a href="11_calculus.html"><b>← 11장 미적분 기초</b><br>극한·미분·적분</a><a href="index.html"><b>도감 목차</b><br>열다섯 장과 항목 찾기</a><a href="13_optimization.html"><b>13장 최적화 →</b><br>경사하강과 학습률</a></div>
+</div></section>
+<section class="sec" id="outro" aria-labelledby="h-outro"><div class="wrap"><h2 id="h-outro">아웃트로 — 다음 장으로</h2><div data-dlg="outro"></div></div></section>
+</main>
+<footer><div class="wrap">
+<h3>출처</h3>
+<table><thead><tr><th>#</th><th>자료</th><th>이 페이지에서 쓴 곳</th></tr></thead><tbody><tr><td>[1]</td><td>연구소 수학 노트 MATH-12 「Partial Derivatives & Gradient」 (인포그래픽 한 장)</td><td>도감 항목 전부, 예시 숫자</td></tr></tbody></table>
+<h3>예시값·설명용 모형인 것</h3><ul><li>항목의 숫자 예시는 설명용이며 연구소가 검산했습니다(code/check_numbers.py).</li><li>코랩 코드는 교육용 예제이며 실제 서비스에 그대로 쓰는 코드가 아닙니다.</li></ul>
+<p>캐릭터 이름·설정·그림은 저작권자 안상선의 허락 없이 사용할 수 없습니다.</p>
+<p>글 · 안상선 ((주)M-Robo 대표) · <a href="https://adminmrobo.github.io/who_am_i/who_am_i.html">저자 소개</a> · <a href="index.html">수리 도감 목차</a> · 자매편 <a href="https://adminmrobo.github.io/hello_space_lab/index.html">좌표 첫걸음</a> · <a href="https://adminmrobo.github.io/optimization_3d_map/first_step_0.html">최적화 첫걸음</a></p>
+</div></footer>
+<script>
+/*@@SPRITES@@*/
+/*@@COMMON@@*/
+/*@@MATHLAB@@*/
+(function(){
+'use strict';
+U.dialogues({"open": [["asst", "asst_smile", "12장 안내는 다시 조교 하루예요. 상황: 안개가 짙은 산 중턱에 서 있어요. 지도는 없고 발밑의 경사만 느낄 수 있어요. 어떻게 가장 빨리 내려갈까요?"], ["x1", "x1_hint", "가장 기울어진 쪽으로 한 발씩요?"], ["asst", "asst_report", "정답이에요. 그런데 \"가장 기울어진 쪽\"을 찾으려면 동쪽 경사와 북쪽 경사를 따로 재서 합쳐야 해요. 따로 재는 게 편미분, 합친 화살표가 그래디언트예요."], ["moa", "moa_report", "∂ 기호가 낯설어서 걱정돼요."], ["asst", "asst_proud", "읽는 법부터 같이 해요. 계산은 11장과 똑같고 \"나머지는 얼음\"이라는 약속 하나만 더해요. 처음 보는 기호에서 오래 멈추는 건 자연스러워요."]], "mid": [["x2", "x2_hint", "(필기) 편미분 → 그래디언트 = 편미분들의 벡터 = 가장 가파른 오르막."], ["fly", "fly_point", "이제 변수 n개, 접평면, 그리고 경사하강이야. 13장의 예고편이지."]], "lab_o": [["doc", "doc_board", "상황: 가중치 두 개의 손실 지도에서 지금 점 (1, 2)에 있습니다. 어느 방향으로 움직여야 손실이 가장 빨리 줄까요?"]], "lab_t": [["robo", "robo_calc", "바닥이 (0, 0)이니까 그냥 원점 쪽으로 직진!"], ["fly", "fly_point", "바닥이 어딘지 모를 때가 대부분이야. 이걸 눌러 봐. 지도 아무 데나 누르면 그 자리의 그래디언트가 나와."], ["asst", "asst_report", "보고: 그릇 모양에선 초록 화살표가 원점을 향하지만, 물결 모양에선 가까운 골짜기를 향해요. 화살표는 \"지금 자리\"만 알아요."]], "ai_d": [["robo", "robo_happy", "x²y를 x로 편미분하면 2x! y는 상관없으니 지우고!"], ["doc", "doc_think", "y = 3으로 고정해서 직접 비교해 볼까요?"]], "ai_e": [["robo", "robo_blush", "3x²의 미분은 6x… 2xy가 맞구나. y는 지우는 게 아니라 남겨 두는 거였어."], ["sia", "sia_think", "숫자 하나 넣어서 비교하기, 이번에도 통하네요."]], "colab": [["asst", "asst_smile", "수치 그래디언트와 기호 그래디언트가 소수 여섯째 자리까지 맞는지 비교해 보세요. 이 확인이 딥러닝 연구자들의 \"경사 검사\"예요."]], "outro": [["doc", "doc_judge", "해석 문장: \"그래디언트는 지금 자리에서 가장 가파른 오르막이고, AI는 그 반대로 걸으며 손실을 줄인다.\""], ["x3", "x3_hint", "그럼 한 걸음을 얼마나 크게 걸어야 해요? 크게 걸으면 빨리 가잖아요!"], ["fly", "fly_point", "크게 걸으면 골짜기를 넘어가 버려. 13장 최적화는 다시 내가 안내한다. 학습률 실험, 각오해!"]]});
+U.fillImgs();
+ML.mountAll();
+ML.copyButtons();
+U.Gloss({"편미분이란": ["편미분이란", "What are Partial Derivatives", "다른 변수는 상수로 고정하고 변수 하나에 대해서만 미분한 변화율. ∂f/∂x 또는 fₓ."], "편미분 계산 예": ["편미분 계산 예", "Example: Finding Partial Derivatives", "f(x, y) = x²y + 3xy + y² → ∂f/∂x = 2xy + 3y, ∂f/∂y = x² + 3x + 2y."], "2계 편미분과 혼합 편미분": ["2계 편미분과 혼합 편미분", "Higher Order Partial Derivatives", "편미분을 한 번 더. fₓₓ, f_yy, 그리고 순서를 섞은 fₓᵧ, f_yₓ."], "그래디언트": ["그래디언트", "Gradient", "모든 편미분을 모은 벡터 ∇f = (∂f/∂x, ∂f/∂y). 함수가 가장 가파르게 증가하는 방향을 가리킨다."], "변수가 n개일 때": ["변수가 n개일 때", "Gradient for Multiple Variables", "∇f(x₁, …, xₙ) = (∂f/∂x₁, …, ∂f/∂xₙ). 편미분 n개짜리 벡터."], "접평면과 선형 근사": ["접평면과 선형 근사", "Tangent Plane and Linear Approximation", "한 점 (a, b) 근처에서 곡면을 평평한 판으로 근사. z = f(a, b) + fₓ(a, b)(x − a) + f_y(a, b)(y − b)."], "경사하강의 직관": ["경사하강의 직관", "Gradient Descent Intuition", "그래디언트는 최대 증가 방향 → 반대(−∇f)로 가면 가장 빨리 줄어든다. θ_new = θ_old − α∇f(θ)."], "자주 쓰는 함수의 그래디언트": ["자주 쓰는 함수의 그래디언트", "Common Functions and Their Gradients", "x² + y² → (2x, 2y), xy → (y, x), sin x + cos y → (cos x, −sin y), eˣʸ → (yeˣʸ, xeˣʸ), ln(x² + y²) → (2x/(x² + y²), 2y/(x² + y²))."]},["편미분이란", "편미분 계산 예", "2계 편미분과 혼합 편미분", "그래디언트", "변수가 n개일 때", "접평면과 선형 근사"]);
+U.Study({quiz:{"q": [{"q": "f(x, y) = x²y + 3xy + y²의 ∂f/∂x는?", "o": ["2xy + 3y", "2x + 3", "x² + 3x + 2y", "2xy + 3y + 2y"], "a": 0, "why": "y를 상수로 두고 x로 미분.", "hint": "y²는 x로 미분하면?"}, {"q": "f = x² + y² + z²의 그래디언트는?", "o": ["(2x, 2y, 2z)", "2x + 2y + 2z", "(x², y², z²)", "(2, 2, 2)"], "a": 0, "why": "변수마다 편미분해 벡터로.", "hint": "결과는 벡터예요."}, {"q": "손실을 가장 빨리 줄이는 방향은?", "o": ["−∇f", "∇f", "등고선을 따라가는 방향", "아무 방향이나"], "a": 0, "why": "∇f가 가장 가파른 오르막이니 그 반대.", "hint": "그래디언트는 오르막."}, {"q": "f = x² + y²의 (1, 2)에서 접평면은?", "o": ["z = 2x + 4y − 5", "z = 2x + 4y", "z = x + 2y", "z = 5"], "a": 0, "why": "5 + 2(x − 1) + 4(y − 2).", "hint": "f(1,2) = 5, fₓ = 2, f_y = 4."}]}});
+U.start();
+})();
+</script>
+</body>
+</html>

@@ -1,0 +1,391 @@
+{
+ "version": "1.3",
+ "page": "13_optimization",
+ "nodes": [
+  {
+   "id": "lab:concept/m13-what",
+   "type": "Concept",
+   "label": {
+    "ko": "최적화란",
+    "en": "What is Optimization"
+   },
+   "page": "13_optimization",
+   "anchor": "#m13-what",
+   "level": 1,
+   "status": "known",
+   "confidence": "high",
+   "coverage": "explained",
+   "family": "math-for-ai",
+   "domain": [
+    "math",
+    "ai"
+   ],
+   "match": [],
+   "definition": {
+    "ko": "함수를 최소화(또는 최대화)하는 파라미터의 가장 좋은 값을 찾는 것. θ* = argmin f(θ)."
+   }
+  },
+  {
+   "id": "lab:concept/m13-types",
+   "type": "Concept",
+   "label": {
+    "ko": "최소화와 최대화",
+    "en": "Types of Optimization Problems"
+   },
+   "page": "13_optimization",
+   "anchor": "#m13-types",
+   "level": 1,
+   "status": "known",
+   "confidence": "high",
+   "coverage": "explained",
+   "family": "math-for-ai",
+   "domain": [
+    "math",
+    "ai"
+   ],
+   "match": [],
+   "definition": {
+    "ko": "아래로 볼록한 그릇의 바닥(최소화), 위로 볼록한 언덕의 꼭대기(최대화). ML 예: 선형 회귀 MSE, 로지스틱 로그 손실, 신경망 교차 엔트로피, 하이퍼파라미터의 검증 오차."
+   }
+  },
+  {
+   "id": "lab:concept/m13-gd",
+   "type": "Concept",
+   "label": {
+    "ko": "경사하강",
+    "en": "Gradient Descent"
+   },
+   "page": "13_optimization",
+   "anchor": "#m13-gd",
+   "level": 1,
+   "status": "known",
+   "confidence": "high",
+   "coverage": "explained",
+   "family": "math-for-ai",
+   "domain": [
+    "math",
+    "ai"
+   ],
+   "match": [],
+   "definition": {
+    "ko": "함수의 최솟값을 찾는 반복 알고리즘. 그래디언트 반대로 α만큼 걷는다: θ_new = θ_old − α∇f(θ)."
+   }
+  },
+  {
+   "id": "lab:concept/m13-variants",
+   "type": "Concept",
+   "label": {
+    "ko": "경사하강의 세 가지",
+    "en": "Types of Gradient Descent"
+   },
+   "page": "13_optimization",
+   "anchor": "#m13-variants",
+   "level": 1,
+   "status": "known",
+   "confidence": "high",
+   "coverage": "explained",
+   "family": "math-for-ai",
+   "domain": [
+    "math",
+    "ai"
+   ],
+   "match": [],
+   "definition": {
+    "ko": "배치(전체 데이터로 한 걸음), 확률적 SGD(데이터 하나로), 미니배치(데이터 몇십 개로)."
+   }
+  },
+  {
+   "id": "lab:concept/m13-lr",
+   "type": "Concept",
+   "label": {
+    "ko": "학습률",
+    "en": "Learning Rate"
+   },
+   "page": "13_optimization",
+   "anchor": "#m13-lr",
+   "level": 1,
+   "status": "known",
+   "confidence": "high",
+   "coverage": "explained",
+   "family": "math-for-ai",
+   "domain": [
+    "math",
+    "ai"
+   ],
+   "match": [],
+   "definition": {
+    "ko": "각 반복의 걸음 크기 α. 너무 크면 최솟값을 넘어가고, 너무 작으면 아주 느리게 수렴한다."
+   }
+  },
+  {
+   "id": "lab:concept/m13-algos",
+   "type": "Concept",
+   "label": {
+    "ko": "최적화 알고리즘",
+    "en": "Optimization Algorithms"
+   },
+   "page": "13_optimization",
+   "anchor": "#m13-algos",
+   "level": 1,
+   "status": "known",
+   "confidence": "high",
+   "coverage": "explained",
+   "family": "math-for-ai",
+   "domain": [
+    "math",
+    "ai"
+   ],
+   "match": [],
+   "definition": {
+    "ko": "경사하강, 모멘텀(지난 기울기로 가속), RMSProp(제곱 기울기 평균으로 학습률 조절), Adam(모멘텀 + RMSProp, 가장 인기), Adagrad, Adadelta, 네스테로프."
+   }
+  },
+  {
+   "id": "lab:concept/m13-example",
+   "type": "Concept",
+   "label": {
+    "ko": "ML 최적화 예: 선형 회귀",
+    "en": "Optimization in ML (Example)"
+   },
+   "page": "13_optimization",
+   "anchor": "#m13-example",
+   "level": 1,
+   "status": "known",
+   "confidence": "high",
+   "coverage": "explained",
+   "family": "math-for-ai",
+   "domain": [
+    "math",
+    "ai"
+   ],
+   "match": [],
+   "definition": {
+    "ko": "MSE 손실 J(w, b) = (1/m) Σ (yᵢ − (wxᵢ + b))²를 w ← w − α ∂J/∂w, b ← b − α ∂J/∂b로 줄인다."
+   }
+  },
+  {
+   "id": "lab:concept/m13-surface",
+   "type": "Concept",
+   "label": {
+    "ko": "손실 곡면 (3D)",
+    "en": "Loss Surface (3D View)"
+   },
+   "page": "13_optimization",
+   "anchor": "#m13-surface",
+   "level": 1,
+   "status": "known",
+   "confidence": "high",
+   "coverage": "explained",
+   "family": "math-for-ai",
+   "domain": [
+    "math",
+    "ai"
+   ],
+   "match": [],
+   "definition": {
+    "ko": "가중치 축(w, b) 위에 손실 J를 높이로 세운 지형. 경사하강은 이 그릇의 바닥으로 내려가는 길."
+   }
+  },
+  {
+   "id": "lab:sim/ch13-lab",
+   "type": "Simulation",
+   "label": {
+    "ko": "그릇 바닥 찾기",
+    "en": "Interactive lab ch13"
+   },
+   "page": "13_optimization",
+   "anchor": "#lab",
+   "level": 1,
+   "status": "known",
+   "confidence": "high",
+   "coverage": "explained",
+   "family": "math-for-ai",
+   "domain": [
+    "math",
+    "ai"
+   ],
+   "match": [],
+   "definition": {
+    "ko": "학습률은 \"지형을 얼마나 믿고 크게 걸을까\"의 선택입니다. 너무 조심하면 해가 지도록 못 내려가고, 너무 과감하면 골짜기를 넘어 반대편 벽에 부딪쳐요. 그래서 실제 학습은 손실 곡선을 그려 보며 α를 고르고, 도중에 줄여 가기도 합니다."
+   }
+  },
+  {
+   "id": "lab:analogy/ch13-toon1",
+   "type": "Analogy",
+   "label": {
+    "ko": "학습률 1.1의 롤러코스터",
+    "en": "Cartoon 1"
+   },
+   "page": "13_optimization",
+   "anchor": "#toon1",
+   "level": 1,
+   "status": "known",
+   "confidence": "high",
+   "coverage": "explained",
+   "family": "math-for-ai",
+   "domain": [
+    "math",
+    "ai"
+   ],
+   "match": [],
+   "definition": {
+    "ko": "α가 너무 크면 최솟값을 넘어가고, |1 − 2α| > 1이면 걸음마다 더 멀어져 발산한다."
+   }
+  },
+  {
+   "id": "lab:analogy/ch13-toon2",
+   "type": "Analogy",
+   "label": {
+    "ko": "α = 0.0001의 달팽이",
+    "en": "Cartoon 2"
+   },
+   "page": "13_optimization",
+   "anchor": "#toon2",
+   "level": 1,
+   "status": "known",
+   "confidence": "high",
+   "coverage": "explained",
+   "family": "math-for-ai",
+   "domain": [
+    "math",
+    "ai"
+   ],
+   "match": [],
+   "definition": {
+    "ko": "α가 너무 작으면 수렴이 매우 느리다. 학습률 스케줄(처음엔 크게, 점점 작게)이 흔한 해결책."
+   }
+  },
+  {
+   "id": "lab:question/ch13-ai",
+   "type": "Question",
+   "label": {
+    "ko": "주판봇의 \"손실이 처음 10걸음 동안 안 줄었으니 학습률을 100배로!\"",
+    "en": "AI check ch13"
+   },
+   "page": "13_optimization",
+   "anchor": "#ai",
+   "level": 1,
+   "status": "known",
+   "confidence": "high",
+   "coverage": "explained",
+   "family": "math-for-ai",
+   "domain": [
+    "math",
+    "ai"
+   ],
+   "match": [],
+   "definition": {
+    "ko": "손실이 줄지 않는 이유는 두 가지일 수 있어요. 학습률이 너무 작거나(거의 안 움직임), 너무 커서 바닥을 넘나들거나(진동). 손실 곡선의 모양을 봐야 구분됩니다. 매끄럽게 아주 천천히 줄면 작은 것, 오르내리며 튀면 큰 것. α = 0.6을 100배 하면 60이라 공비 1 − 120 = −119, 한 걸음에 손실이 만 배 넘게 폭발해요. 학습률은 10배 단위(×3, ÷3 정도)로 조심스럽게 바꾸는 것이 보통입니다."
+   }
+  },
+  {
+   "id": "lab:limitation/ch13-limit",
+   "type": "Limitation",
+   "label": {
+    "ko": "이 장의 한계",
+    "en": "Limitation ch13"
+   },
+   "page": "13_optimization",
+   "anchor": "#sum",
+   "level": 1,
+   "status": "known",
+   "confidence": "high",
+   "coverage": "explained",
+   "family": "math-for-ai",
+   "domain": [
+    "math",
+    "ai"
+   ],
+   "match": [],
+   "definition": {
+    "ko": "그릇 비유는 바닥이 하나인 볼록 함수에만 정확히 맞습니다. 신경망 손실은 울퉁불퉁해요."
+   }
+  }
+ ],
+ "edges": [
+  {
+   "s": "lab:concept/m13-what",
+   "p": "lab:prerequisiteOf",
+   "o": "lab:concept/m13-types",
+   "anchor": "#m13-types",
+   "confidence": "medium"
+  },
+  {
+   "s": "lab:concept/m13-types",
+   "p": "lab:prerequisiteOf",
+   "o": "lab:concept/m13-gd",
+   "anchor": "#m13-gd",
+   "confidence": "medium"
+  },
+  {
+   "s": "lab:concept/m13-gd",
+   "p": "lab:prerequisiteOf",
+   "o": "lab:concept/m13-variants",
+   "anchor": "#m13-variants",
+   "confidence": "medium"
+  },
+  {
+   "s": "lab:concept/m13-variants",
+   "p": "lab:prerequisiteOf",
+   "o": "lab:concept/m13-lr",
+   "anchor": "#m13-lr",
+   "confidence": "medium"
+  },
+  {
+   "s": "lab:concept/m13-lr",
+   "p": "lab:prerequisiteOf",
+   "o": "lab:concept/m13-algos",
+   "anchor": "#m13-algos",
+   "confidence": "medium"
+  },
+  {
+   "s": "lab:concept/m13-algos",
+   "p": "lab:prerequisiteOf",
+   "o": "lab:concept/m13-example",
+   "anchor": "#m13-example",
+   "confidence": "medium"
+  },
+  {
+   "s": "lab:concept/m13-example",
+   "p": "lab:prerequisiteOf",
+   "o": "lab:concept/m13-surface",
+   "anchor": "#m13-surface",
+   "confidence": "medium"
+  },
+  {
+   "s": "lab:concept/m13-lr",
+   "p": "lab:demonstratedBy",
+   "o": "lab:sim/ch13-lab",
+   "anchor": "#lab",
+   "confidence": "high"
+  },
+  {
+   "s": "lab:analogy/ch13-toon1",
+   "p": "lab:analogyOf",
+   "o": "lab:concept/m13-types",
+   "anchor": "#toon1",
+   "confidence": "medium"
+  },
+  {
+   "s": "lab:analogy/ch13-toon2",
+   "p": "lab:analogyOf",
+   "o": "lab:concept/m13-lr",
+   "anchor": "#toon2",
+   "confidence": "medium"
+  },
+  {
+   "s": "lab:concept/m13-lr",
+   "p": "lab:relatedTo",
+   "o": "lab:question/ch13-ai",
+   "anchor": "#ai",
+   "confidence": "medium"
+  },
+  {
+   "s": "lab:concept/m13-what",
+   "p": "lab:hasLimitation",
+   "o": "lab:limitation/ch13-limit",
+   "anchor": "#sum",
+   "confidence": "medium"
+  }
+ ]
+}

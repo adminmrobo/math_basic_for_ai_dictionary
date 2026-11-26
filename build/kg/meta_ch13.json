@@ -1,0 +1,39 @@
+{
+ "title": "13장 최적화 — 경사하강과 학습률",
+ "series": "수리 도감 — 인공지능을 위한 수리적 기초",
+ "number": "ch13",
+ "creator": [
+  {
+   "name": "안상선",
+   "role": "author",
+   "affiliation": "(주)M-Robo"
+  }
+ ],
+ "contributor": [
+  {
+   "name": "AI 보조 제작",
+   "role": "assistant"
+  }
+ ],
+ "date": "2026-11-26",
+ "version": "1.0",
+ "language": [
+  "ko"
+ ],
+ "license": "",
+ "url": "https://adminmrobo.github.io/math_basic_for_ai_dictionary/13_optimization.html",
+ "about": [
+  "lab:concept/m13-what",
+  "lab:concept/m13-types",
+  "lab:concept/m13-gd",
+  "lab:concept/m13-variants"
+ ],
+ "basedOn": [
+  "ahn_math_for_ai",
+  "ahn_hello_space"
+ ],
+ "educationalLevel": "입문",
+ "learningResourceType": "interactive explainer",
+ "registry": "KG_00_registry 0.2",
+ "suggestedCitation": "안상선 (2026). 13장 최적화 — 경사하강과 학습률. 수리 도감 — 인공지능을 위한 수리적 기초, v1.0."
+}

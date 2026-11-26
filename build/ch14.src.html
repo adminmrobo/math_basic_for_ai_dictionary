@@ -1,0 +1,242 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>14장 고윳값·고유벡터와 PCA — 데이터의 주축 찾기 | 수리 도감 — 인공지능을 위한 수리적 기초</title>
+<meta name="description" content="수리 도감 14장. 고윳값·고유벡터의 뜻(Ax = λx), 특성방정식으로 고윳값 찾기, 고유벡터 구하기, 고윳값의 성질(대각합·행렬식), PCA의 공분산 행렬, PCA 여섯 단계, 2차원 예제와 시각화를 박사가 주축 찾기 실험실로 안내합니다.">
+<meta property="og:type" content="article"><meta property="og:title" content="14장 고윳값·고유벡터와 PCA — 데이터의 주축 찾기 | 수리 도감 — 인공지능을 위한 수리적 기초"><meta property="og:description" content="수리 도감 14장. 고윳값·고유벡터의 뜻(Ax = λx), 특성방정식으로 고윳값 찾기, 고유벡터 구하기, 고윳값의 성질(대각합·행렬식), PCA의 공분산 행렬, PCA 여섯 단계, 2차원 예제와 시각화를 박사가 주축 찾기 실험실로 안내합니다.">
+<meta property="og:image" content="https://adminmrobo.github.io/math_basic_for_ai_dictionary/img/og/ch14.png"><meta property="og:url" content="https://adminmrobo.github.io/math_basic_for_ai_dictionary/14_eigen_pca.html"><meta name="twitter:card" content="summary_large_image">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+KR:wght@400;500;700&display=swap" rel="stylesheet">
+<!--@@CSS@@-->
+<style>
+.tl,.tr{font-weight:700;font-size:13.5px;margin-bottom:4px}.tl{color:var(--amber)}.tr{color:var(--terrain)}
+.hex{display:inline-grid;place-items:center;min-width:44px;height:34px;padding:0 10px;margin-right:10px;border-radius:8px;background:var(--terrain);color:#fff;font-size:17px;vertical-align:4px}
+.sec{padding:40px 0;border-top:1px solid var(--rule)}
+.cast{display:grid;gap:10px}.castc{display:flex;gap:10px;align-items:center;background:var(--panel);border:1px solid var(--rule);border-left:4px solid var(--cc);border-radius:10px;padding:8px 10px}
+.castc.host{background:#fff;box-shadow:0 0 0 2px var(--cc)}
+.castc img{width:60px;height:60px;flex:none}.castc p{margin:0;font-size:13.5px;color:var(--muted);line-height:1.55}
+.cover img.art{image-rendering:pixelated;image-rendering:crisp-edges}
+.diff{display:inline-block;border:1px solid var(--c-asst);color:var(--c-asst);border-radius:999px;padding:0 10px;font-size:12.5px;margin-left:6px}
+.hostcard{display:flex;gap:14px;align-items:center;border:2px solid var(--cc);border-radius:14px;padding:12px 16px;margin:10px 0 16px;background:#fff}
+.hostcard img{width:84px;height:84px;flex:none}.hostcard p{margin:4px 0 0;color:var(--muted)}
+.chain span.on{background:var(--terrain);color:#fff;border-color:var(--terrain)}
+.where{background:var(--panel);border-radius:10px;padding:10px 14px}
+.sis{display:flex;gap:12px;align-items:center;border:1px solid var(--c-asst);border-radius:12px;padding:10px 14px;margin:10px 0;background:#fff7fb}.sis img{width:56px;height:56px;flex:none}.sis p{margin:0}
+.dexidx{display:flex;flex-wrap:wrap;gap:6px;margin:10px 0 18px}.dexidx a{border:1px solid var(--rule);border-radius:999px;padding:3px 12px;font-size:14px;text-decoration:none;background:var(--panel)}
+.dexidx a:hover{border-color:var(--terrain)}
+.dex{border:1px solid var(--rule);border-top:4px solid var(--terrain);border-radius:14px;padding:16px 20px 12px;margin:0 0 22px;background:#fff;scroll-margin-top:70px}
+.dex header{display:flex;gap:12px;align-items:baseline;flex-wrap:wrap}.dex h3{margin:0;font-size:21px}.dex h3 small{font-size:14px;color:var(--muted);font-weight:500}
+.dexno{font:700 13px/1 var(--font);color:#fff;background:var(--c-x);border-radius:6px;padding:4px 8px}
+.dex .one{font-size:17px;font-weight:600;color:var(--terrain);margin:8px 0 10px}
+.dexgrid{display:grid;grid-template-columns:1.2fr 1fr;gap:14px;margin-bottom:10px}
+.dexgrid .dw{line-height:1.8}.dexgrid .try{background:var(--amber-soft);border:1px dashed #e8b67a;border-radius:10px;padding:10px 14px}.dexgrid .try ol{margin:6px 0 0;padding-left:22px}
+.dexwarn{background:var(--eye-soft);border-radius:8px;padding:8px 12px;font-size:15px}
+@media(max-width:760px){.dexgrid{grid-template-columns:1fr}}
+.toon{margin:26px auto;max-width:820px;border:1px solid var(--rule);border-radius:14px;overflow:hidden;background:#fff}
+.toon .tframe{background:#fff;border-bottom:1px solid var(--rule)}.toon img{display:block;width:100%;height:auto;image-rendering:pixelated;image-rendering:crisp-edges}
+.toon figcaption{padding:12px 16px}.toon .ttl{display:block;margin-bottom:8px;color:var(--amber)}
+.tline{display:flex;gap:10px;align-items:center;margin:6px 0}.tline img{width:40px;height:40px;flex:none;border-radius:8px;border:1px solid var(--rule)}.tline p{margin:0}
+.tpoint{margin:10px 0 0;background:var(--panel);border-radius:8px;padding:8px 12px;font-size:15px}
+.labbox{border:1px solid var(--rule);border-radius:14px;padding:14px 18px;margin:16px 0;background:#fff}
+.labh{font-weight:700;font-size:17px;margin-bottom:6px}.lno{display:inline-grid;place-items:center;width:28px;height:28px;border-radius:50%;background:var(--terrain);color:#fff;margin-right:6px}
+.codewrap{position:relative}.cpy{position:absolute;right:8px;top:8px;font:600 12.5px var(--font);border:1px solid var(--rule);background:#fff;border-radius:8px;padding:3px 10px;cursor:pointer}
+pre.prompt,pre.code,pre.out{white-space:pre-wrap;word-break:break-word;background:#f7f9fb;border:1px solid var(--rule);border-radius:10px;padding:14px 16px;font:13.5px/1.65 ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;max-height:520px;overflow:auto;margin:8px 0}
+pre.prompt{background:#fbf8ff;border-color:#d9c8f0;font-family:var(--font);font-size:14.5px}
+pre.out{background:#0f1720;color:#d8e6f0}
+.colabbtns{display:flex;flex-wrap:wrap;gap:8px}.colabbtns a.bt{text-decoration:none}
+.panel .row2{display:grid;grid-template-columns:1fr 1fr;gap:14px}@media(max-width:760px){.panel .row2{grid-template-columns:1fr}}
+.panel .cv{width:100%;height:300px;display:block;border:1px solid var(--rule);border-radius:10px;background:#fff;touch-action:none}
+.panel .cv.tall{height:360px}
+.panel .rd{display:grid;grid-template-columns:repeat(auto-fit,minmax(130px,1fr));gap:8px;margin:10px 0}
+.panel .rd div{background:var(--panel);border-radius:10px;padding:8px 10px}.panel .rd b{display:block;font-size:19px}.panel .rd span{font-size:12.5px;color:var(--muted)}
+.panel .sl{display:flex;align-items:center;gap:10px;margin:6px 0;flex-wrap:wrap}.panel .sl label{min-width:140px;font-size:14.5px}.panel .sl input[type=range]{flex:1;min-width:140px}
+.panel .msg{background:#f4fbfb;border:1px dashed var(--terrain);border-radius:10px;padding:10px 14px;margin:8px 0;font-size:15px}
+.panel textarea,.panel input[type=text]{width:100%;font:15px var(--font);padding:8px 10px;border:1px solid var(--rule);border-radius:8px}
+.panel table.mt{border-collapse:collapse;margin:6px 0}.panel table.mt td{border:1px solid var(--rule);min-width:44px;text-align:center;padding:4px 6px;font-variant-numeric:tabular-nums}
+.panel table.mt td.hl{background:var(--amber-soft);font-weight:700}.panel table.mt td.hl2{background:var(--info-soft);font-weight:700}
+.panel .step{font-variant-numeric:tabular-nums}
+.ptitle{font-weight:700;margin-bottom:6px}
+</style>
+</head>
+<body>
+<nav class="top" aria-label="섹션 바로가기"><div class="row">
+  <a class="logo" href="index.html">수리 <i>도감</i> 14</a>
+  <div class="links"><a href="#dex">도감 항목</a><a href="#lab">실험실</a><a href="#ai">AI 판단</a><a href="#colab">코랩 실습</a><a href="#sum">정리</a><a href="#kg">색인</a><a href="15_quick_revision.html">15장 →</a></div>
+</div></nav>
+<div class="cover" id="cover"><div class="frame"><img class="art" src="img/cover_ch14.webp" width="1920" height="1080" alt="칠판에 Ax = λx, det(A − λI) = 0, PC1 PC2가 적혀 있고 박사가 지휘봉을 든다. 하루가 단호한 얼굴로, 모아가 반짝이는 눈으로 양옆에 있다. 비스듬한 점 구름과 빨간 화살표 소품. 16비트 픽셀아트." fetchpriority="high"><span class="cap">수리 도감 · MATH-14</span><span class="cover-chip">14장 고윳값·고유벡터와 PCA — 데이터의 주축 찾기 · 안내 박사</span></div></div>
+<header class="hero" id="top"><div class="wrap">
+  <div class="eyebrow">수리 도감 · 인공지능을 위한 수리적 기초 · 응용 · 원자료 MATH-14 <span class="diff">이번 장 안내: 박사</span></div>
+  <h1>14장 고윳값·고유벡터와 PCA — 데이터의 주축 찾기</h1>
+  <p class="question">특성이 100개인 데이터를 그림 한 장에 그릴 수 있을까? 정보를 가장 많이 남기는 방향은 어디일까?</p>
+  <p class="lead">행렬을 곱하면 대부분의 화살표는 방향이 꺾입니다. 그런데 어떤 특별한 화살표는 방향은 그대로이고 길이만 바뀌어요. 그것이 고유벡터, 늘어난 배율이 고윳값입니다. 데이터의 공분산 행렬(10장)에서 고유벡터를 찾으면 "데이터가 가장 넓게 퍼진 방향"이 나오고, 그 방향 몇 개만 남기는 것이 PCA(주성분 분석)예요. 2~13장의 도구가 모두 모이는 응용 장입니다.</p>
+  <p class="byline">글 · 안상선 ((주)M-Robo 대표) · <a href="https://adminmrobo.github.io/who_am_i/who_am_i.html">저자 소개</a> · 2026-11-26 · v1.0</p>
+  <div class="start"><b>처음이라면</b> 「고윳값과 고유벡터란」을 읽고 실험실의 「행렬 A로 원 늘이기」에서 파란 타원과 두 화살표를 보세요. 그다음 「데이터 점 구름」에서 PC1 위로 내려 찍기를 눌러 보면 PCA가 한눈에 들어옵니다.</div>
+  <div class="kpis" aria-label="숫자 요약"><div class="kpi m"><b>8개</b><span>도감 항목 (슬라이드 MATH-14의 모든 상자)</span></div><div class="kpi g"><b>1개</b><span>직접 움직이는 실험실</span></div><div class="kpi a"><b>2 + 2</b><span>웃는 그림 둘, 코랩 실습 둘(AI 프롬프트·실제 코드)</span></div><div class="kpi r"><b>4문제</b><span>확인 퀴즈</span></div></div>
+</div></header>
+<main>
+<section class="sec" id="plain" aria-labelledby="h-plain"><div class="wrap"><h2 id="h-plain">처음 오신 분께 — 이 장을 3줄로</h2><ol class="plain3"><li><b>무엇을</b> Ax = λx(고유벡터는 방향 유지, 고윳값은 배율), det(A − λI) = 0으로 λ 찾기, 공분산 행렬의 고유벡터 = 주성분.</li><li><b>왜 중요한가</b> 특성이 많아도 정보가 몰린 방향 몇 개로 줄일 수 있어요. 그림 그리기, 잡음 줄이기, 계산 줄이기에 씁니다.</li><li><b>AI에서는</b> PCA 차원 축소·시각화, 이미지 압축, 추천 시스템, 군집 전처리. 구글 페이지랭크도 고유벡터 문제예요.</li></ol>
+<p class="plain-note">코드와 수식을 몰라도 됩니다. 항목마다 "말로 먼저"와 "숫자로 한 번 해 보기"가 먼저 나오고, 식은 "식으로 보면"을 펼칠 때만 나옵니다. 여기서 한 번 멈춰도 괜찮아요.</p>
+<details class="abbr"><summary>기호·영어 약어 풀이 (8개)</summary><div class="abbr-list"><div><b>λ</b> <span>람다</span> — 고윳값(배율)</div><div><b>x, v</b> <span>고유벡터</span> — 방향이 바뀌지 않는 0이 아닌 벡터</div><div><b>I</b> <span>단위행렬</span> — 4장</div><div><b>det</b> <span>행렬식</span> — 4·5장</div><div><b>Trace(A), tr A</b> <span>대각합</span> — 대각선 원소의 합</div><div><b>Σ</b> <span>시그마(공분산 행렬)</span> — 여기서는 합이 아니라 행렬</div><div><b>PCA</b> <span>Principal Component Analysis</span> — 주성분 분석</div><div><b>PC1, PC2</b> <span>제1·제2 주성분</span> — 가장 넓게 퍼진 방향, 그다음</div></div></details></div></section>
+<section class="sec" id="cast" aria-labelledby="h-cast" style="padding:18px 0 0;border:0"><div class="wrap"><h3 id="h-cast">연구소 식구 — 열다섯 장을 돌아가며 안내합니다</h3>
+<div class="cast" style="grid-template-columns:repeat(auto-fit,minmax(230px,1fr))"><div class="castc host" style="--cc:var(--c-doc)"><img data-mood="doc_board" alt="" aria-hidden="true"><div><b>박사 · 이번 장 안내</b><p>연구소 책임자. 장마다 상황 질문으로 문을 열고 해석 문장으로 닫아요.</p></div></div><div class="castc" style="--cc:var(--c-asst)"><img data-mood="asst_smile" alt="" aria-hidden="true"><div><b>조교 하루</b><p>수식 담당. 기호 하나씩 읽는 법과 뜻부터 풀어 줘요.</p></div></div><div class="castc" style="--cc:var(--c-fly)"><img data-mood="fly_point" alt="" aria-hidden="true"><div><b>조교 초파리</b><p>실험 담당. "이걸 눌러 봐"로 실험판을 열고, 답이 그럴듯한지 의심해요.</p></div></div><div class="castc" style="--cc:var(--c-robo)"><img data-mood="robo_calc" alt="" aria-hidden="true"><div><b>조교 주판봇</b><p>계산 담당. 1초 만에 답을 내지만 가끔 너무 빨라요. AI 판단 코너의 단골.</p></div></div><div class="castc" style="--cc:var(--c-sia)"><img data-mood="sia_smile" alt="" aria-hidden="true"><div><b>시아</b><p>직관파 연구원. 비유부터 꺼내 "그러니까 이런 거죠?"라고 물어요.</p></div></div><div class="castc" style="--cc:var(--c-moa)"><img data-mood="moa_smile" alt="" aria-hidden="true"><div><b>모아</b><p>꼼꼼파 연구원. "그건 언제나 그래요?" 하고 조건과 예외를 물어요.</p></div></div><div class="castc" style="--cc:var(--c-x)"><img data-mood="x1_hint" alt="" aria-hidden="true"><div><b>X1</b><p>막내 연구원. 손을 번쩍 들고 엉뚱한 질문을 해요.</p></div></div><div class="castc" style="--cc:var(--c-x)"><img data-mood="x2_hint" alt="" aria-hidden="true"><div><b>X2</b><p>막내 연구원. 필기를 가장 열심히 해요.</p></div></div><div class="castc" style="--cc:var(--c-x)"><img data-mood="x3_hint" alt="" aria-hidden="true"><div><b>X3</b><p>막내 연구원. 게임과 퀴즈 시간에 가장 신나요.</p></div></div></div></div></section>
+<section class="sec" id="open" aria-labelledby="h-open"><div class="wrap">
+<h2 id="h-open"><span class="hex">14</span>방향이 바뀌지 않는 화살표</h2>
+<div class="hostcard" style="--cc:var(--c-doc)"><img data-mood="doc_board" alt="" aria-hidden="true"><div><b>이번 장 안내 · 박사</b><p>네 분야(선형대수·통계·미적분·최적화)가 한데 모이는 응용 장이라, 첫 장을 열었던 박사가 다시 안내를 맡았습니다.</p></div></div>
+<div data-dlg="open"></div>
+<div class="chain"><span class="">12 편미분과 그래디언트</span><i>→</i><span class="">13 최적화</span><i>→</i><span class="on">14 고윳값·고유벡터와 PCA</span><i>→</i><span class="">15 총정리</span></div>
+<p class="where"><b>도감 속 자리</b> 4장(행렬곱), 5장(행렬식), 8장(분산), 10장(공분산)이 모두 쓰이는 장입니다. 13장 최적화와도 이어져요 — PCA는 "투영 오차를 최소화하는" 최적화 문제로도 풀 수 있습니다. 15장 총정리에 실전 예제가 있습니다.</p>
+<div class="sis"><img data-mood="asst_report" alt="" aria-hidden="true"><p><b>조교 하루의 길 안내</b> 같은 주제를 생선 가게 AI 모델 이야기로 차례차례 따라가고 싶다면 「인공지능을 위한 수학」 <a href="https://adminmrobo.github.io/math_for_ai_lab/part2.html#c08">2부 8장 고유값·PCA</a>을 함께 보세요. 이야기로 흐름을 잡고, 이 도감으로 낱말을 찾아보는 식으로 쓰면 좋아요.</p></div>
+<figure class="toon" id="toon1"><div class="tframe"><img src="img/toon/ch14_a.webp" width="1200" height="800" loading="lazy" alt="픽셀아트. &quot;A&quot; 간판이 달린 커다란 기계에 여러 화살표가 들어갔다가 이리저리 꺾여 나오는데, 빨간 화살표 하나만 방향 그대로 길이만 늘어나 나온다. 그 화살표 이름표에 &quot;eigenvector&quot;, 옆 계기판에 &quot;λ = 3&quot;. 박사가 웃고 하루가 기록한다."></div><figcaption><b class="ttl">웃는 그림 1 · 고집 센 화살표</b><div class="tline"><img data-mood="doc_magic" alt="" aria-hidden="true"><p><b>박사</b> 이 기계를 지나면 다들 방향이 꺾이는데… 저 녀석만 꿋꿋하군요.</p></div><div class="tline"><img data-mood="asst_firm" alt="" aria-hidden="true"><p><b>조교 하루</b> 방향은 그대로, 길이만 3배. 고유벡터 [1, 1], 고윳값 λ = 3이에요.</p></div><div class="tline"><img data-mood="x1_hint" alt="" aria-hidden="true"><p><b>X1</b> 고집이 세서 "고유"벡터예요?</p></div><p class=tpoint><b>그림 속 수학</b> 고유벡터: Ax = λx. A를 곱해도 방향이 그대로인 0이 아닌 벡터. λ는 그 배율. A = [[2,1],[1,2]]이면 [1,1]에 대해 λ = 3.</p></figcaption></figure>
+</div></section>
+<section class="sec" id="dex" aria-labelledby="h-dex"><div class="wrap">
+<h2 id="h-dex"><span class="hex">도감</span>도감 항목 — 8개</h2>
+<p>슬라이드 MATH-14의 상자를 하나도 빼지 않고 항목으로 옮겼습니다. 이름표를 눌러 바로 가세요.</p>
+<div class="dexidx"><a href="#m14-what">고윳값과 고유벡터란</a><a href="#m14-find">고윳값 찾기</a><a href="#m14-vec">고유벡터 찾기</a><a href="#m14-props">고윳값의 성질</a><a href="#m14-cov">PCA의 공분산 행렬</a><a href="#m14-pca">고유벡터로 하는 PCA</a><a href="#m14-example">PCA 2차원 예제</a><a href="#m14-visual">PCA 시각화와 정리</a></div>
+<article class="dex" id="m14-what" data-dex="고윳값과 고유벡터란"><header><span class="dexno">14-01</span><h3>고윳값과 고유벡터란 <small>What are Eigenvalues and Eigenvectors</small></h3></header><p class="one">정사각 행렬 A에 대해 Ax = λx이면 x는 고유벡터, λ는 고윳값. A를 곱해도 방향은 그대로, 크기만 λ배.</p><div class="dexgrid"><div class="dw"><b>말로 먼저</b> A를 "공간을 늘이고 돌리는 기계"라고 생각하면, 대부분의 화살표는 기계를 지나며 방향이 꺾여요. 고유벡터는 꺾이지 않고 같은 직선 위에 남는 특별한 화살표(0이 아닌 벡터)이고, 고윳값 λ는 그때 길이가 몇 배가 되는지예요. λ가 음수면 반대 방향으로 뒤집힙니다.</div><div class="try"><b>숫자로 한 번 해 보기</b><ol><li>A = [[2, 1], [1, 2]], x = [1, 1]</li><li>Ax = [2+1, 1+2] = [3, 3] = 3 × [1, 1] → λ = 3</li><li>x = [1, 0] → Ax = [2, 1]: 방향이 꺾임 → 고유벡터 아님</li></ol></div></div><div class="pair"><div><div class="tl">학교 수학으로 보면</div>4장 행렬곱 + 3장 스칼라배(대학 선형대수).</div><div><div class="tr">AI에서는</div>PCA, 차원 축소, 스펙트럴 군집, 페이지랭크 등 많은 ML 알고리즘에 쓰입니다.</div></div><details class="eqx"><summary>식으로 보면 (몰라도 됩니다)</summary><table class="ez-tb"><thead><tr><th>식 조각</th><th>읽는 법</th><th>뜻</th></tr></thead><tbody><tr><td class="m">Ax = λx</td><td>에이 엑스는 람다 엑스</td><td>곱해도 방향 유지, λ배</td></tr><tr><td class="m">A: n × n, x ≠ 0, λ: 스칼라</td><td>조건</td><td>정사각 행렬, 영벡터 제외</td></tr></tbody></table></details></article>
+<article class="dex" id="m14-find" data-dex="고윳값 찾기"><header><span class="dexno">14-02</span><h3>고윳값 찾기 <small>How to Find Eigenvalues</small></h3></header><p class="one">특성방정식 det(A − λI) = 0을 풀어 λ를 구한다. ① A − λI ② 행렬식 ③ λ에 대해 풀기.</p><div class="dexgrid"><div class="dw"><b>말로 먼저</b> Ax = λx를 (A − λI)x = 0으로 옮기면, 0이 아닌 x가 있으려면 A − λI의 역행렬이 없어야 해요(있으면 x = 0뿐). 역행렬이 없다 = 행렬식이 0(4·5장). 그래서 det(A − λI) = 0이 λ를 찾는 식이 됩니다.</div><div class="try"><b>숫자로 한 번 해 보기</b><ol><li>A = [[4, 1], [1, 3]]</li><li>det = (4 − λ)(3 − λ) − 1 = λ² − 7λ + 11 = 0</li><li>λ = (7 ± √5)/2 ≈ 4.618, 2.382</li></ol></div></div><div class="pair"><div><div class="tl">학교 수학으로 보면</div>고1 "이차방정식의 근의 공식" + 행렬식.</div><div><div class="tr">AI에서는</div>큰 행렬은 이 방정식 대신 컴퓨터의 반복 계산(np.linalg.eig)으로 구해요.</div></div><details class="eqx"><summary>식으로 보면 (몰라도 됩니다)</summary><table class="ez-tb"><thead><tr><th>식 조각</th><th>읽는 법</th><th>뜻</th></tr></thead><tbody><tr><td class="m">det(A − λI) = 0</td><td>특성방정식</td><td>λ를 찾는 식</td></tr><tr><td class="m">(a − λ)(d − λ) − bc = 0</td><td>2 × 2</td><td>이차방정식</td></tr></tbody></table></details></article>
+<article class="dex" id="m14-vec" data-dex="고유벡터 찾기"><header><span class="dexno">14-03</span><h3>고유벡터 찾기 <small>How to Find Eigenvectors</small></h3></header><p class="one">고윳값 λ마다 (A − λI)x = 0을 풀어 x를 구한다. 0이 아닌 상수배는 모두 같은 고유벡터.</p><div class="dexgrid"><div class="dw"><b>말로 먼저</b> λ = (7 + √5)/2를 넣으면 첫째 식 (4 − λ)x₁ + x₂ = 0에서 x₂ = (λ − 4)x₁. x₁ = 1로 두면 x = [1, λ − 4] ≈ [1, 0.618]. 방향만 의미가 있어서 [2, 1.236]이나 −[1, 0.618]도 같은 고유벡터예요. 보통 길이 1로 맞춥니다(정규화).</div><div class="try"><b>숫자로 한 번 해 보기</b><ol><li>λ₁ ≈ 4.618 → x ≈ [1, 0.618] → 길이 1로: [0.851, 0.526]</li><li>확인: A × [1, 0.618] = [4.618, 2.854] ≈ 4.618 × [1, 0.618] ✔</li><li>λ₂ ≈ 2.382 → x ≈ [1, −1.618]</li></ol></div></div><div class="pair"><div><div class="tl">학교 수학으로 보면</div>연립방정식(5장)의 해가 무수히 많은 경우.</div><div><div class="tr">AI에서는</div>라이브러리는 길이 1로 정규화한 고유벡터를 돌려주며, 부호(+/−)는 라이브러리마다 다를 수 있어요.</div></div><details class="eqx"><summary>식으로 보면 (몰라도 됩니다)</summary><table class="ez-tb"><thead><tr><th>식 조각</th><th>읽는 법</th><th>뜻</th></tr></thead><tbody><tr><td class="m">(A − λI)x = 0</td><td>고유벡터 식</td><td>λ를 넣고 x 풀기</td></tr><tr><td class="m">x = [1, λ − 4]</td><td>원자료 예</td><td>상수배는 모두 고유벡터</td></tr></tbody></table></details></article>
+<article class="dex" id="m14-props" data-dex="고윳값의 성질"><header><span class="dexno">14-04</span><h3>고윳값의 성질 <small>Properties of Eigenvalues</small></h3></header><p class="one">n × n 행렬은 고윳값 n개(중복 포함). 합 = 대각합 tr A, 곱 = 행렬식 det A. 대칭 행렬은 고윳값이 실수, 고유벡터가 서로 직각.</p><div class="dexgrid"><div class="dw"><b>말로 먼저</b> 고윳값은 실수일 수도 복소수일 수도 있어요(예: 회전 행렬). 대각합·행렬식 성질은 손계산을 검산하는 데 아주 편하고, 대칭 행렬의 성질은 PCA가 잘 작동하는 이유예요(공분산 행렬은 늘 대칭).</div><div class="try"><b>숫자로 한 번 해 보기</b><ol><li>A = [[4, 1], [1, 3]]: tr A = 7 = 4.618 + 2.382 ✔</li><li>det A = 12 − 1 = 11 = 4.618 × 2.382 ✔</li><li>대칭이라 고유벡터 [0.851, 0.526]·[−0.526, 0.851] = 0 (직각)</li></ol></div></div><div class="pair"><div><div class="tl">학교 수학으로 보면</div>근과 계수의 관계(고1): 두 근의 합 = 7, 곱 = 11.</div><div><div class="tr">AI에서는</div>공분산 행렬의 고윳값의 합 = 전체 분산. 그래서 "PC1이 설명하는 몫 = λ₁ / Σλ".</div></div><details class="eqx"><summary>식으로 보면 (몰라도 됩니다)</summary><table class="ez-tb"><thead><tr><th>식 조각</th><th>읽는 법</th><th>뜻</th></tr></thead><tbody><tr><td class="m">tr(A) = Σ λᵢ</td><td>대각합</td><td>고윳값의 합</td></tr><tr><td class="m">det(A) = Π λᵢ</td><td>행렬식</td><td>고윳값의 곱</td></tr></tbody></table></details></article>
+<div data-dlg="mid"></div>
+<article class="dex" id="m14-cov" data-dex="PCA의 공분산 행렬"><header><span class="dexno">14-05</span><h3>PCA의 공분산 행렬 <small>Covariance Matrix in PCA</small></h3></header><p class="one">PCA는 먼저 데이터의 공분산 행렬 Σ = (1/(n−1))(X − μ)ᵀ(X − μ)를 계산한다. 대칭이며 특성들이 함께 움직이는 정도를 보여 준다.</p><div class="dexgrid"><div class="dw"><b>말로 먼저</b> 특성 2개면 Σ = [[σ₁², σ₁₂], [σ₁₂, σ₂²]]: 대각선은 각 특성의 분산(8장), 나머지는 두 특성의 공분산(10장)이에요. 평균을 뺀 데이터 행렬의 전치와 자기 자신을 곱하면(4장) 한 번에 계산됩니다.</div><div class="try"><b>숫자로 한 번 해 보기</b><ol><li>특성 2개 → 2 × 2 공분산 행렬</li><li>대각: 분산 σ₁², σ₂²</li><li>대각 밖: 공분산 σ₁₂ (위아래 같음 → 대칭)</li></ol></div></div><div class="pair"><div><div class="tl">학교 수학으로 보면</div>8장 분산 + 10장 공분산 + 4장 행렬곱.</div><div><div class="tr">AI에서는</div>특성 단위가 다르면 먼저 표준화(평균 0, 표준편차 1)한 뒤 공분산 행렬을 구해요. 그러면 상관 행렬과 같아집니다.</div></div><details class="eqx"><summary>식으로 보면 (몰라도 됩니다)</summary><table class="ez-tb"><thead><tr><th>식 조각</th><th>읽는 법</th><th>뜻</th></tr></thead><tbody><tr><td class="m">Σ = (1/(n−1)) (X − μ)ᵀ(X − μ)</td><td>공분산 행렬</td><td>표본 공분산(n − 1)</td></tr></tbody></table></details></article>
+<article class="dex" id="m14-pca" data-dex="고유벡터로 하는 PCA"><header><span class="dexno">14-06</span><h3>고유벡터로 하는 PCA <small>PCA using Eigenvalues & Eigenvectors</small></h3></header><p class="one">① 표준화 ② 공분산 행렬 Σ ③ Σ의 고윳값·고유벡터 ④ 고윳값 내림차순 정렬 ⑤ 상위 k개 고유벡터(주성분) 선택 ⑥ Z = X_centered · W로 투영.</p><div class="dexgrid"><div class="dw"><b>말로 먼저</b> 큰 고윳값의 고유벡터일수록 데이터가 그 방향으로 많이 퍼져 있어요(분산이 큼 = 정보가 많음). 상위 k개만 모은 행렬 W로 데이터를 옮기면(투영) 특성 n개가 k개로 줄어듭니다.</div><div class="try"><b>숫자로 한 번 해 보기</b><ol><li>특성 100개 → Σ는 100 × 100</li><li>고윳값 상위 2개가 전체의 90%라면 k = 2</li><li>Z = X_c · W: (표본 수 × 100) · (100 × 2) = 표본 수 × 2</li></ol></div></div><div class="pair"><div><div class="tl">학교 수학으로 보면</div>4장 행렬곱(크기 규칙)으로 투영.</div><div><div class="tr">AI에서는</div>sklearn의 PCA(n_components=k).fit_transform(X)이 이 여섯 단계를 합니다(내부적으로는 SVD라는 방법을 씀).</div></div><details class="eqx"><summary>식으로 보면 (몰라도 됩니다)</summary><table class="ez-tb"><thead><tr><th>식 조각</th><th>읽는 법</th><th>뜻</th></tr></thead><tbody><tr><td class="m">Z = X_centered · W</td><td>투영</td><td>W = 고른 고유벡터들을 열로 모은 행렬</td></tr></tbody></table></details></article>
+<article class="dex" id="m14-example" data-dex="PCA 2차원 예제"><header><span class="dexno">14-07</span><h3>PCA 2차원 예제 <small>PCA Example (2D Data)</small></h3></header><p class="one">X = [[0,0],[1,1],[0,−1],[−1,0]] → Σ = [[2/3, 1/3], [1/3, 2/3]] → λ₁ = 1, v₁ = (1/√2)[1, 1], λ₂ = 1/3, v₂ = (1/√2)[1, −1].</p><div class="dexgrid"><div class="dw"><b>말로 먼저</b> 두 특성의 평균이 모두 0이라 바로 Σ = XᵀX / (4 − 1)을 계산해요. 고윳값 1과 1/3 → PC1 하나가 전체 분산의 1 ÷ (1 + 1/3) = 75%를 설명합니다. PC1 방향은 대각선 [1, 1] 쪽이에요.</div><div class="try"><b>숫자로 한 번 해 보기</b><ol><li>XᵀX = [[2, 1], [1, 2]] → ÷ 3 → [[2/3, 1/3], [1/3, 2/3]]</li><li>det(Σ − λI) = (2/3 − λ)² − 1/9 = 0 → λ = 1, 1/3</li><li>PC1 투영: Z = X · v₁ = [0, 1.414, −0.707, −0.707]</li><li>설명 비율: 1 / (4/3) = 0.75</li></ol></div></div><div class="pair"><div><div class="tl">학교 수학으로 보면</div>이차방정식, 행렬곱.</div><div><div class="tr">AI에서는</div>2차원 데이터를 1차원으로 줄여도 정보(분산)의 75%가 남는다는 뜻이에요.</div></div><p class="dexwarn"><b>헷갈리기 쉬운 점</b> 원자료는 이 데이터를 "표준화한 뒤"라고 적었지만, 실제로는 평균만 0으로 맞춘(중심화한) 데이터입니다(각 특성의 분산이 2/3이라 표준편차가 1이 아님).</p></article>
+<article class="dex" id="m14-visual" data-dex="PCA 시각화와 정리"><header><span class="dexno">14-08</span><h3>PCA 시각화와 정리 <small>PCA Visualization & Key Takeaways</small></h3></header><p class="one">원래 축(특성1, 특성2) 대신 PC1(가장 넓게 퍼진 방향)과 PC2(그와 직각)를 새 축으로 쓰면, 비스듬한 점 구름이 가로로 눕는다.</p><div class="dexgrid"><div class="dw"><b>말로 먼저</b> 정리: 고윳값·고유벡터는 Ax = λx를 풀고, PCA의 주성분을 찾는 데 쓰이며, 공분산 행렬이 분산과 특성 간 관계를 담고, PCA는 상위 고유벡터를 골라 차원을 줄이며, 대칭 행렬의 고유벡터는 직각이고, 큰 고윳값 = 더 중요한 주성분이에요. 데이터 전처리·시각화·특성 선택에 널리 쓰이고, 잡음을 줄여 모델 성능을 높이며, 이미지 압축·추천·군집에도 씁니다.</div><div class="try"><b>숫자로 한 번 해 보기</b><ol><li>원래 좌표 (특성1, 특성2) → 새 좌표 (PC1, PC2)</li><li>PC2 방향의 퍼짐이 작으면 PC2를 버려도 손실이 적음</li><li>고차원 데이터를 2D 그림으로 보는 표준 방법</li></ol></div></div><div class="pair"><div><div class="tl">학교 수학으로 보면</div>좌표축 회전(좌표 첫걸음).</div><div><div class="tr">AI에서는</div>얼굴 사진 PCA(아이겐페이스), 유전자 데이터 시각화, 추천 시스템의 잠재 요인이 모두 같은 생각이에요.</div></div></article>
+</div></section>
+<section class="sec" id="lab" aria-labelledby="h-lab"><div class="wrap">
+<h2 id="h-lab"><span class="hex">실험</span>주축 찾기 실험실 — 점 구름이 가장 넓게 퍼진 방향</h2>
+<div data-dlg="lab_o"></div>
+<div class="easy"><details class="ez-why" open><summary>왜 이 방법을 쓰나</summary><ol><li>문제: 고객 데이터 특성이 50개라 그림으로 볼 수도 없고, 비슷한 특성끼리 정보가 겹칩니다.</li><li>앞 방법의 한계: 특성을 아무거나 골라 버리면(예: 50개 중 2개만) 버린 특성의 정보를 통째로 잃습니다.</li><li><b>이 방법의 해법: 공분산 행렬의 고유벡터로 "정보가 가장 많이 몰린 새 축"을 만들고, 고윳값이 큰 축 몇 개만 남깁니다.</b></li></ol><p class="ez-easy"><b>쉽게 말하면</b> 기울어진 연필 묶음을 사진 찍을 때, 가장 길게 보이는 방향으로 카메라를 돌리는 것.</p></details><div class="ez-math"><div class="ez-t">연구원이 묻고, 조교 하루가 풀어 봅니다</div><div class="ez-q"><img data-mood="moa_smile" alt="" aria-hidden="true"><p><b style="display:block;font-size:12.5px;color:var(--muted)">모아</b>det(A − λI) = 0은 갑자기 어디서 나와요? Ax = λx만 있었잖아요.</p></div><p><b>말로 먼저</b> Ax = λx를 Ax − λx = 0, 즉 (A − λI)x = 0으로 옮겨요. 이 식에 0이 아닌 해 x가 있으려면 A − λI에 역행렬이 없어야 해요. 역행렬이 없다는 것이 바로 행렬식 0이에요.</p><p><b>학교 수학으로 보면</b> 5장 "det = 0이면 해가 무수히 많다".</p><div class="try" style="background:#fff;border:1px dashed #e8b67a;border-radius:10px;padding:10px 14px"><b>숫자로 한 번 해 보기</b><ol style="margin:6px 0 0;padding-left:22px"><li>λx = λIx로 바꿔 쓰기(I를 곱해도 그대로)</li><li>(A − λI)x = 0: 해가 x = 0만 있으면 고유벡터가 없음</li><li>det(A − λI) = 0 → 해가 무수히 많음 → 0 아닌 x 존재</li></ol></div><details class="eqx"><summary>식으로 보면 (몰라도 됩니다)</summary><table class="ez-tb"><thead><tr><th>식 조각</th><th>읽는 법</th><th>뜻</th></tr></thead><tbody><tr><td>A − λI</td><td>에이 빼기 람다 아이</td><td>대각선에서 λ를 뺀 행렬</td></tr><tr><td>det(…) = 0</td><td>행렬식 0</td><td>0이 아닌 해가 있을 조건</td></tr><tr><td>λ</td><td>람다</td><td>이 조건을 만족하는 수</td></tr></tbody></table></details><div class="ez-q ez-c"><img data-mood="asst_spark" alt="" aria-hidden="true"><p><b style="display:block;font-size:12.5px;color:var(--muted)">조교 하루</b>5장의 "겹치는 두 직선"이 여기서 다시 나와요. 해가 무수히 많아야 고유벡터가 있어요.</p></div></div></div>
+<div class="dialog lvtalk" data-dlg="lab_t"></div>
+<div class="panel" id="w-ch14" data-w="pca"></div>
+<div class="say" data-who="doc"><img class="who" data-mood="doc_judge" alt="" aria-hidden="true"><div><b class="name">박사의 정리</b><p>고유벡터는 "행렬이 방향을 바꾸지 못하는 화살표", 공분산 행렬의 고유벡터는 "데이터가 가장 넓게 퍼진 방향"입니다. PCA는 그 방향을 새 축으로 삼아, 정보가 적은 축을 버리는 일이에요. 버린 만큼 정보도 조금 잃는다는 것, 그래서 "몇 %가 남았나"를 함께 말해야 합니다.</p></div></div>
+<div class="lim"><b>이 실험의 한계</b> PCA는 직선 방향의 퍼짐만 봅니다. 데이터가 휘어진 모양(곡면)에 놓여 있으면 다른 방법(t-SNE, UMAP 등)이 필요해요.</div>
+<figure class="toon" id="toon2"><div class="tframe"><img src="img/toon/ch14_b.webp" width="1200" height="800" loading="lazy" alt="픽셀아트. 비스듬한 타원 모양 점 구름 위에 박사가 &quot;PC1&quot;이라고 적힌 빨간 자를 대각선으로 대고, 모아가 점들을 그 자 위로 내려 찍는다. 한쪽에 &quot;2D → 1D, 75% kept&quot; 팻말. 주판봇은 남은 25%를 아쉬워한다."></div><figcaption><b class="ttl">웃는 그림 2 · 납작해진 점 구름</b><div class="tline"><img data-mood="moa_sparkle" alt="" aria-hidden="true"><p><b>모아</b> 점들을 빨간 자 위로 내려 찍었더니 한 줄이 됐어요. 숫자 두 개가 하나로!</p></div><div class="tline"><img data-mood="robo_sigh" alt="" aria-hidden="true"><p><b>조교 주판봇</b> 나머지 25%는 버린 거야? 아까운데…</p></div><div class="tline"><img data-mood="doc_judge" alt="" aria-hidden="true"><p><b>박사</b> 그래서 "몇 % 남았나"를 꼭 함께 말해요. 이 예에서는 75%.</p></div><p class=tpoint><b>그림 속 수학</b> PCA: 가장 넓게 퍼진 방향(PC1)으로 투영해 차원을 줄인다. 설명 비율 = λ₁ / (λ₁ + λ₂) = 1 / (4/3) = 75%.</p></figcaption></figure>
+<div class="aibox" id="ai"><div class="aihead"><span class="aitag">AI 판단 코너</span>주판봇의 "PCA로 특성 100개를 2개로 줄였어요. 정보 손실 없음!"</div><div data-dlg="ai_d"></div><p>박사는 늘 두 가지를 묻습니다. "가정이 맞나? 숫자가 그럴듯한가?"</p><ol><li>가정이 맞나? 버린 98개 축의 고윳값이 모두 0인가요?</li><li>숫자가 그럴듯한가? 설명된 분산 비율(상위 두 고윳값 ÷ 고윳값 전체 합)을 계산하면 몇 %인가요?</li></ol><details class="eqx"><summary>확인해 보기 (먼저 스스로 따져 본 뒤 펼치세요)</summary><p class="aiverdict">버린 축들의 고윳값이 0이 아니라면 그만큼의 분산(정보)을 잃은 것이에요. 반드시 "설명된 분산 비율"을 함께 보고해야 합니다. 예를 들어 상위 2개가 60%라면 40%의 정보를 버린 셈이죠. 또, PCA는 분산이 큰 방향을 남길 뿐 "예측에 중요한 방향"을 남긴다는 보장은 없어요. 분산은 작지만 정답을 가르는 데 결정적인 방향이 버려질 수도 있습니다.</p><div data-dlg="ai_e"></div></details></div>
+<h3 id="quiz">확인 퀴즈</h3>
+<div class="quiz" data-quiz="q"></div>
+</div></section>
+<section class="sec" id="colab" aria-labelledby="h-colab"><div class="wrap">
+<h2 id="h-colab"><span class="hex">실습</span>코랩 실습실 — 배운 것을 직접 돌려 보기</h2>
+<p>두 가지 방법이 있어요. ① 생성 AI에게 프롬프트를 주고 코드를 만들게 해 보기, ② 연구소가 미리 만들어 검사까지 마친 코드를 돌려 보기. 둘을 나란히 돌려 결과를 비교하면, AI가 낸 코드를 믿어도 되는지 스스로 판단하는 연습이 됩니다.</p>
+<div data-dlg="colab"></div>
+<div class="labbox"><div class="labh"><span class="lno">①</span> 생성 AI로 실습하기 — 코랩 파이썬 프롬프트</div>
+<p>구글 코랩(Colab)의 Gemini 창이나 ChatGPT·Claude 같은 생성 AI에 아래 글을 그대로 붙여 넣으세요. AI가 만든 코드를 코랩 셀에 붙여 넣고 실행합니다.</p>
+<div class="codewrap"><button type="button" class="cpy" data-copy="p-ch14">복사</button><pre class="prompt" id="p-ch14">너는 고등학생에게 고윳값과 PCA를 가르치는 파이썬 선생님이야. 구글 코랩에서 실행되는 코드를 만들어 줘.
+주제: 고윳값·고유벡터, 공분산 행렬, PCA
+요구 사항:
+1. A = [[4, 1], [1, 3]]의 고윳값을 (a) 특성방정식 λ² − 7λ + 11 = 0을 근의 공식으로 (b) np.linalg.eig로 구해 비교하고, 각 고유벡터 v에 대해 A @ v와 λ * v가 같은지 확인해 줘. 고윳값 합 = 대각합, 곱 = 행렬식도 확인해 줘.
+2. 단위원 위 점 100개에 A를 곱해 타원이 되는 그림을 그리고, 두 고유벡터를 화살표로 표시해 줘(축 비율 같게, 영어 제목).
+3. X = [[0,0],[1,1],[0,-1],[-1,0]]으로 PCA 여섯 단계(중심화 → 공분산 행렬(n-1) → 고윳값·고유벡터 → 내림차순 정렬 → 상위 1개 선택 → 투영)를 직접 구현하고, 설명된 분산 비율(75%)을 출력해 줘. sklearn PCA 결과와도 비교해 줘(부호가 다를 수 있음을 주석으로).
+4. 비스듬한 2D 정규분포 점 200개(seed 고정)를 만들어 원래 점, PC1·PC2 화살표, PC1 위로 투영한 점을 한 그림에 그려 줘.
+5. sklearn의 load_digits(8×8 손글씨 숫자, 특성 64개)를 PCA로 2차원으로 줄여 숫자별 색으로 산점도를 그리고, 상위 2개·10개 주성분의 설명된 분산 비율을 출력해 줘.
+6. 모든 줄에 한국어 주석.</pre></div></div>
+<div class="labbox"><div class="labh"><span class="lno">②</span> 실제로 돌아가는 코드 — 파이썬 · 코랩</div>
+<p>연구소가 직접 실행해 결과를 확인한 코드입니다. 버튼 하나로 코랩에서 바로 열 수 있어요(구글 계정만 있으면 설치할 것이 없습니다).</p>
+<p class="colabbtns"><a class="bt primary" href="https://colab.research.google.com/github/adminmrobo/math_basic_for_ai_dictionary/blob/main/colab/ch14_eigen_pca.ipynb" target="_blank" rel="noopener">코랩에서 열기</a> <a class="bt" href="code/colab_py/ch14_eigen_pca.py" download>.py 내려받기</a> <a class="bt" href="colab/ch14_eigen_pca.ipynb" download>.ipynb 내려받기</a></p>
+<details class="fold"><summary>코드 펼치기 (몰라도 됩니다 · 57줄)</summary><div class="codewrap"><button type="button" class="cpy" data-copy="c-ch14">복사</button><pre class="code" id="c-ch14"><code># %% 1. 고윳값: 근의 공식 vs numpy, 그리고 검산
+import numpy as np
+import matplotlib.pyplot as plt
+from sklearn.decomposition import PCA
+from sklearn.datasets import load_digits
+
+A = np.array([[4, 1], [1, 3]], dtype=float)
+lam = [(7 + np.sqrt(5)) / 2, (7 - np.sqrt(5)) / 2]
+print(&quot;근의 공식 λ =&quot;, np.round(lam, 4))
+vals, vecs = np.linalg.eig(A)
+vals, vecs = np.real(vals), np.real(vecs)      # 버전에 따라 복소수 꼴로 나올 수 있어 실수부만 (대칭 행렬이라 실제로 실수)
+print(&quot;np.linalg.eig λ =&quot;, np.round(vals, 4))
+for i in range(2):
+    v = vecs[:, i]
+    print(f&quot;λ={vals[i]:.4f}, v={v.round(4)}: A@v = {(A @ v).round(4)}, λv = {(vals[i] * v).round(4)}&quot;)
+print(&quot;합&quot;, round(vals.sum(), 4), &quot;= 대각합&quot;, np.trace(A), &quot;/ 곱&quot;, round(vals.prod(), 4), &quot;= 행렬식&quot;, round(np.linalg.det(A), 4))
+
+# %% 2. 원을 타원으로: 고유벡터는 방향이 그대로
+t = np.linspace(0, 2 * np.pi, 100); circle = np.vstack([np.cos(t), np.sin(t)])
+ellipse = A @ circle
+plt.figure(figsize=(5.5, 5.5)); plt.plot(*circle, &quot;gray&quot;, label=&quot;unit circle&quot;); plt.plot(*ellipse, &quot;b&quot;, label=&quot;A @ circle&quot;)
+for i, c in enumerate([&quot;red&quot;, &quot;orange&quot;]):
+    v = vecs[:, i] * vals[i]; plt.arrow(0, 0, v[0], v[1], color=c, width=0.05, length_includes_head=True)
+plt.gca().set_aspect(&quot;equal&quot;); plt.legend(); plt.title(&quot;Eigenvectors keep their direction&quot;); plt.grid(alpha=0.3); plt.show()
+
+# %% 3. PCA 여섯 단계를 손으로
+X = np.array([[0, 0], [1, 1], [0, -1], [-1, 0]], dtype=float)
+Xc = X - X.mean(axis=0)                                   # 1) 중심화 (여기서는 이미 평균 0)
+S = Xc.T @ Xc / (len(X) - 1)                              # 2) 공분산 행렬
+w, V = np.linalg.eigh(S)                                  # 3) 고윳값·고유벡터 (대칭 행렬용)
+order = np.argsort(w)[::-1]; w, V = w[order], V[:, order] # 4) 내림차순
+W = V[:, :1]                                              # 5) 상위 1개
+Z = Xc @ W                                                # 6) 투영
+print(&quot;공분산 행렬 =\n&quot;, S.round(4))
+print(&quot;고윳값 =&quot;, w.round(4), &quot;/ PC1 =&quot;, W.ravel().round(4), &quot;/ 설명 비율 =&quot;, round(w[0] / w.sum(), 4))
+print(&quot;투영 Z =&quot;, Z.ravel().round(4))
+sk = PCA(n_components=1).fit(X)
+print(&quot;sklearn 설명 비율 =&quot;, sk.explained_variance_ratio_.round(4), &quot;/ 투영 =&quot;, sk.transform(X).ravel().round(4), &quot;(부호는 반대일 수 있음)&quot;)
+
+# %% 4. 비스듬한 점 구름과 주성분
+rng = np.random.default_rng(5)
+P = rng.multivariate_normal([0, 0], [[3, 2], [2, 2]], size=200)
+pca = PCA(2).fit(P)
+plt.figure(figsize=(6, 6)); plt.scatter(P[:, 0], P[:, 1], s=10, alpha=0.5, label=&quot;data&quot;)
+for comp, var, c in zip(pca.components_, pca.explained_variance_, [&quot;red&quot;, &quot;orange&quot;]):
+    plt.arrow(0, 0, *(comp * 2 * np.sqrt(var)), color=c, width=0.06, length_includes_head=True)
+proj = (P @ pca.components_[0])[:, None] * pca.components_[0]
+plt.scatter(proj[:, 0], proj[:, 1], s=8, color=&quot;green&quot;, label=&quot;projected on PC1&quot;)
+plt.gca().set_aspect(&quot;equal&quot;); plt.legend(); plt.title(f&quot;PC1 explains {pca.explained_variance_ratio_[0]:.0%}&quot;); plt.show()
+
+# %% 5. 손글씨 숫자 64차원 -&gt; 2차원
+digits = load_digits()
+p2 = PCA(2).fit(digits.data); Z2 = p2.transform(digits.data)
+print(&quot;손글씨 64차원: 상위 2개 설명 비율 =&quot;, round(p2.explained_variance_ratio_.sum(), 3),
+      &quot;/ 상위 10개 =&quot;, round(PCA(10).fit(digits.data).explained_variance_ratio_.sum(), 3))
+plt.figure(figsize=(6.5, 5)); sc = plt.scatter(Z2[:, 0], Z2[:, 1], c=digits.target, cmap=&quot;tab10&quot;, s=8)
+plt.colorbar(sc, label=&quot;digit&quot;); plt.xlabel(&quot;PC1&quot;); plt.ylabel(&quot;PC2&quot;); plt.title(&quot;Digits (64-D) projected to 2-D&quot;); plt.show()</code></pre></div></details>
+<details class="fold"><summary>실행하면 이렇게 나옵니다 (연구소에서 돌린 결과)</summary><pre class="out">근의 공식 λ = [4.618 2.382]
+np.linalg.eig λ = [4.618 2.382]
+λ=4.6180, v=[0.8507 0.5257]: A@v = [3.9283 2.4278], λv = [3.9283 2.4278]
+λ=2.3820, v=[-0.5257  0.8507]: A@v = [-1.2523  2.0262], λv = [-1.2523  2.0262]
+합 7.0 = 대각합 7.0 / 곱 11.0 = 행렬식 11.0
+공분산 행렬 =
+ [[0.6667 0.3333]
+ [0.3333 0.6667]]
+고윳값 = [1.     0.3333] / PC1 = [0.7071 0.7071] / 설명 비율 = 0.75
+투영 Z = [ 0.      1.4142 -0.7071 -0.7071]
+sklearn 설명 비율 = [0.75] / 투영 = [ 0.      1.4142 -0.7071 -0.7071] (부호는 반대일 수 있음)
+손글씨 64차원: 상위 2개 설명 비율 = 0.285 / 상위 10개 = 0.738</pre><p class="muted" style="font-size:13px">그래프 창은 코랩 화면에 함께 나타납니다. 무작위 실험이 있는 코드는 seed를 고정해 같은 숫자가 나오게 했어요.</p></details></div>
+<div class="labbox"><div class="labh"><span class="lno">③</span> 비교 과제 — AI 코드와 연구소 코드 맞대 보기</div><ol><li>고윳값이 약 4.618, 2.382이고, 합 7·곱 11과 맞는지 확인하세요.</li><li>AI 코드의 PCA 투영값이 연구소 코드와 부호만 반대라면 왜 괜찮은지 설명해 보세요(고유벡터는 −1배도 고유벡터).</li><li>손글씨 숫자 64차원을 2차원으로 줄였을 때 설명된 분산 비율이 몇 %인지, 그 숫자로 "2차원 그림을 얼마나 믿어도 될지" 한 줄로 적어 보세요.</li></ol></div>
+</div></section>
+<section class="sec" id="sum" aria-labelledby="h-sum"><div class="wrap">
+<h2 id="h-sum">정리 — 정보가 몰린 방향만 남긴다</h2>
+<div class="tblwrap"><table class="cmp"><thead><tr><th>질문</th><th>답 한 줄</th></tr></thead><tbody><tr><td>고유벡터·고윳값은?</td><td>Ax = λx. 곱해도 방향 그대로인 벡터와 그 배율.</td></tr><tr><td>고윳값은 어떻게?</td><td>det(A − λI) = 0. [[4,1],[1,3]] → (7 ± √5)/2.</td></tr><tr><td>성질은?</td><td>합 = 대각합, 곱 = 행렬식. 대칭이면 실수·직각.</td></tr><tr><td>PCA 여섯 단계는?</td><td>표준화 → 공분산 → 고유분해 → 정렬 → 상위 k개 → 투영 Z = X_c W.</td></tr><tr><td>2D 예의 결과는?</td><td>λ = 1, 1/3 → PC1이 75% 설명.</td></tr></tbody></table></div>
+<h3>용어 대응 카드</h3><div class="gloss"><div><b>고윳값과 고유벡터란</b> = 정사각 행렬 A에 대해 Ax = λx이면 x는 고유벡터, λ는 고윳값. A를 곱해도 방향은 그대로, 크기만 λ배.</div><div><b>고윳값 찾기</b> = 특성방정식 det(A − λI) = 0을 풀어 λ를 구한다. ① A − λI ② 행렬식 ③ λ에 대해 풀기.</div><div><b>고유벡터 찾기</b> = 고윳값 λ마다 (A − λI)x = 0을 풀어 x를 구한다. 0이 아닌 상수배는 모두 같은 고유벡터.</div><div><b>고윳값의 성질</b> = n × n 행렬은 고윳값 n개(중복 포함). 합 = 대각합 tr A, 곱 = 행렬식 det A. 대칭 행렬은 고윳값이 실수, 고유벡터가 서로 직각.</div><div><b>PCA의 공분산 행렬</b> = PCA는 먼저 데이터의 공분산 행렬 Σ = (1/(n−1))(X − μ)ᵀ(X − μ)를 계산한다. 대칭이며 특성들이 함께 움직이는 정도를 보여 준다.</div><div><b>고유벡터로 하는 PCA</b> = ① 표준화 ② 공분산 행렬 Σ ③ Σ의 고윳값·고유벡터 ④ 고윳값 내림차순 정렬 ⑤ 상위 k개 고유벡터(주성분) 선택 ⑥ Z = X_centered · W로 투영.</div><div><b>PCA 2차원 예제</b> = X = [[0,0],[1,1],[0,−1],[−1,0]] → Σ = [[2/3, 1/3], [1/3, 2/3]] → λ₁ = 1, v₁ = (1/√2)[1, 1], λ₂ = 1/3, v₂ = (1/√2)[1, −1].</div><div><b>PCA 시각화와 정리</b> = 원래 축(특성1, 특성2) 대신 PC1(가장 넓게 퍼진 방향)과 PC2(그와 직각)를 새 축으로 쓰면, 비스듬한 점 구름이 가로로 눕는다.</div></div>
+<h3>원자료와 다르게 쓴 곳</h3><ul><li>원자료 7번 예제의 "after standardization"은 실제로는 평균만 0으로 맞춘 중심화 데이터라서(각 특성 분산 2/3), 이 도감에서는 "중심화"라고 고쳐 썼습니다.</li><li>원자료 3번의 고유벡터 [1, λ − 4]에 숫자(≈ [1, 0.618])와 정규화 값([0.851, 0.526])을 덧붙였습니다.</li></ul>
+<h3>비유와 예시의 한계</h3><ul><li>연필 묶음 사진 비유는 "가장 길게 보이는 방향" 하나까지만 맞습니다. 여러 주성분을 동시에 고르는 것은 그림으로 보기 어려워요.</li><li>PCA는 직선 방향의 분산만 봅니다. 분산이 크다고 늘 예측에 중요한 것은 아니에요.</li></ul>
+<div class="next"><a href="13_optimization.html"><b>← 13장 최적화</b><br>경사하강과 학습률</a><a href="index.html"><b>도감 목차</b><br>열다섯 장과 항목 찾기</a><a href="15_quick_revision.html"><b>15장 총정리 →</b><br>공식 도감과 실전 예제</a></div>
+</div></section>
+<section class="sec" id="outro" aria-labelledby="h-outro"><div class="wrap"><h2 id="h-outro">아웃트로 — 다음 장으로</h2><div data-dlg="outro"></div></div></section>
+</main>
+<footer><div class="wrap">
+<h3>출처</h3>
+<table><thead><tr><th>#</th><th>자료</th><th>이 페이지에서 쓴 곳</th></tr></thead><tbody><tr><td>[1]</td><td>연구소 수학 노트 MATH-14 「Eigenvalues & Eigenvectors + PCA Mathematics」 (인포그래픽 한 장)</td><td>도감 항목 전부, 예시 숫자</td></tr></tbody></table>
+<h3>예시값·설명용 모형인 것</h3><ul><li>항목의 숫자 예시는 설명용이며 연구소가 검산했습니다(code/check_numbers.py).</li><li>코랩 코드는 교육용 예제이며 실제 서비스에 그대로 쓰는 코드가 아닙니다.</li></ul>
+<p>캐릭터 이름·설정·그림은 저작권자 안상선의 허락 없이 사용할 수 없습니다.</p>
+<p>글 · 안상선 ((주)M-Robo 대표) · <a href="https://adminmrobo.github.io/who_am_i/who_am_i.html">저자 소개</a> · <a href="index.html">수리 도감 목차</a> · 자매편 <a href="https://adminmrobo.github.io/hello_space_lab/index.html">좌표 첫걸음</a> · <a href="https://adminmrobo.github.io/optimization_3d_map/first_step_0.html">최적화 첫걸음</a></p>
+</div></footer>
+<script>
+/*@@SPRITES@@*/
+/*@@COMMON@@*/
+/*@@MATHLAB@@*/
+(function(){
+'use strict';
+U.dialogues({"open": [["doc", "doc_board", "14장, 다시 제가 안내합니다. 상황: 고객 데이터 특성이 50개예요. 팀장님이 \"그림 한 장으로 보여 줘\"라고 합니다. 어떻게 할까요?"], ["sia", "sia_think", "50개 중에 중요한 두 개만 골라서 그려요?"], ["doc", "doc_front", "그것도 방법이지만, 나머지 48개의 정보를 통째로 버리게 되죠. 대신 50개를 섞어 \"정보가 가장 많이 몰린 새 축\" 두 개를 만들 수 있어요. 그게 PCA입니다."], ["moa", "moa_report", "새 축은 어떻게 찾아요?"], ["doc", "doc_judge", "행렬이 방향을 바꾸지 못하는 특별한 화살표, 고유벡터로 찾아요. 이 장은 도감에서 가장 어려운 장입니다. 여러 번 다시 와도 괜찮아요. 2~13장의 도구가 모두 여기서 만나거든요."]], "mid": [["x2", "x2_hint", "(필기) 고윳값 합 = 대각합, 곱 = 행렬식… 검산용으로 별표."], ["asst", "asst_smile", "이제 고유벡터가 데이터에서 무엇을 뜻하는지, PCA로 넘어가요."]], "lab_o": [["doc", "doc_board", "상황: 키와 몸무게 점 구름이 비스듬히 퍼져 있습니다. 숫자 하나로 사람을 요약해야 한다면 어느 방향의 자를 대야 할까요?"]], "lab_t": [["robo", "robo_calc", "그냥 키 축(가로)을 쓰면 되지! 간단!"], ["fly", "fly_point", "점 구름이 비스듬한데? 이걸 눌러 봐. 기울기를 바꿔 가며 빨간 화살표(PC1)가 어디를 가리키는지."], ["asst", "asst_report", "보고: PC1은 늘 점 구름이 가장 길게 퍼진 대각선 방향을 가리켜요. 키 축 하나보다 설명 비율이 훨씬 높아요."]], "ai_d": [["robo", "robo_happy", "특성 100개를 PCA로 2개로! 정보 손실 없음!"], ["doc", "doc_think", "버린 98개 축의 고윳값을 확인해 봤나요?"]], "ai_e": [["robo", "robo_sigh", "설명 비율이 60%였구나… 40%를 버렸네."], ["moa", "moa_ok", "PCA 결과엔 \"몇 % 남았나\"를 꼭 붙이기. 적어 둘게요."]], "colab": [["doc", "doc_front", "손글씨 숫자 64차원을 2차원으로 줄인 그림에서, 같은 숫자끼리 모이는지 보세요. 그리고 설명 비율이 몇 %인지 함께 읽으세요."]], "outro": [["doc", "doc_judge", "해석 문장: \"공분산 행렬의 고유벡터는 데이터가 가장 넓게 퍼진 방향이고, PCA는 그 방향만 남겨 차원을 줄인다. 남긴 정보의 비율을 늘 함께 말한다.\""], ["x1", "x1_hint", "와, 열네 장이 끝났어요! 다 기억할 수 있을까요?"], ["x3", "x3_hint", "그래서 마지막 15장은 총정리! 우리 X 삼총사가 공식 도감과 실전 예제로 안내할게요!"]]});
+U.fillImgs();
+ML.mountAll();
+ML.copyButtons();
+U.Gloss({"고윳값과 고유벡터란": ["고윳값과 고유벡터란", "What are Eigenvalues and Eigenvectors", "정사각 행렬 A에 대해 Ax = λx이면 x는 고유벡터, λ는 고윳값. A를 곱해도 방향은 그대로, 크기만 λ배."], "고윳값 찾기": ["고윳값 찾기", "How to Find Eigenvalues", "특성방정식 det(A − λI) = 0을 풀어 λ를 구한다. ① A − λI ② 행렬식 ③ λ에 대해 풀기."], "고유벡터 찾기": ["고유벡터 찾기", "How to Find Eigenvectors", "고윳값 λ마다 (A − λI)x = 0을 풀어 x를 구한다. 0이 아닌 상수배는 모두 같은 고유벡터."], "고윳값의 성질": ["고윳값의 성질", "Properties of Eigenvalues", "n × n 행렬은 고윳값 n개(중복 포함). 합 = 대각합 tr A, 곱 = 행렬식 det A. 대칭 행렬은 고윳값이 실수, 고유벡터가 서로 직각."], "PCA의 공분산 행렬": ["PCA의 공분산 행렬", "Covariance Matrix in PCA", "PCA는 먼저 데이터의 공분산 행렬 Σ = (1/(n−1))(X − μ)ᵀ(X − μ)를 계산한다. 대칭이며 특성들이 함께 움직이는 정도를 보여 준다."], "고유벡터로 하는 PCA": ["고유벡터로 하는 PCA", "PCA using Eigenvalues & Eigenvectors", "① 표준화 ② 공분산 행렬 Σ ③ Σ의 고윳값·고유벡터 ④ 고윳값 내림차순 정렬 ⑤ 상위 k개 고유벡터(주성분) 선택 ⑥ Z = X_centered · W로 투영."], "PCA 2차원 예제": ["PCA 2차원 예제", "PCA Example (2D Data)", "X = [[0,0],[1,1],[0,−1],[−1,0]] → Σ = [[2/3, 1/3], [1/3, 2/3]] → λ₁ = 1, v₁ = (1/√2)[1, 1], λ₂ = 1/3, v₂ = (1/√2)[1, −1]."], "PCA 시각화와 정리": ["PCA 시각화와 정리", "PCA Visualization & Key Takeaways", "원래 축(특성1, 특성2) 대신 PC1(가장 넓게 퍼진 방향)과 PC2(그와 직각)를 새 축으로 쓰면, 비스듬한 점 구름이 가로로 눕는다."]},["고윳값과 고유벡터란", "고윳값 찾기", "고유벡터 찾기", "고윳값의 성질", "PCA의 공분산 행렬", "고유벡터로 하는 PCA"]);
+U.Study({quiz:{"q": [{"q": "A = [[2, 1], [1, 2]], x = [1, 1]일 때 Ax = λx의 λ는?", "o": ["3", "1", "2", "4"], "a": 0, "why": "Ax = [3, 3] = 3[1, 1].", "hint": "Ax를 계산해 x의 몇 배인지."}, {"q": "고윳값을 찾는 특성방정식은?", "o": ["det(A − λI) = 0", "Ax = 0", "A = λI", "det(A) = λ"], "a": 0, "why": "0 아닌 x가 있을 조건.", "hint": "역행렬이 없을 조건."}, {"q": "A = [[4, 1], [1, 3]]의 고윳값의 합은?", "o": ["7", "11", "4.618", "12"], "a": 0, "why": "합 = 대각합 4 + 3.", "hint": "대각선 원소의 합."}, {"q": "PCA에서 고윳값이 1과 1/3일 때 PC1이 설명하는 분산 비율은?", "o": ["75%", "50%", "33%", "100%"], "a": 0, "why": "1 ÷ (1 + 1/3) = 0.75.", "hint": "큰 고윳값 ÷ 고윳값 합."}]}});
+U.start();
+})();
+</script>
+</body>
+</html>

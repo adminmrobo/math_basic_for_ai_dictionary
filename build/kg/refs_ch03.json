@@ -1,0 +1,68 @@
+[
+ {
+  "id": "ahn_math_for_ai",
+  "type": "webpage",
+  "title": "인공지능을 위한 수학 — 공식 12장이 모델 하나가 되기까지",
+  "author": [
+   {
+    "family": "안",
+    "given": "상선"
+   }
+  ],
+  "issued": {
+   "date-parts": [
+    [
+     2026
+    ]
+   ]
+  },
+  "URL": "https://adminmrobo.github.io/math_for_ai_lab/index.html#c03",
+  "lab": {
+   "work": "lab:work/ahn_math_for_ai",
+   "role": "background",
+   "supports": [],
+   "locs": [],
+   "verified": {
+    "title": true,
+    "author": true,
+    "year": true,
+    "url": true
+   },
+   "checkedBy": "연구실 저장소에서 직접 확인 (2026-11-26)",
+   "note": "같은 원자료를 이야기로 풀어 쓴 자매 시리즈"
+  }
+ },
+ {
+  "id": "ahn_hello_space",
+  "type": "webpage",
+  "title": "나는 어디에 있는가? — 좌표계로 본 매핑 (좌표 첫걸음)",
+  "author": [
+   {
+    "family": "안",
+    "given": "상선"
+   }
+  ],
+  "issued": {
+   "date-parts": [
+    [
+     2026
+    ]
+   ]
+  },
+  "URL": "https://adminmrobo.github.io/hello_space_lab/",
+  "lab": {
+   "work": "lab:work/ahn_hello_space",
+   "role": "background",
+   "supports": [],
+   "locs": [],
+   "verified": {
+    "title": true,
+    "author": true,
+    "year": true,
+    "url": true
+   },
+   "checkedBy": "연구실 저장소에서 직접 확인 (2026-11-26)",
+   "note": "구성·난이도의 본보기가 된 자매편"
+  }
+ }
+]

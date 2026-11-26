@@ -1,0 +1,234 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>08장 통계 기초 — 평균·분산·사분위 | 수리 도감 — 인공지능을 위한 수리적 기초</title>
+<meta name="description" content="수리 도감 08장. 통계의 뜻, 기술통계와 추론통계, 평균·중앙값·최빈값, 범위·분산·표준편차, 사분위수와 IQR·상자 그림, 이상치의 영향, 시각화, ML 응용을 필기왕 X2가 숫자 묶음 요약기로 안내합니다.">
+<meta property="og:type" content="article"><meta property="og:title" content="08장 통계 기초 — 평균·분산·사분위 | 수리 도감 — 인공지능을 위한 수리적 기초"><meta property="og:description" content="수리 도감 08장. 통계의 뜻, 기술통계와 추론통계, 평균·중앙값·최빈값, 범위·분산·표준편차, 사분위수와 IQR·상자 그림, 이상치의 영향, 시각화, ML 응용을 필기왕 X2가 숫자 묶음 요약기로 안내합니다.">
+<meta property="og:image" content="https://adminmrobo.github.io/math_basic_for_ai_dictionary/img/og/ch08.png"><meta property="og:url" content="https://adminmrobo.github.io/math_basic_for_ai_dictionary/08_statistics.html"><meta name="twitter:card" content="summary_large_image">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+KR:wght@400;500;700&display=swap" rel="stylesheet">
+<!--@@CSS@@-->
+<style>
+.tl,.tr{font-weight:700;font-size:13.5px;margin-bottom:4px}.tl{color:var(--amber)}.tr{color:var(--terrain)}
+.hex{display:inline-grid;place-items:center;min-width:44px;height:34px;padding:0 10px;margin-right:10px;border-radius:8px;background:var(--terrain);color:#fff;font-size:17px;vertical-align:4px}
+.sec{padding:40px 0;border-top:1px solid var(--rule)}
+.cast{display:grid;gap:10px}.castc{display:flex;gap:10px;align-items:center;background:var(--panel);border:1px solid var(--rule);border-left:4px solid var(--cc);border-radius:10px;padding:8px 10px}
+.castc.host{background:#fff;box-shadow:0 0 0 2px var(--cc)}
+.castc img{width:60px;height:60px;flex:none}.castc p{margin:0;font-size:13.5px;color:var(--muted);line-height:1.55}
+.cover img.art{image-rendering:pixelated;image-rendering:crisp-edges}
+.diff{display:inline-block;border:1px solid var(--c-asst);color:var(--c-asst);border-radius:999px;padding:0 10px;font-size:12.5px;margin-left:6px}
+.hostcard{display:flex;gap:14px;align-items:center;border:2px solid var(--cc);border-radius:14px;padding:12px 16px;margin:10px 0 16px;background:#fff}
+.hostcard img{width:84px;height:84px;flex:none}.hostcard p{margin:4px 0 0;color:var(--muted)}
+.chain span.on{background:var(--terrain);color:#fff;border-color:var(--terrain)}
+.where{background:var(--panel);border-radius:10px;padding:10px 14px}
+.sis{display:flex;gap:12px;align-items:center;border:1px solid var(--c-asst);border-radius:12px;padding:10px 14px;margin:10px 0;background:#fff7fb}.sis img{width:56px;height:56px;flex:none}.sis p{margin:0}
+.dexidx{display:flex;flex-wrap:wrap;gap:6px;margin:10px 0 18px}.dexidx a{border:1px solid var(--rule);border-radius:999px;padding:3px 12px;font-size:14px;text-decoration:none;background:var(--panel)}
+.dexidx a:hover{border-color:var(--terrain)}
+.dex{border:1px solid var(--rule);border-top:4px solid var(--terrain);border-radius:14px;padding:16px 20px 12px;margin:0 0 22px;background:#fff;scroll-margin-top:70px}
+.dex header{display:flex;gap:12px;align-items:baseline;flex-wrap:wrap}.dex h3{margin:0;font-size:21px}.dex h3 small{font-size:14px;color:var(--muted);font-weight:500}
+.dexno{font:700 13px/1 var(--font);color:#fff;background:var(--c-x);border-radius:6px;padding:4px 8px}
+.dex .one{font-size:17px;font-weight:600;color:var(--terrain);margin:8px 0 10px}
+.dexgrid{display:grid;grid-template-columns:1.2fr 1fr;gap:14px;margin-bottom:10px}
+.dexgrid .dw{line-height:1.8}.dexgrid .try{background:var(--amber-soft);border:1px dashed #e8b67a;border-radius:10px;padding:10px 14px}.dexgrid .try ol{margin:6px 0 0;padding-left:22px}
+.dexwarn{background:var(--eye-soft);border-radius:8px;padding:8px 12px;font-size:15px}
+@media(max-width:760px){.dexgrid{grid-template-columns:1fr}}
+.toon{margin:26px auto;max-width:820px;border:1px solid var(--rule);border-radius:14px;overflow:hidden;background:#fff}
+.toon .tframe{background:#fff;border-bottom:1px solid var(--rule)}.toon img{display:block;width:100%;height:auto;image-rendering:pixelated;image-rendering:crisp-edges}
+.toon figcaption{padding:12px 16px}.toon .ttl{display:block;margin-bottom:8px;color:var(--amber)}
+.tline{display:flex;gap:10px;align-items:center;margin:6px 0}.tline img{width:40px;height:40px;flex:none;border-radius:8px;border:1px solid var(--rule)}.tline p{margin:0}
+.tpoint{margin:10px 0 0;background:var(--panel);border-radius:8px;padding:8px 12px;font-size:15px}
+.labbox{border:1px solid var(--rule);border-radius:14px;padding:14px 18px;margin:16px 0;background:#fff}
+.labh{font-weight:700;font-size:17px;margin-bottom:6px}.lno{display:inline-grid;place-items:center;width:28px;height:28px;border-radius:50%;background:var(--terrain);color:#fff;margin-right:6px}
+.codewrap{position:relative}.cpy{position:absolute;right:8px;top:8px;font:600 12.5px var(--font);border:1px solid var(--rule);background:#fff;border-radius:8px;padding:3px 10px;cursor:pointer}
+pre.prompt,pre.code,pre.out{white-space:pre-wrap;word-break:break-word;background:#f7f9fb;border:1px solid var(--rule);border-radius:10px;padding:14px 16px;font:13.5px/1.65 ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;max-height:520px;overflow:auto;margin:8px 0}
+pre.prompt{background:#fbf8ff;border-color:#d9c8f0;font-family:var(--font);font-size:14.5px}
+pre.out{background:#0f1720;color:#d8e6f0}
+.colabbtns{display:flex;flex-wrap:wrap;gap:8px}.colabbtns a.bt{text-decoration:none}
+.panel .row2{display:grid;grid-template-columns:1fr 1fr;gap:14px}@media(max-width:760px){.panel .row2{grid-template-columns:1fr}}
+.panel .cv{width:100%;height:300px;display:block;border:1px solid var(--rule);border-radius:10px;background:#fff;touch-action:none}
+.panel .cv.tall{height:360px}
+.panel .rd{display:grid;grid-template-columns:repeat(auto-fit,minmax(130px,1fr));gap:8px;margin:10px 0}
+.panel .rd div{background:var(--panel);border-radius:10px;padding:8px 10px}.panel .rd b{display:block;font-size:19px}.panel .rd span{font-size:12.5px;color:var(--muted)}
+.panel .sl{display:flex;align-items:center;gap:10px;margin:6px 0;flex-wrap:wrap}.panel .sl label{min-width:140px;font-size:14.5px}.panel .sl input[type=range]{flex:1;min-width:140px}
+.panel .msg{background:#f4fbfb;border:1px dashed var(--terrain);border-radius:10px;padding:10px 14px;margin:8px 0;font-size:15px}
+.panel textarea,.panel input[type=text]{width:100%;font:15px var(--font);padding:8px 10px;border:1px solid var(--rule);border-radius:8px}
+.panel table.mt{border-collapse:collapse;margin:6px 0}.panel table.mt td{border:1px solid var(--rule);min-width:44px;text-align:center;padding:4px 6px;font-variant-numeric:tabular-nums}
+.panel table.mt td.hl{background:var(--amber-soft);font-weight:700}.panel table.mt td.hl2{background:var(--info-soft);font-weight:700}
+.panel .step{font-variant-numeric:tabular-nums}
+.ptitle{font-weight:700;margin-bottom:6px}
+</style>
+</head>
+<body>
+<nav class="top" aria-label="섹션 바로가기"><div class="row">
+  <a class="logo" href="index.html">수리 <i>도감</i> 08</a>
+  <div class="links"><a href="#dex">도감 항목</a><a href="#lab">실험실</a><a href="#ai">AI 판단</a><a href="#colab">코랩 실습</a><a href="#sum">정리</a><a href="#kg">색인</a><a href="09_distributions.html">09장 →</a></div>
+</div></nav>
+<div class="cover" id="cover"><div class="frame"><img class="art" src="img/cover_ch08.webp" width="1920" height="1080" alt="칠판에 x̄ = 6, σ = 2.83, IQR = 8이 적혀 있고 X2가 가운데서 공책을 들고 있다. 모아가 찻잔을, 주판봇이 주판을 든 채 양옆에 있다. 막대그래프 소품. 16비트 픽셀아트." fetchpriority="high"><span class="cap">수리 도감 · MATH-08</span><span class="cover-chip">08장 통계 기초 — 평균·분산·사분위 · 안내 X2</span></div></div>
+<header class="hero" id="top"><div class="wrap">
+  <div class="eyebrow">수리 도감 · 인공지능을 위한 수리적 기초 · 확률·통계 · 원자료 MATH-08 <span class="diff">이번 장 안내: X2</span></div>
+  <h1>08장 통계 기초 — 평균·분산·사분위</h1>
+  <p class="question">우리 반 평균 점수 하나로 반 전체를 말해도 될까? 한 명이 100점이면?</p>
+  <p class="lead">데이터가 수천 줄이면 하나씩 볼 수 없어요. 통계는 숫자 묶음을 "가운데가 어디인가"와 "얼마나 퍼졌나" 두 질문으로 요약합니다. 평균·중앙값·최빈값, 분산·표준편차, 사분위수와 상자 그림을 항목 8개로 정리하고, 튀는 값(이상치) 하나가 평균을 얼마나 흔드는지 실험합니다.</p>
+  <p class="byline">글 · 안상선 ((주)M-Robo 대표) · <a href="https://adminmrobo.github.io/who_am_i/who_am_i.html">저자 소개</a> · 2026-11-26 · v1.0</p>
+  <div class="start"><b>처음이라면</b> 「가운데를 재는 숫자」와 「퍼짐을 재는 숫자」를 읽고, 실험실에서 "이상치 1, 2, 2, 3, 100" 버튼을 눌러 보세요. 평균과 중앙값이 갈라지는 모습이 이 장의 핵심이에요.</div>
+  <div class="kpis" aria-label="숫자 요약"><div class="kpi m"><b>8개</b><span>도감 항목 (슬라이드 MATH-08의 모든 상자)</span></div><div class="kpi g"><b>1개</b><span>직접 움직이는 실험실</span></div><div class="kpi a"><b>2 + 2</b><span>웃는 그림 둘, 코랩 실습 둘(AI 프롬프트·실제 코드)</span></div><div class="kpi r"><b>4문제</b><span>확인 퀴즈</span></div></div>
+</div></header>
+<main>
+<section class="sec" id="plain" aria-labelledby="h-plain"><div class="wrap"><h2 id="h-plain">처음 오신 분께 — 이 장을 3줄로</h2><ol class="plain3"><li><b>무엇을</b> 가운데(평균·중앙값·최빈값)와 퍼짐(범위·분산·표준편차·IQR), 그리고 그림(히스토그램·상자 그림·산점도).</li><li><b>왜 중요한가</b> 데이터를 모델에 넣기 전에 반드시 들여다봐야(EDA) 이상한 값과 치우침을 찾을 수 있어요.</li><li><b>AI에서는</b> 특성 크기 맞추기(표준화: 평균을 빼고 표준편차로 나누기), 이상치 찾기, 모델 평가.</li></ol>
+<p class="plain-note">코드와 수식을 몰라도 됩니다. 항목마다 "말로 먼저"와 "숫자로 한 번 해 보기"가 먼저 나오고, 식은 "식으로 보면"을 펼칠 때만 나옵니다. 여기서 한 번 멈춰도 괜찮아요.</p>
+<details class="abbr"><summary>기호·영어 약어 풀이 (7개)</summary><div class="abbr-list"><div><b>x̄</b> <span>엑스 바</span> — 표본 평균</div><div><b>μ</b> <span>뮤</span> — 모집단 평균</div><div><b>σ², σ</b> <span>시그마 제곱, 시그마</span> — 모집단 분산, 표준편차</div><div><b>Σ</b> <span>시그마(합)</span> — 모두 더하기</div><div><b>Q1, Q2, Q3</b> <span>사분위수</span> — 25%, 50%, 75% 지점</div><div><b>IQR</b> <span>Interquartile Range</span> — Q3 − Q1</div><div><b>EDA</b> <span>Exploratory Data Analysis</span> — 탐색적 데이터 분석</div></div></details></div></section>
+<section class="sec" id="cast" aria-labelledby="h-cast" style="padding:18px 0 0;border:0"><div class="wrap"><h3 id="h-cast">연구소 식구 — 열다섯 장을 돌아가며 안내합니다</h3>
+<div class="cast" style="grid-template-columns:repeat(auto-fit,minmax(230px,1fr))"><div class="castc" style="--cc:var(--c-doc)"><img data-mood="doc_board" alt="" aria-hidden="true"><div><b>박사</b><p>연구소 책임자. 장마다 상황 질문으로 문을 열고 해석 문장으로 닫아요.</p></div></div><div class="castc" style="--cc:var(--c-asst)"><img data-mood="asst_smile" alt="" aria-hidden="true"><div><b>조교 하루</b><p>수식 담당. 기호 하나씩 읽는 법과 뜻부터 풀어 줘요.</p></div></div><div class="castc" style="--cc:var(--c-fly)"><img data-mood="fly_point" alt="" aria-hidden="true"><div><b>조교 초파리</b><p>실험 담당. "이걸 눌러 봐"로 실험판을 열고, 답이 그럴듯한지 의심해요.</p></div></div><div class="castc" style="--cc:var(--c-robo)"><img data-mood="robo_calc" alt="" aria-hidden="true"><div><b>조교 주판봇</b><p>계산 담당. 1초 만에 답을 내지만 가끔 너무 빨라요. AI 판단 코너의 단골.</p></div></div><div class="castc" style="--cc:var(--c-sia)"><img data-mood="sia_smile" alt="" aria-hidden="true"><div><b>시아</b><p>직관파 연구원. 비유부터 꺼내 "그러니까 이런 거죠?"라고 물어요.</p></div></div><div class="castc" style="--cc:var(--c-moa)"><img data-mood="moa_smile" alt="" aria-hidden="true"><div><b>모아</b><p>꼼꼼파 연구원. "그건 언제나 그래요?" 하고 조건과 예외를 물어요.</p></div></div><div class="castc" style="--cc:var(--c-x)"><img data-mood="x1_hint" alt="" aria-hidden="true"><div><b>X1</b><p>막내 연구원. 손을 번쩍 들고 엉뚱한 질문을 해요.</p></div></div><div class="castc host" style="--cc:var(--c-x)"><img data-mood="x2_hint" alt="" aria-hidden="true"><div><b>X2 · 이번 장 안내</b><p>막내 연구원. 필기를 가장 열심히 해요.</p></div></div><div class="castc" style="--cc:var(--c-x)"><img data-mood="x3_hint" alt="" aria-hidden="true"><div><b>X3</b><p>막내 연구원. 게임과 퀴즈 시간에 가장 신나요.</p></div></div></div></div></section>
+<section class="sec" id="open" aria-labelledby="h-open"><div class="wrap">
+<h2 id="h-open"><span class="hex">08</span>숫자 묶음을 두 숫자로</h2>
+<div class="hostcard" style="--cc:var(--c-x)"><img data-mood="x2_hint" alt="" aria-hidden="true"><div><b>이번 장 안내 · X2</b><p>필기를 가장 열심히 하는 X2가 "데이터를 요약하는 장"을 맡았습니다. 공책 정리가 곧 통계거든요.</p></div></div>
+<div data-dlg="open"></div>
+<div class="chain"><span class="">06 확률 기초</span><i>→</i><span class="">07 조건부 확률과 베이즈</span><i>→</i><span class="on">08 통계 기초</span><i>→</i><span class="">09 확률분포</span><i>→</i><span class="">10 상관과 공분산</span></div>
+<p class="where"><b>도감 속 자리</b> 6~7장이 "확률"이라는 이론을 다뤘다면, 이 장은 실제 데이터에서 출발합니다. 9장 분포는 이 장의 평균·표준편차를 모양의 이름표로 쓰고, 10장 상관은 두 변수의 분산을 함께 봅니다.</p>
+<div class="sis"><img data-mood="asst_report" alt="" aria-hidden="true"><p><b>조교 하루의 길 안내</b> 같은 주제를 생선 가게 AI 모델 이야기로 차례차례 따라가고 싶다면 「인공지능을 위한 수학」 <a href="https://adminmrobo.github.io/math_for_ai_lab/part2.html#c06">2부 6장 통계 기초</a>을 함께 보세요. 이야기로 흐름을 잡고, 이 도감으로 낱말을 찾아보는 식으로 쓰면 좋아요.</p></div>
+<figure class="toon" id="toon1"><div class="tframe"><img src="img/toon/ch08_a.webp" width="1200" height="800" loading="lazy" alt="픽셀아트. 작은 점수 블록 1, 2, 2, 3 옆에 거대한 100 블록이 서 있고, &quot;평균&quot;이라고 적힌 깃발이 100 쪽으로 질질 끌려간다. &quot;중앙값&quot; 깃발은 2 앞에 꼿꼿이 서 있다. X2가 공책에 21.6과 2를 적으며 놀란다."></div><figcaption><b class="ttl">웃는 그림 1 · 평균을 끌고 간 100점</b><div class="tline"><img data-mood="x2_hint" alt="" aria-hidden="true"><p><b>X2</b> (필기) 평균 21.6… 그런데 다섯 명 중 네 명이 3점 이하인데요?</p></div><div class="tline"><img data-mood="robo_coin" alt="" aria-hidden="true"><p><b>조교 주판봇</b> 100점짜리가 평균 깃발을 혼자 끌고 갔어!</p></div><div class="tline"><img data-mood="moa_tea" alt="" aria-hidden="true"><p><b>모아</b> 중앙값은 꿋꿋이 2에 서 있네요. 이럴 땐 중앙값이 "보통"이에요.</p></div><p class=tpoint><b>그림 속 수학</b> 이상치 하나가 평균을 크게 움직인다. 중앙값은 순서만 보므로 잘 흔들리지 않는다.</p></figcaption></figure>
+</div></section>
+<section class="sec" id="dex" aria-labelledby="h-dex"><div class="wrap">
+<h2 id="h-dex"><span class="hex">도감</span>도감 항목 — 8개</h2>
+<p>슬라이드 MATH-08의 상자를 하나도 빼지 않고 항목으로 옮겼습니다. 이름표를 눌러 바로 가세요.</p>
+<div class="dexidx"><a href="#m08-what">통계란</a><a href="#m08-types">통계의 두 갈래</a><a href="#m08-center">가운데를 재는 숫자</a><a href="#m08-spread">퍼짐을 재는 숫자</a><a href="#m08-quartile">사분위수·백분위수·IQR</a><a href="#m08-compare">평균·중앙값·최빈값 비교</a><a href="#m08-visual">데이터 그리기</a><a href="#m08-apps">ML 응용과 핵심 정리</a></div>
+<article class="dex" id="m08-what" data-dex="통계란"><header><span class="dexno">08-01</span><h3>통계란 <small>What is Statistics</small></h3></header><p class="one">데이터를 모으고, 정리하고, 분석하고, 해석하는 수학의 한 분야.</p><div class="dexgrid"><div class="dw"><b>말로 먼저</b> 통계는 데이터 속 패턴을 찾아 결정을 돕습니다. 확률이 "주사위가 어떻게 나올까"를 묻는다면, 통계는 "이미 나온 결과로 주사위가 어떤지"를 묻는 반대 방향이에요.</div><div class="try"><b>숫자로 한 번 해 보기</b><ol><li>모으기: 반 학생 시험 점수</li><li>정리하기: 표·그래프</li><li>분석·해석: "평균 72점, 대부분 60~85점"</li></ol></div></div><div class="pair"><div><div class="tl">학교 수학으로 보면</div>중학교 "자료의 정리와 해석", 고등 "통계".</div><div><div class="tr">AI에서는</div>ML에서는 데이터 분석, 특성 이해, 모델 평가에 두루 씁니다.</div></div></article>
+<article class="dex" id="m08-types" data-dex="통계의 두 갈래"><header><span class="dexno">08-02</span><h3>통계의 두 갈래 <small>Types of Statistics</small></h3></header><p class="one">기술통계(데이터를 요약)와 추론통계(표본으로 모집단을 짐작).</p><div class="dexgrid"><div class="dw"><b>말로 먼저</b> 기술통계는 가진 데이터를 평균·분산·그래프로 요약할 뿐 일반화하지 않아요. 추론통계는 일부(표본)로 전체(모집단)를 추정하고, 가설을 검정하고, 신뢰구간을 만듭니다.</div><div class="try"><b>숫자로 한 번 해 보기</b><ol><li>기술: "이 반 30명 평균 키 165 cm"</li><li>추론: "이 반으로 보아 전국 고1 평균 키는 163~167 cm일 것"</li><li>추론에는 늘 오차 범위가 붙음</li></ol></div></div><div class="pair"><div><div class="tl">학교 수학으로 보면</div>고등 "통계적 추정".</div><div><div class="tr">AI에서는</div>모델의 시험 정확도 92%도 "시험 데이터라는 표본"에서 잰 값이라, 새 데이터에서는 조금 다를 수 있어요.</div></div></article>
+<article class="dex" id="m08-center" data-dex="가운데를 재는 숫자"><header><span class="dexno">08-03</span><h3>가운데를 재는 숫자 <small>Measures of Central Tendency</small></h3></header><p class="one">평균(다 더해 개수로 나눔), 중앙값(정렬한 가운데), 최빈값(가장 자주 나온 값).</p><div class="dexgrid"><div class="dw"><b>말로 먼저</b> 2, 4, 6, 8, 10의 평균은 30 ÷ 5 = 6, 정렬한 가운데도 6이에요. 최빈값은 2, 4, 6, 4, 8처럼 4가 두 번 나오면 4입니다. 값이 짝수 개면 중앙값은 가운데 두 값의 평균이에요.</div><div class="try"><b>숫자로 한 번 해 보기</b><ol><li>평균: (2 + 4 + 6 + 8 + 10) ÷ 5 = 6</li><li>중앙값: 2, 4, [6], 8, 10 → 6</li><li>최빈값: 2, 4, 6, 4, 8 → 4</li><li>짝수 개 1, 3, 5, 7 → 중앙값 (3 + 5)/2 = 4</li></ol></div></div><div class="pair"><div><div class="tl">학교 수학으로 보면</div>중학교 "대푯값".</div><div><div class="tr">AI에서는</div>소득·집값처럼 한쪽으로 치우친 데이터는 평균보다 중앙값이 "보통"을 더 잘 말해요.</div></div><details class="eqx"><summary>식으로 보면 (몰라도 됩니다)</summary><table class="ez-tb"><thead><tr><th>식 조각</th><th>읽는 법</th><th>뜻</th></tr></thead><tbody><tr><td class="m">x̄ = (Σ xᵢ) / n</td><td>엑스 바</td><td>평균: 합 ÷ 개수</td></tr></tbody></table></details></article>
+<article class="dex" id="m08-spread" data-dex="퍼짐을 재는 숫자"><header><span class="dexno">08-04</span><h3>퍼짐을 재는 숫자 <small>Measures of Dispersion</small></h3></header><p class="one">범위(최댓값 − 최솟값), 분산(평균에서 떨어진 정도의 제곱 평균), 표준편차(분산의 제곱근).</p><div class="dexgrid"><div class="dw"><b>말로 먼저</b> 평균이 같아도 퍼짐은 다를 수 있어요. 분산은 "평균과의 차이"를 제곱해 평균 낸 값이고(제곱하는 이유: 음수·양수가 서로 지우지 않게), 표준편차는 그 제곱근이라 원래 단위로 돌아옵니다.</div><div class="try"><b>숫자로 한 번 해 보기</b><ol><li>2, 4, 6, 8, 10: 범위 = 10 − 2 = 8</li><li>평균 6과의 차이: −4, −2, 0, 2, 4 → 제곱 16, 4, 0, 4, 16</li><li>분산 σ² = 40 ÷ 5 = 8, 표준편차 σ = √8 ≈ 2.828</li></ol></div></div><div class="pair"><div><div class="tl">학교 수학으로 보면</div>중3 "산포도: 분산과 표준편차".</div><div><div class="tr">AI에서는</div>표준화 z = (x − 평균) ÷ 표준편차로 키(cm)와 몸무게(kg)처럼 단위가 다른 특성을 같은 크기로 맞춥니다.</div></div><p class="dexwarn"><b>헷갈리기 쉬운 점</b> 원자료의 분산은 n으로 나누는 모집단 분산입니다. 표본으로 모집단을 추정할 때는 n − 1로 나눠요(15장, 이때 2, 4, 6, 8, 10의 분산은 10).</p><details class="eqx"><summary>식으로 보면 (몰라도 됩니다)</summary><table class="ez-tb"><thead><tr><th>식 조각</th><th>읽는 법</th><th>뜻</th></tr></thead><tbody><tr><td class="m">σ² = (1/n) Σ (xᵢ − μ)²</td><td>시그마 제곱</td><td>모집단 분산</td></tr><tr><td class="m">σ = √σ²</td><td>시그마</td><td>표준편차</td></tr></tbody></table></details></article>
+<div data-dlg="mid"></div>
+<article class="dex" id="m08-quartile" data-dex="사분위수·백분위수·IQR"><header><span class="dexno">08-05</span><h3>사분위수·백분위수·IQR <small>Quartiles, Percentiles and IQR</small></h3></header><p class="one">정렬한 데이터를 넷으로 나누는 점 Q1·Q2·Q3. IQR = Q3 − Q1은 가운데 절반의 폭.</p><div class="dexgrid"><div class="dw"><b>말로 먼저</b> 1, 2, 4, 6, 8, 10, 12(이미 정렬)에서 중앙값 Q2 = 6. 아래 절반 1, 2, 4의 가운데 Q1 = 2, 위 절반 8, 10, 12의 가운데 Q3 = 10. IQR = 10 − 2 = 8. 최솟값·Q1·중앙값·Q3·최댓값 다섯 숫자로 상자 그림을 그려요.</div><div class="try"><b>숫자로 한 번 해 보기</b><ol><li>Q1(25번째 백분위수) = 2</li><li>Q2(중앙값) = 6, Q3(75번째 백분위수) = 10</li><li>IQR = 8, 다섯 숫자 요약: 1, 2, 6, 10, 12</li></ol></div></div><div class="pair"><div><div class="tl">학교 수학으로 보면</div>고등 "통계"의 백분위수, 상자 그림(교과서 보충).</div><div><div class="tr">AI에서는</div>흔한 이상치 기준: Q1 − 1.5 × IQR보다 작거나 Q3 + 1.5 × IQR보다 큰 값. 이 예에서는 −10 미만, 22 초과.</div></div><p class="dexwarn"><b>헷갈리기 쉬운 점</b> 사분위수 계산법은 여러 가지라(가운데 값을 포함하느냐 등) 프로그램마다 조금 다를 수 있어요. 이 도감은 원자료처럼 "가운데 값을 빼고 반으로 나누는" 방법을 씁니다.</p><details class="eqx"><summary>식으로 보면 (몰라도 됩니다)</summary><table class="ez-tb"><thead><tr><th>식 조각</th><th>읽는 법</th><th>뜻</th></tr></thead><tbody><tr><td class="m">IQR = Q3 − Q1</td><td>아이큐알</td><td>가운데 50%의 폭</td></tr></tbody></table></details></article>
+<article class="dex" id="m08-compare" data-dex="평균·중앙값·최빈값 비교"><header><span class="dexno">08-06</span><h3>평균·중앙값·최빈값 비교 <small>Mean, Median, Mode Comparison</small></h3></header><p class="one">한쪽으로 튀는 값(이상치)은 평균만 크게 끌어당긴다.</p><div class="dexgrid"><div class="dw"><b>말로 먼저</b> 1, 2, 2, 3, 100의 평균은 108 ÷ 5 = 21.6인데 중앙값은 2예요. 100 하나가 평균을 혼자 끌어올렸죠. 5, 5, 5, 5, 5는 셋 다 5, 10, 20, 30은 평균·중앙값 20이고 최빈값은 없습니다.</div><div class="try"><b>숫자로 한 번 해 보기</b><ol><li>2, 4, 6, 8, 10 → 평균 6, 중앙값 6 (대칭)</li><li>1, 2, 2, 3, 100 → 평균 21.6, 중앙값 2, 최빈값 2</li><li>10, 20, 30 → 평균 20, 중앙값 20, 최빈값 없음</li></ol></div></div><div class="pair"><div><div class="tl">학교 수학으로 보면</div>중학교 "대푯값의 선택".</div><div><div class="tr">AI에서는</div>손실 함수도 같은 성질이 있어요: 제곱 오차(MSE)는 이상치에 민감하고, 절댓값 오차(MAE)는 덜 민감해요.</div></div></article>
+<article class="dex" id="m08-visual" data-dex="데이터 그리기"><header><span class="dexno">08-07</span><h3>데이터 그리기 <small>Visualizing Data</small></h3></header><p class="one">히스토그램(도수 분포), 상자 그림(퍼짐과 이상치), 산점도(두 변수의 관계).</p><div class="dexgrid"><div class="dw"><b>말로 먼저</b> 숫자 요약만 보면 놓치는 것이 많아요. 히스토그램은 값이 어디에 몰렸는지, 상자 그림은 가운데 절반과 튀는 값을, 산점도는 두 변수가 함께 움직이는지(10장)를 보여 줍니다.</div><div class="try"><b>숫자로 한 번 해 보기</b><ol><li>히스토그램: 구간마다 개수를 막대로</li><li>상자 그림: 다섯 숫자 요약을 상자와 수염으로</li><li>산점도: (x, y) 점 찍기</li></ol></div></div><div class="pair"><div><div class="tl">학교 수학으로 보면</div>중학교 "히스토그램·도수분포다각형", 고등 "산점도와 상관관계".</div><div><div class="tr">AI에서는</div>EDA의 첫 단계. 모델을 만들기 전에 반드시 그려 봅니다.</div></div></article>
+<article class="dex" id="m08-apps" data-dex="ML 응용과 핵심 정리"><header><span class="dexno">08-08</span><h3>ML 응용과 핵심 정리 <small>Applications in ML</small></h3></header><p class="one">분포 이해, 이상치 찾기, 특성 크기 맞추기, 전처리·정제, 모델 선택·평가, EDA.</p><div class="dexgrid"><div class="dw"><b>말로 먼저</b> 정리: 통계는 데이터를 요약하고 이해하게 돕고, 평균·중앙값·최빈값은 가운데를, 분산·표준편차는 퍼짐을, 사분위수·IQR은 분포를 설명합니다. 더 나은 데이터 기반 결정의 바탕이에요.</div><div class="try"><b>숫자로 한 번 해 보기</b><ol><li>특성 크기 맞추기: z = (x − x̄) / s</li><li>이상치: IQR 규칙</li><li>평가: 정확도의 평균과 표준편차(여러 번 실험)</li></ol></div></div><div class="pair"><div><div class="tl">학교 수학으로 보면</div>—</div><div><div class="tr">AI에서는</div>표준화(StandardScaler)는 경사하강(13장)을 빠르게 하고, 거리 기반 모델(KNN)에서 큰 단위 특성이 결과를 독차지하지 않게 해요.</div></div></article>
+</div></section>
+<section class="sec" id="lab" aria-labelledby="h-lab"><div class="wrap">
+<h2 id="h-lab"><span class="hex">실험</span>숫자 묶음 요약기 — 가운데와 퍼짐</h2>
+<div data-dlg="lab_o"></div>
+<div class="easy"><details class="ez-why" open><summary>왜 이 방법을 쓰나</summary><ol><li>문제: 고객 1만 명의 구매 금액을 한눈에 보고 "보통 고객"을 말하고 싶습니다.</li><li>앞 방법의 한계: 평균 하나만 보면 큰손 고객 몇 명 때문에 "보통"이 실제보다 크게 보입니다.</li><li><b>이 방법의 해법: 가운데(평균·중앙값)와 퍼짐(표준편차·IQR)을 함께 보고, 상자 그림으로 튀는 값을 확인합니다.</b></li></ol><p class="ez-easy"><b>쉽게 말하면</b> 반 키를 말할 때 "평균 165"와 함께 "대부분 160~170"을 같이 말하는 것.</p></details><div class="ez-math"><div class="ez-t">연구원이 묻고, 조교 하루가 풀어 봅니다</div><div class="ez-q"><img data-mood="x2_hint" alt="" aria-hidden="true"><p><b style="display:block;font-size:12.5px;color:var(--muted)">X2</b>분산은 왜 차이를 그냥 더하지 않고 제곱해서 더해요?</p></div><p><b>말로 먼저</b> 차이를 그냥 더하면 위로 떨어진 것과 아래로 떨어진 것이 서로 지워져서 늘 0이 돼요. 제곱하면 모두 양수가 되어 "떨어진 정도"만 남아요.</p><p><b>학교 수학으로 보면</b> 중3 산포도: 편차의 합은 0.</p><div class="try" style="background:#fff;border:1px dashed #e8b67a;border-radius:10px;padding:10px 14px"><b>숫자로 한 번 해 보기</b><ol style="margin:6px 0 0;padding-left:22px"><li>편차: −4, −2, 0, 2, 4 → 합 0 (쓸모없음)</li><li>제곱: 16, 4, 0, 4, 16 → 합 40</li><li>평균 내면 8 = 분산, 루트 하면 2.83 = 표준편차</li></ol></div><details class="eqx"><summary>식으로 보면 (몰라도 됩니다)</summary><table class="ez-tb"><thead><tr><th>식 조각</th><th>읽는 법</th><th>뜻</th></tr></thead><tbody><tr><td>xᵢ − μ</td><td>편차</td><td>평균과의 차이</td></tr><tr><td>(xᵢ − μ)²</td><td>편차 제곱</td><td>부호 없애기</td></tr><tr><td>√</td><td>루트</td><td>단위를 원래대로</td></tr></tbody></table></details><div class="ez-q ez-c"><img data-mood="asst_spark" alt="" aria-hidden="true"><p><b style="display:block;font-size:12.5px;color:var(--muted)">조교 하루</b>실험실에서 "모두 같은 5"를 눌러 보세요. 편차가 모두 0이라 분산·표준편차가 0이에요.</p></div></div></div>
+<div class="dialog lvtalk" data-dlg="lab_t"></div>
+<div class="panel" id="w-ch08" data-w="stats"></div>
+<div class="say" data-who="doc"><img class="who" data-mood="doc_judge" alt="" aria-hidden="true"><div><b class="name">박사의 정리</b><p>요약 숫자는 늘 짝으로 읽으세요. "가운데 + 퍼짐". 그리고 평균과 중앙값이 멀리 떨어져 있으면 그림을 그려 튀는 값을 찾으세요. 모델에 넣기 전에 데이터를 들여다보는 이 습관이 AI 프로젝트의 절반을 구합니다.</p></div></div>
+<div class="lim"><b>이 실험의 한계</b> 요약기는 숫자 묶음 하나만 봅니다. 두 변수가 함께 움직이는지(상관)는 10장에서 봐요.</div>
+<figure class="toon" id="toon2"><div class="tframe"><img src="img/toon/ch08_b.webp" width="1200" height="800" loading="lazy" alt="픽셀아트. 두 교실 그림이 나란히 있다. 왼쪽 반은 점수 블록이 모두 비슷한 높이(평균 70), 오른쪽 반은 아주 높은 블록과 아주 낮은 블록이 섞여 있다(평균 70). 하루가 두 반 사이에서 &quot;σ가 달라요&quot;라고 팻말을 든다."></div><figcaption><b class="ttl">웃는 그림 2 · 평균은 같은데 반 분위기는 정반대</b><div class="tline"><img data-mood="sia_think" alt="" aria-hidden="true"><p><b>시아</b> 두 반 다 평균 70점인데 왜 선생님은 오른쪽 반만 걱정하세요?</p></div><div class="tline"><img data-mood="asst_firm" alt="" aria-hidden="true"><p><b>조교 하루</b> 표준편차가 달라요. 왼쪽 반은 σ ≈ 1.3, 오른쪽 반은 σ ≈ 25. 퍼짐을 같이 봐야 해요.</p></div><div class="tline"><img data-mood="x2_hint" alt="" aria-hidden="true"><p><b>X2</b> (필기) 요약은 언제나 가운데 + 퍼짐!</p></div><p class=tpoint><b>그림 속 수학</b> 평균이 같아도 분산·표준편차가 다르면 전혀 다른 데이터다. 요약은 "가운데 + 퍼짐"의 짝으로.</p></figcaption></figure>
+<div class="aibox" id="ai"><div class="aihead"><span class="aitag">AI 판단 코너</span>주판봇의 "1, 2, 2, 3, 100의 대표값은 21.6"</div><div data-dlg="ai_d"></div><p>박사는 늘 두 가지를 묻습니다. "가정이 맞나? 숫자가 그럴듯한가?"</p><ol><li>가정이 맞나? 평균은 어떤 데이터에서 "보통"을 잘 나타내나요? 이 데이터는 대칭인가요?</li><li>숫자가 그럴듯한가? 다섯 값 중 21.6에 가까운 값이 하나라도 있나요?</li></ol><details class="eqx"><summary>확인해 보기 (먼저 스스로 따져 본 뒤 펼치세요)</summary><p class="aiverdict">계산(108 ÷ 5 = 21.6)은 맞지만 해석이 틀렸어요. 21.6 근처에는 값이 하나도 없고, 다섯 중 넷이 3 이하입니다. 이렇게 치우친 데이터의 "보통"은 중앙값 2가 더 잘 말해요. 계산이 맞는 것과 결론이 맞는 것은 다른 문제라는 것, AI 결과를 읽을 때 가장 자주 만나는 함정이에요.</p><div data-dlg="ai_e"></div></details></div>
+<h3 id="quiz">확인 퀴즈</h3>
+<div class="quiz" data-quiz="q"></div>
+</div></section>
+<section class="sec" id="colab" aria-labelledby="h-colab"><div class="wrap">
+<h2 id="h-colab"><span class="hex">실습</span>코랩 실습실 — 배운 것을 직접 돌려 보기</h2>
+<p>두 가지 방법이 있어요. ① 생성 AI에게 프롬프트를 주고 코드를 만들게 해 보기, ② 연구소가 미리 만들어 검사까지 마친 코드를 돌려 보기. 둘을 나란히 돌려 결과를 비교하면, AI가 낸 코드를 믿어도 되는지 스스로 판단하는 연습이 됩니다.</p>
+<div data-dlg="colab"></div>
+<div class="labbox"><div class="labh"><span class="lno">①</span> 생성 AI로 실습하기 — 코랩 파이썬 프롬프트</div>
+<p>구글 코랩(Colab)의 Gemini 창이나 ChatGPT·Claude 같은 생성 AI에 아래 글을 그대로 붙여 넣으세요. AI가 만든 코드를 코랩 셀에 붙여 넣고 실행합니다.</p>
+<div class="codewrap"><button type="button" class="cpy" data-copy="p-ch08">복사</button><pre class="prompt" id="p-ch08">너는 고등학생에게 기술통계를 가르치는 파이썬 선생님이야. 구글 코랩에서 실행되는 코드를 만들어 줘.
+주제: 평균·중앙값·최빈값, 범위·분산·표준편차, 사분위수·IQR, 이상치
+요구 사항:
+1. 데이터 [2, 4, 6, 8, 10]의 평균·중앙값·범위·분산·표준편차를 (a) 공식대로 반복문으로 직접 (b) numpy로 계산해 비교해 줘. 분산은 n으로 나누는 것(ddof=0)과 n-1로 나누는 것(ddof=1)을 둘 다 보여 줘.
+2. [1, 2, 2, 3, 100]의 평균과 중앙값을 비교하고, 이상치 100을 빼면 평균이 어떻게 바뀌는지 보여 줘.
+3. [1, 2, 4, 6, 8, 10, 12]의 Q1, Q2, Q3를 &quot;가운데 값을 빼고 반으로 나누는 방법&quot;으로 직접 구하고, numpy.percentile 결과와 왜 다를 수 있는지 주석으로 설명해 줘.
+4. IQR 규칙(Q1-1.5*IQR, Q3+1.5*IQR)으로 이상치를 찾는 함수를 numpy.percentile로 만들어 줘.
+5. 정규분포 난수 200개(seed 고정)로 히스토그램과 상자 그림을 1×2로 그려 줘(영어 라벨).
+6. 키(cm)와 몸무게(kg) 예시 데이터를 표준화(z 점수)해서 평균 0, 표준편차 1이 되는지 확인해 줘.
+7. 모든 줄에 한국어 주석.</pre></div></div>
+<div class="labbox"><div class="labh"><span class="lno">②</span> 실제로 돌아가는 코드 — 파이썬 · 코랩</div>
+<p>연구소가 직접 실행해 결과를 확인한 코드입니다. 버튼 하나로 코랩에서 바로 열 수 있어요(구글 계정만 있으면 설치할 것이 없습니다).</p>
+<p class="colabbtns"><a class="bt primary" href="https://colab.research.google.com/github/adminmrobo/math_basic_for_ai_dictionary/blob/main/colab/ch08_statistics.ipynb" target="_blank" rel="noopener">코랩에서 열기</a> <a class="bt" href="code/colab_py/ch08_statistics.py" download>.py 내려받기</a> <a class="bt" href="colab/ch08_statistics.ipynb" download>.ipynb 내려받기</a></p>
+<details class="fold"><summary>코드 펼치기 (몰라도 됩니다 · 50줄)</summary><div class="codewrap"><button type="button" class="cpy" data-copy="c-ch08">복사</button><pre class="code" id="c-ch08"><code># %% 1. 가운데와 퍼짐: 손으로 vs numpy
+import numpy as np
+import matplotlib.pyplot as plt
+
+x = [2, 4, 6, 8, 10]
+n = len(x)
+mean = sum(x) / n
+var_pop = sum((v - mean) ** 2 for v in x) / n          # 모집단 분산 (n으로 나눔)
+var_smp = sum((v - mean) ** 2 for v in x) / (n - 1)    # 표본 분산 (n-1로 나눔)
+print(&quot;평균&quot;, mean, &quot;/ 중앙값&quot;, np.median(x), &quot;/ 범위&quot;, max(x) - min(x))
+print(&quot;분산(n)&quot;, var_pop, &quot;= np.var&quot;, np.var(x), &quot;/ 표준편차&quot;, round(var_pop ** 0.5, 3))
+print(&quot;분산(n-1)&quot;, var_smp, &quot;= np.var(ddof=1)&quot;, np.var(x, ddof=1))
+
+# %% 2. 이상치가 평균을 끌어당긴다
+y = np.array([1, 2, 2, 3, 100])
+print(&quot;평균&quot;, y.mean(), &quot;/ 중앙값&quot;, np.median(y))
+print(&quot;100을 빼면 평균&quot;, y[y &lt; 100].mean(), &quot;/ 중앙값&quot;, np.median(y[y &lt; 100]))
+
+# %% 3. 사분위수 (원자료 방식: 가운데 값을 빼고 반으로)
+def quartiles(data):
+    s = sorted(data); m = len(s); h = m // 2
+    lower, upper = s[:h], s[h + 1:] if m % 2 else s[h:]
+    return np.median(lower), np.median(s), np.median(upper)
+
+z = [1, 2, 4, 6, 8, 10, 12]
+q1, q2, q3 = quartiles(z)
+print(&quot;원자료 방식 Q1, Q2, Q3 =&quot;, q1, q2, q3, &quot;/ IQR =&quot;, q3 - q1)
+print(&quot;numpy.percentile 25, 50, 75 =&quot;, np.percentile(z, [25, 50, 75]), &quot;(계산 방식이 달라 값이 다를 수 있음)&quot;)
+
+# %% 4. IQR 규칙으로 이상치 찾기 (여기서는 numpy.percentile 방식의 사분위수 사용)
+def outliers(data):
+    q1, q3 = np.percentile(data, [25, 75]); iqr = q3 - q1
+    lo, hi = q1 - 1.5 * iqr, q3 + 1.5 * iqr
+    return [int(v) for v in data if v &lt; lo or v &gt; hi], (float(lo), float(hi))
+found, (lo, hi) = outliers([1, 2, 2, 3, 100])
+print(&quot;이상치:&quot;, found, f&quot;/ 정상 범위 {lo} ~ {hi}&quot;)
+
+# %% 5. 히스토그램과 상자 그림
+rng = np.random.default_rng(1)
+scores = rng.normal(70, 10, 200)
+fig, ax = plt.subplots(1, 2, figsize=(10, 3.5))
+ax[0].hist(scores, bins=15, color=&quot;teal&quot;, edgecolor=&quot;white&quot;); ax[0].set_title(&quot;Histogram&quot;); ax[0].set_xlabel(&quot;score&quot;)
+ax[1].boxplot(scores); ax[1].set_title(&quot;Box plot&quot;)
+plt.tight_layout(); plt.show()
+
+# %% 6. 표준화: 단위가 다른 특성을 같은 크기로
+h = np.array([160, 165, 170, 175, 180.0]); w = np.array([50, 58, 61, 70, 76.0])
+zh, zw = (h - h.mean()) / h.std(), (w - w.mean()) / w.std()
+print(&quot;키 z:&quot;, zh.round(2), &quot;/ 평균&quot;, round(zh.mean(), 10), &quot;표준편차&quot;, round(zh.std(), 3))
+print(&quot;몸무게 z:&quot;, zw.round(2), &quot;/ 평균&quot;, round(zw.mean(), 10), &quot;표준편차&quot;, round(zw.std(), 3))</code></pre></div></details>
+<details class="fold"><summary>실행하면 이렇게 나옵니다 (연구소에서 돌린 결과)</summary><pre class="out">평균 6.0 / 중앙값 6.0 / 범위 8
+분산(n) 8.0 = np.var 8.0 / 표준편차 2.828
+분산(n-1) 10.0 = np.var(ddof=1) 10.0
+평균 21.6 / 중앙값 2.0
+100을 빼면 평균 2.0 / 중앙값 2.0
+원자료 방식 Q1, Q2, Q3 = 2.0 6.0 10.0 / IQR = 8.0
+numpy.percentile 25, 50, 75 = [3. 6. 9.] (계산 방식이 달라 값이 다를 수 있음)
+이상치: [100] / 정상 범위 0.5 ~ 4.5
+키 z: [-1.41 -0.71  0.    0.71  1.41] / 평균 0.0 표준편차 1.0
+몸무게 z: [-1.43 -0.55 -0.22  0.77  1.43] / 평균 0.0 표준편차 1.0</pre><p class="muted" style="font-size:13px">그래프 창은 코랩 화면에 함께 나타납니다. 무작위 실험이 있는 코드는 seed를 고정해 같은 숫자가 나오게 했어요.</p></details></div>
+<div class="labbox"><div class="labh"><span class="lno">③</span> 비교 과제 — AI 코드와 연구소 코드 맞대 보기</div><ol><li>분산이 ddof=0이면 8, ddof=1이면 10인지 확인하세요. AI 코드가 어느 쪽을 기본으로 썼나요?</li><li>numpy.percentile로 구한 Q1·Q3가 원자료의 2·10과 다르다면, 계산법 차이 때문인지 확인하세요.</li><li>이상치 함수가 [1, 2, 2, 3, 100]에서 100만 골라내는지 시험해 보세요.</li></ol></div>
+</div></section>
+<section class="sec" id="sum" aria-labelledby="h-sum"><div class="wrap">
+<h2 id="h-sum">정리 — 가운데와 퍼짐을 짝으로</h2>
+<div class="tblwrap"><table class="cmp"><thead><tr><th>질문</th><th>답 한 줄</th></tr></thead><tbody><tr><td>통계의 두 갈래는?</td><td>기술통계(요약)와 추론통계(표본으로 모집단 짐작).</td></tr><tr><td>가운데를 재는 숫자는?</td><td>평균 6, 중앙값 6, 최빈값 4 (원자료 예).</td></tr><tr><td>퍼짐을 재는 숫자는?</td><td>범위 8, 분산 8, 표준편차 √8 ≈ 2.828.</td></tr><tr><td>IQR은?</td><td>Q3 − Q1. 1, 2, 4, 6, 8, 10, 12 → 10 − 2 = 8.</td></tr><tr><td>이상치가 있으면?</td><td>평균이 끌려간다(21.6 vs 중앙값 2). 중앙값과 상자 그림을 함께.</td></tr></tbody></table></div>
+<h3>용어 대응 카드</h3><div class="gloss"><div><b>통계란</b> = 데이터를 모으고, 정리하고, 분석하고, 해석하는 수학의 한 분야.</div><div><b>통계의 두 갈래</b> = 기술통계(데이터를 요약)와 추론통계(표본으로 모집단을 짐작).</div><div><b>가운데를 재는 숫자</b> = 평균(다 더해 개수로 나눔), 중앙값(정렬한 가운데), 최빈값(가장 자주 나온 값).</div><div><b>퍼짐을 재는 숫자</b> = 범위(최댓값 − 최솟값), 분산(평균에서 떨어진 정도의 제곱 평균), 표준편차(분산의 제곱근).</div><div><b>사분위수·백분위수·IQR</b> = 정렬한 데이터를 넷으로 나누는 점 Q1·Q2·Q3. IQR = Q3 − Q1은 가운데 절반의 폭.</div><div><b>평균·중앙값·최빈값 비교</b> = 한쪽으로 튀는 값(이상치)은 평균만 크게 끌어당긴다.</div><div><b>데이터 그리기</b> = 히스토그램(도수 분포), 상자 그림(퍼짐과 이상치), 산점도(두 변수의 관계).</div><div><b>ML 응용과 핵심 정리</b> = 분포 이해, 이상치 찾기, 특성 크기 맞추기, 전처리·정제, 모델 선택·평가, EDA.</div></div>
+<h3>원자료와 다르게 쓴 곳</h3><ul><li>원자료 4번의 분산은 n으로 나누는 모집단 분산입니다. 15장의 표본분산(n − 1)과 헷갈리지 않게 두 값을 함께 적었습니다.</li><li>원자료 5번 상자 그림의 왼쪽 글자 "RoI"는 이 도감에서 "최솟값(Min)"으로 읽었습니다.</li><li>원자료 6번 표의 "1, 2, 2, 3, 100"에 대해 이상치 판정 기준(IQR 규칙)을 덧붙였습니다.</li></ul>
+<h3>비유와 예시의 한계</h3><ul><li>"평균 + 퍼짐" 요약은 봉우리가 하나인 데이터에 잘 맞습니다. 봉우리가 둘인 데이터는 히스토그램을 꼭 그려야 해요.</li><li>사분위수 계산법은 여러 가지가 있습니다.</li></ul>
+<div class="next"><a href="07_bayes.html"><b>← 07장 조건부 확률과 베이즈</b><br>새 정보로 고치는 믿음</a><a href="index.html"><b>도감 목차</b><br>열다섯 장과 항목 찾기</a><a href="09_distributions.html"><b>09장 확률분포 →</b><br>이항·포아송·정규</a></div>
+</div></section>
+<section class="sec" id="outro" aria-labelledby="h-outro"><div class="wrap"><h2 id="h-outro">아웃트로 — 다음 장으로</h2><div data-dlg="outro"></div></div></section>
+</main>
+<footer><div class="wrap">
+<h3>출처</h3>
+<table><thead><tr><th>#</th><th>자료</th><th>이 페이지에서 쓴 곳</th></tr></thead><tbody><tr><td>[1]</td><td>연구소 수학 노트 MATH-08 「Statistics Basics」 (인포그래픽 한 장)</td><td>도감 항목 전부, 예시 숫자</td></tr></tbody></table>
+<h3>예시값·설명용 모형인 것</h3><ul><li>항목의 숫자 예시는 설명용이며 연구소가 검산했습니다(code/check_numbers.py).</li><li>코랩 코드는 교육용 예제이며 실제 서비스에 그대로 쓰는 코드가 아닙니다.</li></ul>
+<p>캐릭터 이름·설정·그림은 저작권자 안상선의 허락 없이 사용할 수 없습니다.</p>
+<p>글 · 안상선 ((주)M-Robo 대표) · <a href="https://adminmrobo.github.io/who_am_i/who_am_i.html">저자 소개</a> · <a href="index.html">수리 도감 목차</a> · 자매편 <a href="https://adminmrobo.github.io/hello_space_lab/index.html">좌표 첫걸음</a> · <a href="https://adminmrobo.github.io/optimization_3d_map/first_step_0.html">최적화 첫걸음</a></p>
+</div></footer>
+<script>
+/*@@SPRITES@@*/
+/*@@COMMON@@*/
+/*@@MATHLAB@@*/
+(function(){
+'use strict';
+U.dialogues({"open": [["x2", "x2_hint", "8장 안내는 X2입니다. (공책을 펼치며) 상황: 담임 선생님이 \"우리 반 평균 72점\"이라고만 말했어요. 이걸로 우리 반을 다 알 수 있을까요?"], ["sia", "sia_think", "다들 70점대라는 뜻 아니에요?"], ["x2", "x2_hint", "저도 그렇게 적었는데요… 100점 한 명과 50점 여러 명이어도 평균은 72가 될 수 있대요."], ["doc", "doc_front", "그래서 통계는 \"가운데\"와 \"퍼짐\"을 짝으로 봅니다. 숫자 두 개, 그리고 그림 하나."], ["x2", "x2_hint", "오늘은 공책 한 쪽에 요약 숫자들을 다 정리해 볼게요. 공식이 많아 보여도 계산은 더하고 나누기뿐이에요."]], "mid": [["moa", "moa_report", "분산이 n으로 나누는 거랑 n−1로 나누는 거랑 둘 다 본 것 같아요."], ["asst", "asst_smile", "좋은 질문이에요. 가진 데이터 자체를 요약하면 n, 표본으로 전체를 짐작하면 n−1. 항목에 적어 뒀어요."]], "lab_o": [["doc", "doc_board", "상황: 쇼핑몰 고객 다섯 명의 이번 달 구매액이 1, 2, 2, 3, 100만 원입니다. \"우리 고객은 보통 얼마를 쓰나요?\""]], "lab_t": [["robo", "robo_calc", "평균 21.6만 원! 보통 고객은 21.6만 원!"], ["fly", "fly_point", "그 금액을 쓴 고객이 있어? 이걸 눌러 봐. 「이상치」 버튼으로 평균과 중앙값을 같이 보자."], ["asst", "asst_report", "보고: 평균 21.6, 중앙값 2. 평균 선이 상자에서 멀리 떨어져 있어요."]], "ai_d": [["robo", "robo_happy", "1, 2, 2, 3, 100의 대표값은 평균 21.6! 계산 완벽!"], ["doc", "doc_think", "계산은 맞네요. 그런데 그 숫자가 이 데이터를 잘 대표하나요?"]], "ai_e": [["robo", "robo_sigh", "21.6 근처에 값이 하나도 없구나…"], ["x2", "x2_hint", "(필기) 계산이 맞아도 해석은 틀릴 수 있다. 별표 세 개."]], "colab": [["x2", "x2_hint", "분산을 n으로 나눴는지 n−1로 나눴는지 꼭 확인하세요. 코드마다 기본값이 달라요. (numpy는 n, pandas는 n−1)"]], "outro": [["doc", "doc_judge", "해석 문장: \"데이터 요약은 가운데와 퍼짐의 짝이고, 둘이 어긋나면 그림을 그려 튀는 값을 찾는다.\""], ["x3", "x3_hint", "히스토그램 모양이 종처럼 생긴 것도 있고 미끄럼틀처럼 생긴 것도 있던데요?"], ["x3", "x3_hint", "그 모양들에 이름을 붙인 게 확률분포래요. 9장은 제가 안내할게요. 분포 진열장, 신나요!"]]});
+U.fillImgs();
+ML.mountAll();
+ML.copyButtons();
+U.Gloss({"통계란": ["통계란", "What is Statistics", "데이터를 모으고, 정리하고, 분석하고, 해석하는 수학의 한 분야."], "통계의 두 갈래": ["통계의 두 갈래", "Types of Statistics", "기술통계(데이터를 요약)와 추론통계(표본으로 모집단을 짐작)."], "가운데를 재는 숫자": ["가운데를 재는 숫자", "Measures of Central Tendency", "평균(다 더해 개수로 나눔), 중앙값(정렬한 가운데), 최빈값(가장 자주 나온 값)."], "퍼짐을 재는 숫자": ["퍼짐을 재는 숫자", "Measures of Dispersion", "범위(최댓값 − 최솟값), 분산(평균에서 떨어진 정도의 제곱 평균), 표준편차(분산의 제곱근)."], "사분위수·백분위수·IQR": ["사분위수·백분위수·IQR", "Quartiles, Percentiles and IQR", "정렬한 데이터를 넷으로 나누는 점 Q1·Q2·Q3. IQR = Q3 − Q1은 가운데 절반의 폭."], "평균·중앙값·최빈값 비교": ["평균·중앙값·최빈값 비교", "Mean, Median, Mode Comparison", "한쪽으로 튀는 값(이상치)은 평균만 크게 끌어당긴다."], "데이터 그리기": ["데이터 그리기", "Visualizing Data", "히스토그램(도수 분포), 상자 그림(퍼짐과 이상치), 산점도(두 변수의 관계)."], "ML 응용과 핵심 정리": ["ML 응용과 핵심 정리", "Applications in ML", "분포 이해, 이상치 찾기, 특성 크기 맞추기, 전처리·정제, 모델 선택·평가, EDA."]},["통계란", "통계의 두 갈래", "가운데를 재는 숫자", "퍼짐을 재는 숫자", "사분위수·백분위수·IQR", "평균·중앙값·최빈값 비교"]);
+U.Study({quiz:{"q": [{"q": "2, 4, 6, 8, 10의 분산(모집단, n으로 나눔)은?", "o": ["8", "6", "2.83", "40"], "a": 0, "why": "편차 제곱합 40 ÷ 5 = 8.", "hint": "평균 6과의 차이를 제곱해 평균 내세요."}, {"q": "1, 2, 2, 3, 100의 중앙값은?", "o": ["2", "21.6", "3", "100"], "a": 0, "why": "정렬한 가운데(셋째) 값.", "hint": "크기순으로 늘어놓고 가운데."}, {"q": "1, 2, 4, 6, 8, 10, 12의 IQR은?", "o": ["8", "6", "11", "10"], "a": 0, "why": "Q3 10 − Q1 2 = 8.", "hint": "아래 절반과 위 절반 각각의 가운데."}, {"q": "이상치에 덜 흔들리는 가운데 값은?", "o": ["중앙값", "평균", "범위", "분산"], "a": 0, "why": "중앙값은 순서만 보기 때문.", "hint": "100점 하나가 들어와도 거의 그대로인 것."}]}});
+U.start();
+})();
+</script>
+</body>
+</html>

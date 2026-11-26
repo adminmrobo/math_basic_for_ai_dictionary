@@ -1,0 +1,232 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>11장 미적분 기초 — 극한·미분·적분 | 수리 도감 — 인공지능을 위한 수리적 기초</title>
+<meta name="description" content="수리 도감 11장. 미적분의 뜻, 극한, 도함수(접선의 기울기), 자주 쓰는 도함수 표, 미분 법칙(곱·몫·연쇄), 부정적분과 정적분, ML 응용을 주판봇이 할선이 접선이 되는 실험실로 안내합니다.">
+<meta property="og:type" content="article"><meta property="og:title" content="11장 미적분 기초 — 극한·미분·적분 | 수리 도감 — 인공지능을 위한 수리적 기초"><meta property="og:description" content="수리 도감 11장. 미적분의 뜻, 극한, 도함수(접선의 기울기), 자주 쓰는 도함수 표, 미분 법칙(곱·몫·연쇄), 부정적분과 정적분, ML 응용을 주판봇이 할선이 접선이 되는 실험실로 안내합니다.">
+<meta property="og:image" content="https://adminmrobo.github.io/math_basic_for_ai_dictionary/img/og/ch11.png"><meta property="og:url" content="https://adminmrobo.github.io/math_basic_for_ai_dictionary/11_calculus.html"><meta name="twitter:card" content="summary_large_image">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+KR:wght@400;500;700&display=swap" rel="stylesheet">
+<!--@@CSS@@-->
+<style>
+.tl,.tr{font-weight:700;font-size:13.5px;margin-bottom:4px}.tl{color:var(--amber)}.tr{color:var(--terrain)}
+.hex{display:inline-grid;place-items:center;min-width:44px;height:34px;padding:0 10px;margin-right:10px;border-radius:8px;background:var(--terrain);color:#fff;font-size:17px;vertical-align:4px}
+.sec{padding:40px 0;border-top:1px solid var(--rule)}
+.cast{display:grid;gap:10px}.castc{display:flex;gap:10px;align-items:center;background:var(--panel);border:1px solid var(--rule);border-left:4px solid var(--cc);border-radius:10px;padding:8px 10px}
+.castc.host{background:#fff;box-shadow:0 0 0 2px var(--cc)}
+.castc img{width:60px;height:60px;flex:none}.castc p{margin:0;font-size:13.5px;color:var(--muted);line-height:1.55}
+.cover img.art{image-rendering:pixelated;image-rendering:crisp-edges}
+.diff{display:inline-block;border:1px solid var(--c-asst);color:var(--c-asst);border-radius:999px;padding:0 10px;font-size:12.5px;margin-left:6px}
+.hostcard{display:flex;gap:14px;align-items:center;border:2px solid var(--cc);border-radius:14px;padding:12px 16px;margin:10px 0 16px;background:#fff}
+.hostcard img{width:84px;height:84px;flex:none}.hostcard p{margin:4px 0 0;color:var(--muted)}
+.chain span.on{background:var(--terrain);color:#fff;border-color:var(--terrain)}
+.where{background:var(--panel);border-radius:10px;padding:10px 14px}
+.sis{display:flex;gap:12px;align-items:center;border:1px solid var(--c-asst);border-radius:12px;padding:10px 14px;margin:10px 0;background:#fff7fb}.sis img{width:56px;height:56px;flex:none}.sis p{margin:0}
+.dexidx{display:flex;flex-wrap:wrap;gap:6px;margin:10px 0 18px}.dexidx a{border:1px solid var(--rule);border-radius:999px;padding:3px 12px;font-size:14px;text-decoration:none;background:var(--panel)}
+.dexidx a:hover{border-color:var(--terrain)}
+.dex{border:1px solid var(--rule);border-top:4px solid var(--terrain);border-radius:14px;padding:16px 20px 12px;margin:0 0 22px;background:#fff;scroll-margin-top:70px}
+.dex header{display:flex;gap:12px;align-items:baseline;flex-wrap:wrap}.dex h3{margin:0;font-size:21px}.dex h3 small{font-size:14px;color:var(--muted);font-weight:500}
+.dexno{font:700 13px/1 var(--font);color:#fff;background:var(--c-x);border-radius:6px;padding:4px 8px}
+.dex .one{font-size:17px;font-weight:600;color:var(--terrain);margin:8px 0 10px}
+.dexgrid{display:grid;grid-template-columns:1.2fr 1fr;gap:14px;margin-bottom:10px}
+.dexgrid .dw{line-height:1.8}.dexgrid .try{background:var(--amber-soft);border:1px dashed #e8b67a;border-radius:10px;padding:10px 14px}.dexgrid .try ol{margin:6px 0 0;padding-left:22px}
+.dexwarn{background:var(--eye-soft);border-radius:8px;padding:8px 12px;font-size:15px}
+@media(max-width:760px){.dexgrid{grid-template-columns:1fr}}
+.toon{margin:26px auto;max-width:820px;border:1px solid var(--rule);border-radius:14px;overflow:hidden;background:#fff}
+.toon .tframe{background:#fff;border-bottom:1px solid var(--rule)}.toon img{display:block;width:100%;height:auto;image-rendering:pixelated;image-rendering:crisp-edges}
+.toon figcaption{padding:12px 16px}.toon .ttl{display:block;margin-bottom:8px;color:var(--amber)}
+.tline{display:flex;gap:10px;align-items:center;margin:6px 0}.tline img{width:40px;height:40px;flex:none;border-radius:8px;border:1px solid var(--rule)}.tline p{margin:0}
+.tpoint{margin:10px 0 0;background:var(--panel);border-radius:8px;padding:8px 12px;font-size:15px}
+.labbox{border:1px solid var(--rule);border-radius:14px;padding:14px 18px;margin:16px 0;background:#fff}
+.labh{font-weight:700;font-size:17px;margin-bottom:6px}.lno{display:inline-grid;place-items:center;width:28px;height:28px;border-radius:50%;background:var(--terrain);color:#fff;margin-right:6px}
+.codewrap{position:relative}.cpy{position:absolute;right:8px;top:8px;font:600 12.5px var(--font);border:1px solid var(--rule);background:#fff;border-radius:8px;padding:3px 10px;cursor:pointer}
+pre.prompt,pre.code,pre.out{white-space:pre-wrap;word-break:break-word;background:#f7f9fb;border:1px solid var(--rule);border-radius:10px;padding:14px 16px;font:13.5px/1.65 ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;max-height:520px;overflow:auto;margin:8px 0}
+pre.prompt{background:#fbf8ff;border-color:#d9c8f0;font-family:var(--font);font-size:14.5px}
+pre.out{background:#0f1720;color:#d8e6f0}
+.colabbtns{display:flex;flex-wrap:wrap;gap:8px}.colabbtns a.bt{text-decoration:none}
+.panel .row2{display:grid;grid-template-columns:1fr 1fr;gap:14px}@media(max-width:760px){.panel .row2{grid-template-columns:1fr}}
+.panel .cv{width:100%;height:300px;display:block;border:1px solid var(--rule);border-radius:10px;background:#fff;touch-action:none}
+.panel .cv.tall{height:360px}
+.panel .rd{display:grid;grid-template-columns:repeat(auto-fit,minmax(130px,1fr));gap:8px;margin:10px 0}
+.panel .rd div{background:var(--panel);border-radius:10px;padding:8px 10px}.panel .rd b{display:block;font-size:19px}.panel .rd span{font-size:12.5px;color:var(--muted)}
+.panel .sl{display:flex;align-items:center;gap:10px;margin:6px 0;flex-wrap:wrap}.panel .sl label{min-width:140px;font-size:14.5px}.panel .sl input[type=range]{flex:1;min-width:140px}
+.panel .msg{background:#f4fbfb;border:1px dashed var(--terrain);border-radius:10px;padding:10px 14px;margin:8px 0;font-size:15px}
+.panel textarea,.panel input[type=text]{width:100%;font:15px var(--font);padding:8px 10px;border:1px solid var(--rule);border-radius:8px}
+.panel table.mt{border-collapse:collapse;margin:6px 0}.panel table.mt td{border:1px solid var(--rule);min-width:44px;text-align:center;padding:4px 6px;font-variant-numeric:tabular-nums}
+.panel table.mt td.hl{background:var(--amber-soft);font-weight:700}.panel table.mt td.hl2{background:var(--info-soft);font-weight:700}
+.panel .step{font-variant-numeric:tabular-nums}
+.ptitle{font-weight:700;margin-bottom:6px}
+</style>
+</head>
+<body>
+<nav class="top" aria-label="섹션 바로가기"><div class="row">
+  <a class="logo" href="index.html">수리 <i>도감</i> 11</a>
+  <div class="links"><a href="#dex">도감 항목</a><a href="#lab">실험실</a><a href="#ai">AI 판단</a><a href="#colab">코랩 실습</a><a href="#sum">정리</a><a href="#kg">색인</a><a href="12_gradient.html">12장 →</a></div>
+</div></nav>
+<div class="cover" id="cover"><div class="frame"><img class="art" src="img/cover_ch11.webp" width="1920" height="1080" alt="칠판에 (x²)&#x27; = 2x, lim h→0, ∫₀¹ x dx = ½이 적혀 있고 주판봇이 주판을 든다. 모아와 X3가 양옆에 있고 포물선 소품. 16비트 픽셀아트." fetchpriority="high"><span class="cap">수리 도감 · MATH-11</span><span class="cover-chip">11장 미적분 기초 — 극한·미분·적분 · 안내 조교 주판봇</span></div></div>
+<header class="hero" id="top"><div class="wrap">
+  <div class="eyebrow">수리 도감 · 인공지능을 위한 수리적 기초 · 미적분·최적화 · 원자료 MATH-11 <span class="diff">이번 장 안내: 조교 주판봇</span></div>
+  <h1>11장 미적분 기초 — 극한·미분·적분</h1>
+  <p class="question">자동차 속도계는 "지금 이 순간"의 속도를 어떻게 알까? AI는 그 생각으로 무엇을 배울까?</p>
+  <p class="lead">미적분은 "변화"를 다루는 수학입니다. 미분은 한 순간의 변화율(접선의 기울기), 적분은 쌓인 양(곡선 아래 넓이)이에요. AI에서는 미분이 주인공입니다. 손실이 줄어드는 방향을 알려 주는 것이 바로 기울기이기 때문이에요. 극한부터 연쇄 법칙까지 항목 9개로 정리합니다.</p>
+  <p class="byline">글 · 안상선 ((주)M-Robo 대표) · <a href="https://adminmrobo.github.io/who_am_i/who_am_i.html">저자 소개</a> · 2026-11-26 · v1.0</p>
+  <div class="start"><b>처음이라면</b> 「극한」과 「도함수」를 읽고 실험실에서 h를 점점 작게 해 보세요. 할선이 접선에 달라붙는 순간이 미분의 정의예요.</div>
+  <div class="kpis" aria-label="숫자 요약"><div class="kpi m"><b>9개</b><span>도감 항목 (슬라이드 MATH-11의 모든 상자)</span></div><div class="kpi g"><b>1개</b><span>직접 움직이는 실험실</span></div><div class="kpi a"><b>2 + 2</b><span>웃는 그림 둘, 코랩 실습 둘(AI 프롬프트·실제 코드)</span></div><div class="kpi r"><b>4문제</b><span>확인 퀴즈</span></div></div>
+</div></header>
+<main>
+<section class="sec" id="plain" aria-labelledby="h-plain"><div class="wrap"><h2 id="h-plain">처음 오신 분께 — 이 장을 3줄로</h2><ol class="plain3"><li><b>무엇을</b> 극한(다가가는 값), 도함수 f′(x)(순간 기울기), 도함수 표와 미분 법칙, 적분(넓이)과 정적분.</li><li><b>왜 중요한가</b> 모델 학습은 "손실을 줄이는 방향"을 찾는 일이고, 그 방향을 알려 주는 것이 미분이에요.</li><li><b>AI에서는</b> 경사하강의 기울기 계산, 신경망의 역전파(연쇄 법칙), 확률 분포의 넓이·기댓값(적분).</li></ol>
+<p class="plain-note">코드와 수식을 몰라도 됩니다. 항목마다 "말로 먼저"와 "숫자로 한 번 해 보기"가 먼저 나오고, 식은 "식으로 보면"을 펼칠 때만 나옵니다. 여기서 한 번 멈춰도 괜찮아요.</p>
+<details class="abbr"><summary>기호·영어 약어 풀이 (6개)</summary><div class="abbr-list"><div><b>lim</b> <span>limit, 극한</span> — 어떤 값에 다가갈 때</div><div><b>f′(x)</b> <span>에프 프라임</span> — 도함수</div><div><b>dy/dx</b> <span>디와이 디엑스</span> — x에 대한 y의 변화율</div><div><b>∫</b> <span>인테그랄</span> — 적분</div><div><b>C</b> <span>적분상수</span> — 미분하면 사라지는 상수</div><div><b>F(x)</b> <span>부정적분(원시함수)</span> — F′ = f인 함수</div></div></details></div></section>
+<section class="sec" id="cast" aria-labelledby="h-cast" style="padding:18px 0 0;border:0"><div class="wrap"><h3 id="h-cast">연구소 식구 — 열다섯 장을 돌아가며 안내합니다</h3>
+<div class="cast" style="grid-template-columns:repeat(auto-fit,minmax(230px,1fr))"><div class="castc" style="--cc:var(--c-doc)"><img data-mood="doc_board" alt="" aria-hidden="true"><div><b>박사</b><p>연구소 책임자. 장마다 상황 질문으로 문을 열고 해석 문장으로 닫아요.</p></div></div><div class="castc" style="--cc:var(--c-asst)"><img data-mood="asst_smile" alt="" aria-hidden="true"><div><b>조교 하루</b><p>수식 담당. 기호 하나씩 읽는 법과 뜻부터 풀어 줘요.</p></div></div><div class="castc" style="--cc:var(--c-fly)"><img data-mood="fly_point" alt="" aria-hidden="true"><div><b>조교 초파리</b><p>실험 담당. "이걸 눌러 봐"로 실험판을 열고, 답이 그럴듯한지 의심해요.</p></div></div><div class="castc host" style="--cc:var(--c-robo)"><img data-mood="robo_calc" alt="" aria-hidden="true"><div><b>조교 주판봇 · 이번 장 안내</b><p>계산 담당. 1초 만에 답을 내지만 가끔 너무 빨라요. AI 판단 코너의 단골.</p></div></div><div class="castc" style="--cc:var(--c-sia)"><img data-mood="sia_smile" alt="" aria-hidden="true"><div><b>시아</b><p>직관파 연구원. 비유부터 꺼내 "그러니까 이런 거죠?"라고 물어요.</p></div></div><div class="castc" style="--cc:var(--c-moa)"><img data-mood="moa_smile" alt="" aria-hidden="true"><div><b>모아</b><p>꼼꼼파 연구원. "그건 언제나 그래요?" 하고 조건과 예외를 물어요.</p></div></div><div class="castc" style="--cc:var(--c-x)"><img data-mood="x1_hint" alt="" aria-hidden="true"><div><b>X1</b><p>막내 연구원. 손을 번쩍 들고 엉뚱한 질문을 해요.</p></div></div><div class="castc" style="--cc:var(--c-x)"><img data-mood="x2_hint" alt="" aria-hidden="true"><div><b>X2</b><p>막내 연구원. 필기를 가장 열심히 해요.</p></div></div><div class="castc" style="--cc:var(--c-x)"><img data-mood="x3_hint" alt="" aria-hidden="true"><div><b>X3</b><p>막내 연구원. 게임과 퀴즈 시간에 가장 신나요.</p></div></div></div></div></section>
+<section class="sec" id="open" aria-labelledby="h-open"><div class="wrap">
+<h2 id="h-open"><span class="hex">11</span>한 순간의 변화율</h2>
+<div class="hostcard" style="--cc:var(--c-robo)"><img data-mood="robo_calc" alt="" aria-hidden="true"><div><b>이번 장 안내 · 조교 주판봇</b><p>"1초 만에 계산"이 자랑인 주판봇이 "1초 동안 얼마나 변하나"를 다루는 장을 맡았습니다. 이번엔 성급하지 않겠다고 약속했어요.</p></div></div>
+<div data-dlg="open"></div>
+<div class="chain"><span class="">09 확률분포</span><i>→</i><span class="">10 상관과 공분산</span><i>→</i><span class="on">11 미적분 기초</span><i>→</i><span class="">12 편미분과 그래디언트</span><i>→</i><span class="">13 최적화</span></div>
+<p class="where"><b>도감 속 자리</b> 1장의 함수를 "얼마나 빨리 변하나"로 보는 장입니다. 12장은 이 미분을 변수 여러 개로 넓히고(편미분·그래디언트), 13장은 그 기울기로 손실을 줄입니다(경사하강). 적분은 9장의 연속 분포에서 "넓이 = 확률"로 이미 만났어요.</p>
+<div class="sis"><img data-mood="asst_report" alt="" aria-hidden="true"><p><b>조교 하루의 길 안내</b> 같은 주제를 생선 가게 AI 모델 이야기로 차례차례 따라가고 싶다면 「인공지능을 위한 수학」 <a href="https://adminmrobo.github.io/math_for_ai_lab/part3.html#c13">3부 13장 미적분 기초</a>을 함께 보세요. 이야기로 흐름을 잡고, 이 도감으로 낱말을 찾아보는 식으로 쓰면 좋아요.</p></div>
+<figure class="toon" id="toon1"><div class="tframe"><img src="img/toon/ch11_a.webp" width="1200" height="800" loading="lazy" alt="픽셀아트. 포물선 위 두 점 사이 할선 막대가 &quot;h = 1&quot;, &quot;h = 0.1&quot;, &quot;h = 0.001&quot;로 점점 짧아지며 접선 막대에 달라붙는다. 주판봇이 막대를 잡고 &quot;2.1… 2.01… 2.001…&quot;을 세고, X3가 응원 깃발을 흔든다."></div><figcaption><b class="ttl">웃는 그림 1 · h를 줄이는 다이어트</b><div class="tline"><img data-mood="robo_calc" alt="" aria-hidden="true"><p><b>조교 주판봇</b> h = 0.1 → 2.1, h = 0.01 → 2.01, h = 0.001 → 2.001… 끝이 안 나!</p></div><div class="tline"><img data-mood="x3_hint" alt="" aria-hidden="true"><p><b>X3</b> 조금만 더! 2에 거의 다 왔어요!</p></div><div class="tline"><img data-mood="asst_smile" alt="" aria-hidden="true"><p><b>조교 하루</b> 끝까지 갈 필요 없어요. "어디로 다가가나"가 극한이에요. 답은 2.</p></div><p class=tpoint><b>그림 속 수학</b> 미분의 정의: h를 0으로 보내는 할선 기울기의 극한. f(x) = x²의 x = 1에서 f′(1) = 2.</p></figcaption></figure>
+</div></section>
+<section class="sec" id="dex" aria-labelledby="h-dex"><div class="wrap">
+<h2 id="h-dex"><span class="hex">도감</span>도감 항목 — 9개</h2>
+<p>슬라이드 MATH-11의 상자를 하나도 빼지 않고 항목으로 옮겼습니다. 이름표를 눌러 바로 가세요.</p>
+<div class="dexidx"><a href="#m11-what">미적분이란</a><a href="#m11-limit">극한</a><a href="#m11-deriv">도함수 (미분)</a><a href="#m11-table">자주 쓰는 도함수</a><a href="#m11-rules">미분 법칙</a><a href="#m11-examples">법칙 쓰기 예</a><a href="#m11-integral">적분</a><a href="#m11-definite">정적분</a><a href="#m11-apps">ML에서의 쓰임</a></div>
+<article class="dex" id="m11-what" data-dex="미적분이란"><header><span class="dexno">11-01</span><h3>미적분이란 <small>What is Calculus</small></h3></header><p class="one">변화와 변화율을 다루는 수학. 미분(변화율)과 적분(쌓인 양) 두 부분.</p><div class="dexgrid"><div class="dw"><b>말로 먼저</b> 미분은 "지금 이 순간 얼마나 빨리 변하나", 적분은 "그 변화가 모여 얼마나 쌓였나"예요. 둘은 서로 반대 연산입니다. ML에서는 최적화, 기울기, 손실 함수, 모델의 움직임을 이해하는 데 쓰이고, 기울기·최솟값/최댓값·곡선 아래 넓이를 구하게 해 줘요.</div><div class="try"><b>숫자로 한 번 해 보기</b><ol><li>속도 = 위치의 미분</li><li>이동 거리 = 속도의 적분</li><li>손실의 미분 = 어느 쪽으로 가중치를 고칠지</li></ol></div></div><div class="pair"><div><div class="tl">학교 수학으로 보면</div>고등 "수학Ⅱ"의 미분·적분.</div><div><div class="tr">AI에서는</div>딥러닝 프레임워크의 핵심 기능이 "자동 미분"이에요. 수백만 개 가중치의 미분을 자동으로 계산합니다.</div></div></article>
+<article class="dex" id="m11-limit" data-dex="극한"><header><span class="dexno">11-02</span><h3>극한 <small>Limits</small></h3></header><p class="one">입력이 어떤 점에 다가갈 때 함수가 다가가는 값. lim(x→a) f(x) = L.</p><div class="dexgrid"><div class="dw"><b>말로 먼저</b> "x가 2에 아주아주 가까워지면 x² − 4는 어디로 가나?" 연속인 함수는 그냥 x = 2를 넣어 2² − 4 = 0이 돼요. 극한은 미분과 적분을 정의하는 바탕입니다(0으로 나누는 순간을 피해 "다가가기"로 정의).</div><div class="try"><b>숫자로 한 번 해 보기</b><ol><li>lim(x→2) (x² − 4) = 2² − 4 = 0</li><li>x = 1.9 → −0.39, x = 1.99 → −0.0399, x = 1.999 → −0.004</li><li>(x² − 4)/(x − 2)는 x = 2에서 0/0이지만 극한은 4 (약분하면 x + 2)</li></ol></div></div><div class="pair"><div><div class="tl">학교 수학으로 보면</div>고등 "함수의 극한".</div><div><div class="tr">AI에서는</div>학습률을 아주 작게 할 때의 움직임, 수치 미분(아주 작은 h로 근사)이 모두 극한의 생각이에요.</div></div><details class="eqx"><summary>식으로 보면 (몰라도 됩니다)</summary><table class="ez-tb"><thead><tr><th>식 조각</th><th>읽는 법</th><th>뜻</th></tr></thead><tbody><tr><td class="m">lim(x→a) f(x) = L</td><td>리밋 엑스가 에이로 갈 때</td><td>f(x)가 L에 다가감</td></tr></tbody></table></details></article>
+<article class="dex" id="m11-deriv" data-dex="도함수 (미분)"><header><span class="dexno">11-03</span><h3>도함수 (미분) <small>Derivatives</small></h3></header><p class="one">변수에 대한 함수의 변화율. 그림으로는 한 점에서 접선의 기울기. f′(x) 또는 dy/dx.</p><div class="dexgrid"><div class="dw"><b>말로 먼저</b> 두 점 x와 x + h를 잇는 직선(할선)의 기울기 [f(x+h) − f(x)]/h에서 h를 0으로 보내면 접선의 기울기가 됩니다. f(x) = x²이면 [(x+h)² − x²]/h = 2x + h → 2x.</div><div class="try"><b>숫자로 한 번 해 보기</b><ol><li>f(x) = x², x = 1에서 h = 0.1 → (1.21 − 1)/0.1 = 2.1</li><li>h = 0.01 → 2.01, h = 0.001 → 2.001</li><li>극한 → f′(1) = 2 = 2 × 1</li></ol></div></div><div class="pair"><div><div class="tl">학교 수학으로 보면</div>고등 "미분계수와 도함수", 접선의 기울기.</div><div><div class="tr">AI에서는</div>손실 L의 가중치 w에 대한 미분 dL/dw > 0이면 w를 줄이고, < 0이면 늘려요(13장).</div></div><details class="eqx"><summary>식으로 보면 (몰라도 됩니다)</summary><table class="ez-tb"><thead><tr><th>식 조각</th><th>읽는 법</th><th>뜻</th></tr></thead><tbody><tr><td class="m">f′(x) = lim(h→0) [f(x+h) − f(x)] / h</td><td>미분의 정의</td><td>할선 기울기의 극한</td></tr><tr><td class="m">f(x) = x² → f′(x) = 2x</td><td>예</td><td>x = 3에서 기울기 6</td></tr></tbody></table></details></article>
+<article class="dex" id="m11-table" data-dex="자주 쓰는 도함수"><header><span class="dexno">11-04</span><h3>자주 쓰는 도함수 <small>Common Derivatives</small></h3></header><p class="one">상수 → 0, xⁿ → nxⁿ⁻¹, sin x → cos x, cos x → −sin x, eˣ → eˣ, ln x → 1/x (x > 0).</p><div class="dexgrid"><div class="dw"><b>말로 먼저</b> 이 여섯 개면 AI 교재에 나오는 미분 대부분을 읽을 수 있어요. 특히 eˣ는 미분해도 자기 자신이라 시그모이드·소프트맥스 미분이 깔끔해지고, ln x의 미분 1/x는 로그 손실(교차 엔트로피)에 나옵니다.</div><div class="try"><b>숫자로 한 번 해 보기</b><ol><li>(x³)′ = 3x²</li><li>(5)′ = 0 (상수는 변하지 않음)</li><li>(eˣ)′ = eˣ, (ln x)′ = 1/x</li></ol></div></div><div class="pair"><div><div class="tl">학교 수학으로 보면</div>고등 "다항함수의 미분", 미적분(지수·로그·삼각함수의 미분).</div><div><div class="tr">AI에서는</div>ReLU = max(0, x)의 미분은 x > 0에서 1, x < 0에서 0 — 표에 없지만 가장 많이 쓰이는 미분이에요.</div></div><details class="eqx"><summary>식으로 보면 (몰라도 됩니다)</summary><table class="ez-tb"><thead><tr><th>식 조각</th><th>읽는 법</th><th>뜻</th></tr></thead><tbody><tr><td class="m">(xⁿ)′ = nxⁿ⁻¹</td><td>거듭제곱 법칙</td><td>지수를 앞으로, 하나 줄이기</td></tr><tr><td class="m">(eˣ)′ = eˣ</td><td>지수함수</td><td>자기 자신</td></tr><tr><td class="m">(ln x)′ = 1/x</td><td>로그함수</td><td>x > 0</td></tr></tbody></table></details></article>
+<article class="dex" id="m11-rules" data-dex="미분 법칙"><header><span class="dexno">11-05</span><h3>미분 법칙 <small>Rules of Differentiation</small></h3></header><p class="one">상수·거듭제곱·상수배·합/차·곱·몫·연쇄 법칙. 특히 연쇄 법칙 (f(g(x)))′ = f′(g(x))·g′(x).</p><div class="dexgrid"><div class="dw"><b>말로 먼저</b> 곱 법칙 (uv)′ = u′v + uv′, 몫 법칙 (u/v)′ = (u′v − uv′)/v². 연쇄 법칙은 "겉 함수를 미분하고 속 함수의 미분을 곱한다"예요. 신경망은 함수를 겹겹이 쌓은 합성함수라서 연쇄 법칙으로 미분합니다(역전파).</div><div class="try"><b>숫자로 한 번 해 보기</b><ol><li>(3x² + 5x)′ = 6x + 5 (상수배·합)</li><li>((3x + 1)⁵)′ = 5(3x + 1)⁴ × 3 (연쇄)</li><li>(x² sin x)′ = 2x sin x + x² cos x (곱)</li></ol></div></div><div class="pair"><div><div class="tl">학교 수학으로 보면</div>고등 "미적분"의 곱·몫·합성함수의 미분.</div><div><div class="tr">AI에서는</div>역전파 = 연쇄 법칙을 출력층에서 입력층 쪽으로 차례로 적용하는 것.</div></div><details class="eqx"><summary>식으로 보면 (몰라도 됩니다)</summary><table class="ez-tb"><thead><tr><th>식 조각</th><th>읽는 법</th><th>뜻</th></tr></thead><tbody><tr><td class="m">(c)′ = 0, (c·f)′ = c·f′</td><td>상수·상수배</td><td></td></tr><tr><td class="m">(f ± g)′ = f′ ± g′</td><td>합·차</td><td></td></tr><tr><td class="m">(uv)′ = u′v + uv′</td><td>곱</td><td></td></tr><tr><td class="m">(u/v)′ = (u′v − uv′)/v²</td><td>몫</td><td></td></tr><tr><td class="m">(f(g(x)))′ = f′(g(x))·g′(x)</td><td>연쇄</td><td>겉 미분 × 속 미분</td></tr></tbody></table></details></article>
+<div data-dlg="mid"></div>
+<article class="dex" id="m11-examples" data-dex="법칙 쓰기 예"><header><span class="dexno">11-06</span><h3>법칙 쓰기 예 <small>Example: Using Rules</small></h3></header><p class="one">곱: (x² sin x)′, 연쇄: ((3x+1)⁵)′ = 15(3x+1)⁴, 몫: ((x²+1)/(x−1))′.</p><div class="dexgrid"><div class="dw"><b>말로 먼저</b> 원자료의 세 예를 하나씩 풀어요. 몫 법칙 예는 원자료가 정리하지 않은 식을 끝까지 정리하면 (x² − 2x − 1)/(x − 1)²입니다.</div><div class="try"><b>숫자로 한 번 해 보기</b><ol><li>곱: u = x², v = sin x → 2x·sin x + x²·cos x</li><li>연쇄: 겉 u⁵ → 5u⁴, 속 3x + 1 → 3 → 15(3x + 1)⁴</li><li>몫: [(2x)(x − 1) − (x² + 1)(1)] / (x − 1)² = (x² − 2x − 1)/(x − 1)²</li></ol></div></div><div class="pair"><div><div class="tl">학교 수학으로 보면</div>고등 "미적분" 연습 문제.</div><div><div class="tr">AI에서는</div>프로그램(자동 미분)이 이 계산을 대신하지만, 결과를 확인할 때 한 줄씩 손으로 따라가 보는 힘이 필요해요.</div></div></article>
+<article class="dex" id="m11-integral" data-dex="적분"><header><span class="dexno">11-07</span><h3>적분 <small>Integrals</small></h3></header><p class="one">미분의 반대 과정. 곡선 아래 넓이를 구한다. ∫xⁿ dx = xⁿ⁺¹/(n+1) + C (n ≠ −1).</p><div class="dexgrid"><div class="dw"><b>말로 먼저</b> 미분해서 f가 되는 함수 F를 찾는 것이 부정적분이에요. 상수는 미분하면 사라지니 어떤 상수든 붙을 수 있어 + C를 씁니다.</div><div class="try"><b>숫자로 한 번 해 보기</b><ol><li>∫x² dx = x³/3 + C</li><li>확인: (x³/3 + C)′ = x² ✔</li><li>∫x dx = x²/2 + C</li></ol></div></div><div class="pair"><div><div class="tl">학교 수학으로 보면</div>고등 "부정적분".</div><div><div class="tr">AI에서는</div>연속 확률분포에서 확률 = 밀도의 적분(9장의 넓이). 기댓값도 적분으로 정의해요.</div></div><details class="eqx"><summary>식으로 보면 (몰라도 됩니다)</summary><table class="ez-tb"><thead><tr><th>식 조각</th><th>읽는 법</th><th>뜻</th></tr></thead><tbody><tr><td class="m">∫ xⁿ dx = xⁿ⁺¹/(n+1) + C</td><td>거듭제곱 적분</td><td>n ≠ −1</td></tr></tbody></table></details></article>
+<article class="dex" id="m11-definite" data-dex="정적분"><header><span class="dexno">11-08</span><h3>정적분 <small>Definite Integral</small></h3></header><p class="one">두 점 a, b 사이 곡선 아래의 정확한 넓이. ∫ₐᵇ f(x)dx = F(b) − F(a).</p><div class="dexgrid"><div class="dw"><b>말로 먼저</b> 부정적분 F를 구해 끝값에서 시작값을 빼면 넓이가 나와요(미적분의 기본정리). y = x를 0부터 1까지 적분하면 밑변 1, 높이 1인 삼각형 넓이 1/2와 같습니다.</div><div class="try"><b>숫자로 한 번 해 보기</b><ol><li>∫₀¹ x dx = [x²/2]₀¹ = 1/2 − 0 = 1/2</li><li>삼각형으로 확인: 1 × 1 ÷ 2 = 1/2 ✔</li><li>∫₀² x² dx = 8/3 ≈ 2.667</li></ol></div></div><div class="pair"><div><div class="tl">학교 수학으로 보면</div>고등 "정적분", "정적분과 넓이".</div><div><div class="tr">AI에서는</div>ROC 곡선 아래 넓이(AUC)로 분류 모델의 성능을 잽니다 — 이름부터 "곡선 아래 넓이".</div></div><details class="eqx"><summary>식으로 보면 (몰라도 됩니다)</summary><table class="ez-tb"><thead><tr><th>식 조각</th><th>읽는 법</th><th>뜻</th></tr></thead><tbody><tr><td class="m">∫ₐᵇ f(x)dx = [F(x)]ₐᵇ = F(b) − F(a)</td><td>정적분</td><td>넓이</td></tr></tbody></table></details></article>
+<article class="dex" id="m11-apps" data-dex="ML에서의 쓰임"><header><span class="dexno">11-09</span><h3>ML에서의 쓰임 <small>Applications in Machine Learning</small></h3></header><p class="one">경사하강의 기울기, 확률 분포와 기댓값(적분), 손실 최적화·신경망·연속 데이터 모델링, 최솟값/최댓값 찾기.</p><div class="dexgrid"><div class="dw"><b>말로 먼저</b> 가장 중요한 것 하나: 미분이 0인 곳에서 함수가 평평해지고, 그곳이 최솟값 후보예요. 손실 함수 f(θ) = θ²는 θ = 0에서 미분이 0이고, 그곳이 손실이 가장 작은 곳입니다.</div><div class="try"><b>숫자로 한 번 해 보기</b><ol><li>f(θ) = (θ − 3)² → f′(θ) = 2(θ − 3)</li><li>f′(θ) = 0 → θ = 3 (최솟값)</li><li>θ = 5에서 f′ = 4 > 0 → θ를 줄여야 함</li></ol></div></div><div class="pair"><div><div class="tl">학교 수학으로 보면</div>고등 "미분의 활용: 극대·극소".</div><div><div class="tr">AI에서는</div>경사하강(13장)은 "미분이 0인 곳"을 방정식으로 풀지 않고, 기울기를 따라 조금씩 걸어가 찾습니다.</div></div></article>
+</div></section>
+<section class="sec" id="lab" aria-labelledby="h-lab"><div class="wrap">
+<h2 id="h-lab"><span class="hex">실험</span>할선에서 접선으로 — h를 0에 보내기</h2>
+<div data-dlg="lab_o"></div>
+<div class="easy"><details class="ez-why" open><summary>왜 이 방법을 쓰나</summary><ol><li>문제: 손실 그래프에서 "지금 이 점에서" 가중치를 늘려야 할지 줄여야 할지 알고 싶습니다.</li><li>앞 방법의 한계: 두 점 사이 평균 기울기는 간격 h에 따라 답이 달라집니다(h = 1이면 3, h = 0.1이면 2.1).</li><li><b>이 방법의 해법: h를 0으로 보내는 극한으로 "한 점에서의 기울기" 하나를 정의합니다. 그것이 도함수예요.</b></li></ol><p class="ez-easy"><b>쉽게 말하면</b> 구간 평균 속도가 아니라 속도계가 보여 주는 "지금 속도".</p></details><div class="ez-math"><div class="ez-t">연구원이 묻고, 조교 하루가 풀어 봅니다</div><div class="ez-q"><img data-mood="moa_smile" alt="" aria-hidden="true"><p><b style="display:block;font-size:12.5px;color:var(--muted)">모아</b>h를 0으로 보내는 거면, 처음부터 h = 0을 넣으면 안 돼요?</p></div><p><b>말로 먼저</b> h = 0을 넣으면 [f(x) − f(x)]/0 = 0/0이 되어 계산할 수 없어요. 그래서 "0이 되지는 않지만 한없이 가까워지는" 극한으로 정의합니다.</p><p><b>학교 수학으로 보면</b> 고등 "함수의 극한"과 "미분계수".</p><div class="try" style="background:#fff;border:1px dashed #e8b67a;border-radius:10px;padding:10px 14px"><b>숫자로 한 번 해 보기</b><ol style="margin:6px 0 0;padding-left:22px"><li>h = 0.1 → 2.1</li><li>h = 0.01 → 2.01</li><li>h = 0.001 → 2.001 → 2에 다가감</li></ol></div><details class="eqx"><summary>식으로 보면 (몰라도 됩니다)</summary><table class="ez-tb"><thead><tr><th>식 조각</th><th>읽는 법</th><th>뜻</th></tr></thead><tbody><tr><td>h</td><td>에이치</td><td>두 점 사이 간격</td></tr><tr><td>[f(x+h) − f(x)]/h</td><td>할선 기울기</td><td>평균 변화율</td></tr><tr><td>f′(x)</td><td>도함수</td><td>순간 변화율</td></tr></tbody></table></details><div class="ez-q ez-c"><img data-mood="asst_spark" alt="" aria-hidden="true"><p><b style="display:block;font-size:12.5px;color:var(--muted)">조교 하루</b>실험실에서 h 슬라이더를 왼쪽 끝까지 밀어 보세요. 할선과 접선이 거의 겹치고 차이가 0.001 아래로 내려가요.</p></div></div></div>
+<div class="dialog lvtalk" data-dlg="lab_t"></div>
+<div class="panel" id="w-ch11" data-w="deriv"></div>
+<div class="say" data-who="doc"><img class="who" data-mood="doc_judge" alt="" aria-hidden="true"><div><b class="name">박사의 정리</b><p>미분은 "아주 조금 움직이면 얼마나 변하나"를 재는 도구입니다. AI가 학습할 때 묻는 질문이 정확히 이것이에요. "이 가중치를 아주 조금 바꾸면 손실이 얼마나 변하나?" 그 답의 부호가 방향을, 크기가 가파름을 알려 줍니다.</p></div></div>
+<div class="lim"><b>이 실험의 한계</b> 실험실은 매끄러운 함수만 다룹니다. ReLU처럼 꺾인 점이 있는 함수는 그 점에서 미분이 정의되지 않아, 실제 코드는 약속된 값(0 또는 1)을 씁니다.</div>
+<figure class="toon" id="toon2"><div class="tframe"><img src="img/toon/ch11_b.webp" width="1200" height="800" loading="lazy" alt="픽셀아트. 기관차 &quot;겉 함수 u⁵&quot; 뒤에 객차 &quot;속 함수 3x+1&quot;이 연결된 기차가 달린다. 모아가 기관차에 &quot;5u⁴&quot;를, 객차에 &quot;× 3&quot;을 붙이고, 박사가 종착역 팻말 &quot;15(3x+1)⁴&quot;를 들고 있다."></div><figcaption><b class="ttl">웃는 그림 2 · 연쇄 법칙 기차</b><div class="tline"><img data-mood="moa_report" alt="" aria-hidden="true"><p><b>모아</b> 겉 함수를 미분하고(5u⁴), 속 함수의 미분(3)을 곱하고…</p></div><div class="tline"><img data-mood="doc_board" alt="" aria-hidden="true"><p><b>박사</b> 종착역 15(3x+1)⁴. 신경망은 이 기차가 수십 량 연결된 거예요.</p></div><div class="tline"><img data-mood="robo_wow" alt="" aria-hidden="true"><p><b>조교 주판봇</b> 그래서 역전파는 기차를 거꾸로 타며 미분을 곱하는 거구나!</p></div><p class=tpoint><b>그림 속 수학</b> 연쇄 법칙: (f(g(x)))′ = f′(g(x)) × g′(x). 신경망의 역전파는 층마다 미분을 곱해 나가는 연쇄 법칙이다.</p></figcaption></figure>
+<div class="aibox" id="ai"><div class="aihead"><span class="aitag">AI 판단 코너</span>주판봇의 "(x² sin x)′ = 2x · cos x"</div><div data-dlg="ai_d"></div><p>박사는 늘 두 가지를 묻습니다. "가정이 맞나? 숫자가 그럴듯한가?"</p><ol><li>가정이 맞나? 두 함수를 곱한 것의 미분이 "각각 미분해서 곱한 것"과 같나요?</li><li>숫자가 그럴듯한가? x = π/2를 넣어 두 답을 비교하고, 아주 작은 h로 계산한 기울기와도 맞춰 보세요.</li></ol><details class="eqx"><summary>확인해 보기 (먼저 스스로 따져 본 뒤 펼치세요)</summary><p class="aiverdict">틀렸습니다. 곱의 미분은 곱 법칙 (uv)′ = u′v + uv′이라 정답은 2x sin x + x² cos x예요. x = π/2(≈ 1.571)에서 주판봇의 답은 2 × 1.571 × 0 = 0이지만, 정답은 2 × 1.571 × 1 + 1.571² × 0 ≈ 3.14입니다. h = 0.0001로 수치 미분해도 약 3.14가 나와요. 손으로 낸 미분이든 AI가 낸 미분이든, 작은 h로 계산한 기울기와 맞춰 보는 것이 가장 쉬운 확인법이에요(경사 검사, gradient check).</p><div data-dlg="ai_e"></div></details></div>
+<h3 id="quiz">확인 퀴즈</h3>
+<div class="quiz" data-quiz="q"></div>
+</div></section>
+<section class="sec" id="colab" aria-labelledby="h-colab"><div class="wrap">
+<h2 id="h-colab"><span class="hex">실습</span>코랩 실습실 — 배운 것을 직접 돌려 보기</h2>
+<p>두 가지 방법이 있어요. ① 생성 AI에게 프롬프트를 주고 코드를 만들게 해 보기, ② 연구소가 미리 만들어 검사까지 마친 코드를 돌려 보기. 둘을 나란히 돌려 결과를 비교하면, AI가 낸 코드를 믿어도 되는지 스스로 판단하는 연습이 됩니다.</p>
+<div data-dlg="colab"></div>
+<div class="labbox"><div class="labh"><span class="lno">①</span> 생성 AI로 실습하기 — 코랩 파이썬 프롬프트</div>
+<p>구글 코랩(Colab)의 Gemini 창이나 ChatGPT·Claude 같은 생성 AI에 아래 글을 그대로 붙여 넣으세요. AI가 만든 코드를 코랩 셀에 붙여 넣고 실행합니다.</p>
+<div class="codewrap"><button type="button" class="cpy" data-copy="p-ch11">복사</button><pre class="prompt" id="p-ch11">너는 고등학생에게 미분과 적분을 가르치는 파이썬 선생님이야. 구글 코랩에서 실행되는 코드를 만들어 줘.
+주제: 극한, 도함수, 미분 법칙, 적분, 수치 미분으로 검산하기
+요구 사항:
+1. f(x) = x²에서 x = 1의 할선 기울기를 h = 1, 0.1, 0.01, 0.001, 0.0001로 계산해 표로 보여 주고 2에 다가가는 것을 확인해 줘.
+2. sympy로 x³, sin x, e^x, ln x, x² sin x, (3x+1)^5, (x²+1)/(x−1)을 미분하고 결과를 출력해 줘(몫의 미분은 simplify로 정리).
+3. 수치 미분 함수 numeric_derivative(f, x, h=1e-5)를 만들고, x = π/2에서 x² sin x의 기호 미분 값과 비교해 줘.
+4. f(x) = x²의 그래프와 x = 1에서의 할선(h = 1, 0.5)과 접선을 한 그림에 그려 줘(영어 범례).
+5. sympy로 ∫x² dx와 ∫₀¹ x dx를 계산하고, 사각형 1000개를 더하는 방법(리만 합)으로도 ∫₀¹ x dx를 근사해 비교해 줘.
+6. 모든 줄에 한국어 주석.</pre></div></div>
+<div class="labbox"><div class="labh"><span class="lno">②</span> 실제로 돌아가는 코드 — 파이썬 · 코랩</div>
+<p>연구소가 직접 실행해 결과를 확인한 코드입니다. 버튼 하나로 코랩에서 바로 열 수 있어요(구글 계정만 있으면 설치할 것이 없습니다).</p>
+<p class="colabbtns"><a class="bt primary" href="https://colab.research.google.com/github/adminmrobo/math_basic_for_ai_dictionary/blob/main/colab/ch11_calculus.ipynb" target="_blank" rel="noopener">코랩에서 열기</a> <a class="bt" href="code/colab_py/ch11_calculus.py" download>.py 내려받기</a> <a class="bt" href="colab/ch11_calculus.ipynb" download>.ipynb 내려받기</a></p>
+<details class="fold"><summary>코드 펼치기 (몰라도 됩니다 · 40줄)</summary><div class="codewrap"><button type="button" class="cpy" data-copy="c-ch11">복사</button><pre class="code" id="c-ch11"><code># %% 1. 할선 기울기 -&gt; 미분 (극한)
+import numpy as np
+import matplotlib.pyplot as plt
+import sympy as sp
+
+f = lambda x: x ** 2
+print(&quot;    h     | 할선 기울기 [f(1+h)-f(1)]/h&quot;)
+for h in [1, 0.1, 0.01, 0.001, 0.0001]:
+    print(f&quot;{h:&gt;9} | {(f(1 + h) - f(1)) / h:.6f}&quot;)
+
+# %% 2. sympy로 기호 미분
+x = sp.symbols(&quot;x&quot;)
+exprs = [x**3, sp.sin(x), sp.exp(x), sp.log(x), x**2 * sp.sin(x), (3*x + 1)**5, (x**2 + 1) / (x - 1)]
+for e in exprs:
+    d = sp.simplify(sp.diff(e, x))
+    print(f&quot;({e})&#x27; = {sp.factor(d) if e == (x**2 + 1) / (x - 1) else d}&quot;)
+
+# %% 3. 수치 미분으로 검산 (gradient check)
+def numeric_derivative(fn, x0, h=1e-5):
+    return (fn(x0 + h) - fn(x0 - h)) / (2 * h)     # 가운데 차분: 더 정확
+g = lambda t: t ** 2 * np.sin(t)
+x0 = np.pi / 2
+exact = float(sp.diff(x**2 * sp.sin(x), x).subs(x, sp.pi / 2))
+print(f&quot;x = pi/2: 기호 미분 {exact:.6f} / 수치 미분 {numeric_derivative(g, x0):.6f}&quot;)
+print(&quot;주판봇의 답 2x*cos(x) =&quot;, round(2 * x0 * np.cos(x0), 6), &quot;-&gt; 틀림&quot;)
+
+# %% 4. 할선과 접선 그림
+xs = np.linspace(-0.5, 2.5, 200)
+plt.plot(xs, f(xs), label=&quot;f(x) = x^2&quot;)
+for h, c in [(1, &quot;orange&quot;), (0.5, &quot;gold&quot;)]:
+    s = (f(1 + h) - f(1)) / h
+    plt.plot(xs, f(1) + s * (xs - 1), &quot;--&quot;, color=c, label=f&quot;secant h={h} (slope {s:.2f})&quot;)
+plt.plot(xs, f(1) + 2 * (xs - 1), &quot;r&quot;, label=&quot;tangent (slope 2)&quot;)
+plt.scatter([1], [1], color=&quot;red&quot;, zorder=3); plt.ylim(-1, 6); plt.legend(); plt.grid(alpha=0.3); plt.show()
+
+# %% 5. 적분: 기호 vs 리만 합
+print(&quot;∫x^2 dx =&quot;, sp.integrate(x**2, x), &quot;+ C&quot;)
+print(&quot;∫_0^1 x dx =&quot;, sp.integrate(x, (x, 0, 1)))
+n = 1000; dx = 1 / n; mids = (np.arange(n) + 0.5) * dx
+print(f&quot;리만 합(사각형 {n}개) = {np.sum(mids * dx):.6f}&quot;)</code></pre></div></details>
+<details class="fold"><summary>실행하면 이렇게 나옵니다 (연구소에서 돌린 결과)</summary><pre class="out">    h     | 할선 기울기 [f(1+h)-f(1)]/h
+        1 | 3.000000
+      0.1 | 2.100000
+     0.01 | 2.010000
+    0.001 | 2.001000
+   0.0001 | 2.000100
+(x**3)&#x27; = 3*x**2
+(sin(x))&#x27; = cos(x)
+(exp(x))&#x27; = exp(x)
+(log(x))&#x27; = 1/x
+(x**2*sin(x))&#x27; = x*(x*cos(x) + 2*sin(x))
+((3*x + 1)**5)&#x27; = 15*(3*x + 1)**4
+((x**2 + 1)/(x - 1))&#x27; = (x**2 - 2*x - 1)/(x - 1)**2
+x = pi/2: 기호 미분 3.141593 / 수치 미분 3.141593
+주판봇의 답 2x*cos(x) = 0.0 -&gt; 틀림
+∫x^2 dx = x**3/3 + C
+∫_0^1 x dx = 1/2
+리만 합(사각형 1000개) = 0.500000</pre><p class="muted" style="font-size:13px">그래프 창은 코랩 화면에 함께 나타납니다. 무작위 실험이 있는 코드는 seed를 고정해 같은 숫자가 나오게 했어요.</p></details></div>
+<div class="labbox"><div class="labh"><span class="lno">③</span> 비교 과제 — AI 코드와 연구소 코드 맞대 보기</div><ol><li>할선 기울기 표가 2.1, 2.01, 2.001…로 줄어드는지 확인하세요.</li><li>AI가 sympy로 낸 몫의 미분이 (x² − 2x − 1)/(x − 1)²과 같은지(전개 형태가 달라도 같은 식인지) 확인하세요.</li><li>x = π/2에서 기호 미분과 수치 미분이 소수 다섯째 자리까지 맞는지 보세요.</li></ol></div>
+</div></section>
+<section class="sec" id="sum" aria-labelledby="h-sum"><div class="wrap">
+<h2 id="h-sum">정리 — 아주 조금 움직이면 얼마나 변하나</h2>
+<div class="tblwrap"><table class="cmp"><thead><tr><th>질문</th><th>답 한 줄</th></tr></thead><tbody><tr><td>극한은?</td><td>입력이 다가갈 때 함수가 다가가는 값. 미분·적분의 바탕.</td></tr><tr><td>도함수는?</td><td>할선 기울기의 극한 = 접선의 기울기. (x²)′ = 2x.</td></tr><tr><td>꼭 알아 둘 미분 법칙은?</td><td>거듭제곱 nxⁿ⁻¹, 곱 u′v + uv′, 연쇄 f′(g(x))·g′(x).</td></tr><tr><td>적분은?</td><td>미분의 반대, 곡선 아래 넓이. ∫₀¹ x dx = 1/2.</td></tr><tr><td>ML에서는?</td><td>기울기로 손실을 줄이는 경사하강, 연쇄 법칙의 역전파.</td></tr></tbody></table></div>
+<h3>용어 대응 카드</h3><div class="gloss"><div><b>미적분이란</b> = 변화와 변화율을 다루는 수학. 미분(변화율)과 적분(쌓인 양) 두 부분.</div><div><b>극한</b> = 입력이 어떤 점에 다가갈 때 함수가 다가가는 값. lim(x→a) f(x) = L.</div><div><b>도함수 (미분)</b> = 변수에 대한 함수의 변화율. 그림으로는 한 점에서 접선의 기울기. f′(x) 또는 dy/dx.</div><div><b>자주 쓰는 도함수</b> = 상수 → 0, xⁿ → nxⁿ⁻¹, sin x → cos x, cos x → −sin x, eˣ → eˣ, ln x → 1/x (x > 0).</div><div><b>미분 법칙</b> = 상수·거듭제곱·상수배·합/차·곱·몫·연쇄 법칙. 특히 연쇄 법칙 (f(g(x)))′ = f′(g(x))·g′(x).</div><div><b>법칙 쓰기 예</b> = 곱: (x² sin x)′, 연쇄: ((3x+1)⁵)′ = 15(3x+1)⁴, 몫: ((x²+1)/(x−1))′.</div><div><b>적분</b> = 미분의 반대 과정. 곡선 아래 넓이를 구한다. ∫xⁿ dx = xⁿ⁺¹/(n+1) + C (n ≠ −1).</div><div><b>정적분</b> = 두 점 a, b 사이 곡선 아래의 정확한 넓이. ∫ₐᵇ f(x)dx = F(b) − F(a).</div><div><b>ML에서의 쓰임</b> = 경사하강의 기울기, 확률 분포와 기댓값(적분), 손실 최적화·신경망·연속 데이터 모델링, 최솟값/최댓값 찾기.</div></div>
+<h3>원자료와 다르게 쓴 곳</h3><ul><li>원자료 6번의 몫의 미분 예는 정리하지 않은 식으로 끝나, 이 도감에서 (x² − 2x − 1)/(x − 1)²로 정리했습니다.</li><li>ReLU처럼 꺾인 함수의 미분, 수치 미분(경사 검사)을 덧붙였습니다.</li></ul>
+<h3>비유와 예시의 한계</h3><ul><li>속도계 비유는 "시간에 대한 변화율"만 보여 줍니다. AI에서는 시간이 아니라 가중치에 대한 변화율이에요.</li><li>이 장은 변수 하나짜리 함수만 다룹니다. 변수가 여럿이면 12장의 편미분이 필요해요.</li></ul>
+<div class="next"><a href="10_correlation.html"><b>← 10장 상관과 공분산</b><br>함께 움직이는 정도</a><a href="index.html"><b>도감 목차</b><br>열다섯 장과 항목 찾기</a><a href="12_gradient.html"><b>12장 편미분과 그래디언트 →</b><br>여러 방향의 기울기</a></div>
+</div></section>
+<section class="sec" id="outro" aria-labelledby="h-outro"><div class="wrap"><h2 id="h-outro">아웃트로 — 다음 장으로</h2><div data-dlg="outro"></div></div></section>
+</main>
+<footer><div class="wrap">
+<h3>출처</h3>
+<table><thead><tr><th>#</th><th>자료</th><th>이 페이지에서 쓴 곳</th></tr></thead><tbody><tr><td>[1]</td><td>연구소 수학 노트 MATH-11 「Calculus Basics」 (인포그래픽 한 장)</td><td>도감 항목 전부, 예시 숫자</td></tr></tbody></table>
+<h3>예시값·설명용 모형인 것</h3><ul><li>항목의 숫자 예시는 설명용이며 연구소가 검산했습니다(code/check_numbers.py).</li><li>코랩 코드는 교육용 예제이며 실제 서비스에 그대로 쓰는 코드가 아닙니다.</li></ul>
+<p>캐릭터 이름·설정·그림은 저작권자 안상선의 허락 없이 사용할 수 없습니다.</p>
+<p>글 · 안상선 ((주)M-Robo 대표) · <a href="https://adminmrobo.github.io/who_am_i/who_am_i.html">저자 소개</a> · <a href="index.html">수리 도감 목차</a> · 자매편 <a href="https://adminmrobo.github.io/hello_space_lab/index.html">좌표 첫걸음</a> · <a href="https://adminmrobo.github.io/optimization_3d_map/first_step_0.html">최적화 첫걸음</a></p>
+</div></footer>
+<script>
+/*@@SPRITES@@*/
+/*@@COMMON@@*/
+/*@@MATHLAB@@*/
+(function(){
+'use strict';
+U.dialogues({"open": [["robo", "robo_calc", "11장은 다시 주판봇! 질문: 자동차 속도계는 \"지금 시속 60 km\"를 어떻게 알까?"], ["x3", "x3_hint", "1시간 동안 60 km 갔는지 기다렸다가요?"], ["robo", "robo_smile", "그건 평균 속도! 속도계는 \"아주 짧은 순간\"에 간 거리를 그 시간으로 나눠. 그 순간을 0에 가깝게 줄이는 게 미분이야."], ["moa", "moa_report", "그게 AI랑 무슨 상관이에요?"], ["robo", "robo_coin", "AI는 \"가중치를 아주 조금 바꾸면 손실이 얼마나 변하나\"를 매 순간 계산해. 그게 학습의 엔진! 기호가 많아도 천천히 갈게, 약속!"]], "mid": [["x2", "x2_hint", "(필기) 거듭제곱: 지수를 앞으로, 하나 줄이기."], ["doc", "doc_front", "이제 미분 법칙과 적분입니다. 연쇄 법칙은 신경망을 위한 법칙이라고 생각하세요."]], "lab_o": [["doc", "doc_board", "상황: 손실이 x²인 모델이 지금 x = 1에 있습니다. 이 점에서 손실 곡선은 얼마나 가파를까요?"]], "lab_t": [["robo", "robo_calc", "(1, 1)과 (2, 4)를 이으면 기울기 3! 답 3!"], ["fly", "fly_point", "그건 두 점 사이 평균이지. 이걸 눌러 봐. h를 줄여서 할선이 어디로 가는지."], ["asst", "asst_report", "보고: h가 줄수록 할선 기울기가 2.1, 2.01…로 2에 다가가요. 접선 기울기는 2."]], "ai_d": [["robo", "robo_happy", "(x² sin x)′? 각각 미분해서 곱하면 2x · cos x!"], ["doc", "doc_think", "숫자 하나를 넣어 확인해 볼까요? 아주 작은 h로 잰 기울기와 비교해서요."]], "ai_e": [["robo", "robo_blush", "수치 미분은 3.14인데 내 답은 0… 곱 법칙을 잊었다."], ["fly", "fly_arms", "미분 결과는 작은 h로 꼭 검산. 이게 경사 검사야."]], "colab": [["robo", "robo_coin", "sympy가 낸 식과 AI가 낸 식이 모양이 달라도 같은 식일 수 있어. simplify로 정리해서 비교해 봐!"]], "outro": [["doc", "doc_judge", "해석 문장: \"미분은 아주 조금 움직였을 때의 변화율이고, AI는 이 변화율로 가중치를 고칠 방향을 정한다.\""], ["sia", "sia_think", "그런데 가중치가 하나가 아니라 수백만 개잖아요. 미분도 수백만 개예요?"], ["asst", "asst_spark", "바로 그거예요! 12장에서 제가 다시 안내할게요. 여러 방향의 기울기, 편미분과 그래디언트."]]});
+U.fillImgs();
+ML.mountAll();
+ML.copyButtons();
+U.Gloss({"미적분이란": ["미적분이란", "What is Calculus", "변화와 변화율을 다루는 수학. 미분(변화율)과 적분(쌓인 양) 두 부분."], "극한": ["극한", "Limits", "입력이 어떤 점에 다가갈 때 함수가 다가가는 값. lim(x→a) f(x) = L."], "도함수 (미분)": ["도함수 (미분)", "Derivatives", "변수에 대한 함수의 변화율. 그림으로는 한 점에서 접선의 기울기. f′(x) 또는 dy/dx."], "자주 쓰는 도함수": ["자주 쓰는 도함수", "Common Derivatives", "상수 → 0, xⁿ → nxⁿ⁻¹, sin x → cos x, cos x → −sin x, eˣ → eˣ, ln x → 1/x (x > 0)."], "미분 법칙": ["미분 법칙", "Rules of Differentiation", "상수·거듭제곱·상수배·합/차·곱·몫·연쇄 법칙. 특히 연쇄 법칙 (f(g(x)))′ = f′(g(x))·g′(x)."], "법칙 쓰기 예": ["법칙 쓰기 예", "Example: Using Rules", "곱: (x² sin x)′, 연쇄: ((3x+1)⁵)′ = 15(3x+1)⁴, 몫: ((x²+1)/(x−1))′."], "적분": ["적분", "Integrals", "미분의 반대 과정. 곡선 아래 넓이를 구한다. ∫xⁿ dx = xⁿ⁺¹/(n+1) + C (n ≠ −1)."], "정적분": ["정적분", "Definite Integral", "두 점 a, b 사이 곡선 아래의 정확한 넓이. ∫ₐᵇ f(x)dx = F(b) − F(a)."], "ML에서의 쓰임": ["ML에서의 쓰임", "Applications in Machine Learning", "경사하강의 기울기, 확률 분포와 기댓값(적분), 손실 최적화·신경망·연속 데이터 모델링, 최솟값/최댓값 찾기."]},["미적분이란", "극한", "도함수 (미분)", "자주 쓰는 도함수", "미분 법칙", "법칙 쓰기 예"]);
+U.Study({quiz:{"q": [{"q": "f(x) = x³의 도함수는?", "o": ["3x²", "x²", "3x³", "x⁴/4"], "a": 0, "why": "거듭제곱 법칙 nxⁿ⁻¹.", "hint": "지수를 앞으로, 하나 줄이기."}, {"q": "lim(x→2) (x² − 4)의 값은?", "o": ["0", "4", "2", "−4"], "a": 0, "why": "연속이라 바로 대입: 4 − 4 = 0.", "hint": "x = 2를 넣어 보세요."}, {"q": "((3x + 1)⁵)′는?", "o": ["15(3x + 1)⁴", "5(3x + 1)⁴", "(3x + 1)⁴", "15x⁴"], "a": 0, "why": "연쇄 법칙: 5(3x + 1)⁴ × 3.", "hint": "속 함수의 미분을 곱했나요?"}, {"q": "∫₀¹ x dx는?", "o": ["1/2", "1", "1/3", "2"], "a": 0, "why": "[x²/2]₀¹ = 1/2.", "hint": "밑변 1, 높이 1인 삼각형의 넓이."}]}});
+U.start();
+})();
+</script>
+</body>
+</html>

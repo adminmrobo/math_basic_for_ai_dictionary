@@ -1,0 +1,481 @@
+{
+ "version": "1.3",
+ "page": "15_quick_revision",
+ "nodes": [
+  {
+   "id": "lab:concept/m15-la",
+   "type": "Concept",
+   "label": {
+    "ko": "선형대수 빠른 공식",
+    "en": "Linear Algebra (Quick Formulas)"
+   },
+   "page": "15_quick_revision",
+   "anchor": "#m15-la",
+   "level": 1,
+   "status": "known",
+   "confidence": "high",
+   "coverage": "explained",
+   "family": "math-for-ai",
+   "domain": [
+    "math",
+    "ai"
+   ],
+   "match": [],
+   "definition": {
+    "ko": "벡터 x = [x₁, …, xₙ], 내적 a·b = Σaᵢbᵢ, 행렬곱 (AB)ᵢⱼ = Σₖ AᵢₖBₖⱼ, 전치 (Aᵀ)ᵢⱼ = Aⱼᵢ, 역행렬 AA⁻¹ = I, 2 × 2 행렬식 ad − bc."
+   }
+  },
+  {
+   "id": "lab:concept/m15-prob",
+   "type": "Concept",
+   "label": {
+    "ko": "확률 빠른 공식",
+    "en": "Probability (Quick Formulas)"
+   },
+   "page": "15_quick_revision",
+   "anchor": "#m15-prob",
+   "level": 1,
+   "status": "known",
+   "confidence": "high",
+   "coverage": "explained",
+   "family": "math-for-ai",
+   "domain": [
+    "math",
+    "ai"
+   ],
+   "match": [],
+   "definition": {
+    "ko": "0 ≤ P(A) ≤ 1, P(Aᶜ) = 1 − P(A), P(A∪B) = P(A) + P(B) − P(A∩B), P(A|B) = P(A∩B)/P(B), 베이즈 P(A|B) = P(B|A)P(A)/P(B), 독립 P(A∩B) = P(A)P(B)."
+   }
+  },
+  {
+   "id": "lab:concept/m15-stat",
+   "type": "Concept",
+   "label": {
+    "ko": "통계 빠른 공식",
+    "en": "Statistics (Quick Formulas)"
+   },
+   "page": "15_quick_revision",
+   "anchor": "#m15-stat",
+   "level": 1,
+   "status": "known",
+   "confidence": "high",
+   "coverage": "explained",
+   "family": "math-for-ai",
+   "domain": [
+    "math",
+    "ai"
+   ],
+   "match": [],
+   "definition": {
+    "ko": "평균 x̄ = (1/n)Σxᵢ, 표본분산 s² = (1/(n−1))Σ(xᵢ − x̄)², 표준편차 s = √s², 공분산 Cov = (1/n)Σ(xᵢ − x̄)(yᵢ − ȳ), 상관 r = Cov/(σxσy), −1 ≤ r ≤ 1."
+   }
+  },
+  {
+   "id": "lab:concept/m15-calc",
+   "type": "Concept",
+   "label": {
+    "ko": "미적분 빠른 공식",
+    "en": "Calculus (Quick Formulas)"
+   },
+   "page": "15_quick_revision",
+   "anchor": "#m15-calc",
+   "level": 1,
+   "status": "known",
+   "confidence": "high",
+   "coverage": "explained",
+   "family": "math-for-ai",
+   "domain": [
+    "math",
+    "ai"
+   ],
+   "match": [],
+   "definition": {
+    "ko": "미분의 정의 f′(x) = lim(h→0) [f(x+h) − f(x)]/h, (xⁿ)′ = nxⁿ⁻¹, (sin x)′ = cos x, (cos x)′ = −sin x, (eˣ)′ = eˣ, (ln x)′ = 1/x (x > 0)."
+   }
+  },
+  {
+   "id": "lab:concept/m15-partial",
+   "type": "Concept",
+   "label": {
+    "ko": "편미분과 그래디언트",
+    "en": "Partial Derivatives & Gradient"
+   },
+   "page": "15_quick_revision",
+   "anchor": "#m15-partial",
+   "level": 1,
+   "status": "known",
+   "confidence": "high",
+   "coverage": "explained",
+   "family": "math-for-ai",
+   "domain": [
+    "math",
+    "ai"
+   ],
+   "match": [],
+   "definition": {
+    "ko": "fₓ = ∂f/∂x, f_y = ∂f/∂y, ∇f(x, y) = (∂f/∂x, ∂f/∂y), n변수 ∇f = (∂f/∂x₁, …, ∂f/∂xₙ)."
+   }
+  },
+  {
+   "id": "lab:concept/m15-opt",
+   "type": "Concept",
+   "label": {
+    "ko": "최적화 빠른 공식",
+    "en": "Optimization (Quick Formulas)"
+   },
+   "page": "15_quick_revision",
+   "anchor": "#m15-opt",
+   "level": 1,
+   "status": "known",
+   "confidence": "high",
+   "coverage": "explained",
+   "family": "math-for-ai",
+   "domain": [
+    "math",
+    "ai"
+   ],
+   "match": [],
+   "definition": {
+    "ko": "경사하강 θ_new = θ_old − α∇f(θ). 최솟값: ∇f = 0이고 헤세 행렬 H = ∇²f가 양의 정부호. 최댓값: ∇f = 0이고 H가 음의 정부호."
+   }
+  },
+  {
+   "id": "lab:concept/m15-eigen",
+   "type": "Concept",
+   "label": {
+    "ko": "고윳값·고유벡터 빠른 공식",
+    "en": "Eigenvalues & Eigenvectors"
+   },
+   "page": "15_quick_revision",
+   "anchor": "#m15-eigen",
+   "level": 1,
+   "status": "known",
+   "confidence": "high",
+   "coverage": "explained",
+   "family": "math-for-ai",
+   "domain": [
+    "math",
+    "ai"
+   ],
+   "match": [],
+   "definition": {
+    "ko": "Ax = λx, 특성방정식 det(A − λI) = 0, 2 × 2: (a − λ)(d − λ) − bc = 0. n × n은 고윳값 n개, 서로 다른 λ의 고유벡터는 일차독립, 대칭이면 고유벡터가 직각."
+   }
+  },
+  {
+   "id": "lab:concept/m15-pca",
+   "type": "Concept",
+   "label": {
+    "ko": "PCA 핵심 공식",
+    "en": "PCA (Key Formulas)"
+   },
+   "page": "15_quick_revision",
+   "anchor": "#m15-pca",
+   "level": 1,
+   "status": "known",
+   "confidence": "high",
+   "coverage": "explained",
+   "family": "math-for-ai",
+   "domain": [
+    "math",
+    "ai"
+   ],
+   "match": [],
+   "definition": {
+    "ko": "표준화(평균 0, 표준편차 1) → 공분산 Σ = (1/(n−1))(X − μ)ᵀ(X − μ) → Σ의 고유분해 → 내림차순 정렬 → 상위 k개 → Z = X_centered · W."
+   }
+  },
+  {
+   "id": "lab:concept/m15-func",
+   "type": "Concept",
+   "label": {
+    "ko": "ML에서 자주 쓰는 함수",
+    "en": "Common Functions in ML"
+   },
+   "page": "15_quick_revision",
+   "anchor": "#m15-func",
+   "level": 1,
+   "status": "known",
+   "confidence": "high",
+   "coverage": "explained",
+   "family": "math-for-ai",
+   "domain": [
+    "math",
+    "ai"
+   ],
+   "match": [],
+   "definition": {
+    "ko": "시그모이드 1/(1+e⁻ˣ), tanh (eˣ − e⁻ˣ)/(eˣ + e⁻ˣ), ReLU max(0, x), MSE (1/m)Σ(yᵢ − ŷᵢ)², 교차 엔트로피 −(1/m)Σ[y log ŷ + (1−y) log(1−ŷ)], 소프트맥스 e^zᵢ / Σe^zⱼ."
+   }
+  },
+  {
+   "id": "lab:concept/m15-practical",
+   "type": "Concept",
+   "label": {
+    "ko": "실전 예제 세 개",
+    "en": "Practical Examples"
+   },
+   "page": "15_quick_revision",
+   "anchor": "#m15-practical",
+   "level": 1,
+   "status": "known",
+   "confidence": "high",
+   "coverage": "explained",
+   "family": "math-for-ai",
+   "domain": [
+    "math",
+    "ai"
+   ],
+   "match": [],
+   "definition": {
+    "ko": "① 경사하강 한 걸음: (1, 2) → (0.8, 1.6). ② 2 × 2 고윳값: [[2, 1], [1, 2]] → λ = 3, 1. ③ 간단한 PCA: X = [[2, 0], [0, 1], [1, 1]]."
+   }
+  },
+  {
+   "id": "lab:concept/m15-takeaways",
+   "type": "Concept",
+   "label": {
+    "ko": "핵심 정리",
+    "en": "Key Takeaways"
+   },
+   "page": "15_quick_revision",
+   "anchor": "#m15-takeaways",
+   "level": 1,
+   "status": "known",
+   "confidence": "high",
+   "coverage": "explained",
+   "family": "math-for-ai",
+   "domain": [
+    "math",
+    "ai"
+   ],
+   "match": [],
+   "definition": {
+    "ko": "수학은 ML의 바탕. 선형대수는 데이터 표현, 확률·통계는 데이터 이해, 미적분은 최적화, 그래디언트는 학습, PCA는 차원 축소."
+   }
+  },
+  {
+   "id": "lab:sim/ch15-lab",
+   "type": "Simulation",
+   "label": {
+    "ko": "공식 도감 검색기",
+    "en": "Interactive lab ch15"
+   },
+   "page": "15_quick_revision",
+   "anchor": "#lab",
+   "level": 1,
+   "status": "known",
+   "confidence": "high",
+   "coverage": "explained",
+   "family": "math-for-ai",
+   "domain": [
+    "math",
+    "ai"
+   ],
+   "match": [],
+   "definition": {
+    "ko": "공식을 다 외울 필요는 없습니다. \"이 공식이 무엇을 재는가, 어디서 쓰는가\"를 말할 수 있으면 나머지는 찾아보면 돼요. 그게 도감의 쓰임입니다. 대신 AI가 공식을 써서 낸 결과는, 그 공식이 무엇을 재는지 알아야만 판단할 수 있어요."
+   }
+  },
+  {
+   "id": "lab:analogy/ch15-toon1",
+   "type": "Analogy",
+   "label": {
+    "ko": "X 삼총사의 공식 줄다리기",
+    "en": "Cartoon 1"
+   },
+   "page": "15_quick_revision",
+   "anchor": "#toon1",
+   "level": 1,
+   "status": "known",
+   "confidence": "high",
+   "coverage": "explained",
+   "family": "math-for-ai",
+   "domain": [
+    "math",
+    "ai"
+   ],
+   "match": [],
+   "definition": {
+    "ko": "열다섯 장은 한 흐름: 데이터를 행렬로 담고(선형대수) → 확률·통계로 재고 → 미분으로 손실을 줄이고(최적화) → PCA로 차원을 줄인다."
+   }
+  },
+  {
+   "id": "lab:analogy/ch15-toon2",
+   "type": "Analogy",
+   "label": {
+    "ko": "ReLU 문지기",
+    "en": "Cartoon 2"
+   },
+   "page": "15_quick_revision",
+   "anchor": "#toon2",
+   "level": 1,
+   "status": "known",
+   "confidence": "high",
+   "coverage": "explained",
+   "family": "math-for-ai",
+   "domain": [
+    "math",
+    "ai"
+   ],
+   "match": [],
+   "definition": {
+    "ko": "활성화 함수: ReLU(x) = max(0, x), 시그모이드 σ(x) = 1/(1 + e⁻ˣ)는 출력을 0~1로. 신경망이 곡선 관계를 배울 수 있게 하는 비선형 함수."
+   }
+  },
+  {
+   "id": "lab:question/ch15-ai",
+   "type": "Question",
+   "label": {
+    "ko": "주판봇의 \"소프트맥스 출력 [0.7, 0.5, 0.3]이니까 첫째 클래스!\"",
+    "en": "AI check ch15"
+   },
+   "page": "15_quick_revision",
+   "anchor": "#ai",
+   "level": 1,
+   "status": "known",
+   "confidence": "high",
+   "coverage": "explained",
+   "family": "math-for-ai",
+   "domain": [
+    "math",
+    "ai"
+   ],
+   "match": [],
+   "definition": {
+    "ko": "소프트맥스 출력은 확률 분포라서 모두 더하면 1이어야 해요. 0.7 + 0.5 + 0.3 = 1.5이므로 이 숫자는 소프트맥스를 거친 값이 아닙니다(아마 클래스마다 시그모이드를 따로 쓴 값). 그런 경우 \"첫째 클래스일 확률 70%\"라고 읽으면 안 돼요. 결과 가장 큰 값이 첫째라는 판단 자체는 맞을 수 있지만, 확률로 해석하려면 합이 1인지부터 확인해야 합니다."
+   }
+  },
+  {
+   "id": "lab:limitation/ch15-limit",
+   "type": "Limitation",
+   "label": {
+    "ko": "이 장의 한계",
+    "en": "Limitation ch15"
+   },
+   "page": "15_quick_revision",
+   "anchor": "#sum",
+   "level": 1,
+   "status": "known",
+   "confidence": "high",
+   "coverage": "explained",
+   "family": "math-for-ai",
+   "domain": [
+    "math",
+    "ai"
+   ],
+   "match": [],
+   "definition": {
+    "ko": "단어장 색인 비유처럼, 공식 도감은 \"어디 있나\"를 찾게 해 줄 뿐 이해를 대신하지는 않습니다. 각 장으로 돌아가 \"말로 먼저\"를 다시 읽어 보세요."
+   }
+  }
+ ],
+ "edges": [
+  {
+   "s": "lab:concept/m15-la",
+   "p": "lab:prerequisiteOf",
+   "o": "lab:concept/m15-prob",
+   "anchor": "#m15-prob",
+   "confidence": "medium"
+  },
+  {
+   "s": "lab:concept/m15-prob",
+   "p": "lab:prerequisiteOf",
+   "o": "lab:concept/m15-stat",
+   "anchor": "#m15-stat",
+   "confidence": "medium"
+  },
+  {
+   "s": "lab:concept/m15-stat",
+   "p": "lab:prerequisiteOf",
+   "o": "lab:concept/m15-calc",
+   "anchor": "#m15-calc",
+   "confidence": "medium"
+  },
+  {
+   "s": "lab:concept/m15-calc",
+   "p": "lab:prerequisiteOf",
+   "o": "lab:concept/m15-partial",
+   "anchor": "#m15-partial",
+   "confidence": "medium"
+  },
+  {
+   "s": "lab:concept/m15-partial",
+   "p": "lab:prerequisiteOf",
+   "o": "lab:concept/m15-opt",
+   "anchor": "#m15-opt",
+   "confidence": "medium"
+  },
+  {
+   "s": "lab:concept/m15-opt",
+   "p": "lab:prerequisiteOf",
+   "o": "lab:concept/m15-eigen",
+   "anchor": "#m15-eigen",
+   "confidence": "medium"
+  },
+  {
+   "s": "lab:concept/m15-eigen",
+   "p": "lab:prerequisiteOf",
+   "o": "lab:concept/m15-pca",
+   "anchor": "#m15-pca",
+   "confidence": "medium"
+  },
+  {
+   "s": "lab:concept/m15-pca",
+   "p": "lab:prerequisiteOf",
+   "o": "lab:concept/m15-func",
+   "anchor": "#m15-func",
+   "confidence": "medium"
+  },
+  {
+   "s": "lab:concept/m15-func",
+   "p": "lab:prerequisiteOf",
+   "o": "lab:concept/m15-practical",
+   "anchor": "#m15-practical",
+   "confidence": "medium"
+  },
+  {
+   "s": "lab:concept/m15-practical",
+   "p": "lab:prerequisiteOf",
+   "o": "lab:concept/m15-takeaways",
+   "anchor": "#m15-takeaways",
+   "confidence": "medium"
+  },
+  {
+   "s": "lab:concept/m15-opt",
+   "p": "lab:demonstratedBy",
+   "o": "lab:sim/ch15-lab",
+   "anchor": "#lab",
+   "confidence": "high"
+  },
+  {
+   "s": "lab:analogy/ch15-toon1",
+   "p": "lab:analogyOf",
+   "o": "lab:concept/m15-prob",
+   "anchor": "#toon1",
+   "confidence": "medium"
+  },
+  {
+   "s": "lab:analogy/ch15-toon2",
+   "p": "lab:analogyOf",
+   "o": "lab:concept/m15-opt",
+   "anchor": "#toon2",
+   "confidence": "medium"
+  },
+  {
+   "s": "lab:concept/m15-opt",
+   "p": "lab:relatedTo",
+   "o": "lab:question/ch15-ai",
+   "anchor": "#ai",
+   "confidence": "medium"
+  },
+  {
+   "s": "lab:concept/m15-la",
+   "p": "lab:hasLimitation",
+   "o": "lab:limitation/ch15-limit",
+   "anchor": "#sum",
+   "confidence": "medium"
+  }
+ ]
+}

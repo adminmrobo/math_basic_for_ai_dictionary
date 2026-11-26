@@ -1,0 +1,151 @@
+{
+ "version": "1.3",
+ "page": "practice",
+ "nodes": [
+  {
+   "id": "lab:sim/practice",
+   "type": "Simulation",
+   "label": {
+    "ko": "실전 연습장",
+    "en": "Practice floor"
+   },
+   "page": "practice",
+   "anchor": "#top",
+   "level": 1,
+   "status": "known",
+   "confidence": "high",
+   "coverage": "explained",
+   "family": "math-for-ai",
+   "domain": [
+    "math",
+    "ai"
+   ],
+   "match": [],
+   "definition": {
+    "ko": "추천 매장·검사실·학습 관제실·데이터 압축실 네 현장에서 도감의 공식을 쓴다."
+   }
+  },
+  {
+   "id": "lab:sim/shop",
+   "type": "Simulation",
+   "label": {
+    "ko": "추천 매장",
+    "en": "Recommendation shop"
+   },
+   "page": "practice",
+   "anchor": "#shop",
+   "level": 1,
+   "status": "known",
+   "confidence": "high",
+   "coverage": "explained",
+   "family": "math-for-ai",
+   "domain": [
+    "math",
+    "ai"
+   ],
+   "match": [],
+   "definition": {
+    "ko": "코사인 유사도로 상품 추천(3장)."
+   }
+  },
+  {
+   "id": "lab:sim/clinic",
+   "type": "Simulation",
+   "label": {
+    "ko": "검사실",
+    "en": "Test clinic"
+   },
+   "page": "practice",
+   "anchor": "#clinic",
+   "level": 1,
+   "status": "known",
+   "confidence": "high",
+   "coverage": "explained",
+   "family": "math-for-ai",
+   "domain": [
+    "math",
+    "ai"
+   ],
+   "match": [],
+   "definition": {
+    "ko": "베이즈 정리로 양성 판정 해석(7장)."
+   }
+  },
+  {
+   "id": "lab:sim/train",
+   "type": "Simulation",
+   "label": {
+    "ko": "학습 관제실",
+    "en": "Training control"
+   },
+   "page": "practice",
+   "anchor": "#train",
+   "level": 1,
+   "status": "known",
+   "confidence": "high",
+   "coverage": "explained",
+   "family": "math-for-ai",
+   "domain": [
+    "math",
+    "ai"
+   ],
+   "match": [],
+   "definition": {
+    "ko": "경사하강과 학습률(13장)."
+   }
+  },
+  {
+   "id": "lab:sim/compress",
+   "type": "Simulation",
+   "label": {
+    "ko": "데이터 압축실",
+    "en": "Compression room"
+   },
+   "page": "practice",
+   "anchor": "#compress",
+   "level": 1,
+   "status": "known",
+   "confidence": "high",
+   "coverage": "explained",
+   "family": "math-for-ai",
+   "domain": [
+    "math",
+    "ai"
+   ],
+   "match": [],
+   "definition": {
+    "ko": "PCA로 차원 줄이기(14장)."
+   }
+  }
+ ],
+ "edges": [
+  {
+   "s": "lab:sim/practice",
+   "p": "lab:relatedTo",
+   "o": "lab:sim/shop",
+   "anchor": "#shop",
+   "confidence": "medium"
+  },
+  {
+   "s": "lab:sim/practice",
+   "p": "lab:relatedTo",
+   "o": "lab:sim/clinic",
+   "anchor": "#clinic",
+   "confidence": "medium"
+  },
+  {
+   "s": "lab:sim/practice",
+   "p": "lab:relatedTo",
+   "o": "lab:sim/train",
+   "anchor": "#train",
+   "confidence": "medium"
+  },
+  {
+   "s": "lab:sim/practice",
+   "p": "lab:relatedTo",
+   "o": "lab:sim/compress",
+   "anchor": "#compress",
+   "confidence": "medium"
+  }
+ ]
+}

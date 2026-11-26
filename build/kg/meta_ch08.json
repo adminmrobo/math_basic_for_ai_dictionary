@@ -1,0 +1,39 @@
+{
+ "title": "08장 통계 기초 — 평균·분산·사분위",
+ "series": "수리 도감 — 인공지능을 위한 수리적 기초",
+ "number": "ch08",
+ "creator": [
+  {
+   "name": "안상선",
+   "role": "author",
+   "affiliation": "(주)M-Robo"
+  }
+ ],
+ "contributor": [
+  {
+   "name": "AI 보조 제작",
+   "role": "assistant"
+  }
+ ],
+ "date": "2026-11-26",
+ "version": "1.0",
+ "language": [
+  "ko"
+ ],
+ "license": "",
+ "url": "https://adminmrobo.github.io/math_basic_for_ai_dictionary/08_statistics.html",
+ "about": [
+  "lab:concept/m08-what",
+  "lab:concept/m08-types",
+  "lab:concept/m08-center",
+  "lab:concept/m08-spread"
+ ],
+ "basedOn": [
+  "ahn_math_for_ai",
+  "ahn_hello_space"
+ ],
+ "educationalLevel": "입문",
+ "learningResourceType": "interactive explainer",
+ "registry": "KG_00_registry 0.2",
+ "suggestedCitation": "안상선 (2026). 08장 통계 기초 — 평균·분산·사분위. 수리 도감 — 인공지능을 위한 수리적 기초, v1.0."
+}

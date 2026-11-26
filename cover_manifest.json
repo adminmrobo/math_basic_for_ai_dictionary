@@ -1,0 +1,185 @@
+{
+ "repo": "adminmrobo/math_basic_for_ai_dictionary",
+ "series": "수리 도감 — 인공지능을 위한 수리적 기초",
+ "style": "16-bit RPG pixel art, daytime white lab",
+ "status": "임시 그림(캐릭터 팩 + 픽셀 도형 조립, art/scenes.py). 생성 도구용 지시문은 docs/IMAGE_PROMPTS.md",
+ "languages": [
+  "ko"
+ ],
+ "ontology": true,
+ "characters": [
+  "doc",
+  "asst",
+  "fly",
+  "robo",
+  "sia",
+  "moa",
+  "x1",
+  "x2",
+  "x3"
+ ],
+ "covers": [
+  {
+   "page": "index.html",
+   "file": "img/cover_index.webp",
+   "state": "temporary",
+   "og": "img/og/index.png"
+  },
+  {
+   "page": "01_math_basics.html",
+   "file": "img/cover_ch01.webp",
+   "state": "temporary",
+   "og": "img/og/ch01.png",
+   "toons": [
+    "img/toon/ch01_a.webp",
+    "img/toon/ch01_b.webp"
+   ]
+  },
+  {
+   "page": "02_linear_algebra.html",
+   "file": "img/cover_ch02.webp",
+   "state": "temporary",
+   "og": "img/og/ch02.png",
+   "toons": [
+    "img/toon/ch02_a.webp",
+    "img/toon/ch02_b.webp"
+   ]
+  },
+  {
+   "page": "03_vector_ops.html",
+   "file": "img/cover_ch03.webp",
+   "state": "temporary",
+   "og": "img/og/ch03.png",
+   "toons": [
+    "img/toon/ch03_a.webp",
+    "img/toon/ch03_b.webp"
+   ]
+  },
+  {
+   "page": "04_matrix_ops.html",
+   "file": "img/cover_ch04.webp",
+   "state": "temporary",
+   "og": "img/og/ch04.png",
+   "toons": [
+    "img/toon/ch04_a.webp",
+    "img/toon/ch04_b.webp"
+   ]
+  },
+  {
+   "page": "05_linear_systems.html",
+   "file": "img/cover_ch05.webp",
+   "state": "temporary",
+   "og": "img/og/ch05.png",
+   "toons": [
+    "img/toon/ch05_a.webp",
+    "img/toon/ch05_b.webp"
+   ]
+  },
+  {
+   "page": "06_probability.html",
+   "file": "img/cover_ch06.webp",
+   "state": "temporary",
+   "og": "img/og/ch06.png",
+   "toons": [
+    "img/toon/ch06_a.webp",
+    "img/toon/ch06_b.webp"
+   ]
+  },
+  {
+   "page": "07_bayes.html",
+   "file": "img/cover_ch07.webp",
+   "state": "temporary",
+   "og": "img/og/ch07.png",
+   "toons": [
+    "img/toon/ch07_a.webp",
+    "img/toon/ch07_b.webp"
+   ]
+  },
+  {
+   "page": "08_statistics.html",
+   "file": "img/cover_ch08.webp",
+   "state": "temporary",
+   "og": "img/og/ch08.png",
+   "toons": [
+    "img/toon/ch08_a.webp",
+    "img/toon/ch08_b.webp"
+   ]
+  },
+  {
+   "page": "09_distributions.html",
+   "file": "img/cover_ch09.webp",
+   "state": "temporary",
+   "og": "img/og/ch09.png",
+   "toons": [
+    "img/toon/ch09_a.webp",
+    "img/toon/ch09_b.webp"
+   ]
+  },
+  {
+   "page": "10_correlation.html",
+   "file": "img/cover_ch10.webp",
+   "state": "temporary",
+   "og": "img/og/ch10.png",
+   "toons": [
+    "img/toon/ch10_a.webp",
+    "img/toon/ch10_b.webp"
+   ]
+  },
+  {
+   "page": "11_calculus.html",
+   "file": "img/cover_ch11.webp",
+   "state": "temporary",
+   "og": "img/og/ch11.png",
+   "toons": [
+    "img/toon/ch11_a.webp",
+    "img/toon/ch11_b.webp"
+   ]
+  },
+  {
+   "page": "12_gradient.html",
+   "file": "img/cover_ch12.webp",
+   "state": "temporary",
+   "og": "img/og/ch12.png",
+   "toons": [
+    "img/toon/ch12_a.webp",
+    "img/toon/ch12_b.webp"
+   ]
+  },
+  {
+   "page": "13_optimization.html",
+   "file": "img/cover_ch13.webp",
+   "state": "temporary",
+   "og": "img/og/ch13.png",
+   "toons": [
+    "img/toon/ch13_a.webp",
+    "img/toon/ch13_b.webp"
+   ]
+  },
+  {
+   "page": "14_eigen_pca.html",
+   "file": "img/cover_ch14.webp",
+   "state": "temporary",
+   "og": "img/og/ch14.png",
+   "toons": [
+    "img/toon/ch14_a.webp",
+    "img/toon/ch14_b.webp"
+   ]
+  },
+  {
+   "page": "15_quick_revision.html",
+   "file": "img/cover_ch15.webp",
+   "state": "temporary",
+   "og": "img/og/ch15.png",
+   "toons": [
+    "img/toon/ch15_a.webp",
+    "img/toon/ch15_b.webp"
+   ]
+  },
+  {
+   "page": "practice/index.html",
+   "file": "img/cover_practice.webp",
+   "state": "temporary",
+   "og": "img/og/practice.png"
+  }
+ ]
+}

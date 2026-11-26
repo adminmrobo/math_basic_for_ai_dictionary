@@ -1,0 +1,391 @@
+{
+ "version": "1.3",
+ "page": "03_vector_ops",
+ "nodes": [
+  {
+   "id": "lab:concept/m03-what",
+   "type": "Concept",
+   "label": {
+    "ko": "벡터란",
+    "en": "What is a Vector"
+   },
+   "page": "03_vector_ops",
+   "anchor": "#m03-what",
+   "level": 1,
+   "status": "known",
+   "confidence": "high",
+   "coverage": "explained",
+   "family": "math-for-ai",
+   "domain": [
+    "math",
+    "ai"
+   ],
+   "match": [],
+   "definition": {
+    "ko": "숫자의 1차원 배열이자, 크기와 방향을 가진 양. 행이나 열로 씁니다."
+   }
+  },
+  {
+   "id": "lab:concept/m03-add",
+   "type": "Concept",
+   "label": {
+    "ko": "벡터 덧셈",
+    "en": "Vector Addition"
+   },
+   "page": "03_vector_ops",
+   "anchor": "#m03-add",
+   "level": 1,
+   "status": "known",
+   "confidence": "high",
+   "coverage": "explained",
+   "family": "math-for-ai",
+   "domain": [
+    "math",
+    "ai"
+   ],
+   "match": [],
+   "definition": {
+    "ko": "같은 자리끼리 더한다. 두 벡터의 크기(차원)가 같아야 한다."
+   }
+  },
+  {
+   "id": "lab:concept/m03-sub",
+   "type": "Concept",
+   "label": {
+    "ko": "벡터 뺄셈",
+    "en": "Vector Subtraction"
+   },
+   "page": "03_vector_ops",
+   "anchor": "#m03-sub",
+   "level": 1,
+   "status": "known",
+   "confidence": "high",
+   "coverage": "explained",
+   "family": "math-for-ai",
+   "domain": [
+    "math",
+    "ai"
+   ],
+   "match": [],
+   "definition": {
+    "ko": "같은 자리끼리 뺀다. a − b는 \"b 끝에서 a 끝으로 가는 화살표\"."
+   }
+  },
+  {
+   "id": "lab:concept/m03-scalar",
+   "type": "Concept",
+   "label": {
+    "ko": "스칼라배",
+    "en": "Scalar Multiplication"
+   },
+   "page": "03_vector_ops",
+   "anchor": "#m03-scalar",
+   "level": 1,
+   "status": "known",
+   "confidence": "high",
+   "coverage": "explained",
+   "family": "math-for-ai",
+   "domain": [
+    "math",
+    "ai"
+   ],
+   "match": [],
+   "definition": {
+    "ko": "벡터의 모든 숫자에 같은 수 k를 곱한다. 방향은 그대로, 길이만 k배."
+   }
+  },
+  {
+   "id": "lab:concept/m03-dot",
+   "type": "Concept",
+   "label": {
+    "ko": "내적",
+    "en": "Dot Product (Inner Product)"
+   },
+   "page": "03_vector_ops",
+   "anchor": "#m03-dot",
+   "level": 1,
+   "status": "known",
+   "confidence": "high",
+   "coverage": "explained",
+   "family": "math-for-ai",
+   "domain": [
+    "math",
+    "ai"
+   ],
+   "match": [],
+   "definition": {
+    "ko": "같은 자리끼리 곱해서 모두 더한 숫자 하나. 두 벡터가 얼마나 닮았는지 잰다."
+   }
+  },
+  {
+   "id": "lab:concept/m03-norm",
+   "type": "Concept",
+   "label": {
+    "ko": "벡터의 노름(크기)",
+    "en": "Vector Norm (Magnitude)"
+   },
+   "page": "03_vector_ops",
+   "anchor": "#m03-norm",
+   "level": 1,
+   "status": "known",
+   "confidence": "high",
+   "coverage": "explained",
+   "family": "math-for-ai",
+   "domain": [
+    "math",
+    "ai"
+   ],
+   "match": [],
+   "definition": {
+    "ko": "벡터의 길이. 보통 L2 노름 ‖v‖ = √(v₁² + … + vₙ²)."
+   }
+  },
+  {
+   "id": "lab:concept/m03-angle",
+   "type": "Concept",
+   "label": {
+    "ko": "두 벡터 사이 각도",
+    "en": "Angle Between Two Vectors"
+   },
+   "page": "03_vector_ops",
+   "anchor": "#m03-angle",
+   "level": 1,
+   "status": "known",
+   "confidence": "high",
+   "coverage": "explained",
+   "family": "math-for-ai",
+   "domain": [
+    "math",
+    "ai"
+   ],
+   "match": [],
+   "definition": {
+    "ko": "cos θ = a·b / (‖a‖‖b‖). 1이면 같은 방향, 0이면 직각, −1이면 반대."
+   }
+  },
+  {
+   "id": "lab:concept/m03-use",
+   "type": "Concept",
+   "label": {
+    "ko": "핵심 정리",
+    "en": "Key Takeaways"
+   },
+   "page": "03_vector_ops",
+   "anchor": "#m03-use",
+   "level": 1,
+   "status": "known",
+   "confidence": "high",
+   "coverage": "explained",
+   "family": "math-for-ai",
+   "domain": [
+    "math",
+    "ai"
+   ],
+   "match": [],
+   "definition": {
+    "ko": "덧셈·뺄셈·스칼라배는 같은 자리끼리, 내적은 닮음, 노름은 길이, 각도는 방향의 닮음."
+   }
+  },
+  {
+   "id": "lab:sim/ch03-lab",
+   "type": "Simulation",
+   "label": {
+    "ko": "화살표 실험실",
+    "en": "Interactive lab ch03"
+   },
+   "page": "03_vector_ops",
+   "anchor": "#lab",
+   "level": 1,
+   "status": "known",
+   "confidence": "high",
+   "coverage": "explained",
+   "family": "math-for-ai",
+   "domain": [
+    "math",
+    "ai"
+   ],
+   "match": [],
+   "definition": {
+    "ko": "내적은 \"같은 쪽을 가리키는 정도 × 길이\"입니다. 길이를 나눠 없애면 코사인 유사도가 되고, 이것이 추천·검색의 심장이에요. 숫자 하나가 −1에서 1 사이라는 범위가 있어서 비교하기 좋습니다."
+   }
+  },
+  {
+   "id": "lab:analogy/ch03-toon1",
+   "type": "Analogy",
+   "label": {
+    "ko": "각도 90°의 냉전",
+    "en": "Cartoon 1"
+   },
+   "page": "03_vector_ops",
+   "anchor": "#toon1",
+   "level": 1,
+   "status": "known",
+   "confidence": "high",
+   "coverage": "explained",
+   "family": "math-for-ai",
+   "domain": [
+    "math",
+    "ai"
+   ],
+   "match": [],
+   "definition": {
+    "ko": "내적이 0이면 두 벡터는 직각(직교). AI에서는 \"서로 전혀 관련 없는 방향\"이라는 뜻."
+   }
+  },
+  {
+   "id": "lab:analogy/ch03-toon2",
+   "type": "Analogy",
+   "label": {
+    "ko": "길이 자랑 대회",
+    "en": "Cartoon 2"
+   },
+   "page": "03_vector_ops",
+   "anchor": "#toon2",
+   "level": 1,
+   "status": "known",
+   "confidence": "high",
+   "coverage": "explained",
+   "family": "math-for-ai",
+   "domain": [
+    "math",
+    "ai"
+   ],
+   "match": [],
+   "definition": {
+    "ko": "내적은 길이가 길수록 커진다. 닮음만 비교하려면 길이로 나눈 코사인 유사도를 쓴다."
+   }
+  },
+  {
+   "id": "lab:question/ch03-ai",
+   "type": "Question",
+   "label": {
+    "ko": "주판봇의 \"[1, 2]와 [100, 200]은 전혀 안 닮았다\"",
+    "en": "AI check ch03"
+   },
+   "page": "03_vector_ops",
+   "anchor": "#ai",
+   "level": 1,
+   "status": "known",
+   "confidence": "high",
+   "coverage": "explained",
+   "family": "math-for-ai",
+   "domain": [
+    "math",
+    "ai"
+   ],
+   "match": [],
+   "definition": {
+    "ko": "주판봇은 차이 벡터의 길이(거리 ≈ 221.4)만 보고 \"전혀 다르다\"고 했어요. 하지만 [100, 200] = 100 × [1, 2]라서 방향은 완전히 같고 cos θ = 1입니다. 거리는 \"크기 차이\"까지 재고, 코사인은 \"방향\"만 잽니다. 어느 쪽이 맞는지는 질문에 달려 있어요 — 같은 주제의 짧은 글과 긴 글을 비교한다면 코사인이 맞습니다."
+   }
+  },
+  {
+   "id": "lab:limitation/ch03-limit",
+   "type": "Limitation",
+   "label": {
+    "ko": "이 장의 한계",
+    "en": "Limitation ch03"
+   },
+   "page": "03_vector_ops",
+   "anchor": "#sum",
+   "level": 1,
+   "status": "known",
+   "confidence": "high",
+   "coverage": "explained",
+   "family": "math-for-ai",
+   "domain": [
+    "math",
+    "ai"
+   ],
+   "match": [],
+   "definition": {
+    "ko": "손가락 방향 비유는 2·3차원까지 그림으로 맞습니다. 수백 차원의 각도는 그림 대신 계산으로만 볼 수 있어요."
+   }
+  }
+ ],
+ "edges": [
+  {
+   "s": "lab:concept/m03-what",
+   "p": "lab:prerequisiteOf",
+   "o": "lab:concept/m03-add",
+   "anchor": "#m03-add",
+   "confidence": "medium"
+  },
+  {
+   "s": "lab:concept/m03-add",
+   "p": "lab:prerequisiteOf",
+   "o": "lab:concept/m03-sub",
+   "anchor": "#m03-sub",
+   "confidence": "medium"
+  },
+  {
+   "s": "lab:concept/m03-sub",
+   "p": "lab:prerequisiteOf",
+   "o": "lab:concept/m03-scalar",
+   "anchor": "#m03-scalar",
+   "confidence": "medium"
+  },
+  {
+   "s": "lab:concept/m03-scalar",
+   "p": "lab:prerequisiteOf",
+   "o": "lab:concept/m03-dot",
+   "anchor": "#m03-dot",
+   "confidence": "medium"
+  },
+  {
+   "s": "lab:concept/m03-dot",
+   "p": "lab:prerequisiteOf",
+   "o": "lab:concept/m03-norm",
+   "anchor": "#m03-norm",
+   "confidence": "medium"
+  },
+  {
+   "s": "lab:concept/m03-norm",
+   "p": "lab:prerequisiteOf",
+   "o": "lab:concept/m03-angle",
+   "anchor": "#m03-angle",
+   "confidence": "medium"
+  },
+  {
+   "s": "lab:concept/m03-angle",
+   "p": "lab:prerequisiteOf",
+   "o": "lab:concept/m03-use",
+   "anchor": "#m03-use",
+   "confidence": "medium"
+  },
+  {
+   "s": "lab:concept/m03-dot",
+   "p": "lab:demonstratedBy",
+   "o": "lab:sim/ch03-lab",
+   "anchor": "#lab",
+   "confidence": "high"
+  },
+  {
+   "s": "lab:analogy/ch03-toon1",
+   "p": "lab:analogyOf",
+   "o": "lab:concept/m03-add",
+   "anchor": "#toon1",
+   "confidence": "medium"
+  },
+  {
+   "s": "lab:analogy/ch03-toon2",
+   "p": "lab:analogyOf",
+   "o": "lab:concept/m03-dot",
+   "anchor": "#toon2",
+   "confidence": "medium"
+  },
+  {
+   "s": "lab:concept/m03-dot",
+   "p": "lab:relatedTo",
+   "o": "lab:question/ch03-ai",
+   "anchor": "#ai",
+   "confidence": "medium"
+  },
+  {
+   "s": "lab:concept/m03-what",
+   "p": "lab:hasLimitation",
+   "o": "lab:limitation/ch03-limit",
+   "anchor": "#sum",
+   "confidence": "medium"
+  }
+ ]
+}

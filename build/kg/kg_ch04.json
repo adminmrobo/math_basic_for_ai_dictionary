@@ -1,0 +1,391 @@
+{
+ "version": "1.3",
+ "page": "04_matrix_ops",
+ "nodes": [
+  {
+   "id": "lab:concept/m04-what",
+   "type": "Concept",
+   "label": {
+    "ko": "행렬이란 (복습)",
+    "en": "What is a Matrix"
+   },
+   "page": "04_matrix_ops",
+   "anchor": "#m04-what",
+   "level": 1,
+   "status": "known",
+   "confidence": "high",
+   "coverage": "explained",
+   "family": "math-for-ai",
+   "domain": [
+    "math",
+    "ai"
+   ],
+   "match": [],
+   "definition": {
+    "ko": "행과 열로 배열한 숫자의 2차원 배열. 표 형태의 데이터를 담는다."
+   }
+  },
+  {
+   "id": "lab:concept/m04-add",
+   "type": "Concept",
+   "label": {
+    "ko": "행렬 덧셈",
+    "en": "Matrix Addition"
+   },
+   "page": "04_matrix_ops",
+   "anchor": "#m04-add",
+   "level": 1,
+   "status": "known",
+   "confidence": "high",
+   "coverage": "explained",
+   "family": "math-for-ai",
+   "domain": [
+    "math",
+    "ai"
+   ],
+   "match": [],
+   "definition": {
+    "ko": "크기가 같은 행렬끼리만, 같은 자리끼리 더한다."
+   }
+  },
+  {
+   "id": "lab:concept/m04-sub",
+   "type": "Concept",
+   "label": {
+    "ko": "행렬 뺄셈",
+    "en": "Matrix Subtraction"
+   },
+   "page": "04_matrix_ops",
+   "anchor": "#m04-sub",
+   "level": 1,
+   "status": "known",
+   "confidence": "high",
+   "coverage": "explained",
+   "family": "math-for-ai",
+   "domain": [
+    "math",
+    "ai"
+   ],
+   "match": [],
+   "definition": {
+    "ko": "크기가 같을 때만, 같은 자리끼리 뺀다."
+   }
+  },
+  {
+   "id": "lab:concept/m04-mul",
+   "type": "Concept",
+   "label": {
+    "ko": "행렬 곱셈",
+    "en": "Matrix Multiplication"
+   },
+   "page": "04_matrix_ops",
+   "anchor": "#m04-mul",
+   "level": 1,
+   "status": "known",
+   "confidence": "high",
+   "coverage": "explained",
+   "family": "math-for-ai",
+   "domain": [
+    "math",
+    "ai"
+   ],
+   "match": [],
+   "definition": {
+    "ko": "앞 행렬의 행과 뒤 행렬의 열을 내적한다. (m × k)(k × n) → m × n."
+   }
+  },
+  {
+   "id": "lab:concept/m04-transpose",
+   "type": "Concept",
+   "label": {
+    "ko": "전치",
+    "en": "Transpose of a Matrix"
+   },
+   "page": "04_matrix_ops",
+   "anchor": "#m04-transpose",
+   "level": 1,
+   "status": "known",
+   "confidence": "high",
+   "coverage": "explained",
+   "family": "math-for-ai",
+   "domain": [
+    "math",
+    "ai"
+   ],
+   "match": [],
+   "definition": {
+    "ko": "행과 열을 맞바꾼 행렬. A가 m × n이면 Aᵀ는 n × m."
+   }
+  },
+  {
+   "id": "lab:concept/m04-inv",
+   "type": "Concept",
+   "label": {
+    "ko": "역행렬",
+    "en": "Inverse of a Matrix"
+   },
+   "page": "04_matrix_ops",
+   "anchor": "#m04-inv",
+   "level": 1,
+   "status": "known",
+   "confidence": "high",
+   "coverage": "explained",
+   "family": "math-for-ai",
+   "domain": [
+    "math",
+    "ai"
+   ],
+   "match": [],
+   "definition": {
+    "ko": "곱하면 단위행렬 I가 되는 짝. 정사각이고 행렬식 ≠ 0일 때만 있다."
+   }
+  },
+  {
+   "id": "lab:concept/m04-identity",
+   "type": "Concept",
+   "label": {
+    "ko": "단위행렬",
+    "en": "Identity Matrix"
+   },
+   "page": "04_matrix_ops",
+   "anchor": "#m04-identity",
+   "level": 1,
+   "status": "known",
+   "confidence": "high",
+   "coverage": "explained",
+   "family": "math-for-ai",
+   "domain": [
+    "math",
+    "ai"
+   ],
+   "match": [],
+   "definition": {
+    "ko": "대각선이 1, 나머지가 0인 정사각 행렬. I나 Iₙ으로 쓴다. 곱해도 그대로."
+   }
+  },
+  {
+   "id": "lab:concept/m04-zero",
+   "type": "Concept",
+   "label": {
+    "ko": "영행렬과 핵심 정리",
+    "en": "Zero Matrix & Key Takeaways"
+   },
+   "page": "04_matrix_ops",
+   "anchor": "#m04-zero",
+   "level": 1,
+   "status": "known",
+   "confidence": "high",
+   "coverage": "explained",
+   "family": "math-for-ai",
+   "domain": [
+    "math",
+    "ai"
+   ],
+   "match": [],
+   "definition": {
+    "ko": "모든 수가 0인 행렬 O. 더해도 그대로, 곱하면 0."
+   }
+  },
+  {
+   "id": "lab:sim/ch04-lab",
+   "type": "Simulation",
+   "label": {
+    "ko": "행렬곱 실험실",
+    "en": "Interactive lab ch04"
+   },
+   "page": "04_matrix_ops",
+   "anchor": "#lab",
+   "level": 1,
+   "status": "known",
+   "confidence": "high",
+   "coverage": "explained",
+   "family": "math-for-ai",
+   "domain": [
+    "math",
+    "ai"
+   ],
+   "match": [],
+   "definition": {
+    "ko": "행렬곱은 \"내적을 표 모양으로 한꺼번에\" 하는 것입니다. 결과의 숫자 하나하나가 행 하나와 열 하나의 닮음 점수예요. 그래서 크기 규칙은 \"짝이 맞나?\"를 묻는 규칙이고, AI 코드의 shape 오류도 결국 이 질문입니다."
+   }
+  },
+  {
+   "id": "lab:analogy/ch04-toon1",
+   "type": "Analogy",
+   "label": {
+    "ko": "AB ≠ BA 소동",
+    "en": "Cartoon 1"
+   },
+   "page": "04_matrix_ops",
+   "anchor": "#toon1",
+   "level": 1,
+   "status": "known",
+   "confidence": "high",
+   "coverage": "explained",
+   "family": "math-for-ai",
+   "domain": [
+    "math",
+    "ai"
+   ],
+   "match": [],
+   "definition": {
+    "ko": "행렬곱에서는 교환법칙이 일반적으로 성립하지 않는다: AB ≠ BA."
+   }
+  },
+  {
+   "id": "lab:analogy/ch04-toon2",
+   "type": "Analogy",
+   "label": {
+    "ko": "행렬식 0의 저주",
+    "en": "Cartoon 2"
+   },
+   "page": "04_matrix_ops",
+   "anchor": "#toon2",
+   "level": 1,
+   "status": "known",
+   "confidence": "high",
+   "coverage": "explained",
+   "family": "math-for-ai",
+   "domain": [
+    "math",
+    "ai"
+   ],
+   "match": [],
+   "definition": {
+    "ko": "2 × 2 행렬의 행렬식 ad − bc가 0이면 역행렬이 없다. 한 행이 다른 행의 배수일 때 생긴다."
+   }
+  },
+  {
+   "id": "lab:question/ch04-ai",
+   "type": "Question",
+   "label": {
+    "ko": "주판봇의 \"[[1 2],[2 4]]의 역행렬은 [[1 1/2],[1/2 1/4]]\"",
+    "en": "AI check ch04"
+   },
+   "page": "04_matrix_ops",
+   "anchor": "#ai",
+   "level": 1,
+   "status": "known",
+   "confidence": "high",
+   "coverage": "explained",
+   "family": "math-for-ai",
+   "domain": [
+    "math",
+    "ai"
+   ],
+   "match": [],
+   "definition": {
+    "ko": "틀렸습니다. 역행렬은 숫자마다 역수를 취하는 것이 아니에요. 게다가 이 행렬은 ad − bc = 1×4 − 2×2 = 0이라 역행렬 자체가 없습니다. 주판봇의 답을 곱해 보면 [[1×1+2×½, …]] = [[2, …]]처럼 단위행렬이 나오지 않아요. 실제 코드에서 np.linalg.inv를 부르면 \"Singular matrix\" 오류가 납니다."
+   }
+  },
+  {
+   "id": "lab:limitation/ch04-limit",
+   "type": "Limitation",
+   "label": {
+    "ko": "이 장의 한계",
+    "en": "Limitation ch04"
+   },
+   "page": "04_matrix_ops",
+   "anchor": "#sum",
+   "level": 1,
+   "status": "known",
+   "confidence": "high",
+   "coverage": "explained",
+   "family": "math-for-ai",
+   "domain": [
+    "math",
+    "ai"
+   ],
+   "match": [],
+   "definition": {
+    "ko": "채점 기계 비유는 \"한 번에\"만 보여 줍니다. 실제로는 행렬곱 안에서도 곱셈·덧셈을 모두 하며, 다만 GPU가 동시에 처리할 뿐이에요."
+   }
+  }
+ ],
+ "edges": [
+  {
+   "s": "lab:concept/m04-what",
+   "p": "lab:prerequisiteOf",
+   "o": "lab:concept/m04-add",
+   "anchor": "#m04-add",
+   "confidence": "medium"
+  },
+  {
+   "s": "lab:concept/m04-add",
+   "p": "lab:prerequisiteOf",
+   "o": "lab:concept/m04-sub",
+   "anchor": "#m04-sub",
+   "confidence": "medium"
+  },
+  {
+   "s": "lab:concept/m04-sub",
+   "p": "lab:prerequisiteOf",
+   "o": "lab:concept/m04-mul",
+   "anchor": "#m04-mul",
+   "confidence": "medium"
+  },
+  {
+   "s": "lab:concept/m04-mul",
+   "p": "lab:prerequisiteOf",
+   "o": "lab:concept/m04-transpose",
+   "anchor": "#m04-transpose",
+   "confidence": "medium"
+  },
+  {
+   "s": "lab:concept/m04-transpose",
+   "p": "lab:prerequisiteOf",
+   "o": "lab:concept/m04-inv",
+   "anchor": "#m04-inv",
+   "confidence": "medium"
+  },
+  {
+   "s": "lab:concept/m04-inv",
+   "p": "lab:prerequisiteOf",
+   "o": "lab:concept/m04-identity",
+   "anchor": "#m04-identity",
+   "confidence": "medium"
+  },
+  {
+   "s": "lab:concept/m04-identity",
+   "p": "lab:prerequisiteOf",
+   "o": "lab:concept/m04-zero",
+   "anchor": "#m04-zero",
+   "confidence": "medium"
+  },
+  {
+   "s": "lab:concept/m04-transpose",
+   "p": "lab:demonstratedBy",
+   "o": "lab:sim/ch04-lab",
+   "anchor": "#lab",
+   "confidence": "high"
+  },
+  {
+   "s": "lab:analogy/ch04-toon1",
+   "p": "lab:analogyOf",
+   "o": "lab:concept/m04-add",
+   "anchor": "#toon1",
+   "confidence": "medium"
+  },
+  {
+   "s": "lab:analogy/ch04-toon2",
+   "p": "lab:analogyOf",
+   "o": "lab:concept/m04-transpose",
+   "anchor": "#toon2",
+   "confidence": "medium"
+  },
+  {
+   "s": "lab:concept/m04-transpose",
+   "p": "lab:relatedTo",
+   "o": "lab:question/ch04-ai",
+   "anchor": "#ai",
+   "confidence": "medium"
+  },
+  {
+   "s": "lab:concept/m04-what",
+   "p": "lab:hasLimitation",
+   "o": "lab:limitation/ch04-limit",
+   "anchor": "#sum",
+   "confidence": "medium"
+  }
+ ]
+}

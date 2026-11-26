@@ -1,0 +1,391 @@
+{
+ "version": "1.3",
+ "page": "01_math_basics",
+ "nodes": [
+  {
+   "id": "lab:concept/m01-what",
+   "type": "Concept",
+   "label": {
+    "ko": "ML에서 수학이란",
+    "en": "Mathematics in ML"
+   },
+   "page": "01_math_basics",
+   "anchor": "#m01-what",
+   "level": 1,
+   "status": "known",
+   "confidence": "high",
+   "coverage": "explained",
+   "family": "math-for-ai",
+   "domain": [
+    "math",
+    "ai"
+   ],
+   "match": [],
+   "definition": {
+    "ko": "모델이 어떻게 움직이는지 설명하는 언어이자 도구."
+   }
+  },
+  {
+   "id": "lab:concept/m01-variable",
+   "type": "Concept",
+   "label": {
+    "ko": "변수",
+    "en": "Variable"
+   },
+   "page": "01_math_basics",
+   "anchor": "#m01-variable",
+   "level": 1,
+   "status": "known",
+   "confidence": "high",
+   "coverage": "explained",
+   "family": "math-for-ai",
+   "domain": [
+    "math",
+    "ai"
+   ],
+   "match": [],
+   "definition": {
+    "ko": "바뀔 수 있는 값에 붙인 이름표. 보통 x, y, z로 씁니다."
+   }
+  },
+  {
+   "id": "lab:concept/m01-constant",
+   "type": "Concept",
+   "label": {
+    "ko": "상수",
+    "en": "Constant"
+   },
+   "page": "01_math_basics",
+   "anchor": "#m01-constant",
+   "level": 1,
+   "status": "known",
+   "confidence": "high",
+   "coverage": "explained",
+   "family": "math-for-ai",
+   "domain": [
+    "math",
+    "ai"
+   ],
+   "match": [],
+   "definition": {
+    "ko": "바뀌지 않는 고정된 값. π = 3.1416…, e = 2.718…, 5, 10 같은 수."
+   }
+  },
+  {
+   "id": "lab:concept/m01-equation",
+   "type": "Concept",
+   "label": {
+    "ko": "방정식과 식",
+    "en": "Equation & Expression"
+   },
+   "page": "01_math_basics",
+   "anchor": "#m01-equation",
+   "level": 1,
+   "status": "known",
+   "confidence": "high",
+   "coverage": "explained",
+   "family": "math-for-ai",
+   "domain": [
+    "math",
+    "ai"
+   ],
+   "match": [],
+   "definition": {
+    "ko": "방정식은 \"두 식이 같다\"는 문장, 식은 변수와 상수를 엮은 계산 덩어리."
+   }
+  },
+  {
+   "id": "lab:concept/m01-function",
+   "type": "Concept",
+   "label": {
+    "ko": "함수",
+    "en": "Function"
+   },
+   "page": "01_math_basics",
+   "anchor": "#m01-function",
+   "level": 1,
+   "status": "known",
+   "confidence": "high",
+   "coverage": "explained",
+   "family": "math-for-ai",
+   "domain": [
+    "math",
+    "ai"
+   ],
+   "match": [],
+   "definition": {
+    "ko": "입력 x 하나를 넣으면 출력 y 하나가 정해져 나오는 규칙. y = f(x)."
+   }
+  },
+  {
+   "id": "lab:concept/m01-types",
+   "type": "Concept",
+   "label": {
+    "ko": "ML에서 흔한 함수 네 종류",
+    "en": "Types of Functions"
+   },
+   "page": "01_math_basics",
+   "anchor": "#m01-types",
+   "level": 1,
+   "status": "known",
+   "confidence": "high",
+   "coverage": "explained",
+   "family": "math-for-ai",
+   "domain": [
+    "math",
+    "ai"
+   ],
+   "match": [],
+   "definition": {
+    "ko": "일차(직선), 이차(그릇), 다항(구불구불), 비선형(sin, eˣ 등 곡선)."
+   }
+  },
+  {
+   "id": "lab:concept/m01-domain",
+   "type": "Concept",
+   "label": {
+    "ko": "정의역과 치역",
+    "en": "Domain & Range"
+   },
+   "page": "01_math_basics",
+   "anchor": "#m01-domain",
+   "level": 1,
+   "status": "known",
+   "confidence": "high",
+   "coverage": "explained",
+   "family": "math-for-ai",
+   "domain": [
+    "math",
+    "ai"
+   ],
+   "match": [],
+   "definition": {
+    "ko": "정의역 = 넣을 수 있는 입력 전체, 치역 = 실제로 나올 수 있는 출력 전체."
+   }
+  },
+  {
+   "id": "lab:concept/m01-why",
+   "type": "Concept",
+   "label": {
+    "ko": "ML에서 왜 중요한가",
+    "en": "Why it is Important in ML"
+   },
+   "page": "01_math_basics",
+   "anchor": "#m01-why",
+   "level": 1,
+   "status": "known",
+   "confidence": "high",
+   "coverage": "explained",
+   "family": "math-for-ai",
+   "domain": [
+    "math",
+    "ai"
+   ],
+   "match": [],
+   "definition": {
+    "ko": "데이터·모델 식 이해, 알고리즘 만들기, 최적화, 경사하강·PCA 같은 고급 주제의 바탕."
+   }
+  },
+  {
+   "id": "lab:sim/ch01-lab",
+   "type": "Simulation",
+   "label": {
+    "ko": "함수 기계 실험실",
+    "en": "Interactive lab ch01"
+   },
+   "page": "01_math_basics",
+   "anchor": "#lab",
+   "level": 1,
+   "status": "known",
+   "confidence": "high",
+   "coverage": "explained",
+   "family": "math-for-ai",
+   "domain": [
+    "math",
+    "ai"
+   ],
+   "match": [],
+   "definition": {
+    "ko": "함수는 \"규칙을 숫자로 적은 것\"입니다. a·b 같은 숫자를 바꾸면 규칙이 바뀌고, AI가 학습한다는 것은 바로 이 숫자들을 데이터에 맞게 고치는 일이에요. 오늘 손으로 돌린 a, b가 AI의 \"가중치\"입니다."
+   }
+  },
+  {
+   "id": "lab:analogy/ch01-toon1",
+   "type": "Analogy",
+   "label": {
+    "ko": "변수의 옷장, 상수의 고집",
+    "en": "Cartoon 1"
+   },
+   "page": "01_math_basics",
+   "anchor": "#toon1",
+   "level": 1,
+   "status": "known",
+   "confidence": "high",
+   "coverage": "explained",
+   "family": "math-for-ai",
+   "domain": [
+    "math",
+    "ai"
+   ],
+   "match": [],
+   "definition": {
+    "ko": "변수는 상자 속 값이 바뀌고, 상수는 고정. 원의 둘레 2πr에서 r은 변수, π와 2는 상수예요."
+   }
+  },
+  {
+   "id": "lab:analogy/ch01-toon2",
+   "type": "Analogy",
+   "label": {
+    "ko": "고장 난 자판기는 함수가 아니다",
+    "en": "Cartoon 2"
+   },
+   "page": "01_math_basics",
+   "anchor": "#toon2",
+   "level": 1,
+   "status": "known",
+   "confidence": "high",
+   "coverage": "explained",
+   "family": "math-for-ai",
+   "domain": [
+    "math",
+    "ai"
+   ],
+   "match": [],
+   "definition": {
+    "ko": "함수의 조건: 입력 하나에 출력이 하나로 정해진다. 서로 다른 입력이 같은 출력을 내는 것은 허용(예: x²에서 −1과 1 → 1)."
+   }
+  },
+  {
+   "id": "lab:question/ch01-ai",
+   "type": "Question",
+   "label": {
+    "ko": "주판봇의 \"√(−4) = −2\" 사건",
+    "en": "AI check ch01"
+   },
+   "page": "01_math_basics",
+   "anchor": "#ai",
+   "level": 1,
+   "status": "known",
+   "confidence": "high",
+   "coverage": "explained",
+   "family": "math-for-ai",
+   "domain": [
+    "math",
+    "ai"
+   ],
+   "match": [],
+   "definition": {
+    "ko": "틀렸습니다. (−2)² = 4이지 −4가 아니에요. 제곱해서 음수가 되는 실수는 없으므로 √(−4)는 실수 범위에서 정의되지 않습니다(정의역 x ≥ 0 밖). 실제 코드에서도 numpy.sqrt(−4)는 경고와 함께 nan(숫자 아님)을 냅니다."
+   }
+  },
+  {
+   "id": "lab:limitation/ch01-limit",
+   "type": "Limitation",
+   "label": {
+    "ko": "이 장의 한계",
+    "en": "Limitation ch01"
+   },
+   "page": "01_math_basics",
+   "anchor": "#sum",
+   "level": 1,
+   "status": "known",
+   "confidence": "high",
+   "coverage": "explained",
+   "family": "math-for-ai",
+   "domain": [
+    "math",
+    "ai"
+   ],
+   "match": [],
+   "definition": {
+    "ko": "자판기 비유는 \"입력 하나에 출력 하나\"만 보여 줍니다. 확률을 내는 모델처럼 출력이 확률인 경우도 함수예요(출력이 \"확률 숫자\" 하나)."
+   }
+  }
+ ],
+ "edges": [
+  {
+   "s": "lab:concept/m01-what",
+   "p": "lab:prerequisiteOf",
+   "o": "lab:concept/m01-variable",
+   "anchor": "#m01-variable",
+   "confidence": "medium"
+  },
+  {
+   "s": "lab:concept/m01-variable",
+   "p": "lab:prerequisiteOf",
+   "o": "lab:concept/m01-constant",
+   "anchor": "#m01-constant",
+   "confidence": "medium"
+  },
+  {
+   "s": "lab:concept/m01-constant",
+   "p": "lab:prerequisiteOf",
+   "o": "lab:concept/m01-equation",
+   "anchor": "#m01-equation",
+   "confidence": "medium"
+  },
+  {
+   "s": "lab:concept/m01-equation",
+   "p": "lab:prerequisiteOf",
+   "o": "lab:concept/m01-function",
+   "anchor": "#m01-function",
+   "confidence": "medium"
+  },
+  {
+   "s": "lab:concept/m01-function",
+   "p": "lab:prerequisiteOf",
+   "o": "lab:concept/m01-types",
+   "anchor": "#m01-types",
+   "confidence": "medium"
+  },
+  {
+   "s": "lab:concept/m01-types",
+   "p": "lab:prerequisiteOf",
+   "o": "lab:concept/m01-domain",
+   "anchor": "#m01-domain",
+   "confidence": "medium"
+  },
+  {
+   "s": "lab:concept/m01-domain",
+   "p": "lab:prerequisiteOf",
+   "o": "lab:concept/m01-why",
+   "anchor": "#m01-why",
+   "confidence": "medium"
+  },
+  {
+   "s": "lab:concept/m01-function",
+   "p": "lab:demonstratedBy",
+   "o": "lab:sim/ch01-lab",
+   "anchor": "#lab",
+   "confidence": "high"
+  },
+  {
+   "s": "lab:analogy/ch01-toon1",
+   "p": "lab:analogyOf",
+   "o": "lab:concept/m01-variable",
+   "anchor": "#toon1",
+   "confidence": "medium"
+  },
+  {
+   "s": "lab:analogy/ch01-toon2",
+   "p": "lab:analogyOf",
+   "o": "lab:concept/m01-function",
+   "anchor": "#toon2",
+   "confidence": "medium"
+  },
+  {
+   "s": "lab:concept/m01-function",
+   "p": "lab:relatedTo",
+   "o": "lab:question/ch01-ai",
+   "anchor": "#ai",
+   "confidence": "medium"
+  },
+  {
+   "s": "lab:concept/m01-what",
+   "p": "lab:hasLimitation",
+   "o": "lab:limitation/ch01-limit",
+   "anchor": "#sum",
+   "confidence": "medium"
+  }
+ ]
+}

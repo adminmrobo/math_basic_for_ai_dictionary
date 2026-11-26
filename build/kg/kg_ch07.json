@@ -1,0 +1,391 @@
+{
+ "version": "1.3",
+ "page": "07_bayes",
+ "nodes": [
+  {
+   "id": "lab:concept/m07-what",
+   "type": "Concept",
+   "label": {
+    "ko": "조건부 확률이란",
+    "en": "What is Conditional Probability"
+   },
+   "page": "07_bayes",
+   "anchor": "#m07-what",
+   "level": 1,
+   "status": "known",
+   "confidence": "high",
+   "coverage": "explained",
+   "family": "math-for-ai",
+   "domain": [
+    "math",
+    "ai"
+   ],
+   "match": [],
+   "definition": {
+    "ko": "사건 B가 이미 일어났을 때 사건 A의 확률. P(A|B)로 쓰고 \"B가 주어졌을 때 A\"라고 읽는다."
+   }
+  },
+  {
+   "id": "lab:concept/m07-formula",
+   "type": "Concept",
+   "label": {
+    "ko": "공식과 뜻",
+    "en": "Formula and Meaning"
+   },
+   "page": "07_bayes",
+   "anchor": "#m07-formula",
+   "level": 1,
+   "status": "known",
+   "confidence": "high",
+   "coverage": "explained",
+   "family": "math-for-ai",
+   "domain": [
+    "math",
+    "ai"
+   ],
+   "match": [],
+   "definition": {
+    "ko": "P(A|B) = P(A∩B)/P(B). 거꾸로 쓰면 곱셈 법칙 P(A∩B) = P(A|B)·P(B) = P(B|A)·P(A)."
+   }
+  },
+  {
+   "id": "lab:concept/m07-ex1",
+   "type": "Concept",
+   "label": {
+    "ko": "예 1: 공 뽑기 (비복원)",
+    "en": "Example 1 — Without Replacement"
+   },
+   "page": "07_bayes",
+   "anchor": "#m07-ex1",
+   "level": 1,
+   "status": "known",
+   "confidence": "high",
+   "coverage": "explained",
+   "family": "math-for-ai",
+   "domain": [
+    "math",
+    "ai"
+   ],
+   "match": [],
+   "definition": {
+    "ko": "빨강 5, 파랑 3에서 둘을 꺼낼 때 첫 공이 빨강이면 두 번째가 빨강일 확률 = 4/7 ≈ 0.571."
+   }
+  },
+  {
+   "id": "lab:concept/m07-ex2",
+   "type": "Concept",
+   "label": {
+    "ko": "예 2: 문제 풀기",
+    "en": "Example 2 — Reading a Condition"
+   },
+   "page": "07_bayes",
+   "anchor": "#m07-ex2",
+   "level": 1,
+   "status": "known",
+   "confidence": "high",
+   "coverage": "explained",
+   "family": "math-for-ai",
+   "domain": [
+    "math",
+    "ai"
+   ],
+   "match": [],
+   "definition": {
+    "ko": "쉬운 문제 60%, 어려운 문제 30%를 맞히는 학생. 어려운 문제가 주어지면 맞힐 확률 = P(S|H) = 0.3."
+   }
+  },
+  {
+   "id": "lab:concept/m07-bayes",
+   "type": "Concept",
+   "label": {
+    "ko": "베이즈 정리",
+    "en": "Bayes' Theorem"
+   },
+   "page": "07_bayes",
+   "anchor": "#m07-bayes",
+   "level": 1,
+   "status": "known",
+   "confidence": "high",
+   "coverage": "explained",
+   "family": "math-for-ai",
+   "domain": [
+    "math",
+    "ai"
+   ],
+   "match": [],
+   "definition": {
+    "ko": "P(A|B) = P(B|A) × P(A) / P(B). 새 증거 B로 가설 A의 확률을 고친다."
+   }
+  },
+  {
+   "id": "lab:concept/m07-medical",
+   "type": "Concept",
+   "label": {
+    "ko": "예 3: 의료 검사",
+    "en": "Example 3 — Medical Test"
+   },
+   "page": "07_bayes",
+   "anchor": "#m07-medical",
+   "level": 1,
+   "status": "known",
+   "confidence": "high",
+   "coverage": "explained",
+   "family": "math-for-ai",
+   "domain": [
+    "math",
+    "ai"
+   ],
+   "match": [],
+   "definition": {
+    "ko": "유병률 1%, 민감도 99%, 거짓 양성 5%면 양성일 때 실제 병일 확률 ≈ 16.7%."
+   }
+  },
+  {
+   "id": "lab:concept/m07-tree",
+   "type": "Concept",
+   "label": {
+    "ko": "확률 나무",
+    "en": "Probability Tree Diagram"
+   },
+   "page": "07_bayes",
+   "anchor": "#m07-tree",
+   "level": 1,
+   "status": "known",
+   "confidence": "high",
+   "coverage": "explained",
+   "family": "math-for-ai",
+   "domain": [
+    "math",
+    "ai"
+   ],
+   "match": [],
+   "definition": {
+    "ko": "갈림길마다 조건부 확률을 적은 나무. 가지를 따라 곱하면 곱사건, 가지들을 더하면 전체 확률."
+   }
+  },
+  {
+   "id": "lab:concept/m07-apps",
+   "type": "Concept",
+   "label": {
+    "ko": "ML 응용과 핵심 정리",
+    "en": "Applications in ML"
+   },
+   "page": "07_bayes",
+   "anchor": "#m07-apps",
+   "level": 1,
+   "status": "known",
+   "confidence": "high",
+   "coverage": "explained",
+   "family": "math-for-ai",
+   "domain": [
+    "math",
+    "ai"
+   ],
+   "match": [],
+   "definition": {
+    "ko": "나이브 베이즈(글 분류), 스팸 필터, 의료 진단, 추천 시스템, 확률 모델의 불확실성 다루기."
+   }
+  },
+  {
+   "id": "lab:sim/ch07-lab",
+   "type": "Simulation",
+   "label": {
+    "ko": "1000명 검사장",
+    "en": "Interactive lab ch07"
+   },
+   "page": "07_bayes",
+   "anchor": "#lab",
+   "level": 1,
+   "status": "known",
+   "confidence": "high",
+   "coverage": "explained",
+   "family": "math-for-ai",
+   "domain": [
+    "math",
+    "ai"
+   ],
+   "match": [],
+   "definition": {
+    "ko": "베이즈 정리의 교훈은 \"증거의 강도만 보지 말고 출발점도 보라\"입니다. AI 경보 시스템을 평가할 때도 \"이 경보가 맞을 확률\"은 모델 성능과 사건의 드문 정도를 함께 넣어야 나와요."
+   }
+  },
+  {
+   "id": "lab:analogy/ch07-toon1",
+   "type": "Analogy",
+   "label": {
+    "ko": "99% 검사의 배신",
+    "en": "Cartoon 1"
+   },
+   "page": "07_bayes",
+   "anchor": "#toon1",
+   "level": 1,
+   "status": "known",
+   "confidence": "high",
+   "coverage": "explained",
+   "family": "math-for-ai",
+   "domain": [
+    "math",
+    "ai"
+   ],
+   "match": [],
+   "definition": {
+    "ko": "사후확률 P(D|T)는 민감도만이 아니라 사전확률(유병률)에 크게 좌우된다. 드문 병일수록 양성 중 거짓 양성의 비율이 높다."
+   }
+  },
+  {
+   "id": "lab:analogy/ch07-toon2",
+   "type": "Analogy",
+   "label": {
+    "ko": "증거를 먹고 자라는 믿음",
+    "en": "Cartoon 2"
+   },
+   "page": "07_bayes",
+   "anchor": "#toon2",
+   "level": 1,
+   "status": "known",
+   "confidence": "high",
+   "coverage": "explained",
+   "family": "math-for-ai",
+   "domain": [
+    "math",
+    "ai"
+   ],
+   "match": [],
+   "definition": {
+    "ko": "베이즈 갱신: 오늘의 사후확률이 내일의 사전확률. 같은 검사로 두 번 양성(독립 가정)이면 1% → 16.7% → 약 79.8%."
+   }
+  },
+  {
+   "id": "lab:question/ch07-ai",
+   "type": "Question",
+   "label": {
+    "ko": "주판봇의 \"스팸 단어 '무료'가 있으면 스팸일 확률 = P(무료 | 스팸) = 0.8\"",
+    "en": "AI check ch07"
+   },
+   "page": "07_bayes",
+   "anchor": "#ai",
+   "level": 1,
+   "status": "known",
+   "confidence": "high",
+   "coverage": "explained",
+   "family": "math-for-ai",
+   "domain": [
+    "math",
+    "ai"
+   ],
+   "match": [],
+   "definition": {
+    "ko": "주판봇은 방향을 거꾸로 읽었어요. 0.8은 \"스팸 중 '무료'가 들어 있는 비율\"(가능도)입니다. 묻는 것은 반대 방향이라 베이즈 정리가 필요해요: P(스팸|무료) = 0.8 × 0.1 / (0.8 × 0.1 + 0.05 × 0.9) = 0.08 / 0.125 = 0.64. 높긴 하지만 0.8이 아닙니다. P(A|B)와 P(B|A)를 섞는 실수는 사람도 AI도 자주 해요."
+   }
+  },
+  {
+   "id": "lab:limitation/ch07-limit",
+   "type": "Limitation",
+   "label": {
+    "ko": "이 장의 한계",
+    "en": "Limitation ch07"
+   },
+   "page": "07_bayes",
+   "anchor": "#sum",
+   "level": 1,
+   "status": "known",
+   "confidence": "high",
+   "coverage": "explained",
+   "family": "math-for-ai",
+   "domain": [
+    "math",
+    "ai"
+   ],
+   "match": [],
+   "definition": {
+    "ko": "화재경보 비유는 \"기저율을 함께 보라\"까지만 맞습니다. 실제 진단은 증상·나이 등 여러 증거를 함께 씁니다."
+   }
+  }
+ ],
+ "edges": [
+  {
+   "s": "lab:concept/m07-what",
+   "p": "lab:prerequisiteOf",
+   "o": "lab:concept/m07-formula",
+   "anchor": "#m07-formula",
+   "confidence": "medium"
+  },
+  {
+   "s": "lab:concept/m07-formula",
+   "p": "lab:prerequisiteOf",
+   "o": "lab:concept/m07-ex1",
+   "anchor": "#m07-ex1",
+   "confidence": "medium"
+  },
+  {
+   "s": "lab:concept/m07-ex1",
+   "p": "lab:prerequisiteOf",
+   "o": "lab:concept/m07-ex2",
+   "anchor": "#m07-ex2",
+   "confidence": "medium"
+  },
+  {
+   "s": "lab:concept/m07-ex2",
+   "p": "lab:prerequisiteOf",
+   "o": "lab:concept/m07-bayes",
+   "anchor": "#m07-bayes",
+   "confidence": "medium"
+  },
+  {
+   "s": "lab:concept/m07-bayes",
+   "p": "lab:prerequisiteOf",
+   "o": "lab:concept/m07-medical",
+   "anchor": "#m07-medical",
+   "confidence": "medium"
+  },
+  {
+   "s": "lab:concept/m07-medical",
+   "p": "lab:prerequisiteOf",
+   "o": "lab:concept/m07-tree",
+   "anchor": "#m07-tree",
+   "confidence": "medium"
+  },
+  {
+   "s": "lab:concept/m07-tree",
+   "p": "lab:prerequisiteOf",
+   "o": "lab:concept/m07-apps",
+   "anchor": "#m07-apps",
+   "confidence": "medium"
+  },
+  {
+   "s": "lab:concept/m07-bayes",
+   "p": "lab:demonstratedBy",
+   "o": "lab:sim/ch07-lab",
+   "anchor": "#lab",
+   "confidence": "high"
+  },
+  {
+   "s": "lab:analogy/ch07-toon1",
+   "p": "lab:analogyOf",
+   "o": "lab:concept/m07-formula",
+   "anchor": "#toon1",
+   "confidence": "medium"
+  },
+  {
+   "s": "lab:analogy/ch07-toon2",
+   "p": "lab:analogyOf",
+   "o": "lab:concept/m07-bayes",
+   "anchor": "#toon2",
+   "confidence": "medium"
+  },
+  {
+   "s": "lab:concept/m07-bayes",
+   "p": "lab:relatedTo",
+   "o": "lab:question/ch07-ai",
+   "anchor": "#ai",
+   "confidence": "medium"
+  },
+  {
+   "s": "lab:concept/m07-what",
+   "p": "lab:hasLimitation",
+   "o": "lab:limitation/ch07-limit",
+   "anchor": "#sum",
+   "confidence": "medium"
+  }
+ ]
+}

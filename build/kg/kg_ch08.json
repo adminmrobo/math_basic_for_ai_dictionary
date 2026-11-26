@@ -1,0 +1,391 @@
+{
+ "version": "1.3",
+ "page": "08_statistics",
+ "nodes": [
+  {
+   "id": "lab:concept/m08-what",
+   "type": "Concept",
+   "label": {
+    "ko": "통계란",
+    "en": "What is Statistics"
+   },
+   "page": "08_statistics",
+   "anchor": "#m08-what",
+   "level": 1,
+   "status": "known",
+   "confidence": "high",
+   "coverage": "explained",
+   "family": "math-for-ai",
+   "domain": [
+    "math",
+    "ai"
+   ],
+   "match": [],
+   "definition": {
+    "ko": "데이터를 모으고, 정리하고, 분석하고, 해석하는 수학의 한 분야."
+   }
+  },
+  {
+   "id": "lab:concept/m08-types",
+   "type": "Concept",
+   "label": {
+    "ko": "통계의 두 갈래",
+    "en": "Types of Statistics"
+   },
+   "page": "08_statistics",
+   "anchor": "#m08-types",
+   "level": 1,
+   "status": "known",
+   "confidence": "high",
+   "coverage": "explained",
+   "family": "math-for-ai",
+   "domain": [
+    "math",
+    "ai"
+   ],
+   "match": [],
+   "definition": {
+    "ko": "기술통계(데이터를 요약)와 추론통계(표본으로 모집단을 짐작)."
+   }
+  },
+  {
+   "id": "lab:concept/m08-center",
+   "type": "Concept",
+   "label": {
+    "ko": "가운데를 재는 숫자",
+    "en": "Measures of Central Tendency"
+   },
+   "page": "08_statistics",
+   "anchor": "#m08-center",
+   "level": 1,
+   "status": "known",
+   "confidence": "high",
+   "coverage": "explained",
+   "family": "math-for-ai",
+   "domain": [
+    "math",
+    "ai"
+   ],
+   "match": [],
+   "definition": {
+    "ko": "평균(다 더해 개수로 나눔), 중앙값(정렬한 가운데), 최빈값(가장 자주 나온 값)."
+   }
+  },
+  {
+   "id": "lab:concept/m08-spread",
+   "type": "Concept",
+   "label": {
+    "ko": "퍼짐을 재는 숫자",
+    "en": "Measures of Dispersion"
+   },
+   "page": "08_statistics",
+   "anchor": "#m08-spread",
+   "level": 1,
+   "status": "known",
+   "confidence": "high",
+   "coverage": "explained",
+   "family": "math-for-ai",
+   "domain": [
+    "math",
+    "ai"
+   ],
+   "match": [],
+   "definition": {
+    "ko": "범위(최댓값 − 최솟값), 분산(평균에서 떨어진 정도의 제곱 평균), 표준편차(분산의 제곱근)."
+   }
+  },
+  {
+   "id": "lab:concept/m08-quartile",
+   "type": "Concept",
+   "label": {
+    "ko": "사분위수·백분위수·IQR",
+    "en": "Quartiles, Percentiles and IQR"
+   },
+   "page": "08_statistics",
+   "anchor": "#m08-quartile",
+   "level": 1,
+   "status": "known",
+   "confidence": "high",
+   "coverage": "explained",
+   "family": "math-for-ai",
+   "domain": [
+    "math",
+    "ai"
+   ],
+   "match": [],
+   "definition": {
+    "ko": "정렬한 데이터를 넷으로 나누는 점 Q1·Q2·Q3. IQR = Q3 − Q1은 가운데 절반의 폭."
+   }
+  },
+  {
+   "id": "lab:concept/m08-compare",
+   "type": "Concept",
+   "label": {
+    "ko": "평균·중앙값·최빈값 비교",
+    "en": "Mean, Median, Mode Comparison"
+   },
+   "page": "08_statistics",
+   "anchor": "#m08-compare",
+   "level": 1,
+   "status": "known",
+   "confidence": "high",
+   "coverage": "explained",
+   "family": "math-for-ai",
+   "domain": [
+    "math",
+    "ai"
+   ],
+   "match": [],
+   "definition": {
+    "ko": "한쪽으로 튀는 값(이상치)은 평균만 크게 끌어당긴다."
+   }
+  },
+  {
+   "id": "lab:concept/m08-visual",
+   "type": "Concept",
+   "label": {
+    "ko": "데이터 그리기",
+    "en": "Visualizing Data"
+   },
+   "page": "08_statistics",
+   "anchor": "#m08-visual",
+   "level": 1,
+   "status": "known",
+   "confidence": "high",
+   "coverage": "explained",
+   "family": "math-for-ai",
+   "domain": [
+    "math",
+    "ai"
+   ],
+   "match": [],
+   "definition": {
+    "ko": "히스토그램(도수 분포), 상자 그림(퍼짐과 이상치), 산점도(두 변수의 관계)."
+   }
+  },
+  {
+   "id": "lab:concept/m08-apps",
+   "type": "Concept",
+   "label": {
+    "ko": "ML 응용과 핵심 정리",
+    "en": "Applications in ML"
+   },
+   "page": "08_statistics",
+   "anchor": "#m08-apps",
+   "level": 1,
+   "status": "known",
+   "confidence": "high",
+   "coverage": "explained",
+   "family": "math-for-ai",
+   "domain": [
+    "math",
+    "ai"
+   ],
+   "match": [],
+   "definition": {
+    "ko": "분포 이해, 이상치 찾기, 특성 크기 맞추기, 전처리·정제, 모델 선택·평가, EDA."
+   }
+  },
+  {
+   "id": "lab:sim/ch08-lab",
+   "type": "Simulation",
+   "label": {
+    "ko": "숫자 묶음 요약기",
+    "en": "Interactive lab ch08"
+   },
+   "page": "08_statistics",
+   "anchor": "#lab",
+   "level": 1,
+   "status": "known",
+   "confidence": "high",
+   "coverage": "explained",
+   "family": "math-for-ai",
+   "domain": [
+    "math",
+    "ai"
+   ],
+   "match": [],
+   "definition": {
+    "ko": "요약 숫자는 늘 짝으로 읽으세요. \"가운데 + 퍼짐\". 그리고 평균과 중앙값이 멀리 떨어져 있으면 그림을 그려 튀는 값을 찾으세요. 모델에 넣기 전에 데이터를 들여다보는 이 습관이 AI 프로젝트의 절반을 구합니다."
+   }
+  },
+  {
+   "id": "lab:analogy/ch08-toon1",
+   "type": "Analogy",
+   "label": {
+    "ko": "평균을 끌고 간 100점",
+    "en": "Cartoon 1"
+   },
+   "page": "08_statistics",
+   "anchor": "#toon1",
+   "level": 1,
+   "status": "known",
+   "confidence": "high",
+   "coverage": "explained",
+   "family": "math-for-ai",
+   "domain": [
+    "math",
+    "ai"
+   ],
+   "match": [],
+   "definition": {
+    "ko": "이상치 하나가 평균을 크게 움직인다. 중앙값은 순서만 보므로 잘 흔들리지 않는다."
+   }
+  },
+  {
+   "id": "lab:analogy/ch08-toon2",
+   "type": "Analogy",
+   "label": {
+    "ko": "평균은 같은데 반 분위기는 정반대",
+    "en": "Cartoon 2"
+   },
+   "page": "08_statistics",
+   "anchor": "#toon2",
+   "level": 1,
+   "status": "known",
+   "confidence": "high",
+   "coverage": "explained",
+   "family": "math-for-ai",
+   "domain": [
+    "math",
+    "ai"
+   ],
+   "match": [],
+   "definition": {
+    "ko": "평균이 같아도 분산·표준편차가 다르면 전혀 다른 데이터다. 요약은 \"가운데 + 퍼짐\"의 짝으로."
+   }
+  },
+  {
+   "id": "lab:question/ch08-ai",
+   "type": "Question",
+   "label": {
+    "ko": "주판봇의 \"1, 2, 2, 3, 100의 대표값은 21.6\"",
+    "en": "AI check ch08"
+   },
+   "page": "08_statistics",
+   "anchor": "#ai",
+   "level": 1,
+   "status": "known",
+   "confidence": "high",
+   "coverage": "explained",
+   "family": "math-for-ai",
+   "domain": [
+    "math",
+    "ai"
+   ],
+   "match": [],
+   "definition": {
+    "ko": "계산(108 ÷ 5 = 21.6)은 맞지만 해석이 틀렸어요. 21.6 근처에는 값이 하나도 없고, 다섯 중 넷이 3 이하입니다. 이렇게 치우친 데이터의 \"보통\"은 중앙값 2가 더 잘 말해요. 계산이 맞는 것과 결론이 맞는 것은 다른 문제라는 것, AI 결과를 읽을 때 가장 자주 만나는 함정이에요."
+   }
+  },
+  {
+   "id": "lab:limitation/ch08-limit",
+   "type": "Limitation",
+   "label": {
+    "ko": "이 장의 한계",
+    "en": "Limitation ch08"
+   },
+   "page": "08_statistics",
+   "anchor": "#sum",
+   "level": 1,
+   "status": "known",
+   "confidence": "high",
+   "coverage": "explained",
+   "family": "math-for-ai",
+   "domain": [
+    "math",
+    "ai"
+   ],
+   "match": [],
+   "definition": {
+    "ko": "\"평균 + 퍼짐\" 요약은 봉우리가 하나인 데이터에 잘 맞습니다. 봉우리가 둘인 데이터는 히스토그램을 꼭 그려야 해요."
+   }
+  }
+ ],
+ "edges": [
+  {
+   "s": "lab:concept/m08-what",
+   "p": "lab:prerequisiteOf",
+   "o": "lab:concept/m08-types",
+   "anchor": "#m08-types",
+   "confidence": "medium"
+  },
+  {
+   "s": "lab:concept/m08-types",
+   "p": "lab:prerequisiteOf",
+   "o": "lab:concept/m08-center",
+   "anchor": "#m08-center",
+   "confidence": "medium"
+  },
+  {
+   "s": "lab:concept/m08-center",
+   "p": "lab:prerequisiteOf",
+   "o": "lab:concept/m08-spread",
+   "anchor": "#m08-spread",
+   "confidence": "medium"
+  },
+  {
+   "s": "lab:concept/m08-spread",
+   "p": "lab:prerequisiteOf",
+   "o": "lab:concept/m08-quartile",
+   "anchor": "#m08-quartile",
+   "confidence": "medium"
+  },
+  {
+   "s": "lab:concept/m08-quartile",
+   "p": "lab:prerequisiteOf",
+   "o": "lab:concept/m08-compare",
+   "anchor": "#m08-compare",
+   "confidence": "medium"
+  },
+  {
+   "s": "lab:concept/m08-compare",
+   "p": "lab:prerequisiteOf",
+   "o": "lab:concept/m08-visual",
+   "anchor": "#m08-visual",
+   "confidence": "medium"
+  },
+  {
+   "s": "lab:concept/m08-visual",
+   "p": "lab:prerequisiteOf",
+   "o": "lab:concept/m08-apps",
+   "anchor": "#m08-apps",
+   "confidence": "medium"
+  },
+  {
+   "s": "lab:concept/m08-quartile",
+   "p": "lab:demonstratedBy",
+   "o": "lab:sim/ch08-lab",
+   "anchor": "#lab",
+   "confidence": "high"
+  },
+  {
+   "s": "lab:analogy/ch08-toon1",
+   "p": "lab:analogyOf",
+   "o": "lab:concept/m08-types",
+   "anchor": "#toon1",
+   "confidence": "medium"
+  },
+  {
+   "s": "lab:analogy/ch08-toon2",
+   "p": "lab:analogyOf",
+   "o": "lab:concept/m08-quartile",
+   "anchor": "#toon2",
+   "confidence": "medium"
+  },
+  {
+   "s": "lab:concept/m08-quartile",
+   "p": "lab:relatedTo",
+   "o": "lab:question/ch08-ai",
+   "anchor": "#ai",
+   "confidence": "medium"
+  },
+  {
+   "s": "lab:concept/m08-what",
+   "p": "lab:hasLimitation",
+   "o": "lab:limitation/ch08-limit",
+   "anchor": "#sum",
+   "confidence": "medium"
+  }
+ ]
+}

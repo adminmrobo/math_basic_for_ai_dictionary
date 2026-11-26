@@ -1,0 +1,217 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>10장 상관과 공분산 — 함께 움직이는 정도 | 수리 도감 — 인공지능을 위한 수리적 기초</title>
+<meta name="description" content="수리 도감 10장. 공분산의 뜻과 해석, 공분산 계산 예(1.2), 상관계수 r의 뜻과 계산 예(0.775), 산점도로 보는 상관, 공분산과 상관의 비교, ML 응용(특성 선택·다중공선성)을 시아가 점 구름 실험실로 안내합니다.">
+<meta property="og:type" content="article"><meta property="og:title" content="10장 상관과 공분산 — 함께 움직이는 정도 | 수리 도감 — 인공지능을 위한 수리적 기초"><meta property="og:description" content="수리 도감 10장. 공분산의 뜻과 해석, 공분산 계산 예(1.2), 상관계수 r의 뜻과 계산 예(0.775), 산점도로 보는 상관, 공분산과 상관의 비교, ML 응용(특성 선택·다중공선성)을 시아가 점 구름 실험실로 안내합니다.">
+<meta property="og:image" content="https://adminmrobo.github.io/math_basic_for_ai_dictionary/img/og/ch10.png"><meta property="og:url" content="https://adminmrobo.github.io/math_basic_for_ai_dictionary/10_correlation.html"><meta name="twitter:card" content="summary_large_image">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+KR:wght@400;500;700&display=swap" rel="stylesheet">
+<!--@@CSS@@-->
+<style>
+.tl,.tr{font-weight:700;font-size:13.5px;margin-bottom:4px}.tl{color:var(--amber)}.tr{color:var(--terrain)}
+.hex{display:inline-grid;place-items:center;min-width:44px;height:34px;padding:0 10px;margin-right:10px;border-radius:8px;background:var(--terrain);color:#fff;font-size:17px;vertical-align:4px}
+.sec{padding:40px 0;border-top:1px solid var(--rule)}
+.cast{display:grid;gap:10px}.castc{display:flex;gap:10px;align-items:center;background:var(--panel);border:1px solid var(--rule);border-left:4px solid var(--cc);border-radius:10px;padding:8px 10px}
+.castc.host{background:#fff;box-shadow:0 0 0 2px var(--cc)}
+.castc img{width:60px;height:60px;flex:none}.castc p{margin:0;font-size:13.5px;color:var(--muted);line-height:1.55}
+.cover img.art{image-rendering:pixelated;image-rendering:crisp-edges}
+.diff{display:inline-block;border:1px solid var(--c-asst);color:var(--c-asst);border-radius:999px;padding:0 10px;font-size:12.5px;margin-left:6px}
+.hostcard{display:flex;gap:14px;align-items:center;border:2px solid var(--cc);border-radius:14px;padding:12px 16px;margin:10px 0 16px;background:#fff}
+.hostcard img{width:84px;height:84px;flex:none}.hostcard p{margin:4px 0 0;color:var(--muted)}
+.chain span.on{background:var(--terrain);color:#fff;border-color:var(--terrain)}
+.where{background:var(--panel);border-radius:10px;padding:10px 14px}
+.sis{display:flex;gap:12px;align-items:center;border:1px solid var(--c-asst);border-radius:12px;padding:10px 14px;margin:10px 0;background:#fff7fb}.sis img{width:56px;height:56px;flex:none}.sis p{margin:0}
+.dexidx{display:flex;flex-wrap:wrap;gap:6px;margin:10px 0 18px}.dexidx a{border:1px solid var(--rule);border-radius:999px;padding:3px 12px;font-size:14px;text-decoration:none;background:var(--panel)}
+.dexidx a:hover{border-color:var(--terrain)}
+.dex{border:1px solid var(--rule);border-top:4px solid var(--terrain);border-radius:14px;padding:16px 20px 12px;margin:0 0 22px;background:#fff;scroll-margin-top:70px}
+.dex header{display:flex;gap:12px;align-items:baseline;flex-wrap:wrap}.dex h3{margin:0;font-size:21px}.dex h3 small{font-size:14px;color:var(--muted);font-weight:500}
+.dexno{font:700 13px/1 var(--font);color:#fff;background:var(--c-x);border-radius:6px;padding:4px 8px}
+.dex .one{font-size:17px;font-weight:600;color:var(--terrain);margin:8px 0 10px}
+.dexgrid{display:grid;grid-template-columns:1.2fr 1fr;gap:14px;margin-bottom:10px}
+.dexgrid .dw{line-height:1.8}.dexgrid .try{background:var(--amber-soft);border:1px dashed #e8b67a;border-radius:10px;padding:10px 14px}.dexgrid .try ol{margin:6px 0 0;padding-left:22px}
+.dexwarn{background:var(--eye-soft);border-radius:8px;padding:8px 12px;font-size:15px}
+@media(max-width:760px){.dexgrid{grid-template-columns:1fr}}
+.toon{margin:26px auto;max-width:820px;border:1px solid var(--rule);border-radius:14px;overflow:hidden;background:#fff}
+.toon .tframe{background:#fff;border-bottom:1px solid var(--rule)}.toon img{display:block;width:100%;height:auto;image-rendering:pixelated;image-rendering:crisp-edges}
+.toon figcaption{padding:12px 16px}.toon .ttl{display:block;margin-bottom:8px;color:var(--amber)}
+.tline{display:flex;gap:10px;align-items:center;margin:6px 0}.tline img{width:40px;height:40px;flex:none;border-radius:8px;border:1px solid var(--rule)}.tline p{margin:0}
+.tpoint{margin:10px 0 0;background:var(--panel);border-radius:8px;padding:8px 12px;font-size:15px}
+.labbox{border:1px solid var(--rule);border-radius:14px;padding:14px 18px;margin:16px 0;background:#fff}
+.labh{font-weight:700;font-size:17px;margin-bottom:6px}.lno{display:inline-grid;place-items:center;width:28px;height:28px;border-radius:50%;background:var(--terrain);color:#fff;margin-right:6px}
+.codewrap{position:relative}.cpy{position:absolute;right:8px;top:8px;font:600 12.5px var(--font);border:1px solid var(--rule);background:#fff;border-radius:8px;padding:3px 10px;cursor:pointer}
+pre.prompt,pre.code,pre.out{white-space:pre-wrap;word-break:break-word;background:#f7f9fb;border:1px solid var(--rule);border-radius:10px;padding:14px 16px;font:13.5px/1.65 ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;max-height:520px;overflow:auto;margin:8px 0}
+pre.prompt{background:#fbf8ff;border-color:#d9c8f0;font-family:var(--font);font-size:14.5px}
+pre.out{background:#0f1720;color:#d8e6f0}
+.colabbtns{display:flex;flex-wrap:wrap;gap:8px}.colabbtns a.bt{text-decoration:none}
+.panel .row2{display:grid;grid-template-columns:1fr 1fr;gap:14px}@media(max-width:760px){.panel .row2{grid-template-columns:1fr}}
+.panel .cv{width:100%;height:300px;display:block;border:1px solid var(--rule);border-radius:10px;background:#fff;touch-action:none}
+.panel .cv.tall{height:360px}
+.panel .rd{display:grid;grid-template-columns:repeat(auto-fit,minmax(130px,1fr));gap:8px;margin:10px 0}
+.panel .rd div{background:var(--panel);border-radius:10px;padding:8px 10px}.panel .rd b{display:block;font-size:19px}.panel .rd span{font-size:12.5px;color:var(--muted)}
+.panel .sl{display:flex;align-items:center;gap:10px;margin:6px 0;flex-wrap:wrap}.panel .sl label{min-width:140px;font-size:14.5px}.panel .sl input[type=range]{flex:1;min-width:140px}
+.panel .msg{background:#f4fbfb;border:1px dashed var(--terrain);border-radius:10px;padding:10px 14px;margin:8px 0;font-size:15px}
+.panel textarea,.panel input[type=text]{width:100%;font:15px var(--font);padding:8px 10px;border:1px solid var(--rule);border-radius:8px}
+.panel table.mt{border-collapse:collapse;margin:6px 0}.panel table.mt td{border:1px solid var(--rule);min-width:44px;text-align:center;padding:4px 6px;font-variant-numeric:tabular-nums}
+.panel table.mt td.hl{background:var(--amber-soft);font-weight:700}.panel table.mt td.hl2{background:var(--info-soft);font-weight:700}
+.panel .step{font-variant-numeric:tabular-nums}
+.ptitle{font-weight:700;margin-bottom:6px}
+</style>
+</head>
+<body>
+<nav class="top" aria-label="섹션 바로가기"><div class="row">
+  <a class="logo" href="index.html">수리 <i>도감</i> 10</a>
+  <div class="links"><a href="#dex">도감 항목</a><a href="#lab">실험실</a><a href="#ai">AI 판단</a><a href="#colab">코랩 실습</a><a href="#sum">정리</a><a href="#kg">색인</a><a href="11_calculus.html">11장 →</a></div>
+</div></nav>
+<div class="cover" id="cover"><div class="frame"><img class="art" src="img/cover_ch10.webp" width="1920" height="1080" alt="칠판에 Cov = 1.2, r ≈ 0.775, −1 ≤ r ≤ 1이 적혀 있고 시아가 가운데서 안내한다. X1과 하루가 양옆에 있고 오른쪽 위로 올라가는 점 구름 소품. 16비트 픽셀아트." fetchpriority="high"><span class="cap">수리 도감 · MATH-10</span><span class="cover-chip">10장 상관과 공분산 — 함께 움직이는 정도 · 안내 시아</span></div></div>
+<header class="hero" id="top"><div class="wrap">
+  <div class="eyebrow">수리 도감 · 인공지능을 위한 수리적 기초 · 확률·통계 · 원자료 MATH-10 <span class="diff">이번 장 안내: 시아</span></div>
+  <h1>10장 상관과 공분산 — 함께 움직이는 정도</h1>
+  <p class="question">공부 시간이 늘면 점수도 오를까? "함께 움직인다"를 숫자 하나로 말할 수 있을까?</p>
+  <p class="lead">8장은 변수 하나를 요약했습니다. 이번엔 두 변수가 함께 움직이는지 봅니다. 공분산은 함께 움직이는 "방향"을, 상관계수 r은 단위를 지운 "방향과 세기"를 −1에서 1 사이 숫자로 말해 줘요. 원자료의 5점 예(Cov = 1.2, r ≈ 0.775)를 손으로 끝까지 계산하고, 산점도로 확인합니다.</p>
+  <p class="byline">글 · 안상선 ((주)M-Robo 대표) · <a href="https://adminmrobo.github.io/who_am_i/who_am_i.html">저자 소개</a> · 2026-11-26 · v1.0</p>
+  <div class="start"><b>처음이라면</b> 「공분산 계산 예」를 손으로 따라가 본 뒤, 실험실에서 "단위 배율"을 올려 보세요. 공분산은 커지는데 r은 그대로인 것이 이 장의 핵심이에요.</div>
+  <div class="kpis" aria-label="숫자 요약"><div class="kpi m"><b>8개</b><span>도감 항목 (슬라이드 MATH-10의 모든 상자)</span></div><div class="kpi g"><b>1개</b><span>직접 움직이는 실험실</span></div><div class="kpi a"><b>2 + 2</b><span>웃는 그림 둘, 코랩 실습 둘(AI 프롬프트·실제 코드)</span></div><div class="kpi r"><b>4문제</b><span>확인 퀴즈</span></div></div>
+</div></header>
+<main>
+<section class="sec" id="plain" aria-labelledby="h-plain"><div class="wrap"><h2 id="h-plain">처음 오신 분께 — 이 장을 3줄로</h2><ol class="plain3"><li><b>무엇을</b> 공분산 Cov(X, Y) = (x − 평균)(y − 평균)의 평균, 상관계수 r = Cov ÷ (σX σY), 산점도로 보는 관계의 모양.</li><li><b>왜 중요한가</b> 어떤 특성이 결과와 관련 있는지, 어떤 특성끼리 정보가 겹치는지 알려 줘요.</li><li><b>AI에서는</b> 특성 선택(겹치는 특성 빼기), 다중공선성 점검, 추천 시스템(취향이 함께 움직이는 사용자 찾기), 금융(함께 오르내리는 주식).</li></ol>
+<p class="plain-note">코드와 수식을 몰라도 됩니다. 항목마다 "말로 먼저"와 "숫자로 한 번 해 보기"가 먼저 나오고, 식은 "식으로 보면"을 펼칠 때만 나옵니다. 여기서 한 번 멈춰도 괜찮아요.</p>
+<details class="abbr"><summary>기호·영어 약어 풀이 (5개)</summary><div class="abbr-list"><div><b>Cov(X, Y)</b> <span>공분산</span> — 함께 움직이는 방향</div><div><b>r</b> <span>피어슨 상관계수</span> — −1 ~ 1, 단위 없음</div><div><b>σX, σY</b> <span>시그마 엑스·와이</span> — 각 변수의 표준편차</div><div><b>x̄, ȳ</b> <span>엑스 바, 와이 바</span> — 각 변수의 평균</div><div><b>EDA</b> <span>Exploratory Data Analysis</span> — 탐색적 데이터 분석</div></div></details></div></section>
+<section class="sec" id="cast" aria-labelledby="h-cast" style="padding:18px 0 0;border:0"><div class="wrap"><h3 id="h-cast">연구소 식구 — 열다섯 장을 돌아가며 안내합니다</h3>
+<div class="cast" style="grid-template-columns:repeat(auto-fit,minmax(230px,1fr))"><div class="castc" style="--cc:var(--c-doc)"><img data-mood="doc_board" alt="" aria-hidden="true"><div><b>박사</b><p>연구소 책임자. 장마다 상황 질문으로 문을 열고 해석 문장으로 닫아요.</p></div></div><div class="castc" style="--cc:var(--c-asst)"><img data-mood="asst_smile" alt="" aria-hidden="true"><div><b>조교 하루</b><p>수식 담당. 기호 하나씩 읽는 법과 뜻부터 풀어 줘요.</p></div></div><div class="castc" style="--cc:var(--c-fly)"><img data-mood="fly_point" alt="" aria-hidden="true"><div><b>조교 초파리</b><p>실험 담당. "이걸 눌러 봐"로 실험판을 열고, 답이 그럴듯한지 의심해요.</p></div></div><div class="castc" style="--cc:var(--c-robo)"><img data-mood="robo_calc" alt="" aria-hidden="true"><div><b>조교 주판봇</b><p>계산 담당. 1초 만에 답을 내지만 가끔 너무 빨라요. AI 판단 코너의 단골.</p></div></div><div class="castc host" style="--cc:var(--c-sia)"><img data-mood="sia_smile" alt="" aria-hidden="true"><div><b>시아 · 이번 장 안내</b><p>직관파 연구원. 비유부터 꺼내 "그러니까 이런 거죠?"라고 물어요.</p></div></div><div class="castc" style="--cc:var(--c-moa)"><img data-mood="moa_smile" alt="" aria-hidden="true"><div><b>모아</b><p>꼼꼼파 연구원. "그건 언제나 그래요?" 하고 조건과 예외를 물어요.</p></div></div><div class="castc" style="--cc:var(--c-x)"><img data-mood="x1_hint" alt="" aria-hidden="true"><div><b>X1</b><p>막내 연구원. 손을 번쩍 들고 엉뚱한 질문을 해요.</p></div></div><div class="castc" style="--cc:var(--c-x)"><img data-mood="x2_hint" alt="" aria-hidden="true"><div><b>X2</b><p>막내 연구원. 필기를 가장 열심히 해요.</p></div></div><div class="castc" style="--cc:var(--c-x)"><img data-mood="x3_hint" alt="" aria-hidden="true"><div><b>X3</b><p>막내 연구원. 게임과 퀴즈 시간에 가장 신나요.</p></div></div></div></div></section>
+<section class="sec" id="open" aria-labelledby="h-open"><div class="wrap">
+<h2 id="h-open"><span class="hex">10</span>두 변수가 함께 가는가</h2>
+<div class="hostcard" style="--cc:var(--c-sia)"><img data-mood="sia_smile" alt="" aria-hidden="true"><div><b>이번 장 안내 · 시아</b><p>5장에서 "두 직선이 만나는 곳"을 그림으로 안내한 시아가, 이번엔 "두 변수가 함께 가는 모양"을 점 구름 그림으로 안내합니다.</p></div></div>
+<div data-dlg="open"></div>
+<div class="chain"><span class="">08 통계 기초</span><i>→</i><span class="">09 확률분포</span><i>→</i><span class="on">10 상관과 공분산</span><i>→</i><span class="">11 미적분 기초</span><i>→</i><span class="">12 편미분과 그래디언트</span></div>
+<p class="where"><b>도감 속 자리</b> 8장의 평균·분산을 두 변수로 넓힌 장입니다. 여기서 만드는 공분산은 14장 PCA의 공분산 행렬의 재료가 되고, 상관은 5장에서 본 "특성이 겹치면 회귀가 흔들린다"(다중공선성)를 찾는 도구예요.</p>
+<div class="sis"><img data-mood="asst_report" alt="" aria-hidden="true"><p><b>조교 하루의 길 안내</b> 같은 주제를 생선 가게 AI 모델 이야기로 차례차례 따라가고 싶다면 「인공지능을 위한 수학」 <a href="https://adminmrobo.github.io/math_for_ai_lab/part2.html#c07">2부 7장 상관·공분산</a>을 함께 보세요. 이야기로 흐름을 잡고, 이 도감으로 낱말을 찾아보는 식으로 쓰면 좋아요.</p></div>
+<figure class="toon" id="toon1"><div class="tframe"><img src="img/toon/ch10_a.webp" width="1200" height="800" loading="lazy" alt="픽셀아트. 해변에서 아이스크림 판매 그래프와 상어 출몰 그래프가 나란히 함께 올라간다. 주판봇이 &quot;아이스크림이 상어를 부른다!&quot;며 아이스크림을 숨기고, 모아가 커다란 해를 가리키며 &quot;범인은 여름&quot;이라고 한다."></div><figcaption><b class="ttl">웃는 그림 1 · 아이스크림과 상어</b><div class="tline"><img data-mood="robo_wow" alt="" aria-hidden="true"><p><b>조교 주판봇</b> r = 0.9! 아이스크림을 팔면 상어가 온다! 판매 금지!</p></div><div class="tline"><img data-mood="moa_report" alt="" aria-hidden="true"><p><b>모아</b> 둘 다 여름에 늘어나는 거잖아요. 진짜 원인은 더위예요.</p></div><div class="tline"><img data-mood="sia_smile" alt="" aria-hidden="true"><p><b>시아</b> 그러니까 함께 움직인다고 서로 원인은 아닌 거죠?</p></div><p class=tpoint><b>그림 속 수학</b> 상관관계 ≠ 인과관계. 숨은 공통 원인(교란 변수)이 두 변수를 함께 움직일 수 있다.</p></figcaption></figure>
+</div></section>
+<section class="sec" id="dex" aria-labelledby="h-dex"><div class="wrap">
+<h2 id="h-dex"><span class="hex">도감</span>도감 항목 — 8개</h2>
+<p>슬라이드 MATH-10의 상자를 하나도 빼지 않고 항목으로 옮겼습니다. 이름표를 눌러 바로 가세요.</p>
+<div class="dexidx"><a href="#m10-cov">공분산이란</a><a href="#m10-interp">공분산 읽기</a><a href="#m10-covex">공분산 계산 예</a><a href="#m10-corr">상관계수란</a><a href="#m10-correx">상관계수 계산 예</a><a href="#m10-scatter">산점도와 상관</a><a href="#m10-vs">공분산 vs 상관</a><a href="#m10-ml">ML에서의 쓰임과 정리</a></div>
+<article class="dex" id="m10-cov" data-dex="공분산이란"><header><span class="dexno">10-01</span><h3>공분산이란 <small>What is Covariance</small></h3></header><p class="one">두 변수가 같은 방향으로 움직이는지(+) 반대로 움직이는지(−) 알려 주는 값. Cov = Σ(xᵢ − x̄)(yᵢ − ȳ) / n.</p><div class="dexgrid"><div class="dw"><b>말로 먼저</b> 각 점에서 "x가 평균보다 큰가"와 "y가 평균보다 큰가"를 곱해요. 둘 다 크거나 둘 다 작으면 곱이 양수, 엇갈리면 음수예요. 이 곱들의 평균이 공분산입니다. 다만 크기는 단위에 따라 달라져서 "얼마나 강한가"는 말해 주지 못해요.</div><div class="try"><b>숫자로 한 번 해 보기</b><ol><li>평균보다 둘 다 큰 점 (5, 5): (+2) × (+1) = +2</li><li>둘 다 작은 점 (1, 2): (−2) × (−2) = +4</li><li>엇갈린 점이 있으면 음수가 더해짐</li></ol></div></div><div class="pair"><div><div class="tl">학교 수학으로 보면</div>중3 "편차", 고등 "상관관계"의 수식판(대학 통계).</div><div><div class="tr">AI에서는</div>공분산 행렬(14장)의 한 항목. 특성들이 함께 움직이는 구조를 한 표로 정리해요.</div></div><details class="eqx"><summary>식으로 보면 (몰라도 됩니다)</summary><table class="ez-tb"><thead><tr><th>식 조각</th><th>읽는 법</th><th>뜻</th></tr></thead><tbody><tr><td class="m">Cov(X,Y) = (1/n) Σ (xᵢ − x̄)(yᵢ − ȳ)</td><td>공분산</td><td>편차 곱의 평균</td></tr></tbody></table></details></article>
+<article class="dex" id="m10-interp" data-dex="공분산 읽기"><header><span class="dexno">10-02</span><h3>공분산 읽기 <small>Interpretation of Covariance</small></h3></header><p class="one">Cov > 0 함께 증가, Cov < 0 하나가 늘면 다른 하나가 줆, Cov = 0 직선 관계 없음.</p><div class="dexgrid"><div class="dw"><b>말로 먼저</b> 공부 시간↑·점수↑는 양수, 가격↑·수요↓는 음수예요. 0이면 "직선 관계가 없다"는 뜻일 뿐, 아무 관계도 없다는 뜻은 아니에요(곡선 관계는 있을 수 있음).</div><div class="try"><b>숫자로 한 번 해 보기</b><ol><li>공부 시간과 점수 → Cov > 0</li><li>가격과 판매량 → Cov < 0</li><li>키와 생일 날짜 → Cov ≈ 0 (관련 없음)</li></ol></div></div><div class="pair"><div><div class="tl">학교 수학으로 보면</div>고등 "양의 상관관계·음의 상관관계".</div><div><div class="tr">AI에서는</div>음의 공분산도 유용한 정보예요. "할인율↑ → 반품률↓" 같은 관계를 모델이 씁니다.</div></div><p class="dexwarn"><b>헷갈리기 쉬운 점</b> 원자료 표의 "키와 신발 크기(관련 없을 수도)"는 실제로는 양의 관계가 있는 경우가 많아, 이 도감에서는 "키와 생일 날짜"로 바꿨습니다.</p></article>
+<article class="dex" id="m10-covex" data-dex="공분산 계산 예"><header><span class="dexno">10-03</span><h3>공분산 계산 예 <small>Example: Covariance Calculation</small></h3></header><p class="one">X = 1, 2, 3, 4, 5, Y = 2, 4, 5, 4, 5 → Cov = 6/5 = 1.2 (양의 관계).</p><div class="dexgrid"><div class="dw"><b>말로 먼저</b> 평균은 x̄ = 3, ȳ = 4. 다섯 점의 편차 곱을 구해 더하고 5로 나눕니다.</div><div class="try"><b>숫자로 한 번 해 보기</b><ol><li>(1−3)(2−4) = (−2)(−2) = 4</li><li>(2−3)(4−4) = 0, (3−3)(5−4) = 0, (4−3)(4−4) = 0</li><li>(5−3)(5−4) = (2)(1) = 2</li><li>합 6 ÷ 5 = 1.2</li></ol></div></div><div class="pair"><div><div class="tl">학교 수학으로 보면</div>평균·편차 계산(중3).</div><div><div class="tr">AI에서는</div>코드로는 np.cov(x, y, ddof=0)[0, 1]. 기본값(ddof=1)은 n − 1로 나눠 1.5가 나오니 주의.</div></div></article>
+<article class="dex" id="m10-corr" data-dex="상관계수란"><header><span class="dexno">10-04</span><h3>상관계수란 <small>What is Correlation</small></h3></header><p class="one">두 변수의 직선 관계의 세기와 방향. r = Cov(X, Y) / (σX σY), 늘 −1 ≤ r ≤ 1.</p><div class="dexgrid"><div class="dw"><b>말로 먼저</b> 공분산을 두 표준편차로 나누면 단위가 사라져서 "키와 몸무게"든 "온도와 아이스크림 판매"든 같은 잣대로 비교할 수 있어요. r = 1 완벽한 양의 직선, 0 < r < 1 양의 관계(1에 가까울수록 강함), r = 0 직선 관계 없음, −1 < r < 0 음의 관계, r = −1 완벽한 음의 직선.</div><div class="try"><b>숫자로 한 번 해 보기</b><ol><li>r = 0.9 → 강한 양의 관계</li><li>r = 0.3 → 약한 양의 관계</li><li>r = −0.8 → 강한 음의 관계</li></ol></div></div><div class="pair"><div><div class="tl">학교 수학으로 보면</div>고등 "상관계수"(통계, 교과서 심화).</div><div><div class="tr">AI에서는</div>가장 흔한 것은 피어슨 상관계수. 순위만 보는 스피어만 상관도 있어요.</div></div><details class="eqx"><summary>식으로 보면 (몰라도 됩니다)</summary><table class="ez-tb"><thead><tr><th>식 조각</th><th>읽는 법</th><th>뜻</th></tr></thead><tbody><tr><td class="m">r = Cov(X,Y) / (σX σY)</td><td>피어슨 상관계수</td><td>−1 ≤ r ≤ 1</td></tr></tbody></table></details></article>
+<div data-dlg="mid"></div>
+<article class="dex" id="m10-correx" data-dex="상관계수 계산 예"><header><span class="dexno">10-05</span><h3>상관계수 계산 예 <small>Example: Correlation Calculation</small></h3></header><p class="one">같은 5점에서 σX = √2 ≈ 1.414, σY = √1.2 ≈ 1.095 → r = 1.2 / 1.549 ≈ 0.775.</p><div class="dexgrid"><div class="dw"><b>말로 먼저</b> 공분산 1.2는 앞에서 구했어요. 각 변수의 표준편차를 구해 곱하고 나누면 됩니다.</div><div class="try"><b>숫자로 한 번 해 보기</b><ol><li>σX = √[((−2)² + (−1)² + 0² + 1² + 2²)/5] = √(10/5) = √2 ≈ 1.414</li><li>σY = √[((−2)² + 0² + 1² + 0² + 1²)/5] = √(6/5) = √1.2 ≈ 1.095</li><li>r = 1.2 / (1.414 × 1.095) = 1.2 / 1.549 ≈ 0.775 → 꽤 강한 양의 관계</li></ol></div></div><div class="pair"><div><div class="tl">학교 수학으로 보면</div>표준편차 계산(중3) + 나눗셈.</div><div><div class="tr">AI에서는</div>np.corrcoef(x, y)[0, 1] = 0.7746. 상관계수는 n과 n − 1 어느 쪽으로 나눠도 같은 값이 나와요(분자·분모에서 지워짐).</div></div></article>
+<article class="dex" id="m10-scatter" data-dex="산점도와 상관"><header><span class="dexno">10-06</span><h3>산점도와 상관 <small>Scatter Plots and Correlation</small></h3></header><p class="one">점 구름의 모양으로 상관을 눈으로 본다: 강한 양(r ≈ 1), 강한 음(r ≈ −1), 없음(r ≈ 0), 약한 양(r > 0).</p><div class="dexgrid"><div class="dw"><b>말로 먼저</b> 점이 오른쪽 위로 한 줄에 몰리면 r이 1에 가깝고, 오른쪽 아래로 몰리면 −1에 가까워요. 아무렇게나 흩어지면 0 근처. 숫자 r만 보지 말고 늘 그림을 함께 봐야 해요. 튀는 점 하나나 곡선 관계가 r을 속이거든요.</div><div class="try"><b>숫자로 한 번 해 보기</b><ol><li>직선 위의 점들 → r = 1</li><li>y = x² (−3 ~ 3) → 뚜렷한 관계인데 r = 0</li><li>점 하나가 멀리 튀면 r이 크게 바뀜</li></ol></div></div><div class="pair"><div><div class="tl">학교 수학으로 보면</div>고등 "산점도와 상관관계".</div><div><div class="tr">AI에서는</div>EDA에서 특성 쌍마다 산점도를 그려 보는 "페어 플롯"을 자주 그립니다.</div></div></article>
+<article class="dex" id="m10-vs" data-dex="공분산 vs 상관"><header><span class="dexno">10-07</span><h3>공분산 vs 상관 <small>Covariance vs Correlation</small></h3></header><p class="one">공분산: 방향만, 범위 −∞~+∞, 단위에 따라 바뀜. 상관: 방향과 세기, −1~+1, 단위 없음.</p><div class="dexgrid"><div class="dw"><b>말로 먼저</b> 키를 cm에서 mm로 바꾸면 공분산은 10배가 되지만 상관계수는 그대로예요. 그래서 공분산은 예비 분석이나 PCA의 재료로, 상관은 ML과 통계 해석에서 널리 씁니다.</div><div class="try"><b>숫자로 한 번 해 보기</b><ol><li>Y를 10배 → Cov 1.2 → 12</li><li>같은 경우 r = 0.775 → 0.775</li><li>해석: 공분산 = 양/음/0, 상관 = 방향 + 세기</li></ol></div></div><div class="pair"><div><div class="tl">학교 수학으로 보면</div>단위 변환과 비율.</div><div><div class="tr">AI에서는</div>특성 크기가 다르면 공분산 행렬보다 상관 행렬(표준화한 데이터의 공분산)로 PCA를 하기도 해요.</div></div></article>
+<article class="dex" id="m10-ml" data-dex="ML에서의 쓰임과 정리"><header><span class="dexno">10-08</span><h3>ML에서의 쓰임과 정리 <small>Real-World Use in ML</small></h3></header><p class="one">특성 선택(겹치는 특성 제거), 회귀의 다중공선성 이해, 중요한 특성 찾기, EDA, 추천·금융·의료.</p><div class="dexgrid"><div class="dw"><b>말로 먼저</b> 정리: 공분산은 관계의 방향, 상관은 세기와 방향을 재고, 상관값은 언제나 −1과 1 사이이며, 산점도로 확인하고, 데이터 분석과 ML에서 널리 쓰입니다. 그리고 가장 중요한 주의 — 상관은 인과가 아니에요.</div><div class="try"><b>숫자로 한 번 해 보기</b><ol><li>키(cm)와 키(inch)는 r = 1 → 하나만 남김</li><li>아이스크림 판매와 익사 사고는 r > 0 → 둘 다 "여름" 때문(인과 아님)</li><li>결과와 |r|이 큰 특성 → 후보 특성</li></ol></div></div><div class="pair"><div><div class="tl">학교 수학으로 보면</div>—</div><div><div class="tr">AI에서는</div>상관이 아주 높은 특성 둘을 함께 넣으면 회귀 계수가 크게 흔들려요(다중공선성). 릿지 회귀(5장)나 PCA(14장)로 다룹니다.</div></div><p class="dexwarn"><b>헷갈리기 쉬운 점</b> 상관관계 ≠ 인과관계. 숨은 공통 원인(교란 변수)이 둘을 함께 움직일 수 있어요.</p></article>
+</div></section>
+<section class="sec" id="lab" aria-labelledby="h-lab"><div class="wrap">
+<h2 id="h-lab"><span class="hex">실험</span>점 구름 실험실 — 함께 움직이는 정도를 숫자 하나로</h2>
+<div data-dlg="lab_o"></div>
+<div class="easy"><details class="ez-why" open><summary>왜 이 방법을 쓰나</summary><ol><li>문제: 쇼핑몰 특성 50개 중 어느 것이 "구매 금액"과 함께 움직이는지 빨리 골라내고 싶습니다.</li><li>앞 방법의 한계: 공분산은 단위에 따라 크기가 달라져 "원 단위 금액"과 "횟수"를 같은 잣대로 비교할 수 없습니다.</li><li><b>이 방법의 해법: 표준편차로 나눠 단위를 지운 상관계수 r(−1~1)로 모든 특성을 같은 잣대에 올립니다.</b></li></ol><p class="ez-easy"><b>쉽게 말하면</b> 키 차이와 몸무게 차이를 각자의 "보통 차이"로 나눠 비교하는 것.</p></details><div class="ez-math"><div class="ez-t">연구원이 묻고, 조교 하루가 풀어 봅니다</div><div class="ez-q"><img data-mood="sia_smile" alt="" aria-hidden="true"><p><b style="display:block;font-size:12.5px;color:var(--muted)">시아</b>공분산을 표준편차 두 개로 나누면 왜 단위가 사라져요?</p></div><p><b>말로 먼저</b> 공분산의 단위는 "X 단위 × Y 단위"(예: cm × kg)예요. σX는 cm, σY는 kg이라 둘을 곱해 나누면 단위가 지워지고 순수한 숫자만 남아요.</p><p><b>학교 수학으로 보면</b> 단위 계산, 분수의 약분.</p><div class="try" style="background:#fff;border:1px dashed #e8b67a;border-radius:10px;padding:10px 14px"><b>숫자로 한 번 해 보기</b><ol style="margin:6px 0 0;padding-left:22px"><li>Cov = 1.2 (단위: X × Y)</li><li>σX σY = 1.414 × 1.095 = 1.549 (단위: X × Y)</li><li>r = 1.2 / 1.549 ≈ 0.775 (단위 없음)</li></ol></div><details class="eqx"><summary>식으로 보면 (몰라도 됩니다)</summary><table class="ez-tb"><thead><tr><th>식 조각</th><th>읽는 법</th><th>뜻</th></tr></thead><tbody><tr><td>Cov(X,Y)</td><td>공분산</td><td>X 단위 × Y 단위</td></tr><tr><td>σX σY</td><td>표준편차 곱</td><td>X 단위 × Y 단위</td></tr><tr><td>r</td><td>상관계수</td><td>단위 없음, −1~1</td></tr></tbody></table></details><div class="ez-q ez-c"><img data-mood="asst_spark" alt="" aria-hidden="true"><p><b style="display:block;font-size:12.5px;color:var(--muted)">조교 하루</b>실험실에서 단위 배율을 ×10으로 올려 보세요. Cov는 10배, r은 그대로예요.</p></div></div></div>
+<div class="dialog lvtalk" data-dlg="lab_t"></div>
+<div class="panel" id="w-ch10" data-w="corr"></div>
+<div class="say" data-who="doc"><img class="who" data-mood="doc_judge" alt="" aria-hidden="true"><div><b class="name">박사의 정리</b><p>상관계수는 "직선으로 얼마나 함께 가는가"만 재는 자입니다. 곡선 관계, 튀는 점, 숨은 원인은 이 자로 보이지 않아요. 그래서 r은 늘 산점도와 한 쌍으로 읽고, 높은 r을 보면 "왜 함께 움직일까?"를 꼭 물어야 합니다.</p></div></div>
+<div class="lim"><b>이 실험의 한계</b> 실험실의 점은 정규분포로 만든 가상 데이터예요. 실제 데이터는 곡선 관계나 여러 무리가 섞인 모양이 흔합니다.</div>
+<figure class="toon" id="toon2"><div class="tframe"><img src="img/toon/ch10_b.webp" width="1200" height="800" loading="lazy" alt="픽셀아트. 칠판에 U자 모양으로 늘어선 점들이 그려져 있고 주판봇 화면에 &quot;r = 0, 관계 없음&quot;이 뜬다. 초파리가 돋보기로 U자를 따라가며 &quot;이건 관계가 아주 뚜렷한데?&quot;라고 한다."></div><figcaption><b class="ttl">웃는 그림 2 · r = 0의 함정</b><div class="tline"><img data-mood="robo_calc" alt="" aria-hidden="true"><p><b>조교 주판봇</b> y = x² 점들의 상관계수 0! 두 변수는 아무 관계 없음!</p></div><div class="tline"><img data-mood="fly_magnify" alt="" aria-hidden="true"><p><b>조교 초파리</b> y가 x로 완벽히 정해지는데 관계가 없다고? r은 직선 관계만 재는 자야.</p></div><div class="tline"><img data-mood="asst_firm" alt="" aria-hidden="true"><p><b>조교 하루</b> 산점도를 먼저 그렸다면 바로 보였을 거예요.</p></div><p class=tpoint><b>그림 속 수학</b> r = 0은 "직선 관계가 없다"는 뜻. 곡선 관계는 r이 0이어도 강할 수 있다. 숫자와 그림을 함께.</p></figcaption></figure>
+<div class="aibox" id="ai"><div class="aihead"><span class="aitag">AI 판단 코너</span>주판봇의 "공분산 1200 > 1.2니까 둘째 데이터의 관계가 훨씬 강하다"</div><div data-dlg="ai_d"></div><p>박사는 늘 두 가지를 묻습니다. "가정이 맞나? 숫자가 그럴듯한가?"</p><ol><li>가정이 맞나? 두 데이터의 단위가 같은가요? (첫째는 m, 둘째는 mm로 잰 것이라면?)</li><li>숫자가 그럴듯한가? 두 데이터의 상관계수를 각각 구하면 얼마인가요?</li></ol><details class="eqx"><summary>확인해 보기 (먼저 스스로 따져 본 뒤 펼치세요)</summary><p class="aiverdict">공분산은 단위에 따라 크기가 달라져요. 같은 관계라도 한쪽을 1000배 큰 단위로 재면 공분산은 1000배가 됩니다. 세기를 비교하려면 상관계수를 봐야 하고, 두 데이터의 r이 모두 0.775라면 관계의 세기는 같아요. "공분산의 크기로 세기를 비교하지 않는다" — 원자료 1번 상자의 마지막 줄이 바로 이 말입니다.</p><div data-dlg="ai_e"></div></details></div>
+<h3 id="quiz">확인 퀴즈</h3>
+<div class="quiz" data-quiz="q"></div>
+</div></section>
+<section class="sec" id="colab" aria-labelledby="h-colab"><div class="wrap">
+<h2 id="h-colab"><span class="hex">실습</span>코랩 실습실 — 배운 것을 직접 돌려 보기</h2>
+<p>두 가지 방법이 있어요. ① 생성 AI에게 프롬프트를 주고 코드를 만들게 해 보기, ② 연구소가 미리 만들어 검사까지 마친 코드를 돌려 보기. 둘을 나란히 돌려 결과를 비교하면, AI가 낸 코드를 믿어도 되는지 스스로 판단하는 연습이 됩니다.</p>
+<div data-dlg="colab"></div>
+<div class="labbox"><div class="labh"><span class="lno">①</span> 생성 AI로 실습하기 — 코랩 파이썬 프롬프트</div>
+<p>구글 코랩(Colab)의 Gemini 창이나 ChatGPT·Claude 같은 생성 AI에 아래 글을 그대로 붙여 넣으세요. AI가 만든 코드를 코랩 셀에 붙여 넣고 실행합니다.</p>
+<div class="codewrap"><button type="button" class="cpy" data-copy="p-ch10">복사</button><pre class="prompt" id="p-ch10">너는 고등학생에게 공분산과 상관계수를 가르치는 파이썬 선생님이야. 구글 코랩에서 실행되는 코드를 만들어 줘.
+주제: 공분산, 피어슨 상관계수, 산점도, 상관≠인과
+요구 사항:
+1. X = [1,2,3,4,5], Y = [2,4,5,4,5]로 공분산(n으로 나눔)과 상관계수를 반복문으로 직접 계산하고, np.cov(ddof=0), np.corrcoef 결과와 비교해 줘. np.cov의 기본값(ddof=1)이 1.5를 내는 이유도 주석으로 설명해 줘.
+2. Y를 10배, 1000배 했을 때 공분산과 상관계수가 각각 어떻게 바뀌는지 표로 출력해 줘.
+3. 상관계수가 0.95, -0.9, 0, 0.4 정도인 가상 데이터(seed 고정, 각 100점)를 만들어 2×2 산점도를 그려 줘(제목에 실제 r 표시, 영어).
+4. y = x² (x는 -3~3) 데이터의 상관계수가 0에 가깝다는 것을 보여 주고 그림도 그려 줘.
+5. 데이터에 튀는 점 하나를 넣어 r이 얼마나 바뀌는지 보여 줘.
+6. 모든 줄에 한국어 주석.</pre></div></div>
+<div class="labbox"><div class="labh"><span class="lno">②</span> 실제로 돌아가는 코드 — 파이썬 · 코랩</div>
+<p>연구소가 직접 실행해 결과를 확인한 코드입니다. 버튼 하나로 코랩에서 바로 열 수 있어요(구글 계정만 있으면 설치할 것이 없습니다).</p>
+<p class="colabbtns"><a class="bt primary" href="https://colab.research.google.com/github/adminmrobo/math_basic_for_ai_dictionary/blob/main/colab/ch10_correlation.ipynb" target="_blank" rel="noopener">코랩에서 열기</a> <a class="bt" href="code/colab_py/ch10_correlation.py" download>.py 내려받기</a> <a class="bt" href="colab/ch10_correlation.ipynb" download>.ipynb 내려받기</a></p>
+<details class="fold"><summary>코드 펼치기 (몰라도 됩니다 · 35줄)</summary><div class="codewrap"><button type="button" class="cpy" data-copy="c-ch10">복사</button><pre class="code" id="c-ch10"><code># %% 1. 공분산과 상관계수: 직접 vs numpy
+import numpy as np
+import matplotlib.pyplot as plt
+
+X = np.array([1, 2, 3, 4, 5], dtype=float); Y = np.array([2, 4, 5, 4, 5], dtype=float)
+mx, my = X.mean(), Y.mean()
+cov = sum((x - mx) * (y - my) for x, y in zip(X, Y)) / len(X)
+sx = np.sqrt(sum((x - mx) ** 2 for x in X) / len(X)); sy = np.sqrt(sum((y - my) ** 2 for y in Y) / len(Y))
+r = cov / (sx * sy)
+print(f&quot;평균 x={mx}, y={my} / 공분산 = {cov} / σx = {sx:.3f}, σy = {sy:.3f} / r = {r:.4f}&quot;)
+print(&quot;np.cov(ddof=0) =&quot;, np.cov(X, Y, ddof=0)[0, 1], &quot;/ np.cov 기본(ddof=1) =&quot;, np.cov(X, Y)[0, 1], &quot;(n-1로 나눔)&quot;)
+print(&quot;np.corrcoef =&quot;, round(np.corrcoef(X, Y)[0, 1], 4))
+
+# %% 2. 단위를 바꾸면?
+print(&quot;배율 |   공분산 | 상관계수&quot;)
+for k in [1, 10, 1000]:
+    print(f&quot;{k:&gt;4} | {np.cov(X, Y * k, ddof=0)[0, 1]:&gt;8.1f} | {np.corrcoef(X, Y * k)[0, 1]:.4f}&quot;)
+
+# %% 3. 여러 상관의 산점도
+rng = np.random.default_rng(0)
+fig, axes = plt.subplots(2, 2, figsize=(8, 7))
+for ax, target in zip(axes.ravel(), [0.95, -0.9, 0.0, 0.4]):
+    a, b = rng.normal(size=100), rng.normal(size=100)
+    x, y = a, target * a + np.sqrt(1 - target ** 2) * b
+    ax.scatter(x, y, s=12); ax.set_title(f&quot;r = {np.corrcoef(x, y)[0, 1]:.2f}&quot;)
+plt.tight_layout(); plt.show()
+
+# %% 4. 곡선 관계는 r = 0일 수 있다
+xs = np.linspace(-3, 3, 61); ys = xs ** 2
+print(&quot;y = x^2 의 상관계수 =&quot;, round(np.corrcoef(xs, ys)[0, 1], 6))
+plt.scatter(xs, ys, s=10); plt.title(&quot;y = x^2 : strong relation, r = 0&quot;); plt.show()
+
+# %% 5. 튀는 점 하나의 힘
+x5, y5 = np.append(X, 6), np.append(Y, 0)
+print(f&quot;점 (6, 0) 하나를 넣으면 r: {np.corrcoef(X, Y)[0, 1]:.3f} -&gt; {np.corrcoef(x5, y5)[0, 1]:.3f}&quot;)</code></pre></div></details>
+<details class="fold"><summary>실행하면 이렇게 나옵니다 (연구소에서 돌린 결과)</summary><pre class="out">평균 x=3.0, y=4.0 / 공분산 = 1.2 / σx = 1.414, σy = 1.095 / r = 0.7746
+np.cov(ddof=0) = 1.2000000000000002 / np.cov 기본(ddof=1) = 1.5 (n-1로 나눔)
+np.corrcoef = 0.7746
+배율 |   공분산 | 상관계수
+   1 |      1.2 | 0.7746
+  10 |     12.0 | 0.7746
+1000 |   1200.0 | 0.7746
+y = x^2 의 상관계수 = 0.0
+점 (6, 0) 하나를 넣으면 r: 0.775 -&gt; -0.217</pre><p class="muted" style="font-size:13px">그래프 창은 코랩 화면에 함께 나타납니다. 무작위 실험이 있는 코드는 seed를 고정해 같은 숫자가 나오게 했어요.</p></details></div>
+<div class="labbox"><div class="labh"><span class="lno">③</span> 비교 과제 — AI 코드와 연구소 코드 맞대 보기</div><ol><li>공분산 1.2와 r ≈ 0.775가 나왔는지 확인하세요. AI가 np.cov를 기본값으로 썼다면 1.5가 나왔을 거예요.</li><li>단위 배율 실험에서 r이 소수 셋째 자리까지 그대로인지 보세요.</li><li>AI 코드의 결과 문장에 "원인"이라는 말이 있다면, 상관만으로 그렇게 말해도 되는지 따져 보세요.</li></ol></div>
+</div></section>
+<section class="sec" id="sum" aria-labelledby="h-sum"><div class="wrap">
+<h2 id="h-sum">정리 — 함께 가는 정도를 −1~1로</h2>
+<div class="tblwrap"><table class="cmp"><thead><tr><th>질문</th><th>답 한 줄</th></tr></thead><tbody><tr><td>공분산은?</td><td>편차 곱의 평균. 방향(+, −, 0)을 알려 줌. 원자료 예 1.2.</td></tr><tr><td>상관계수는?</td><td>Cov ÷ (σX σY). 방향과 세기, −1~1. 원자료 예 0.775.</td></tr><tr><td>둘의 차이는?</td><td>공분산은 단위에 따라 크기가 바뀌고, r은 단위가 없음.</td></tr><tr><td>산점도는 왜?</td><td>r이 놓치는 곡선 관계와 튀는 점을 보여 줌.</td></tr><tr><td>가장 큰 주의는?</td><td>상관은 인과가 아니다.</td></tr></tbody></table></div>
+<h3>용어 대응 카드</h3><div class="gloss"><div><b>공분산이란</b> = 두 변수가 같은 방향으로 움직이는지(+) 반대로 움직이는지(−) 알려 주는 값. Cov = Σ(xᵢ − x̄)(yᵢ − ȳ) / n.</div><div><b>공분산 읽기</b> = Cov > 0 함께 증가, Cov < 0 하나가 늘면 다른 하나가 줆, Cov = 0 직선 관계 없음.</div><div><b>공분산 계산 예</b> = X = 1, 2, 3, 4, 5, Y = 2, 4, 5, 4, 5 → Cov = 6/5 = 1.2 (양의 관계).</div><div><b>상관계수란</b> = 두 변수의 직선 관계의 세기와 방향. r = Cov(X, Y) / (σX σY), 늘 −1 ≤ r ≤ 1.</div><div><b>상관계수 계산 예</b> = 같은 5점에서 σX = √2 ≈ 1.414, σY = √1.2 ≈ 1.095 → r = 1.2 / 1.549 ≈ 0.775.</div><div><b>산점도와 상관</b> = 점 구름의 모양으로 상관을 눈으로 본다: 강한 양(r ≈ 1), 강한 음(r ≈ −1), 없음(r ≈ 0), 약한 양(r > 0).</div><div><b>공분산 vs 상관</b> = 공분산: 방향만, 범위 −∞~+∞, 단위에 따라 바뀜. 상관: 방향과 세기, −1~+1, 단위 없음.</div><div><b>ML에서의 쓰임과 정리</b> = 특성 선택(겹치는 특성 제거), 회귀의 다중공선성 이해, 중요한 특성 찾기, EDA, 추천·금융·의료.</div></div>
+<h3>원자료와 다르게 쓴 곳</h3><ul><li>원자료 2번 표의 "키와 신발 크기(관련 없을 수도)"를 공분산 0의 예로 쓰지 않고 "키와 생일 날짜"로 바꿨습니다. 키와 신발 크기는 실제로 양의 관계가 있는 경우가 많기 때문입니다.</li><li>원자료 7번 표에 "상관 ≠ 인과"와 "r = 0이어도 곡선 관계가 있을 수 있다"는 주의를 덧붙였습니다.</li></ul>
+<h3>비유와 예시의 한계</h3><ul><li>"보통 차이로 나눈다"는 비유는 r의 단위 제거까지만 설명합니다.</li><li>피어슨 r은 직선 관계만 잽니다. 순위 관계는 스피어만 상관을 씁니다.</li></ul>
+<div class="next"><a href="09_distributions.html"><b>← 09장 확률분포</b><br>이항·포아송·정규</a><a href="index.html"><b>도감 목차</b><br>열다섯 장과 항목 찾기</a><a href="11_calculus.html"><b>11장 미적분 기초 →</b><br>극한·미분·적분</a></div>
+</div></section>
+<section class="sec" id="outro" aria-labelledby="h-outro"><div class="wrap"><h2 id="h-outro">아웃트로 — 다음 장으로</h2><div data-dlg="outro"></div></div></section>
+</main>
+<footer><div class="wrap">
+<h3>출처</h3>
+<table><thead><tr><th>#</th><th>자료</th><th>이 페이지에서 쓴 곳</th></tr></thead><tbody><tr><td>[1]</td><td>연구소 수학 노트 MATH-10 「Correlation & Covariance」 (인포그래픽 한 장)</td><td>도감 항목 전부, 예시 숫자</td></tr></tbody></table>
+<h3>예시값·설명용 모형인 것</h3><ul><li>항목의 숫자 예시는 설명용이며 연구소가 검산했습니다(code/check_numbers.py).</li><li>코랩 코드는 교육용 예제이며 실제 서비스에 그대로 쓰는 코드가 아닙니다.</li></ul>
+<p>캐릭터 이름·설정·그림은 저작권자 안상선의 허락 없이 사용할 수 없습니다.</p>
+<p>글 · 안상선 ((주)M-Robo 대표) · <a href="https://adminmrobo.github.io/who_am_i/who_am_i.html">저자 소개</a> · <a href="index.html">수리 도감 목차</a> · 자매편 <a href="https://adminmrobo.github.io/hello_space_lab/index.html">좌표 첫걸음</a> · <a href="https://adminmrobo.github.io/optimization_3d_map/first_step_0.html">최적화 첫걸음</a></p>
+</div></footer>
+<script>
+/*@@SPRITES@@*/
+/*@@COMMON@@*/
+/*@@MATHLAB@@*/
+(function(){
+'use strict';
+U.dialogues({"open": [["sia", "sia_guide", "10장은 다시 시아가 안내해요. 질문: 친구들의 공부 시간과 시험 점수를 점으로 찍으면 어떤 모양이 될까요?"], ["x1", "x1_hint", "오른쪽 위로 올라가는 모양이요! 많이 공부하면 점수가 높으니까요."], ["sia", "sia_explain", "그 \"오른쪽 위로 가는 정도\"를 숫자 하나로 만든 게 오늘의 주인공이에요. 공분산과 상관계수."], ["moa", "moa_report", "그 숫자가 크면 공부가 점수의 원인이라는 거예요?"], ["sia", "sia_smile", "그게 바로 오늘 조심할 함정이에요! 숫자와 그림을 같이 보면서 천천히 가요. 계산은 앞에서 배운 평균과 편차뿐이에요."]], "mid": [["x2", "x2_hint", "(필기) 공분산 1.2, 상관계수 0.775. 둘 다 양수."], ["asst", "asst_smile", "이제 두 숫자의 차이와, 숫자만 믿으면 안 되는 이유를 봐요."]], "lab_o": [["doc", "doc_board", "상황: 같은 학생들의 키를 한 번은 m로, 한 번은 mm로 적어 몸무게와의 공분산을 구했습니다. 어느 쪽 관계가 더 강할까요?"]], "lab_t": [["robo", "robo_calc", "mm 쪽 공분산이 1000배 크니까 관계도 1000배 강함!"], ["fly", "fly_point", "같은 학생들인데? 이걸 눌러 봐. 단위 배율을 올리면서 Cov와 r을 같이 보자."], ["asst", "asst_report", "보고: 배율을 올리면 공분산만 따라 커지고 r은 그대로예요."]], "ai_d": [["robo", "robo_happy", "공분산 1200짜리 데이터가 1.2짜리보다 관계가 1000배 강하다!"], ["doc", "doc_think", "두 데이터의 단위부터 확인해 볼까요?"]], "ai_e": [["robo", "robo_blush", "mm와 m였구나… r은 둘 다 0.775."], ["sia", "sia_think", "그러니까 세기를 비교할 땐 무조건 r이네요."]], "colab": [["sia", "sia_guide", "y = x² 그림을 꼭 그려 보세요. r이 0인데 관계가 뚜렷한 모습을 보면, 다시는 숫자만 믿지 않게 돼요!"]], "outro": [["doc", "doc_judge", "해석 문장: \"공분산은 함께 움직이는 방향, 상관계수는 단위 없는 방향과 세기. 그리고 함께 움직인다고 원인은 아니다.\""], ["robo", "robo_coin", "이제 \"변화\"를 재 볼 차례! 1초에 얼마나 빨리 변하는지, 미분!"], ["robo", "robo_smile", "11장 미적분 기초는 다시 계산 담당 주판봇이 안내한다. 이번엔 성급하지 않게!"]]});
+U.fillImgs();
+ML.mountAll();
+ML.copyButtons();
+U.Gloss({"공분산이란": ["공분산이란", "What is Covariance", "두 변수가 같은 방향으로 움직이는지(+) 반대로 움직이는지(−) 알려 주는 값. Cov = Σ(xᵢ − x̄)(yᵢ − ȳ) / n."], "공분산 읽기": ["공분산 읽기", "Interpretation of Covariance", "Cov > 0 함께 증가, Cov < 0 하나가 늘면 다른 하나가 줆, Cov = 0 직선 관계 없음."], "공분산 계산 예": ["공분산 계산 예", "Example: Covariance Calculation", "X = 1, 2, 3, 4, 5, Y = 2, 4, 5, 4, 5 → Cov = 6/5 = 1.2 (양의 관계)."], "상관계수란": ["상관계수란", "What is Correlation", "두 변수의 직선 관계의 세기와 방향. r = Cov(X, Y) / (σX σY), 늘 −1 ≤ r ≤ 1."], "상관계수 계산 예": ["상관계수 계산 예", "Example: Correlation Calculation", "같은 5점에서 σX = √2 ≈ 1.414, σY = √1.2 ≈ 1.095 → r = 1.2 / 1.549 ≈ 0.775."], "산점도와 상관": ["산점도와 상관", "Scatter Plots and Correlation", "점 구름의 모양으로 상관을 눈으로 본다: 강한 양(r ≈ 1), 강한 음(r ≈ −1), 없음(r ≈ 0), 약한 양(r > 0)."], "공분산 vs 상관": ["공분산 vs 상관", "Covariance vs Correlation", "공분산: 방향만, 범위 −∞~+∞, 단위에 따라 바뀜. 상관: 방향과 세기, −1~+1, 단위 없음."], "ML에서의 쓰임과 정리": ["ML에서의 쓰임과 정리", "Real-World Use in ML", "특성 선택(겹치는 특성 제거), 회귀의 다중공선성 이해, 중요한 특성 찾기, EDA, 추천·금융·의료."]},["공분산이란", "공분산 읽기", "공분산 계산 예", "상관계수란", "상관계수 계산 예", "산점도와 상관"]);
+U.Study({quiz:{"q": [{"q": "X = 1~5, Y = 2, 4, 5, 4, 5의 공분산(n으로 나눔)은?", "o": ["1.2", "1.5", "6", "0.775"], "a": 0, "why": "편차 곱의 합 6 ÷ 5.", "hint": "(x − 3)(y − 4)를 다섯 번."}, {"q": "상관계수 r이 가질 수 있는 범위는?", "o": ["−1 ~ 1", "0 ~ 1", "−∞ ~ +∞", "0 ~ 100"], "a": 0, "why": "표준편차로 나눠 늘 −1과 1 사이.", "hint": "공분산과의 차이점."}, {"q": "Y의 단위를 10배 바꾸면?", "o": ["공분산은 10배, r은 그대로", "둘 다 10배", "둘 다 그대로", "공분산은 그대로, r은 10배"], "a": 0, "why": "r은 단위가 없음.", "hint": "실험실의 단위 배율."}, {"q": "r = 0이면?", "o": ["직선 관계가 없다(곡선 관계는 있을 수 있음)", "아무 관계도 없다", "두 변수가 같다", "인과관계가 없다는 것이 증명됐다"], "a": 0, "why": "r은 직선 관계만 잽니다.", "hint": "y = x²를 떠올리세요."}]}});
+U.start();
+})();
+</script>
+</body>
+</html>

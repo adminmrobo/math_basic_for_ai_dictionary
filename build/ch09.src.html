@@ -1,0 +1,226 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>09장 확률분포 — 이항·포아송·정규 | 수리 도감 — 인공지능을 위한 수리적 기초</title>
+<meta name="description" content="수리 도감 09장. 확률변수와 확률분포, 이산·연속의 구분, 베르누이·이항·포아송·정규·균등·지수 분포와 그 밖의 분포(기하·감마·베타·t·카이제곱·F)를 게임광 X3가 분포 진열장 실험실로 안내합니다.">
+<meta property="og:type" content="article"><meta property="og:title" content="09장 확률분포 — 이항·포아송·정규 | 수리 도감 — 인공지능을 위한 수리적 기초"><meta property="og:description" content="수리 도감 09장. 확률변수와 확률분포, 이산·연속의 구분, 베르누이·이항·포아송·정규·균등·지수 분포와 그 밖의 분포(기하·감마·베타·t·카이제곱·F)를 게임광 X3가 분포 진열장 실험실로 안내합니다.">
+<meta property="og:image" content="https://adminmrobo.github.io/math_basic_for_ai_dictionary/img/og/ch09.png"><meta property="og:url" content="https://adminmrobo.github.io/math_basic_for_ai_dictionary/09_distributions.html"><meta name="twitter:card" content="summary_large_image">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+KR:wght@400;500;700&display=swap" rel="stylesheet">
+<!--@@CSS@@-->
+<style>
+.tl,.tr{font-weight:700;font-size:13.5px;margin-bottom:4px}.tl{color:var(--amber)}.tr{color:var(--terrain)}
+.hex{display:inline-grid;place-items:center;min-width:44px;height:34px;padding:0 10px;margin-right:10px;border-radius:8px;background:var(--terrain);color:#fff;font-size:17px;vertical-align:4px}
+.sec{padding:40px 0;border-top:1px solid var(--rule)}
+.cast{display:grid;gap:10px}.castc{display:flex;gap:10px;align-items:center;background:var(--panel);border:1px solid var(--rule);border-left:4px solid var(--cc);border-radius:10px;padding:8px 10px}
+.castc.host{background:#fff;box-shadow:0 0 0 2px var(--cc)}
+.castc img{width:60px;height:60px;flex:none}.castc p{margin:0;font-size:13.5px;color:var(--muted);line-height:1.55}
+.cover img.art{image-rendering:pixelated;image-rendering:crisp-edges}
+.diff{display:inline-block;border:1px solid var(--c-asst);color:var(--c-asst);border-radius:999px;padding:0 10px;font-size:12.5px;margin-left:6px}
+.hostcard{display:flex;gap:14px;align-items:center;border:2px solid var(--cc);border-radius:14px;padding:12px 16px;margin:10px 0 16px;background:#fff}
+.hostcard img{width:84px;height:84px;flex:none}.hostcard p{margin:4px 0 0;color:var(--muted)}
+.chain span.on{background:var(--terrain);color:#fff;border-color:var(--terrain)}
+.where{background:var(--panel);border-radius:10px;padding:10px 14px}
+.sis{display:flex;gap:12px;align-items:center;border:1px solid var(--c-asst);border-radius:12px;padding:10px 14px;margin:10px 0;background:#fff7fb}.sis img{width:56px;height:56px;flex:none}.sis p{margin:0}
+.dexidx{display:flex;flex-wrap:wrap;gap:6px;margin:10px 0 18px}.dexidx a{border:1px solid var(--rule);border-radius:999px;padding:3px 12px;font-size:14px;text-decoration:none;background:var(--panel)}
+.dexidx a:hover{border-color:var(--terrain)}
+.dex{border:1px solid var(--rule);border-top:4px solid var(--terrain);border-radius:14px;padding:16px 20px 12px;margin:0 0 22px;background:#fff;scroll-margin-top:70px}
+.dex header{display:flex;gap:12px;align-items:baseline;flex-wrap:wrap}.dex h3{margin:0;font-size:21px}.dex h3 small{font-size:14px;color:var(--muted);font-weight:500}
+.dexno{font:700 13px/1 var(--font);color:#fff;background:var(--c-x);border-radius:6px;padding:4px 8px}
+.dex .one{font-size:17px;font-weight:600;color:var(--terrain);margin:8px 0 10px}
+.dexgrid{display:grid;grid-template-columns:1.2fr 1fr;gap:14px;margin-bottom:10px}
+.dexgrid .dw{line-height:1.8}.dexgrid .try{background:var(--amber-soft);border:1px dashed #e8b67a;border-radius:10px;padding:10px 14px}.dexgrid .try ol{margin:6px 0 0;padding-left:22px}
+.dexwarn{background:var(--eye-soft);border-radius:8px;padding:8px 12px;font-size:15px}
+@media(max-width:760px){.dexgrid{grid-template-columns:1fr}}
+.toon{margin:26px auto;max-width:820px;border:1px solid var(--rule);border-radius:14px;overflow:hidden;background:#fff}
+.toon .tframe{background:#fff;border-bottom:1px solid var(--rule)}.toon img{display:block;width:100%;height:auto;image-rendering:pixelated;image-rendering:crisp-edges}
+.toon figcaption{padding:12px 16px}.toon .ttl{display:block;margin-bottom:8px;color:var(--amber)}
+.tline{display:flex;gap:10px;align-items:center;margin:6px 0}.tline img{width:40px;height:40px;flex:none;border-radius:8px;border:1px solid var(--rule)}.tline p{margin:0}
+.tpoint{margin:10px 0 0;background:var(--panel);border-radius:8px;padding:8px 12px;font-size:15px}
+.labbox{border:1px solid var(--rule);border-radius:14px;padding:14px 18px;margin:16px 0;background:#fff}
+.labh{font-weight:700;font-size:17px;margin-bottom:6px}.lno{display:inline-grid;place-items:center;width:28px;height:28px;border-radius:50%;background:var(--terrain);color:#fff;margin-right:6px}
+.codewrap{position:relative}.cpy{position:absolute;right:8px;top:8px;font:600 12.5px var(--font);border:1px solid var(--rule);background:#fff;border-radius:8px;padding:3px 10px;cursor:pointer}
+pre.prompt,pre.code,pre.out{white-space:pre-wrap;word-break:break-word;background:#f7f9fb;border:1px solid var(--rule);border-radius:10px;padding:14px 16px;font:13.5px/1.65 ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;max-height:520px;overflow:auto;margin:8px 0}
+pre.prompt{background:#fbf8ff;border-color:#d9c8f0;font-family:var(--font);font-size:14.5px}
+pre.out{background:#0f1720;color:#d8e6f0}
+.colabbtns{display:flex;flex-wrap:wrap;gap:8px}.colabbtns a.bt{text-decoration:none}
+.panel .row2{display:grid;grid-template-columns:1fr 1fr;gap:14px}@media(max-width:760px){.panel .row2{grid-template-columns:1fr}}
+.panel .cv{width:100%;height:300px;display:block;border:1px solid var(--rule);border-radius:10px;background:#fff;touch-action:none}
+.panel .cv.tall{height:360px}
+.panel .rd{display:grid;grid-template-columns:repeat(auto-fit,minmax(130px,1fr));gap:8px;margin:10px 0}
+.panel .rd div{background:var(--panel);border-radius:10px;padding:8px 10px}.panel .rd b{display:block;font-size:19px}.panel .rd span{font-size:12.5px;color:var(--muted)}
+.panel .sl{display:flex;align-items:center;gap:10px;margin:6px 0;flex-wrap:wrap}.panel .sl label{min-width:140px;font-size:14.5px}.panel .sl input[type=range]{flex:1;min-width:140px}
+.panel .msg{background:#f4fbfb;border:1px dashed var(--terrain);border-radius:10px;padding:10px 14px;margin:8px 0;font-size:15px}
+.panel textarea,.panel input[type=text]{width:100%;font:15px var(--font);padding:8px 10px;border:1px solid var(--rule);border-radius:8px}
+.panel table.mt{border-collapse:collapse;margin:6px 0}.panel table.mt td{border:1px solid var(--rule);min-width:44px;text-align:center;padding:4px 6px;font-variant-numeric:tabular-nums}
+.panel table.mt td.hl{background:var(--amber-soft);font-weight:700}.panel table.mt td.hl2{background:var(--info-soft);font-weight:700}
+.panel .step{font-variant-numeric:tabular-nums}
+.ptitle{font-weight:700;margin-bottom:6px}
+</style>
+</head>
+<body>
+<nav class="top" aria-label="섹션 바로가기"><div class="row">
+  <a class="logo" href="index.html">수리 <i>도감</i> 09</a>
+  <div class="links"><a href="#dex">도감 항목</a><a href="#lab">실험실</a><a href="#ai">AI 판단</a><a href="#colab">코랩 실습</a><a href="#sum">정리</a><a href="#kg">색인</a><a href="10_correlation.html">10장 →</a></div>
+</div></nav>
+<div class="cover" id="cover"><div class="frame"><img class="art" src="img/cover_ch09.webp" width="1920" height="1080" alt="칠판에 N(μ, σ²), Bin(n, p), Poisson(λ)이 적혀 있고 X3가 가운데서 신나 한다. 초파리가 커피를, 시아가 미소를 띠고 양옆에 있다. 종 모양 곡선 소품. 16비트 픽셀아트." fetchpriority="high"><span class="cap">수리 도감 · MATH-09</span><span class="cover-chip">09장 확률분포 — 이항·포아송·정규 · 안내 X3</span></div></div>
+<header class="hero" id="top"><div class="wrap">
+  <div class="eyebrow">수리 도감 · 인공지능을 위한 수리적 기초 · 확률·통계 · 원자료 MATH-09 <span class="diff">이번 장 안내: X3</span></div>
+  <h1>09장 확률분포 — 이항·포아송·정규</h1>
+  <p class="question">한 시간에 전화가 몇 통 올지, 학생 키가 얼마일지 — 모르는 값의 "모양"을 미리 그릴 수 있을까?</p>
+  <p class="lead">확률분포는 확률변수가 가질 수 있는 값들과 그 확률을 한 장의 그림(또는 식)으로 정리한 것입니다. 셀 수 있는 값(이산)은 막대로, 어떤 실수든 되는 값(연속)은 곡선으로 그려요. 원자료의 분포 여섯 개를 하나씩 진열하고, 나머지 여섯 개는 쓰임새 표로 모았습니다.</p>
+  <p class="byline">글 · 안상선 ((주)M-Robo 대표) · <a href="https://adminmrobo.github.io/who_am_i/who_am_i.html">저자 소개</a> · 2026-11-26 · v1.0</p>
+  <div class="start"><b>처음이라면</b> 「이산과 연속」 항목을 먼저 읽고, 실험실의 분포 버튼을 하나씩 눌러 모양을 구경하세요. 수식은 나중에 찾아봐도 됩니다.</div>
+  <div class="kpis" aria-label="숫자 요약"><div class="kpi m"><b>9개</b><span>도감 항목 (슬라이드 MATH-09의 모든 상자)</span></div><div class="kpi g"><b>1개</b><span>직접 움직이는 실험실</span></div><div class="kpi a"><b>2 + 2</b><span>웃는 그림 둘, 코랩 실습 둘(AI 프롬프트·실제 코드)</span></div><div class="kpi r"><b>4문제</b><span>확인 퀴즈</span></div></div>
+</div></header>
+<main>
+<section class="sec" id="plain" aria-labelledby="h-plain"><div class="wrap"><h2 id="h-plain">처음 오신 분께 — 이 장을 3줄로</h2><ol class="plain3"><li><b>무엇을</b> 확률변수, 이산(베르누이·이항·포아송·기하) vs 연속(정규·균등·지수·감마·베타), 각 분포의 식과 예.</li><li><b>왜 중요한가</b> 데이터가 어떤 분포를 따르는지 알면 평균·흩어짐·드문 일의 확률을 미리 계산할 수 있어요.</li><li><b>AI에서는</b> 분류(베르누이·범주 분포), 개수 예측(포아송), 오차 모델(정규), 베이지안 모델(베타·감마), 가설 검정(t·카이제곱·F).</li></ol>
+<p class="plain-note">코드와 수식을 몰라도 됩니다. 항목마다 "말로 먼저"와 "숫자로 한 번 해 보기"가 먼저 나오고, 식은 "식으로 보면"을 펼칠 때만 나옵니다. 여기서 한 번 멈춰도 괜찮아요.</p>
+<details class="abbr"><summary>기호·영어 약어 풀이 (8개)</summary><div class="abbr-list"><div><b>X ~ …</b> <span>엑스는 …를 따른다</span> — 확률변수 X의 분포</div><div><b>p</b> <span>성공 확률</span> — 0~1</div><div><b>n</b> <span>시행 횟수</span> — 자연수</div><div><b>λ</b> <span>람다</span> — 평균 횟수 또는 비율</div><div><b>μ, σ</b> <span>뮤, 시그마</span> — 평균, 표준편차</div><div><b>C(n,k) = ⁿCₖ</b> <span>조합</span> — n개에서 k개 고르는 경우의 수</div><div><b>e</b> <span>자연상수</span> — 2.718…</div><div><b>PMF / PDF</b> <span>확률질량함수 / 확률밀도함수</span> — 이산 / 연속 분포의 식</div></div></details></div></section>
+<section class="sec" id="cast" aria-labelledby="h-cast" style="padding:18px 0 0;border:0"><div class="wrap"><h3 id="h-cast">연구소 식구 — 열다섯 장을 돌아가며 안내합니다</h3>
+<div class="cast" style="grid-template-columns:repeat(auto-fit,minmax(230px,1fr))"><div class="castc" style="--cc:var(--c-doc)"><img data-mood="doc_board" alt="" aria-hidden="true"><div><b>박사</b><p>연구소 책임자. 장마다 상황 질문으로 문을 열고 해석 문장으로 닫아요.</p></div></div><div class="castc" style="--cc:var(--c-asst)"><img data-mood="asst_smile" alt="" aria-hidden="true"><div><b>조교 하루</b><p>수식 담당. 기호 하나씩 읽는 법과 뜻부터 풀어 줘요.</p></div></div><div class="castc" style="--cc:var(--c-fly)"><img data-mood="fly_point" alt="" aria-hidden="true"><div><b>조교 초파리</b><p>실험 담당. "이걸 눌러 봐"로 실험판을 열고, 답이 그럴듯한지 의심해요.</p></div></div><div class="castc" style="--cc:var(--c-robo)"><img data-mood="robo_calc" alt="" aria-hidden="true"><div><b>조교 주판봇</b><p>계산 담당. 1초 만에 답을 내지만 가끔 너무 빨라요. AI 판단 코너의 단골.</p></div></div><div class="castc" style="--cc:var(--c-sia)"><img data-mood="sia_smile" alt="" aria-hidden="true"><div><b>시아</b><p>직관파 연구원. 비유부터 꺼내 "그러니까 이런 거죠?"라고 물어요.</p></div></div><div class="castc" style="--cc:var(--c-moa)"><img data-mood="moa_smile" alt="" aria-hidden="true"><div><b>모아</b><p>꼼꼼파 연구원. "그건 언제나 그래요?" 하고 조건과 예외를 물어요.</p></div></div><div class="castc" style="--cc:var(--c-x)"><img data-mood="x1_hint" alt="" aria-hidden="true"><div><b>X1</b><p>막내 연구원. 손을 번쩍 들고 엉뚱한 질문을 해요.</p></div></div><div class="castc" style="--cc:var(--c-x)"><img data-mood="x2_hint" alt="" aria-hidden="true"><div><b>X2</b><p>막내 연구원. 필기를 가장 열심히 해요.</p></div></div><div class="castc host" style="--cc:var(--c-x)"><img data-mood="x3_hint" alt="" aria-hidden="true"><div><b>X3 · 이번 장 안내</b><p>막내 연구원. 게임과 퀴즈 시간에 가장 신나요.</p></div></div></div></div></section>
+<section class="sec" id="open" aria-labelledby="h-open"><div class="wrap">
+<h2 id="h-open"><span class="hex">09</span>모르는 값의 모양 그리기</h2>
+<div class="hostcard" style="--cc:var(--c-x)"><img data-mood="x3_hint" alt="" aria-hidden="true"><div><b>이번 장 안내 · X3</b><p>게임 시간에 가장 신나는 X3가, 주사위·뽑기·대기 시간처럼 게임 속 확률이 가득한 이 장을 맡았습니다.</p></div></div>
+<div data-dlg="open"></div>
+<div class="chain"><span class="">07 조건부 확률과 베이즈</span><i>→</i><span class="">08 통계 기초</span><i>→</i><span class="on">09 확률분포</span><i>→</i><span class="">10 상관과 공분산</span><i>→</i><span class="">11 미적분 기초</span></div>
+<p class="where"><b>도감 속 자리</b> 6장의 확률과 8장의 평균·분산을 합쳐 "모양"으로 만든 장입니다. 정규분포는 10장(상관), 13장(손실 함수의 바탕), 14장(PCA)에서 다시 나오고, 이항·베르누이는 분류 모델의 출력과 손실(교차 엔트로피, 15장)의 바탕이에요.</p>
+<div class="sis"><img data-mood="asst_report" alt="" aria-hidden="true"><p><b>조교 하루의 길 안내</b> 같은 주제를 생선 가게 AI 모델 이야기로 차례차례 따라가고 싶다면 「인공지능을 위한 수학」 <a href="https://adminmrobo.github.io/math_for_ai_lab/part2.html#c11">2부 11장 확률분포</a>을 함께 보세요. 이야기로 흐름을 잡고, 이 도감으로 낱말을 찾아보는 식으로 쓰면 좋아요.</p></div>
+<figure class="toon" id="toon1"><div class="tframe"><img src="img/toon/ch09_a.webp" width="1200" height="800" loading="lazy" alt="픽셀아트. 전화기가 잔뜩 놓인 책상에서 초파리가 헤드셋을 쓰고 있고, 벽 막대그래프에 &quot;λ = 3&quot;이 적혀 있다. 주판봇이 &quot;오늘 전화 딱 3통!&quot;이라고 외치는데 전화기 다섯 대가 동시에 울린다."></div><figcaption><b class="ttl">웃는 그림 1 · 콜센터의 포아송 예언</b><div class="tline"><img data-mood="robo_happy" alt="" aria-hidden="true"><p><b>조교 주판봇</b> 평균이 3통이니까 오늘 전화는 정확히 3통!</p></div><div class="tline"><img data-mood="fly_type" alt="" aria-hidden="true"><p><b>조교 초파리</b> (전화 다섯 대가 울림) 평균 3이지 매번 3이 아니야! 5통 올 확률도 약 10%라고.</p></div><div class="tline"><img data-mood="x3_hint" alt="" aria-hidden="true"><p><b>X3</b> 포아송으로 계산하면 딱 3통일 확률은 약 22.4%뿐이에요!</p></div><p class=tpoint><b>그림 속 수학</b> 평균 λ는 "늘 그 값"이 아니다. 포아송(λ = 3)에서 P(X = 3) ≈ 0.224, P(X = 5) ≈ 0.101.</p></figcaption></figure>
+</div></section>
+<section class="sec" id="dex" aria-labelledby="h-dex"><div class="wrap">
+<h2 id="h-dex"><span class="hex">도감</span>도감 항목 — 9개</h2>
+<p>슬라이드 MATH-09의 상자를 하나도 빼지 않고 항목으로 옮겼습니다. 이름표를 눌러 바로 가세요.</p>
+<div class="dexidx"><a href="#m09-what">확률분포란</a><a href="#m09-types">이산과 연속</a><a href="#m09-bern">베르누이 분포</a><a href="#m09-binom">이항 분포</a><a href="#m09-pois">포아송 분포</a><a href="#m09-normal">정규(가우스) 분포</a><a href="#m09-unif">균등 분포</a><a href="#m09-expo">지수 분포</a><a href="#m09-others">그 밖의 중요한 분포와 정리</a></div>
+<article class="dex" id="m09-what" data-dex="확률분포란"><header><span class="dexno">09-01</span><h3>확률분포란 <small>What is a Probability Distribution</small></h3></header><p class="one">확률변수가 가질 수 있는 값들과 각 값의 확률을 보여 주는 것.</p><div class="dexgrid"><div class="dw"><b>말로 먼저</b> 확률변수 X는 "실험 결과를 숫자로 바꾼 것"이에요. 동전 세 번에서 앞면 수 X는 0, 1, 2, 3 중 하나죠. 각 값의 확률(1/8, 3/8, 3/8, 1/8)을 모은 것이 분포입니다. 확률을 모두 더하면 언제나 1이에요.</div><div class="try"><b>숫자로 한 번 해 보기</b><ol><li>X = 동전 3번 중 앞면 수</li><li>P(X=0) = 1/8, P(X=1) = 3/8, P(X=2) = 3/8, P(X=3) = 1/8</li><li>합 = 8/8 = 1 ✔</li></ol></div></div><div class="pair"><div><div class="tl">학교 수학으로 보면</div>고등 "확률변수와 확률분포".</div><div><div class="tr">AI에서는</div>모델이 "고양이 0.7, 개 0.2, 새 0.1"을 내면 그것이 정답에 대한 분포예요. 합이 1이 되게 만드는 함수가 소프트맥스(15장).</div></div></article>
+<article class="dex" id="m09-types" data-dex="이산과 연속"><header><span class="dexno">09-02</span><h3>이산과 연속 <small>Types of Probability Distributions</small></h3></header><p class="one">이산 = 셀 수 있는 값(베르누이·이항·포아송·기하·이산 균등), 연속 = 어떤 실수든(정규·균등·지수·감마·베타).</p><div class="dexgrid"><div class="dw"><b>말로 먼저</b> 주사위 눈, 오늘 온 전화 수는 0, 1, 2…처럼 셀 수 있어 이산이에요. 키, 기다린 시간은 170.3 cm, 2.71분처럼 어떤 값이든 될 수 있어 연속입니다. 연속 분포에서는 "정확히 170.000…cm일 확률"은 0이고, 구간의 넓이로 확률을 셉니다.</div><div class="try"><b>숫자로 한 번 해 보기</b><ol><li>이산: P(X = 2)처럼 한 값의 확률(막대 높이)</li><li>연속: P(165 ≤ X ≤ 175)처럼 구간의 넓이</li><li>연속에서 P(X = 170) = 0</li></ol></div></div><div class="pair"><div><div class="tl">학교 수학으로 보면</div>고등 "이산확률변수·연속확률변수".</div><div><div class="tr">AI에서는</div>분류 = 이산 분포 예측, 회귀 = 연속값 예측. 손실 함수 선택이 여기서 갈립니다.</div></div></article>
+<article class="dex" id="m09-bern" data-dex="베르누이 분포"><header><span class="dexno">09-03</span><h3>베르누이 분포 <small>Bernoulli Distribution</small></h3></header><p class="one">성공(1) 또는 실패(0) 한 번. 모수 p. P(X = x) = pˣ(1−p)¹⁻ˣ.</p><div class="dexgrid"><div class="dw"><b>말로 먼저</b> 동전 한 번, 메일 한 통이 스팸인지 아닌지처럼 결과가 둘뿐인 시행이에요. 식은 x = 1이면 p, x = 0이면 1 − p를 한 줄로 쓴 것입니다.</div><div class="try"><b>숫자로 한 번 해 보기</b><ol><li>P(앞면) = 0.6인 동전</li><li>P(X = 1) = 0.6¹ × 0.4⁰ = 0.6</li><li>P(X = 0) = 0.6⁰ × 0.4¹ = 0.4</li></ol></div></div><div class="pair"><div><div class="tl">학교 수학으로 보면</div>고등 "독립시행"의 한 번.</div><div><div class="tr">AI에서는</div>이진 분류의 출력(로지스틱 회귀·시그모이드)이 베르누이 분포의 p예요. 손실은 이진 교차 엔트로피(15장).</div></div><details class="eqx"><summary>식으로 보면 (몰라도 됩니다)</summary><table class="ez-tb"><thead><tr><th>식 조각</th><th>읽는 법</th><th>뜻</th></tr></thead><tbody><tr><td class="m">P(X=x) = pˣ(1−p)¹⁻ˣ, x ∈ {0, 1}</td><td>베르누이</td><td>한 번의 성공·실패</td></tr></tbody></table></details></article>
+<article class="dex" id="m09-binom" data-dex="이항 분포"><header><span class="dexno">09-04</span><h3>이항 분포 <small>Binomial Distribution</small></h3></header><p class="one">독립 베르누이 시행 n번 중 성공 횟수. P(X = k) = C(n,k)·pᵏ(1−p)ⁿ⁻ᵏ.</p><div class="dexgrid"><div class="dw"><b>말로 먼저</b> 동전 5번(p = 0.5) 중 앞면이 딱 2번일 확률: "어느 2번이 앞면인가"의 경우의 수 C(5, 2) = 10에, 한 가지 순서의 확률 0.5² × 0.5³을 곱해요.</div><div class="try"><b>숫자로 한 번 해 보기</b><ol><li>C(5, 2) = 5! / (2! × 3!) = 10</li><li>0.5² × 0.5³ = 0.03125</li><li>P(X = 2) = 10 × 0.03125 = 0.3125</li><li>평균 np = 2.5</li></ol></div></div><div class="pair"><div><div class="tl">학교 수학으로 보면</div>고등 "이항분포", "조합".</div><div><div class="tr">AI에서는</div>"광고 100번 보여 줬을 때 클릭 수", "시험 문제 20개 중 맞힌 수"의 분포.</div></div><details class="eqx"><summary>식으로 보면 (몰라도 됩니다)</summary><table class="ez-tb"><thead><tr><th>식 조각</th><th>읽는 법</th><th>뜻</th></tr></thead><tbody><tr><td class="m">C(n,k) = n! / (k!(n−k)!)</td><td>조합</td><td>n개 중 k개 고르기</td></tr><tr><td class="m">P(X=k) = C(n,k)pᵏ(1−p)ⁿ⁻ᵏ</td><td>이항</td><td>n번 중 k번 성공</td></tr><tr><td class="m">평균 np, 분산 np(1−p)</td><td>이항의 평균·분산</td><td></td></tr></tbody></table></details></article>
+<article class="dex" id="m09-pois" data-dex="포아송 분포"><header><span class="dexno">09-05</span><h3>포아송 분포 <small>Poisson Distribution</small></h3></header><p class="one">정해진 시간·공간에서 일어나는 사건 수. 모수 λ(평균 횟수). P(X = k) = e^−λ λᵏ / k!.</p><div class="dexgrid"><div class="dw"><b>말로 먼저</b> 시간당 평균 3통의 전화가 오는 콜센터에서 다음 한 시간에 딱 2통 올 확률을 계산합니다. 드물고 서로 독립적으로 일어나는 일의 "개수"에 잘 맞아요.</div><div class="try"><b>숫자로 한 번 해 보기</b><ol><li>λ = 3, k = 2</li><li>e⁻³ ≈ 0.0498, 3² / 2! = 4.5</li><li>P(X = 2) ≈ 0.0498 × 4.5 ≈ 0.2240</li><li>평균 = 분산 = λ = 3</li></ol></div></div><div class="pair"><div><div class="tl">학교 수학으로 보면</div>고등 이항분포의 확장(교과서 심화).</div><div><div class="tr">AI에서는</div>웹사이트 시간당 접속 수, 공장 불량 수, 사고 건수 예측. 개수 회귀(포아송 회귀)에 씁니다.</div></div><details class="eqx"><summary>식으로 보면 (몰라도 됩니다)</summary><table class="ez-tb"><thead><tr><th>식 조각</th><th>읽는 법</th><th>뜻</th></tr></thead><tbody><tr><td class="m">P(X=k) = e^(−λ) λᵏ / k!</td><td>포아송</td><td>평균 λ번 일어날 때 k번</td></tr></tbody></table></details></article>
+<div data-dlg="mid"></div>
+<article class="dex" id="m09-normal" data-dex="정규(가우스) 분포"><header><span class="dexno">09-06</span><h3>정규(가우스) 분포 <small>Normal (Gaussian) Distribution</small></h3></header><p class="one">가장 중요한 연속 분포. 평균 μ에서 가장 높은 좌우 대칭 종 모양. X ~ N(μ, σ²).</p><div class="dexgrid"><div class="dw"><b>말로 먼저</b> 키·몸무게·시험 점수처럼 작은 원인이 많이 더해진 값은 종 모양을 따르는 경우가 많아요. μ가 봉우리 위치, σ가 폭을 정합니다. 평균 ± 1σ 안에 약 68%, ± 2σ 안에 약 95%, ± 3σ 안에 약 99.7%가 들어와요.</div><div class="try"><b>숫자로 한 번 해 보기</b><ol><li>학생 키 μ = 170 cm, σ = 10 cm</li><li>160~180 cm (± 1σ) → 약 68%</li><li>180 cm 이상 → z = 1 → 약 15.9%</li><li>150~190 cm (± 2σ) → 약 95%</li></ol></div></div><div class="pair"><div><div class="tl">학교 수학으로 보면</div>고등 "정규분포", "표준정규분포 z = (X − μ)/σ".</div><div><div class="tr">AI에서는</div>측정 오차, 가중치 초기값, 데이터 노이즈의 기본 가정. 회귀의 제곱 오차(MSE)는 "오차가 정규분포"라는 가정과 짝이에요.</div></div><details class="eqx"><summary>식으로 보면 (몰라도 됩니다)</summary><table class="ez-tb"><thead><tr><th>식 조각</th><th>읽는 법</th><th>뜻</th></tr></thead><tbody><tr><td class="m">f(x) = 1/(σ√(2π)) · e^(−(x−μ)²/(2σ²))</td><td>정규 밀도</td><td>종 모양 곡선</td></tr><tr><td class="m">z = (x − μ) / σ</td><td>표준화</td><td>N(0, 1)로 옮기기</td></tr></tbody></table></details></article>
+<article class="dex" id="m09-unif" data-dex="균등 분포"><header><span class="dexno">09-07</span><h3>균등 분포 <small>Uniform Distribution</small></h3></header><p class="one">범위 안 모든 값이 똑같이 그럴듯함. 연속 균등 U(a, b)의 밀도는 1/(b − a).</p><div class="dexgrid"><div class="dw"><b>말로 먼저</b> 0~10 사이 아무 실수나 똑같이 나온다면, 높이 1/10인 직사각형이 분포예요. 구간의 확률 = 구간 길이 × 높이. 주사위처럼 이산 균등 분포도 있어요.</div><div class="try"><b>숫자로 한 번 해 보기</b><ol><li>X ~ U(0, 10) → 높이 1/10</li><li>P(2 ≤ X ≤ 8) = (8 − 2)/(10 − 0) = 0.6</li><li>평균 = (a + b)/2 = 5</li></ol></div></div><div class="pair"><div><div class="tl">학교 수학으로 보면</div>고등 "연속확률변수"의 가장 간단한 예.</div><div><div class="tr">AI에서는</div>무작위 초기값, 하이퍼파라미터 무작위 탐색, 데이터 섞기에 쓰여요.</div></div><details class="eqx"><summary>식으로 보면 (몰라도 됩니다)</summary><table class="ez-tb"><thead><tr><th>식 조각</th><th>읽는 법</th><th>뜻</th></tr></thead><tbody><tr><td class="m">f(x) = 1/(b − a), a ≤ x ≤ b</td><td>균등 밀도</td><td>직사각형</td></tr></tbody></table></details></article>
+<article class="dex" id="m09-expo" data-dex="지수 분포"><header><span class="dexno">09-08</span><h3>지수 분포 <small>Exponential Distribution</small></h3></header><p class="one">포아송 과정에서 다음 사건까지 기다리는 시간. f(x) = λe^(−λx), x ≥ 0.</p><div class="dexgrid"><div class="dw"><b>말로 먼저</b> 버스가 평균 2분마다 무작위로 온다면(λ = 0.5), 다음 버스까지 기다리는 시간이 지수 분포예요. 짧게 기다릴 일이 가장 흔하고, 오래 기다릴 확률은 점점 줄어듭니다.</div><div class="try"><b>숫자로 한 번 해 보기</b><ol><li>λ = 0.5 → 평균 대기 1/λ = 2</li><li>P(X > 3) = e^(−0.5 × 3) = e^(−1.5) ≈ 0.2231</li><li>P(X ≤ 3) = 1 − 0.2231 ≈ 0.7769</li></ol></div></div><div class="pair"><div><div class="tl">학교 수학으로 보면</div>고등 지수함수 + 연속확률분포(심화).</div><div><div class="tr">AI에서는</div>서버 요청 사이 시간, 기계 고장까지의 시간(생존 분석) 모델.</div></div><details class="eqx"><summary>식으로 보면 (몰라도 됩니다)</summary><table class="ez-tb"><thead><tr><th>식 조각</th><th>읽는 법</th><th>뜻</th></tr></thead><tbody><tr><td class="m">f(x) = λe^(−λx)</td><td>지수 밀도</td><td>기다리는 시간</td></tr><tr><td class="m">P(X > x) = e^(−λx)</td><td>꼬리 확률</td><td>x보다 오래 기다릴 확률</td></tr></tbody></table></details></article>
+<article class="dex" id="m09-others" data-dex="그 밖의 중요한 분포와 정리"><header><span class="dexno">09-09</span><h3>그 밖의 중요한 분포와 정리 <small>Other Important Distributions</small></h3></header><p class="one">기하(첫 성공까지 시행 수), 감마(지수의 일반화), 베타(0~1 사이 확률 모델), t(작은 표본 추론), 카이제곱(분산·검정), F(분산 비교, ANOVA).</p><div class="dexgrid"><div class="dw"><b>말로 먼저</b> 정리: 분포는 값이 어떻게 퍼져 있는지 설명합니다. 이산은 베르누이·이항·포아송·기하, 연속은 정규·균등·지수 등. 정규분포가 실제 데이터와 ML에서 가장 널리 쓰이고, 데이터와 문제 종류에 맞는 분포를 고르는 것이 중요해요.</div><div class="try"><b>숫자로 한 번 해 보기</b><ol><li>기하: 주사위로 6이 처음 나올 때까지 → 평균 6번</li><li>베타: "클릭률이 0.1쯤일 것"이라는 믿음을 0~1 위의 곡선으로</li><li>t: 표본이 30개 안팎으로 적을 때 정규 대신</li></ol></div></div><div class="pair"><div><div class="tl">학교 수학으로 보면</div>고등 "통계적 추정"(t 분포는 대학 통계).</div><div><div class="tr">AI에서는</div>분류·회귀·베이지안 모델·가설 검정 등 많은 ML 알고리즘의 바탕. A/B 테스트에서 t·카이제곱 검정을 씁니다.</div></div></article>
+</div></section>
+<section class="sec" id="lab" aria-labelledby="h-lab"><div class="wrap">
+<h2 id="h-lab"><span class="hex">실험</span>분포 진열장 — 모양을 바꾸며 확률 읽기</h2>
+<div data-dlg="lab_o"></div>
+<div class="easy"><details class="ez-why" open><summary>왜 이 방법을 쓰나</summary><ol><li>문제: 콜센터에 내일 몇 명을 배치해야 할지 정하려면 "전화가 10통 넘게 올 확률"을 알아야 합니다.</li><li>앞 방법의 한계: 평균(시간당 3통)만으로는 "많이 몰리는 날"이 얼마나 드문지 알 수 없습니다.</li><li><b>이 방법의 해법: 데이터에 맞는 분포(포아송 λ = 3)를 정하면, 어떤 개수든 그 확률을 식으로 바로 계산합니다.</b></li></ol><p class="ez-easy"><b>쉽게 말하면</b> 날씨 예보가 "평균 기온"만이 아니라 "영하로 떨어질 확률"까지 알려 주는 것.</p></details><div class="ez-math"><div class="ez-t">연구원이 묻고, 조교 하루가 풀어 봅니다</div><div class="ez-q"><img data-mood="x3_hint" alt="" aria-hidden="true"><p><b style="display:block;font-size:12.5px;color:var(--muted)">X3</b>이항 분포 식에 있는 C(n, k)는 왜 곱해요? 0.5² × 0.5³만 하면 안 돼요?</p></div><p><b>말로 먼저</b> 0.5² × 0.5³은 "앞앞뒤뒤뒤"처럼 한 가지 순서의 확률이에요. 앞면 2번이 나오는 순서는 여러 가지(앞뒤앞뒤뒤 등)라서 그 가짓수를 곱해야 해요.</p><p><b>학교 수학으로 보면</b> 고등 "조합" ⁿCₖ, 독립시행의 확률.</p><div class="try" style="background:#fff;border:1px dashed #e8b67a;border-radius:10px;padding:10px 14px"><b>숫자로 한 번 해 보기</b><ol style="margin:6px 0 0;padding-left:22px"><li>앞면 2번 자리 고르기: C(5, 2) = 10가지</li><li>한 순서의 확률: 0.03125</li><li>10 × 0.03125 = 0.3125</li></ol></div><details class="eqx"><summary>식으로 보면 (몰라도 됩니다)</summary><table class="ez-tb"><thead><tr><th>식 조각</th><th>읽는 법</th><th>뜻</th></tr></thead><tbody><tr><td>C(n,k)</td><td>엔 씨 케이</td><td>성공 자리 고르는 가짓수</td></tr><tr><td>pᵏ</td><td>피의 케이 제곱</td><td>성공 k번</td></tr><tr><td>(1−p)ⁿ⁻ᵏ</td><td></td><td>실패 n − k번</td></tr></tbody></table></details><div class="ez-q ez-c"><img data-mood="asst_spark" alt="" aria-hidden="true"><p><b style="display:block;font-size:12.5px;color:var(--muted)">조교 하루</b>실험실에서 이항을 고르고 n = 5, p = 0.5, k = 2로 맞춰 보세요. 0.3125가 나와요.</p></div></div></div>
+<div class="dialog lvtalk" data-dlg="lab_t"></div>
+<div class="panel" id="w-ch09" data-w="dist"></div>
+<div class="say" data-who="doc"><img class="who" data-mood="doc_judge" alt="" aria-hidden="true"><div><b class="name">박사의 정리</b><p>분포를 정한다는 것은 "이 데이터는 이런 방식으로 흩어진다"고 가정하는 일입니다. 가정이 맞으면 드문 일의 확률까지 계산할 수 있지만, 틀리면 계산이 정확해도 결론이 틀려요. 그래서 분포를 쓰기 전에 히스토그램(8장)으로 모양부터 확인합니다.</p></div></div>
+<div class="lim"><b>이 실험의 한계</b> 진열장은 분포 여섯 개만 그립니다. 기하·감마·베타·t·카이제곱·F는 코랩 코드(scipy.stats)로 그려 볼 수 있어요.</div>
+<figure class="toon" id="toon2"><div class="tframe"><img src="img/toon/ch09_b.webp" width="1200" height="800" loading="lazy" alt="픽셀아트. 운동장에 학생 블록들이 키 순서로 쌓여 종 모양 언덕을 이루고, 가운데 꼭대기에 &quot;μ = 170&quot; 깃발, 양쪽에 &quot;±1σ 68%&quot; 테이프가 둘러져 있다. 시아가 깃발을, 모아가 줄자를 든다."></div><figcaption><b class="ttl">웃는 그림 2 · 종 모양 줄서기</b><div class="tline"><img data-mood="sia_explain" alt="" aria-hidden="true"><p><b>시아</b> 키 순서로 줄 세웠더니 종 모양이 됐어요! 가운데가 170cm.</p></div><div class="tline"><img data-mood="moa_report" alt="" aria-hidden="true"><p><b>모아</b> 160~180cm 사이에 약 68%가 있어요. 190cm 넘는 친구는 약 2.3%.</p></div><div class="tline"><img data-mood="asst_smile" alt="" aria-hidden="true"><p><b>조교 하루</b> 작은 원인이 많이 더해진 값은 정규분포를 닮는 경우가 많아요.</p></div><p class=tpoint><b>그림 속 수학</b> 정규분포 N(μ, σ²): μ ± σ에 약 68%, μ ± 2σ에 약 95%. 키 170 ± 10 cm이면 190 cm 초과는 약 2.3%.</p></figcaption></figure>
+<div class="aibox" id="ai"><div class="aihead"><span class="aitag">AI 판단 코너</span>주판봇의 "키 분포가 정규니까 키가 200 cm 넘을 확률은 0"</div><div data-dlg="ai_d"></div><p>박사는 늘 두 가지를 묻습니다. "가정이 맞나? 숫자가 그럴듯한가?"</p><ol><li>가정이 맞나? 정규분포 곡선은 어디까지 이어지나요? 꼬리가 0에 "닿나요"?</li><li>숫자가 그럴듯한가? μ = 170, σ = 10이면 200 cm는 몇 σ 떨어진 곳인가요?</li></ol><details class="eqx"><summary>확인해 보기 (먼저 스스로 따져 본 뒤 펼치세요)</summary><p class="aiverdict">정규분포의 꼬리는 0에 가까워질 뿐 0이 되지 않아요. 200 cm는 z = 3이라 P(X > 200) ≈ 0.0013, 약 0.13%입니다. 1만 명이면 13명쯤이에요. "아주 드물다"와 "불가능"은 다릅니다. 반대로, 정규분포는 키가 −50 cm일 확률도 아주 작게나마 주는데, 이건 모델(가정)이 현실과 어긋나는 곳이라는 점도 함께 기억하세요.</p><div data-dlg="ai_e"></div></details></div>
+<h3 id="quiz">확인 퀴즈</h3>
+<div class="quiz" data-quiz="q"></div>
+</div></section>
+<section class="sec" id="colab" aria-labelledby="h-colab"><div class="wrap">
+<h2 id="h-colab"><span class="hex">실습</span>코랩 실습실 — 배운 것을 직접 돌려 보기</h2>
+<p>두 가지 방법이 있어요. ① 생성 AI에게 프롬프트를 주고 코드를 만들게 해 보기, ② 연구소가 미리 만들어 검사까지 마친 코드를 돌려 보기. 둘을 나란히 돌려 결과를 비교하면, AI가 낸 코드를 믿어도 되는지 스스로 판단하는 연습이 됩니다.</p>
+<div data-dlg="colab"></div>
+<div class="labbox"><div class="labh"><span class="lno">①</span> 생성 AI로 실습하기 — 코랩 파이썬 프롬프트</div>
+<p>구글 코랩(Colab)의 Gemini 창이나 ChatGPT·Claude 같은 생성 AI에 아래 글을 그대로 붙여 넣으세요. AI가 만든 코드를 코랩 셀에 붙여 넣고 실행합니다.</p>
+<div class="codewrap"><button type="button" class="cpy" data-copy="p-ch09">복사</button><pre class="prompt" id="p-ch09">너는 고등학생에게 확률분포를 가르치는 파이썬 선생님이야. 구글 코랩에서 실행되는 코드를 만들어 줘.
+주제: 베르누이·이항·포아송·정규·균등·지수 분포
+요구 사항:
+1. scipy.stats를 써서 (a) 이항 n=5, p=0.5에서 P(X=2) (b) 포아송 λ=3에서 P(X=2) (c) 균등 U(0,10)에서 P(2≤X≤8) (d) 지수 λ=0.5에서 P(X&gt;3) (e) 정규 N(170, 10²)에서 P(X&gt;180)을 계산해 줘. 각각 공식으로 직접 계산한 값과 비교해 줘(math.comb, math.exp 사용).
+2. 여섯 분포의 모양을 2×3 그림으로 그려 줘(이산은 막대, 연속은 곡선, 영어 제목).
+3. 정규분포에서 평균 ±1σ, ±2σ, ±3σ 안에 드는 비율을 계산해 68-95-99.7 규칙을 확인해 줘.
+4. 이항 분포 n=5, p=0.5에서 난수 10만 개를 뽑아(seed 고정) 실제 비율과 이론 확률을 표로 비교해 줘.
+5. 모든 줄에 한국어 주석.</pre></div></div>
+<div class="labbox"><div class="labh"><span class="lno">②</span> 실제로 돌아가는 코드 — 파이썬 · 코랩</div>
+<p>연구소가 직접 실행해 결과를 확인한 코드입니다. 버튼 하나로 코랩에서 바로 열 수 있어요(구글 계정만 있으면 설치할 것이 없습니다).</p>
+<p class="colabbtns"><a class="bt primary" href="https://colab.research.google.com/github/adminmrobo/math_basic_for_ai_dictionary/blob/main/colab/ch09_distributions.ipynb" target="_blank" rel="noopener">코랩에서 열기</a> <a class="bt" href="code/colab_py/ch09_distributions.py" download>.py 내려받기</a> <a class="bt" href="colab/ch09_distributions.ipynb" download>.ipynb 내려받기</a></p>
+<details class="fold"><summary>코드 펼치기 (몰라도 됩니다 · 36줄)</summary><div class="codewrap"><button type="button" class="cpy" data-copy="c-ch09">복사</button><pre class="code" id="c-ch09"><code># %% 1. 다섯 가지 확률: 공식 vs scipy
+import math
+import numpy as np
+import matplotlib.pyplot as plt
+from scipy import stats
+
+binom_formula = math.comb(5, 2) * 0.5**2 * 0.5**3
+pois_formula = math.exp(-3) * 3**2 / math.factorial(2)
+print(f&quot;이항 P(X=2)      : 공식 {binom_formula:.4f} / scipy {stats.binom.pmf(2, 5, 0.5):.4f}&quot;)
+print(f&quot;포아송 P(X=2)    : 공식 {pois_formula:.4f} / scipy {stats.poisson.pmf(2, 3):.4f}&quot;)
+print(f&quot;균등 P(2&lt;=X&lt;=8)  : 공식 {(8-2)/(10-0):.4f} / scipy {stats.uniform(0, 10).cdf(8) - stats.uniform(0, 10).cdf(2):.4f}&quot;)
+print(f&quot;지수 P(X&gt;3)      : 공식 {math.exp(-0.5*3):.4f} / scipy {stats.expon(scale=1/0.5).sf(3):.4f}  (scale = 1/λ)&quot;)
+print(f&quot;정규 P(X&gt;180)    : scipy {stats.norm(170, 10).sf(180):.4f}  (z = 1)&quot;)
+print(f&quot;베르누이 P(X=1)  : {stats.bernoulli(0.6).pmf(1):.1f}&quot;)
+
+# %% 2. 여섯 분포의 모양
+fig, ax = plt.subplots(2, 3, figsize=(12, 6))
+ax[0, 0].bar([0, 1], stats.bernoulli(0.6).pmf([0, 1]), color=[&quot;pink&quot;, &quot;skyblue&quot;]); ax[0, 0].set_title(&quot;Bernoulli p=0.6&quot;)
+k = np.arange(0, 6); ax[0, 1].bar(k, stats.binom.pmf(k, 5, 0.5)); ax[0, 1].set_title(&quot;Binomial n=5, p=0.5&quot;)
+k = np.arange(0, 11); ax[0, 2].bar(k, stats.poisson.pmf(k, 3), color=&quot;pink&quot;); ax[0, 2].set_title(&quot;Poisson lambda=3&quot;)
+x = np.linspace(130, 210, 300); ax[1, 0].plot(x, stats.norm(170, 10).pdf(x)); ax[1, 0].set_title(&quot;Normal mu=170, sigma=10&quot;)
+x = np.linspace(-2, 12, 300); ax[1, 1].plot(x, stats.uniform(0, 10).pdf(x)); ax[1, 1].set_title(&quot;Uniform U(0,10)&quot;)
+x = np.linspace(0, 10, 300); ax[1, 2].plot(x, stats.expon(scale=2).pdf(x), &quot;r&quot;); ax[1, 2].set_title(&quot;Exponential lambda=0.5&quot;)
+plt.tight_layout(); plt.show()
+
+# %% 3. 68-95-99.7 규칙
+for s in [1, 2, 3]:
+    print(f&quot;평균 ± {s}σ 안: {stats.norm.cdf(s) - stats.norm.cdf(-s):.4f}&quot;)
+print(f&quot;키 200cm 초과(z=3): {stats.norm(170, 10).sf(200):.4f}&quot;)
+
+# %% 4. 시뮬레이션 vs 이론 (이항 n=5, p=0.5)
+rng = np.random.default_rng(3)
+samples = rng.binomial(5, 0.5, size=100000)
+print(&quot; k | 실제 비율 | 이론 확률&quot;)
+for kk in range(6):
+    print(f&quot; {kk} |  {np.mean(samples == kk):.4f}   |  {stats.binom.pmf(kk, 5, 0.5):.4f}&quot;)</code></pre></div></details>
+<details class="fold"><summary>실행하면 이렇게 나옵니다 (연구소에서 돌린 결과)</summary><pre class="out">이항 P(X=2)      : 공식 0.3125 / scipy 0.3125
+포아송 P(X=2)    : 공식 0.2240 / scipy 0.2240
+균등 P(2&lt;=X&lt;=8)  : 공식 0.6000 / scipy 0.6000
+지수 P(X&gt;3)      : 공식 0.2231 / scipy 0.2231  (scale = 1/λ)
+정규 P(X&gt;180)    : scipy 0.1587  (z = 1)
+베르누이 P(X=1)  : 0.6
+평균 ± 1σ 안: 0.6827
+평균 ± 2σ 안: 0.9545
+평균 ± 3σ 안: 0.9973
+키 200cm 초과(z=3): 0.0013
+ k | 실제 비율 | 이론 확률
+ 0 |  0.0311   |  0.0312
+ 1 |  0.1589   |  0.1562
+ 2 |  0.3098   |  0.3125
+ 3 |  0.3126   |  0.3125
+ 4 |  0.1561   |  0.1562
+ 5 |  0.0315   |  0.0312</pre><p class="muted" style="font-size:13px">그래프 창은 코랩 화면에 함께 나타납니다. 무작위 실험이 있는 코드는 seed를 고정해 같은 숫자가 나오게 했어요.</p></details></div>
+<div class="labbox"><div class="labh"><span class="lno">③</span> 비교 과제 — AI 코드와 연구소 코드 맞대 보기</div><ol><li>다섯 확률이 0.3125, 0.2240, 0.6, 0.2231, 0.1587인지 연구소 코드와 맞춰 보세요.</li><li>AI 코드가 지수 분포를 scipy로 만들 때 scale = 1/λ로 넣었는지 확인하세요(λ를 그대로 넣으면 틀립니다).</li><li>68-95-99.7 결과가 0.6827, 0.9545, 0.9973에 가까운지 보세요.</li></ol></div>
+</div></section>
+<section class="sec" id="sum" aria-labelledby="h-sum"><div class="wrap">
+<h2 id="h-sum">정리 — 모르는 값의 모양에 이름을 붙인다</h2>
+<div class="tblwrap"><table class="cmp"><thead><tr><th>질문</th><th>답 한 줄</th></tr></thead><tbody><tr><td>확률분포란?</td><td>확률변수가 가질 수 있는 값과 그 확률. 합은 1.</td></tr><tr><td>이산과 연속은?</td><td>셀 수 있는 값(막대) vs 어떤 실수든(곡선, 넓이가 확률).</td></tr><tr><td>이항·포아송은?</td><td>n번 중 성공 수(0.3125) / 정해진 시간의 사건 수(0.2240).</td></tr><tr><td>정규분포는?</td><td>종 모양 N(μ, σ²). ±1σ 68%, ±2σ 95%, ±3σ 99.7%.</td></tr><tr><td>균등·지수는?</td><td>모든 값이 똑같이(0.6) / 기다리는 시간(0.2231).</td></tr></tbody></table></div>
+<h3>용어 대응 카드</h3><div class="gloss"><div><b>확률분포란</b> = 확률변수가 가질 수 있는 값들과 각 값의 확률을 보여 주는 것.</div><div><b>이산과 연속</b> = 이산 = 셀 수 있는 값(베르누이·이항·포아송·기하·이산 균등), 연속 = 어떤 실수든(정규·균등·지수·감마·베타).</div><div><b>베르누이 분포</b> = 성공(1) 또는 실패(0) 한 번. 모수 p. P(X = x) = pˣ(1−p)¹⁻ˣ.</div><div><b>이항 분포</b> = 독립 베르누이 시행 n번 중 성공 횟수. P(X = k) = C(n,k)·pᵏ(1−p)ⁿ⁻ᵏ.</div><div><b>포아송 분포</b> = 정해진 시간·공간에서 일어나는 사건 수. 모수 λ(평균 횟수). P(X = k) = e^−λ λᵏ / k!.</div><div><b>정규(가우스) 분포</b> = 가장 중요한 연속 분포. 평균 μ에서 가장 높은 좌우 대칭 종 모양. X ~ N(μ, σ²).</div><div><b>균등 분포</b> = 범위 안 모든 값이 똑같이 그럴듯함. 연속 균등 U(a, b)의 밀도는 1/(b − a).</div><div><b>지수 분포</b> = 포아송 과정에서 다음 사건까지 기다리는 시간. f(x) = λe^(−λx), x ≥ 0.</div><div><b>그 밖의 중요한 분포와 정리</b> = 기하(첫 성공까지 시행 수), 감마(지수의 일반화), 베타(0~1 사이 확률 모델), t(작은 표본 추론), 카이제곱(분산·검정), F(분산 비교, ANOVA).</div></div>
+<h3>원자료와 다르게 쓴 곳</h3><ul><li>원자료 3번(베르누이) 그래프의 막대 높이 0.4·0.6은 그대로 두고, 예의 "coin toss: P(Head) = 0.6"을 "앞면 확률이 0.6인 찌그러진 동전"으로 풀었습니다.</li><li>원자료 9번 표의 분포 여섯 개에 쓰임 예를 한 줄씩 보탰습니다.</li></ul>
+<h3>비유와 예시의 한계</h3><ul><li>날씨 예보 비유처럼 분포는 "가정"입니다. 실제 데이터가 그 모양이 아니면 계산된 확률도 틀립니다.</li><li>정규분포는 음수 키에도 아주 작은 확률을 줍니다. 모델은 현실의 근사예요.</li></ul>
+<div class="next"><a href="08_statistics.html"><b>← 08장 통계 기초</b><br>평균·분산·사분위</a><a href="index.html"><b>도감 목차</b><br>열다섯 장과 항목 찾기</a><a href="10_correlation.html"><b>10장 상관과 공분산 →</b><br>함께 움직이는 정도</a></div>
+</div></section>
+<section class="sec" id="outro" aria-labelledby="h-outro"><div class="wrap"><h2 id="h-outro">아웃트로 — 다음 장으로</h2><div data-dlg="outro"></div></div></section>
+</main>
+<footer><div class="wrap">
+<h3>출처</h3>
+<table><thead><tr><th>#</th><th>자료</th><th>이 페이지에서 쓴 곳</th></tr></thead><tbody><tr><td>[1]</td><td>연구소 수학 노트 MATH-09 「Probability Distributions」 (인포그래픽 한 장)</td><td>도감 항목 전부, 예시 숫자</td></tr></tbody></table>
+<h3>예시값·설명용 모형인 것</h3><ul><li>항목의 숫자 예시는 설명용이며 연구소가 검산했습니다(code/check_numbers.py).</li><li>코랩 코드는 교육용 예제이며 실제 서비스에 그대로 쓰는 코드가 아닙니다.</li></ul>
+<p>캐릭터 이름·설정·그림은 저작권자 안상선의 허락 없이 사용할 수 없습니다.</p>
+<p>글 · 안상선 ((주)M-Robo 대표) · <a href="https://adminmrobo.github.io/who_am_i/who_am_i.html">저자 소개</a> · <a href="index.html">수리 도감 목차</a> · 자매편 <a href="https://adminmrobo.github.io/hello_space_lab/index.html">좌표 첫걸음</a> · <a href="https://adminmrobo.github.io/optimization_3d_map/first_step_0.html">최적화 첫걸음</a></p>
+</div></footer>
+<script>
+/*@@SPRITES@@*/
+/*@@COMMON@@*/
+/*@@MATHLAB@@*/
+(function(){
+'use strict';
+U.dialogues({"open": [["x3", "x3_hint", "9장 안내는 X3! 게임 질문: 뽑기 확률 1%인 아이템, 100번 뽑으면 반드시 나올까요?"], ["robo", "robo_coin", "1% × 100 = 100%! 반드시!"], ["x3", "x3_hint", "저도 그렇게 믿고 뽑았다가… 안 나왔어요. 이항 분포로 계산하면 100번 안에 한 번 이상 나올 확률은 약 63%래요."], ["moa", "moa_report", "나머지 37%는 한 번도 안 나온다는 거네요."], ["x3", "x3_hint", "맞아요! 이렇게 \"결과가 어떻게 흩어지나\"를 그린 게 확률분포예요. 오늘은 분포 진열장을 구경해요. 이름이 많아도 모양부터 보면 금방 친해져요."]], "mid": [["sia", "sia_smile", "이산 분포는 막대, 연속은 곡선. 구분이 되네요."], ["fly", "fly_point", "이제 연속 분포야. 연속에서는 막대 높이가 아니라 넓이가 확률이라는 걸 잊지 마."]], "lab_o": [["doc", "doc_board", "상황: 콜센터에 시간당 평균 3통이 옵니다. 상담원 한 명이 시간당 4통까지 받을 수 있다면, 넘칠 확률은 얼마일까요?"]], "lab_t": [["robo", "robo_calc", "평균 3통 < 4통. 넘칠 일 없음!"], ["fly", "fly_point", "평균이 3이어도 5통 오는 날이 있잖아. 이걸 눌러 봐. 포아송을 고르고 k를 움직여서."], ["asst", "asst_report", "보고: λ = 3에서 5통 이상 올 확률은 약 18.5%예요. 일주일에 하루 이상은 넘쳐요."]], "ai_d": [["robo", "robo_happy", "키는 정규분포니까 200cm 넘는 사람은 확률 0!"], ["doc", "doc_think", "곡선의 꼬리를 끝까지 따라가 볼까요?"]], "ai_e": [["robo", "robo_blush", "꼬리가 0에 닿지 않는구나… 0.13%."], ["x3", "x3_hint", "아주 드문 것과 불가능한 건 달라요. 1% 뽑기도 그래서 안 나왔던 거죠!"]], "colab": [["x3", "x3_hint", "scipy의 지수 분포는 λ가 아니라 scale = 1/λ를 넣어요. AI 코드가 이 함정에 빠졌는지 확인해 보세요!"]], "outro": [["doc", "doc_judge", "해석 문장: \"분포는 값이 흩어지는 방식에 대한 가정이고, 그 가정이 맞으면 드문 일의 확률까지 계산할 수 있다.\""], ["sia", "sia_think", "변수 하나의 모양은 알겠는데, 키와 몸무게처럼 두 변수가 같이 움직이는 건 어떻게 봐요?"], ["sia", "sia_guide", "그건 10장, 다시 제가 안내할게요. 점 구름으로 \"함께 움직이는 정도\"를 숫자 하나로 만들어요!"]]});
+U.fillImgs();
+ML.mountAll();
+ML.copyButtons();
+U.Gloss({"확률분포란": ["확률분포란", "What is a Probability Distribution", "확률변수가 가질 수 있는 값들과 각 값의 확률을 보여 주는 것."], "이산과 연속": ["이산과 연속", "Types of Probability Distributions", "이산 = 셀 수 있는 값(베르누이·이항·포아송·기하·이산 균등), 연속 = 어떤 실수든(정규·균등·지수·감마·베타)."], "베르누이 분포": ["베르누이 분포", "Bernoulli Distribution", "성공(1) 또는 실패(0) 한 번. 모수 p. P(X = x) = pˣ(1−p)¹⁻ˣ."], "이항 분포": ["이항 분포", "Binomial Distribution", "독립 베르누이 시행 n번 중 성공 횟수. P(X = k) = C(n,k)·pᵏ(1−p)ⁿ⁻ᵏ."], "포아송 분포": ["포아송 분포", "Poisson Distribution", "정해진 시간·공간에서 일어나는 사건 수. 모수 λ(평균 횟수). P(X = k) = e^−λ λᵏ / k!."], "정규(가우스) 분포": ["정규(가우스) 분포", "Normal (Gaussian) Distribution", "가장 중요한 연속 분포. 평균 μ에서 가장 높은 좌우 대칭 종 모양. X ~ N(μ, σ²)."], "균등 분포": ["균등 분포", "Uniform Distribution", "범위 안 모든 값이 똑같이 그럴듯함. 연속 균등 U(a, b)의 밀도는 1/(b − a)."], "지수 분포": ["지수 분포", "Exponential Distribution", "포아송 과정에서 다음 사건까지 기다리는 시간. f(x) = λe^(−λx), x ≥ 0."], "그 밖의 중요한 분포와 정리": ["그 밖의 중요한 분포와 정리", "Other Important Distributions", "기하(첫 성공까지 시행 수), 감마(지수의 일반화), 베타(0~1 사이 확률 모델), t(작은 표본 추론), 카이제곱(분산·검정), F(분산 비교, ANOVA)."]},["확률분포란", "이산과 연속", "베르누이 분포", "이항 분포", "포아송 분포", "정규(가우스) 분포"]);
+U.Study({quiz:{"q": [{"q": "동전(p = 0.5) 5번 중 앞면이 정확히 2번일 확률은?", "o": ["0.3125", "0.25", "0.5", "0.03125"], "a": 0, "why": "C(5,2) × 0.5⁵ = 10 × 0.03125.", "hint": "경우의 수 × 한 순서의 확률."}, {"q": "시간당 평균 3통(λ = 3)일 때 쓰는 분포는?", "o": ["포아송", "정규", "균등", "베르누이"], "a": 0, "why": "정해진 시간의 사건 \"개수\".", "hint": "개수를 세는 분포."}, {"q": "X ~ U(0, 10)에서 P(2 ≤ X ≤ 8)은?", "o": ["0.6", "0.8", "0.2", "6"], "a": 0, "why": "길이 6 × 높이 1/10.", "hint": "직사각형 넓이."}, {"q": "정규분포에서 평균 ± 2σ 안에 드는 비율은 약?", "o": ["95%", "68%", "99.7%", "50%"], "a": 0, "why": "68–95–99.7 규칙.", "hint": "1σ 68%, 2σ는?"}]}});
+U.start();
+})();
+</script>
+</body>
+</html>

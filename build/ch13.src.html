@@ -1,0 +1,263 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>13장 최적화 — 경사하강과 학습률 | 수리 도감 — 인공지능을 위한 수리적 기초</title>
+<meta name="description" content="수리 도감 13장. 최적화의 뜻(argmin), 최소화·최대화 문제, 경사하강, 배치·확률적·미니배치 경사하강, 학습률, 모멘텀·RMSProp·Adam 등 최적화 알고리즘, 선형 회귀 MSE 예, 손실 곡면을 조교 초파리가 그릇 바닥 찾기 실험실로 안내합니다.">
+<meta property="og:type" content="article"><meta property="og:title" content="13장 최적화 — 경사하강과 학습률 | 수리 도감 — 인공지능을 위한 수리적 기초"><meta property="og:description" content="수리 도감 13장. 최적화의 뜻(argmin), 최소화·최대화 문제, 경사하강, 배치·확률적·미니배치 경사하강, 학습률, 모멘텀·RMSProp·Adam 등 최적화 알고리즘, 선형 회귀 MSE 예, 손실 곡면을 조교 초파리가 그릇 바닥 찾기 실험실로 안내합니다.">
+<meta property="og:image" content="https://adminmrobo.github.io/math_basic_for_ai_dictionary/img/og/ch13.png"><meta property="og:url" content="https://adminmrobo.github.io/math_basic_for_ai_dictionary/13_optimization.html"><meta name="twitter:card" content="summary_large_image">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+KR:wght@400;500;700&display=swap" rel="stylesheet">
+<!--@@CSS@@-->
+<style>
+.tl,.tr{font-weight:700;font-size:13.5px;margin-bottom:4px}.tl{color:var(--amber)}.tr{color:var(--terrain)}
+.hex{display:inline-grid;place-items:center;min-width:44px;height:34px;padding:0 10px;margin-right:10px;border-radius:8px;background:var(--terrain);color:#fff;font-size:17px;vertical-align:4px}
+.sec{padding:40px 0;border-top:1px solid var(--rule)}
+.cast{display:grid;gap:10px}.castc{display:flex;gap:10px;align-items:center;background:var(--panel);border:1px solid var(--rule);border-left:4px solid var(--cc);border-radius:10px;padding:8px 10px}
+.castc.host{background:#fff;box-shadow:0 0 0 2px var(--cc)}
+.castc img{width:60px;height:60px;flex:none}.castc p{margin:0;font-size:13.5px;color:var(--muted);line-height:1.55}
+.cover img.art{image-rendering:pixelated;image-rendering:crisp-edges}
+.diff{display:inline-block;border:1px solid var(--c-asst);color:var(--c-asst);border-radius:999px;padding:0 10px;font-size:12.5px;margin-left:6px}
+.hostcard{display:flex;gap:14px;align-items:center;border:2px solid var(--cc);border-radius:14px;padding:12px 16px;margin:10px 0 16px;background:#fff}
+.hostcard img{width:84px;height:84px;flex:none}.hostcard p{margin:4px 0 0;color:var(--muted)}
+.chain span.on{background:var(--terrain);color:#fff;border-color:var(--terrain)}
+.where{background:var(--panel);border-radius:10px;padding:10px 14px}
+.sis{display:flex;gap:12px;align-items:center;border:1px solid var(--c-asst);border-radius:12px;padding:10px 14px;margin:10px 0;background:#fff7fb}.sis img{width:56px;height:56px;flex:none}.sis p{margin:0}
+.dexidx{display:flex;flex-wrap:wrap;gap:6px;margin:10px 0 18px}.dexidx a{border:1px solid var(--rule);border-radius:999px;padding:3px 12px;font-size:14px;text-decoration:none;background:var(--panel)}
+.dexidx a:hover{border-color:var(--terrain)}
+.dex{border:1px solid var(--rule);border-top:4px solid var(--terrain);border-radius:14px;padding:16px 20px 12px;margin:0 0 22px;background:#fff;scroll-margin-top:70px}
+.dex header{display:flex;gap:12px;align-items:baseline;flex-wrap:wrap}.dex h3{margin:0;font-size:21px}.dex h3 small{font-size:14px;color:var(--muted);font-weight:500}
+.dexno{font:700 13px/1 var(--font);color:#fff;background:var(--c-x);border-radius:6px;padding:4px 8px}
+.dex .one{font-size:17px;font-weight:600;color:var(--terrain);margin:8px 0 10px}
+.dexgrid{display:grid;grid-template-columns:1.2fr 1fr;gap:14px;margin-bottom:10px}
+.dexgrid .dw{line-height:1.8}.dexgrid .try{background:var(--amber-soft);border:1px dashed #e8b67a;border-radius:10px;padding:10px 14px}.dexgrid .try ol{margin:6px 0 0;padding-left:22px}
+.dexwarn{background:var(--eye-soft);border-radius:8px;padding:8px 12px;font-size:15px}
+@media(max-width:760px){.dexgrid{grid-template-columns:1fr}}
+.toon{margin:26px auto;max-width:820px;border:1px solid var(--rule);border-radius:14px;overflow:hidden;background:#fff}
+.toon .tframe{background:#fff;border-bottom:1px solid var(--rule)}.toon img{display:block;width:100%;height:auto;image-rendering:pixelated;image-rendering:crisp-edges}
+.toon figcaption{padding:12px 16px}.toon .ttl{display:block;margin-bottom:8px;color:var(--amber)}
+.tline{display:flex;gap:10px;align-items:center;margin:6px 0}.tline img{width:40px;height:40px;flex:none;border-radius:8px;border:1px solid var(--rule)}.tline p{margin:0}
+.tpoint{margin:10px 0 0;background:var(--panel);border-radius:8px;padding:8px 12px;font-size:15px}
+.labbox{border:1px solid var(--rule);border-radius:14px;padding:14px 18px;margin:16px 0;background:#fff}
+.labh{font-weight:700;font-size:17px;margin-bottom:6px}.lno{display:inline-grid;place-items:center;width:28px;height:28px;border-radius:50%;background:var(--terrain);color:#fff;margin-right:6px}
+.codewrap{position:relative}.cpy{position:absolute;right:8px;top:8px;font:600 12.5px var(--font);border:1px solid var(--rule);background:#fff;border-radius:8px;padding:3px 10px;cursor:pointer}
+pre.prompt,pre.code,pre.out{white-space:pre-wrap;word-break:break-word;background:#f7f9fb;border:1px solid var(--rule);border-radius:10px;padding:14px 16px;font:13.5px/1.65 ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;max-height:520px;overflow:auto;margin:8px 0}
+pre.prompt{background:#fbf8ff;border-color:#d9c8f0;font-family:var(--font);font-size:14.5px}
+pre.out{background:#0f1720;color:#d8e6f0}
+.colabbtns{display:flex;flex-wrap:wrap;gap:8px}.colabbtns a.bt{text-decoration:none}
+.panel .row2{display:grid;grid-template-columns:1fr 1fr;gap:14px}@media(max-width:760px){.panel .row2{grid-template-columns:1fr}}
+.panel .cv{width:100%;height:300px;display:block;border:1px solid var(--rule);border-radius:10px;background:#fff;touch-action:none}
+.panel .cv.tall{height:360px}
+.panel .rd{display:grid;grid-template-columns:repeat(auto-fit,minmax(130px,1fr));gap:8px;margin:10px 0}
+.panel .rd div{background:var(--panel);border-radius:10px;padding:8px 10px}.panel .rd b{display:block;font-size:19px}.panel .rd span{font-size:12.5px;color:var(--muted)}
+.panel .sl{display:flex;align-items:center;gap:10px;margin:6px 0;flex-wrap:wrap}.panel .sl label{min-width:140px;font-size:14.5px}.panel .sl input[type=range]{flex:1;min-width:140px}
+.panel .msg{background:#f4fbfb;border:1px dashed var(--terrain);border-radius:10px;padding:10px 14px;margin:8px 0;font-size:15px}
+.panel textarea,.panel input[type=text]{width:100%;font:15px var(--font);padding:8px 10px;border:1px solid var(--rule);border-radius:8px}
+.panel table.mt{border-collapse:collapse;margin:6px 0}.panel table.mt td{border:1px solid var(--rule);min-width:44px;text-align:center;padding:4px 6px;font-variant-numeric:tabular-nums}
+.panel table.mt td.hl{background:var(--amber-soft);font-weight:700}.panel table.mt td.hl2{background:var(--info-soft);font-weight:700}
+.panel .step{font-variant-numeric:tabular-nums}
+.ptitle{font-weight:700;margin-bottom:6px}
+</style>
+</head>
+<body>
+<nav class="top" aria-label="섹션 바로가기"><div class="row">
+  <a class="logo" href="index.html">수리 <i>도감</i> 13</a>
+  <div class="links"><a href="#dex">도감 항목</a><a href="#lab">실험실</a><a href="#ai">AI 판단</a><a href="#colab">코랩 실습</a><a href="#sum">정리</a><a href="#kg">색인</a><a href="14_eigen_pca.html">14장 →</a></div>
+</div></nav>
+<div class="cover" id="cover"><div class="frame"><img class="art" src="img/cover_ch13.webp" width="1920" height="1080" alt="칠판에 θ ← θ − α∇f, α = 0.1, argmin J(w, b)가 적혀 있고 조교 초파리가 가리킨다. 주판봇이 한숨을, X2가 필기를 하며 양옆에 있다. 그릇 곡선과 빨간 공 소품. 16비트 픽셀아트." fetchpriority="high"><span class="cap">수리 도감 · MATH-13</span><span class="cover-chip">13장 최적화 — 경사하강과 학습률 · 안내 조교 초파리</span></div></div>
+<header class="hero" id="top"><div class="wrap">
+  <div class="eyebrow">수리 도감 · 인공지능을 위한 수리적 기초 · 미적분·최적화 · 원자료 MATH-13 <span class="diff">이번 장 안내: 조교 초파리</span></div>
+  <h1>13장 최적화 — 경사하강과 학습률</h1>
+  <p class="question">AI는 "학습한다"는 말 대신 실제로 무엇을 반복하고 있을까?</p>
+  <p class="lead">최적화는 함수를 가장 작게(또는 크게) 만드는 값을 찾는 일입니다. ML에서는 손실 함수를 최소화하는 가중치를 찾아요. 12장의 그래디언트 반대로 한 걸음씩 걷는 경사하강, 걸음 크기인 학습률, 데이터를 얼마나 나눠 쓰느냐에 따른 세 가지 경사하강, 그리고 Adam 같은 개선판을 항목 8개로 정리합니다.</p>
+  <p class="byline">글 · 안상선 ((주)M-Robo 대표) · <a href="https://adminmrobo.github.io/who_am_i/who_am_i.html">저자 소개</a> · 2026-11-26 · v1.0</p>
+  <div class="start"><b>처음이라면</b> 「경사하강」과 「학습률」을 읽고, 실험실에서 학습률을 0.1 → 0.6 → 1.05로 바꿔 보세요. 수렴·지그재그·발산 세 가지 모습이 이 장의 전부예요.</div>
+  <div class="kpis" aria-label="숫자 요약"><div class="kpi m"><b>8개</b><span>도감 항목 (슬라이드 MATH-13의 모든 상자)</span></div><div class="kpi g"><b>1개</b><span>직접 움직이는 실험실</span></div><div class="kpi a"><b>2 + 2</b><span>웃는 그림 둘, 코랩 실습 둘(AI 프롬프트·실제 코드)</span></div><div class="kpi r"><b>4문제</b><span>확인 퀴즈</span></div></div>
+</div></header>
+<main>
+<section class="sec" id="plain" aria-labelledby="h-plain"><div class="wrap"><h2 id="h-plain">처음 오신 분께 — 이 장을 3줄로</h2><ol class="plain3"><li><b>무엇을</b> θ* = argmin f(θ), 경사하강 θ ← θ − α∇f(θ), 학습률 α, 배치·SGD·미니배치, 모멘텀·RMSProp·Adam.</li><li><b>왜 중요한가</b> AI의 "학습"은 곧 최적화예요. 학습이 안 되거나 폭발하는 문제의 대부분이 학습률과 최적화 설정에서 나옵니다.</li><li><b>AI에서는</b> 선형 회귀(MSE 최소화), 로지스틱 회귀(로그 손실), 신경망(교차 엔트로피), 하이퍼파라미터 튜닝(검증 오차 최소화).</li></ol>
+<p class="plain-note">코드와 수식을 몰라도 됩니다. 항목마다 "말로 먼저"와 "숫자로 한 번 해 보기"가 먼저 나오고, 식은 "식으로 보면"을 펼칠 때만 나옵니다. 여기서 한 번 멈춰도 괜찮아요.</p>
+<details class="abbr"><summary>기호·영어 약어 풀이 (7개)</summary><div class="abbr-list"><div><b>argmin</b> <span>아그민</span> — 함수를 가장 작게 만드는 입력 값</div><div><b>θ</b> <span>세타</span> — 파라미터(가중치·계수)</div><div><b>α</b> <span>알파</span> — 학습률(걸음 크기)</div><div><b>GD</b> <span>Gradient Descent</span> — 경사하강</div><div><b>SGD</b> <span>Stochastic Gradient Descent</span> — 확률적 경사하강</div><div><b>MSE</b> <span>Mean Squared Error</span> — 평균 제곱 오차</div><div><b>Adam</b> <span>Adaptive Moment Estimation</span> — 모멘텀 + RMSProp</div></div></details></div></section>
+<section class="sec" id="cast" aria-labelledby="h-cast" style="padding:18px 0 0;border:0"><div class="wrap"><h3 id="h-cast">연구소 식구 — 열다섯 장을 돌아가며 안내합니다</h3>
+<div class="cast" style="grid-template-columns:repeat(auto-fit,minmax(230px,1fr))"><div class="castc" style="--cc:var(--c-doc)"><img data-mood="doc_board" alt="" aria-hidden="true"><div><b>박사</b><p>연구소 책임자. 장마다 상황 질문으로 문을 열고 해석 문장으로 닫아요.</p></div></div><div class="castc" style="--cc:var(--c-asst)"><img data-mood="asst_smile" alt="" aria-hidden="true"><div><b>조교 하루</b><p>수식 담당. 기호 하나씩 읽는 법과 뜻부터 풀어 줘요.</p></div></div><div class="castc host" style="--cc:var(--c-fly)"><img data-mood="fly_point" alt="" aria-hidden="true"><div><b>조교 초파리 · 이번 장 안내</b><p>실험 담당. "이걸 눌러 봐"로 실험판을 열고, 답이 그럴듯한지 의심해요.</p></div></div><div class="castc" style="--cc:var(--c-robo)"><img data-mood="robo_calc" alt="" aria-hidden="true"><div><b>조교 주판봇</b><p>계산 담당. 1초 만에 답을 내지만 가끔 너무 빨라요. AI 판단 코너의 단골.</p></div></div><div class="castc" style="--cc:var(--c-sia)"><img data-mood="sia_smile" alt="" aria-hidden="true"><div><b>시아</b><p>직관파 연구원. 비유부터 꺼내 "그러니까 이런 거죠?"라고 물어요.</p></div></div><div class="castc" style="--cc:var(--c-moa)"><img data-mood="moa_smile" alt="" aria-hidden="true"><div><b>모아</b><p>꼼꼼파 연구원. "그건 언제나 그래요?" 하고 조건과 예외를 물어요.</p></div></div><div class="castc" style="--cc:var(--c-x)"><img data-mood="x1_hint" alt="" aria-hidden="true"><div><b>X1</b><p>막내 연구원. 손을 번쩍 들고 엉뚱한 질문을 해요.</p></div></div><div class="castc" style="--cc:var(--c-x)"><img data-mood="x2_hint" alt="" aria-hidden="true"><div><b>X2</b><p>막내 연구원. 필기를 가장 열심히 해요.</p></div></div><div class="castc" style="--cc:var(--c-x)"><img data-mood="x3_hint" alt="" aria-hidden="true"><div><b>X3</b><p>막내 연구원. 게임과 퀴즈 시간에 가장 신나요.</p></div></div></div></div></section>
+<section class="sec" id="open" aria-labelledby="h-open"><div class="wrap">
+<h2 id="h-open"><span class="hex">13</span>손실을 줄이는 걸음</h2>
+<div class="hostcard" style="--cc:var(--c-fly)"><img data-mood="fly_point" alt="" aria-hidden="true"><div><b>이번 장 안내 · 조교 초파리</b><p>3장에서 화살표를 쫓았던 초파리가, 이번엔 화살표를 따라 그릇 바닥까지 날아가는 실험을 맡았습니다.</p></div></div>
+<div data-dlg="open"></div>
+<div class="chain"><span class="">11 미적분 기초</span><i>→</i><span class="">12 편미분과 그래디언트</span><i>→</i><span class="on">13 최적화</span><i>→</i><span class="">14 고윳값·고유벡터와 PCA</span><i>→</i><span class="">15 총정리</span></div>
+<p class="where"><b>도감 속 자리</b> 11~12장(미분·그래디언트)이 "방향"을 줬다면, 이 장은 그 방향으로 "얼마나, 어떻게 걸을지"를 정합니다. 5장의 정규방정식과 같은 답을 반복 계산으로 찾고, 14장 PCA·15장 총정리로 이어집니다.</p>
+<div class="sis"><img data-mood="asst_report" alt="" aria-hidden="true"><p><b>조교 하루의 길 안내</b> 같은 주제를 생선 가게 AI 모델 이야기로 차례차례 따라가고 싶다면 「인공지능을 위한 수학」 <a href="https://adminmrobo.github.io/math_for_ai_lab/part3.html#c15">3부 15장 최적화</a>을 함께 보세요. 이야기로 흐름을 잡고, 이 도감으로 낱말을 찾아보는 식으로 쓰면 좋아요.</p></div>
+<figure class="toon" id="toon1"><div class="tframe"><img src="img/toon/ch13_a.webp" width="1200" height="800" loading="lazy" alt="픽셀아트. 거대한 그릇 모양 트랙에서 주판봇이 탄 수레가 바닥을 지나쳐 반대편 벽으로, 다시 더 높이 반대편으로 튀어 오르며 결국 그릇 밖으로 날아간다. 초파리가 &quot;α를 줄여!&quot;라고 확성기로 외친다."></div><figcaption><b class="ttl">웃는 그림 1 · 학습률 1.1의 롤러코스터</b><div class="tline"><img data-mood="robo_wow" alt="" aria-hidden="true"><p><b>조교 주판봇</b> 학습률 1.1! 크게 걸으면 빨리 도착하겠지! …으아아, 점점 더 높이 튀어!</p></div><div class="tline"><img data-mood="fly_arms" alt="" aria-hidden="true"><p><b>조교 초파리</b> 공비 −1.2! 걸음마다 바닥에서 더 멀어지는 거야. 발산!</p></div><div class="tline"><img data-mood="x2_hint" alt="" aria-hidden="true"><p><b>X2</b> (필기) 학습률이 너무 크면 손실 폭발. 손실이 nan이면 α부터 의심.</p></div><p class=tpoint><b>그림 속 수학</b> α가 너무 크면 최솟값을 넘어가고, |1 − 2α| > 1이면 걸음마다 더 멀어져 발산한다.</p></figcaption></figure>
+</div></section>
+<section class="sec" id="dex" aria-labelledby="h-dex"><div class="wrap">
+<h2 id="h-dex"><span class="hex">도감</span>도감 항목 — 8개</h2>
+<p>슬라이드 MATH-13의 상자를 하나도 빼지 않고 항목으로 옮겼습니다. 이름표를 눌러 바로 가세요.</p>
+<div class="dexidx"><a href="#m13-what">최적화란</a><a href="#m13-types">최소화와 최대화</a><a href="#m13-gd">경사하강</a><a href="#m13-variants">경사하강의 세 가지</a><a href="#m13-lr">학습률</a><a href="#m13-algos">최적화 알고리즘</a><a href="#m13-example">ML 최적화 예: 선형 회귀</a><a href="#m13-surface">손실 곡면 (3D)</a></div>
+<article class="dex" id="m13-what" data-dex="최적화란"><header><span class="dexno">13-01</span><h3>최적화란 <small>What is Optimization</small></h3></header><p class="one">함수를 최소화(또는 최대화)하는 파라미터의 가장 좋은 값을 찾는 것. θ* = argmin f(θ).</p><div class="dexgrid"><div class="dw"><b>말로 먼저</b> θ는 파라미터(가중치·계수), f(θ)는 목적 함수(예: 손실 함수)예요. argmin은 "가장 작은 값" 자체가 아니라 "가장 작게 만드는 입력"을 뜻합니다. f(θ) = (θ − 3)²이면 최솟값은 0이고 argmin은 3이에요.</div><div class="try"><b>숫자로 한 번 해 보기</b><ol><li>f(θ) = (θ − 3)² → min f = 0, argmin = 3</li><li>ML: 손실이 가장 작은 가중치 = argmin</li><li>최대화는 argmax (예: 이익, 정확도)</li></ol></div></div><div class="pair"><div><div class="tl">학교 수학으로 보면</div>고등 "미분의 활용: 최댓값·최솟값".</div><div><div class="tr">AI에서는</div>"모델을 학습시켰다" = "손실 함수의 argmin(근처)을 찾았다".</div></div><details class="eqx"><summary>식으로 보면 (몰라도 됩니다)</summary><table class="ez-tb"><thead><tr><th>식 조각</th><th>읽는 법</th><th>뜻</th></tr></thead><tbody><tr><td class="m">θ* = argmin_θ f(θ)</td><td>세타 스타는 아그민</td><td>손실을 가장 작게 하는 θ</td></tr></tbody></table></details></article>
+<article class="dex" id="m13-types" data-dex="최소화와 최대화"><header><span class="dexno">13-02</span><h3>최소화와 최대화 <small>Types of Optimization Problems</small></h3></header><p class="one">아래로 볼록한 그릇의 바닥(최소화), 위로 볼록한 언덕의 꼭대기(최대화). ML 예: 선형 회귀 MSE, 로지스틱 로그 손실, 신경망 교차 엔트로피, 하이퍼파라미터의 검증 오차.</p><div class="dexgrid"><div class="dw"><b>말로 먼저</b> 최대화 문제는 부호를 바꾸면 최소화 문제가 돼요(argmax f = argmin(−f)). 그래서 ML 라이브러리는 대개 "최소화"만 구현합니다.</div><div class="try"><b>숫자로 한 번 해 보기</b><ol><li>최소화: 손실 → 그릇 바닥</li><li>최대화: 정확도·이익 → 언덕 꼭대기</li><li>max f(θ) = −min(−f(θ))</li></ol></div></div><div class="pair"><div><div class="tl">학교 수학으로 보면</div>이차함수의 최댓값·최솟값(중3·고1).</div><div><div class="tr">AI에서는</div>선형 회귀(MSE), 로지스틱 회귀(로그 손실), 신경망(교차 엔트로피), 하이퍼파라미터 튜닝(검증 오차) — 모두 최소화.</div></div></article>
+<article class="dex" id="m13-gd" data-dex="경사하강"><header><span class="dexno">13-03</span><h3>경사하강 <small>Gradient Descent</small></h3></header><p class="one">함수의 최솟값을 찾는 반복 알고리즘. 그래디언트 반대로 α만큼 걷는다: θ_new = θ_old − α∇f(θ).</p><div class="dexgrid"><div class="dw"><b>말로 먼저</b> f(θ) = θ²이면 ∇f = 2θ라서 θ_new = θ − α(2θ) = θ(1 − 2α). 걸음마다 θ에 (1 − 2α)가 곱해지니, 이 수의 크기가 1보다 작으면 θ가 0(바닥)으로 줄어들어요.</div><div class="try"><b>숫자로 한 번 해 보기</b><ol><li>θ = 4, α = 0.1 → θ × 0.8 = 3.2</li><li>→ 2.56 → 2.048 → … → 0에 다가감</li><li>α = 0.5 → θ × 0 = 0 → 한 걸음에 바닥(이 그릇에서만)</li></ol></div></div><div class="pair"><div><div class="tl">학교 수학으로 보면</div>미분(접선의 기울기) + 수열(등비수열 θₙ = θ₀(1 − 2α)ⁿ).</div><div><div class="tr">AI에서는</div>거의 모든 딥러닝 학습의 기본 반복. 프레임워크의 optimizer.step() 한 번이 이 한 걸음.</div></div><details class="eqx"><summary>식으로 보면 (몰라도 됩니다)</summary><table class="ez-tb"><thead><tr><th>식 조각</th><th>읽는 법</th><th>뜻</th></tr></thead><tbody><tr><td class="m">θ_new = θ_old − α∇f(θ)</td><td>경사하강</td><td>반대 방향으로 α만큼</td></tr><tr><td class="m">f = θ² → θ_new = θ(1 − 2α)</td><td>예</td><td>등비수열</td></tr></tbody></table></details></article>
+<article class="dex" id="m13-variants" data-dex="경사하강의 세 가지"><header><span class="dexno">13-04</span><h3>경사하강의 세 가지 <small>Types of Gradient Descent</small></h3></header><p class="one">배치(전체 데이터로 한 걸음), 확률적 SGD(데이터 하나로), 미니배치(데이터 몇십 개로).</p><div class="dexgrid"><div class="dw"><b>말로 먼저</b> ① 배치: 수렴이 안정적이지만 데이터가 크면 한 걸음이 너무 느려요. ② SGD: 한 걸음이 빠르고 큰 데이터에 맞지만 걸음이 들쭉날쭉(덜 안정). ③ 미니배치: 둘의 균형, 다만 좋은 배치 크기를 골라야 해요. 실제로는 미니배치가 표준입니다.</div><div class="try"><b>숫자로 한 번 해 보기</b><ol><li>데이터 1만 개, 배치: 한 걸음에 1만 개 계산</li><li>SGD: 한 걸음에 1개 → 1만 걸음 = 1에포크</li><li>미니배치 32개: 한 걸음에 32개 → 약 313걸음 = 1에포크</li></ol></div></div><div class="pair"><div><div class="tl">학교 수학으로 보면</div>표본(8장)으로 전체를 짐작하는 생각.</div><div><div class="tr">AI에서는</div>배치 크기는 GPU 메모리와 학습 안정성 사이의 줄다리기. 32, 64, 128 같은 값을 흔히 씁니다.</div></div><details class="eqx"><summary>식으로 보면 (몰라도 됩니다)</summary><table class="ez-tb"><thead><tr><th>식 조각</th><th>읽는 법</th><th>뜻</th></tr></thead><tbody><tr><td class="m">배치: θ ← θ − α∇f(θ)</td><td>전체</td><td>안정·느림</td></tr><tr><td class="m">SGD: θ ← θ − α∇f(θ; xᵢ)</td><td>하나</td><td>빠름·흔들림</td></tr><tr><td class="m">미니배치: θ ← θ − α∇f(θ; B)</td><td>묶음 B</td><td>균형</td></tr></tbody></table></details></article>
+<div data-dlg="mid"></div>
+<article class="dex" id="m13-lr" data-dex="학습률"><header><span class="dexno">13-05</span><h3>학습률 <small>Learning Rate</small></h3></header><p class="one">각 반복의 걸음 크기 α. 너무 크면 최솟값을 넘어가고, 너무 작으면 아주 느리게 수렴한다.</p><div class="dexgrid"><div class="dw"><b>말로 먼저</b> 좋은 학습률은 손실이 매끄럽게 줄고, 큰 학습률은 손실이 지그재그로 튀거나 폭발하고, 작은 학습률은 손실이 거의 안 줄어요. 학습 도중 학습률을 줄여 가는 "학습률 스케줄"도 씁니다.</div><div class="try"><b>숫자로 한 번 해 보기</b><ol><li>f = θ², θ₀ = 4: α = 0.1 → 15걸음 뒤 θ ≈ 0.14</li><li>α = 0.01 → 15걸음 뒤 θ ≈ 2.95 (느림)</li><li>α = 1.1 → 걸음마다 −1.2배 → 발산</li></ol></div></div><div class="pair"><div><div class="tl">학교 수학으로 보면</div>등비수열의 수렴 조건 |r| < 1.</div><div><div class="tr">AI에서는</div>"학습이 안 돼요"의 첫 번째 점검 항목. 손실이 nan(숫자 아님)이 되면 학습률이 너무 큰 경우가 많아요.</div></div></article>
+<article class="dex" id="m13-algos" data-dex="최적화 알고리즘"><header><span class="dexno">13-06</span><h3>최적화 알고리즘 <small>Optimization Algorithms</small></h3></header><p class="one">경사하강, 모멘텀(지난 기울기로 가속), RMSProp(제곱 기울기 평균으로 학습률 조절), Adam(모멘텀 + RMSProp, 가장 인기), Adagrad, Adadelta, 네스테로프.</p><div class="dexgrid"><div class="dw"><b>말로 먼저</b> 기본 경사하강은 좁고 긴 골짜기에서 벽 사이를 지그재그로 왔다 갔다 해요. 모멘텀은 굴러가는 공처럼 지난 방향을 기억해 흔들림을 줄이고, RMSProp·Adagrad는 변수마다 걸음 크기를 따로 맞추며, Adam은 둘을 합칩니다. 네스테로프는 "앞을 내다보고" 기울기를 재요.</div><div class="try"><b>숫자로 한 번 해 보기</b><ol><li>모멘텀: v ← βv + ∇f, θ ← θ − αv (β ≈ 0.9)</li><li>RMSProp: 자주 크게 흔들리는 변수는 걸음을 줄임</li><li>Adam: 대부분의 딥러닝 기본값(α = 0.001)</li></ol></div></div><div class="pair"><div><div class="tl">학교 수학으로 보면</div>수열의 점화식(지난 값으로 다음 값).</div><div><div class="tr">AI에서는</div>코드 한 줄로 바꿔 끼울 수 있어요: torch.optim.SGD → torch.optim.Adam.</div></div></article>
+<article class="dex" id="m13-example" data-dex="ML 최적화 예: 선형 회귀"><header><span class="dexno">13-07</span><h3>ML 최적화 예: 선형 회귀 <small>Optimization in ML (Example)</small></h3></header><p class="one">MSE 손실 J(w, b) = (1/m) Σ (yᵢ − (wxᵢ + b))²를 w ← w − α ∂J/∂w, b ← b − α ∂J/∂b로 줄인다.</p><div class="dexgrid"><div class="dw"><b>말로 먼저</b> 5장의 점 (1, 2), (2, 3), (3, 5)에 경사하강을 쓰면, 반복할수록 w와 b가 정규방정식의 답 w = 1.5, b ≈ 0.333에 다가갑니다. 방정식을 한 번에 푸는 대신 조금씩 걸어서 같은 답에 닿는 거예요.</div><div class="try"><b>숫자로 한 번 해 보기</b><ol><li>∂J/∂w = (−2/m) Σ xᵢ(yᵢ − ŷᵢ), ∂J/∂b = (−2/m) Σ (yᵢ − ŷᵢ)</li><li>w = b = 0, α = 0.05에서 출발</li><li>수천 걸음 뒤 w ≈ 1.500, b ≈ 0.333 (5장 답과 같음)</li></ol></div></div><div class="pair"><div><div class="tl">학교 수학으로 보면</div>편미분(12장) + 일차함수.</div><div><div class="tr">AI에서는</div>데이터가 아주 크거나 모델이 비선형이면 정규방정식을 못 쓰니 경사하강이 유일한 길이에요.</div></div><details class="eqx"><summary>식으로 보면 (몰라도 됩니다)</summary><table class="ez-tb"><thead><tr><th>식 조각</th><th>읽는 법</th><th>뜻</th></tr></thead><tbody><tr><td class="m">J(w,b) = (1/m) Σ (yᵢ − (wxᵢ + b))²</td><td>MSE 손실</td><td></td></tr><tr><td class="m">w ← w − α ∂J/∂w, b ← b − α ∂J/∂b</td><td>갱신 규칙</td><td>손실이 최소가 될 때까지 반복</td></tr></tbody></table></details></article>
+<article class="dex" id="m13-surface" data-dex="손실 곡면 (3D)"><header><span class="dexno">13-08</span><h3>손실 곡면 (3D) <small>Loss Surface (3D View)</small></h3></header><p class="one">가중치 축(w, b) 위에 손실 J를 높이로 세운 지형. 경사하강은 이 그릇의 바닥으로 내려가는 길.</p><div class="dexgrid"><div class="dw"><b>말로 먼저</b> 선형 회귀의 MSE는 바닥이 하나뿐인 매끈한 그릇이라 어디서 출발해도 같은 바닥에 닿아요. 신경망의 손실 지형은 울퉁불퉁해서 "충분히 좋은 골짜기(좋은 국소 최솟값)"에 닿는 것을 목표로 합니다. 정리: 최적화는 최선의 파라미터를 찾고, 경사하강은 그래디언트 반대로, 학습률이 수렴에 중요하고, 모멘텀·RMSProp·Adam이 더 빠르고 나은 최적화를 돕습니다.</div><div class="try"><b>숫자로 한 번 해 보기</b><ol><li>그릇 하나(볼록): 전역 최솟값 = 유일한 바닥</li><li>울퉁불퉁: 국소 최솟값, 안장점이 있을 수 있음</li><li>목표: 전역 또는 충분히 좋은 국소 최솟값</li></ol></div></div><div class="pair"><div><div class="tl">학교 수학으로 보면</div>이차함수의 그래프(그릇)의 3D판.</div><div><div class="tr">AI에서는</div>자매편 「최적화 첫걸음」(좌표축 위의 그릇)에서 3D 지형을 직접 돌려 볼 수 있어요.</div></div></article>
+</div></section>
+<section class="sec" id="lab" aria-labelledby="h-lab"><div class="wrap">
+<h2 id="h-lab"><span class="hex">실험</span>그릇 바닥 찾기 — 학습률 α에 따라 달라지는 걸음</h2>
+<div data-dlg="lab_o"></div>
+<div class="easy"><details class="ez-why" open><summary>왜 이 방법을 쓰나</summary><ol><li>문제: 손실 함수의 바닥(최적 가중치)을 찾고 싶은데, 가중치가 수백만 개라 방정식을 한 번에 풀 수 없습니다.</li><li>앞 방법의 한계: 5장의 정규방정식은 역행렬이 필요해 데이터·가중치가 크면 계산이 불가능하고, 비선형 모델에는 아예 쓸 수 없습니다.</li><li><b>이 방법의 해법: 지금 자리의 그래디언트만 계산해 반대 방향으로 조금씩 걷는 것을 반복합니다(경사하강).</b></li></ol><p class="ez-easy"><b>쉽게 말하면</b> 눈을 가리고 그릇 바닥을 찾을 때, 발밑 기울기를 느끼며 아래로 한 발씩.</p></details><div class="ez-math"><div class="ez-t">연구원이 묻고, 조교 하루가 풀어 봅니다</div><div class="ez-q"><img data-mood="x2_hint" alt="" aria-hidden="true"><p><b style="display:block;font-size:12.5px;color:var(--muted)">X2</b>θ(1 − 2α)라는 식이 왜 그렇게 중요해요?</p></div><p><b>말로 먼저</b> 걸음마다 θ에 같은 수(1 − 2α)가 곱해지니 θ는 등비수열이에요. 공비의 크기가 1보다 작으면 0으로 줄고(수렴), 1보다 크면 점점 커져요(발산).</p><p><b>학교 수학으로 보면</b> 고등 "등비수열의 수렴 조건".</p><div class="try" style="background:#fff;border:1px dashed #e8b67a;border-radius:10px;padding:10px 14px"><b>숫자로 한 번 해 보기</b><ol style="margin:6px 0 0;padding-left:22px"><li>α = 0.1 → 공비 0.8 → 수렴</li><li>α = 0.7 → 공비 −0.4 → 부호가 바뀌며 수렴(지그재그)</li><li>α = 1.1 → 공비 −1.2 → 발산</li></ol></div><details class="eqx"><summary>식으로 보면 (몰라도 됩니다)</summary><table class="ez-tb"><thead><tr><th>식 조각</th><th>읽는 법</th><th>뜻</th></tr></thead><tbody><tr><td>1 − 2α</td><td>공비</td><td>한 걸음마다 곱해지는 수</td></tr><tr><td>|1 − 2α| < 1</td><td>수렴 조건</td><td>0 < α < 1</td></tr><tr><td>α = 0.5</td><td>공비 0</td><td>이 그릇에선 한 번에 바닥</td></tr></tbody></table></details><div class="ez-q ez-c"><img data-mood="asst_spark" alt="" aria-hidden="true"><p><b style="display:block;font-size:12.5px;color:var(--muted)">조교 하루</b>실험실 아래 "한 걸음마다 θ에 곱해지는 수"를 보며 α를 움직여 보세요. 그 수가 −1보다 작아지는 순간 발산이 시작돼요.</p></div></div></div>
+<div class="dialog lvtalk" data-dlg="lab_t"></div>
+<div class="panel" id="w-ch13" data-w="gd"></div>
+<div class="say" data-who="doc"><img class="who" data-mood="doc_judge" alt="" aria-hidden="true"><div><b class="name">박사의 정리</b><p>학습률은 "지형을 얼마나 믿고 크게 걸을까"의 선택입니다. 너무 조심하면 해가 지도록 못 내려가고, 너무 과감하면 골짜기를 넘어 반대편 벽에 부딪쳐요. 그래서 실제 학습은 손실 곡선을 그려 보며 α를 고르고, 도중에 줄여 가기도 합니다.</p></div></div>
+<div class="lim"><b>이 실험의 한계</b> 실험실의 그릇 f(θ) = θ²는 바닥이 하나뿐인 가장 쉬운 지형이에요. 실제 신경망 지형은 울퉁불퉁하고 차원도 엄청나게 높습니다.</div>
+<figure class="toon" id="toon2"><div class="tframe"><img src="img/toon/ch13_b.webp" width="1200" height="800" loading="lazy" alt="픽셀아트. 그릇 벽 위에서 달팽이 등에 탄 X3가 아주 조금씩 내려가고, 옆의 시계가 &quot;1000 steps&quot;를 가리킨다. 바닥에서 시아가 도시락을 먹으며 기다리다 졸고 있다."></div><figcaption><b class="ttl">웃는 그림 2 · α = 0.0001의 달팽이</b><div class="tline"><img data-mood="x3_hint" alt="" aria-hidden="true"><p><b>X3</b> 학습률 0.0001이면 절대 안 넘어가죠? …그런데 1000걸음째인데 아직 벽이에요.</p></div><div class="tline"><img data-mood="sia_doze" alt="" aria-hidden="true"><p><b>시아</b> (바닥에서) 쿨… 도착하면 깨워 줘…</p></div><div class="tline"><img data-mood="fly_coffee" alt="" aria-hidden="true"><p><b>조교 초파리</b> 너무 작아도 문제야. 적당한 α, 아니면 처음엔 크게 나중엔 작게.</p></div><p class=tpoint><b>그림 속 수학</b> α가 너무 작으면 수렴이 매우 느리다. 학습률 스케줄(처음엔 크게, 점점 작게)이 흔한 해결책.</p></figcaption></figure>
+<div class="aibox" id="ai"><div class="aihead"><span class="aitag">AI 판단 코너</span>주판봇의 "손실이 처음 10걸음 동안 안 줄었으니 학습률을 100배로!"</div><div data-dlg="ai_d"></div><p>박사는 늘 두 가지를 묻습니다. "가정이 맞나? 숫자가 그럴듯한가?"</p><ol><li>가정이 맞나? 손실이 안 줄어드는 이유가 "학습률이 너무 작아서"뿐인가요? 너무 커서 지그재그로 제자리인 경우는요?</li><li>숫자가 그럴듯한가? f = θ²에서 α = 0.6을 100배 하면 공비 1 − 2α는 얼마가 되나요?</li></ol><details class="eqx"><summary>확인해 보기 (먼저 스스로 따져 본 뒤 펼치세요)</summary><p class="aiverdict">손실이 줄지 않는 이유는 두 가지일 수 있어요. 학습률이 너무 작거나(거의 안 움직임), 너무 커서 바닥을 넘나들거나(진동). 손실 곡선의 모양을 봐야 구분됩니다. 매끄럽게 아주 천천히 줄면 작은 것, 오르내리며 튀면 큰 것. α = 0.6을 100배 하면 60이라 공비 1 − 120 = −119, 한 걸음에 손실이 만 배 넘게 폭발해요. 학습률은 10배 단위(×3, ÷3 정도)로 조심스럽게 바꾸는 것이 보통입니다.</p><div data-dlg="ai_e"></div></details></div>
+<h3 id="quiz">확인 퀴즈</h3>
+<div class="quiz" data-quiz="q"></div>
+</div></section>
+<section class="sec" id="colab" aria-labelledby="h-colab"><div class="wrap">
+<h2 id="h-colab"><span class="hex">실습</span>코랩 실습실 — 배운 것을 직접 돌려 보기</h2>
+<p>두 가지 방법이 있어요. ① 생성 AI에게 프롬프트를 주고 코드를 만들게 해 보기, ② 연구소가 미리 만들어 검사까지 마친 코드를 돌려 보기. 둘을 나란히 돌려 결과를 비교하면, AI가 낸 코드를 믿어도 되는지 스스로 판단하는 연습이 됩니다.</p>
+<div data-dlg="colab"></div>
+<div class="labbox"><div class="labh"><span class="lno">①</span> 생성 AI로 실습하기 — 코랩 파이썬 프롬프트</div>
+<p>구글 코랩(Colab)의 Gemini 창이나 ChatGPT·Claude 같은 생성 AI에 아래 글을 그대로 붙여 넣으세요. AI가 만든 코드를 코랩 셀에 붙여 넣고 실행합니다.</p>
+<div class="codewrap"><button type="button" class="cpy" data-copy="p-ch13">복사</button><pre class="prompt" id="p-ch13">너는 고등학생에게 경사하강법을 가르치는 파이썬 선생님이야. 구글 코랩에서 실행되는 코드를 만들어 줘.
+주제: 경사하강, 학습률, SGD/미니배치, 선형 회귀 최적화
+요구 사항:
+1. f(θ) = θ²에 대해 θ₀ = 4에서 학습률 0.01, 0.1, 0.7, 1.0, 1.1로 각각 20걸음 경사하강하고, 걸음별 손실 곡선을 한 그림에 그려 줘(로그 축, 영어 범례). 각 경우가 수렴/지그재그/왕복/발산 중 무엇인지 출력해 줘.
+2. 점 (1,2), (2,3), (3,5)에 대해 MSE 손실 J(w, b)의 그래디언트를 직접 계산하는 함수를 만들고, w=b=0, 학습률 0.05에서 5000걸음 경사하강해 w≈1.5, b≈0.333에 다가가는지 정규방정식 답과 비교해 줘.
+3. 가상 데이터 1000개(y = 3x + 2 + 잡음, seed 고정)에 대해 배치·SGD·미니배치(32) 경사하강을 각각 같은 에포크 수만큼 돌려 손실 곡선을 비교해 줘.
+4. numpy로 모멘텀과 Adam 갱신 규칙을 직접 구현해서, 좁고 긴 그릇 f(x, y) = x² + 10y²에서 기본 경사하강과 걸음 수를 비교해 줘.
+5. 모든 줄에 한국어 주석.</pre></div></div>
+<div class="labbox"><div class="labh"><span class="lno">②</span> 실제로 돌아가는 코드 — 파이썬 · 코랩</div>
+<p>연구소가 직접 실행해 결과를 확인한 코드입니다. 버튼 하나로 코랩에서 바로 열 수 있어요(구글 계정만 있으면 설치할 것이 없습니다).</p>
+<p class="colabbtns"><a class="bt primary" href="https://colab.research.google.com/github/adminmrobo/math_basic_for_ai_dictionary/blob/main/colab/ch13_optimization.ipynb" target="_blank" rel="noopener">코랩에서 열기</a> <a class="bt" href="code/colab_py/ch13_optimization.py" download>.py 내려받기</a> <a class="bt" href="colab/ch13_optimization.ipynb" download>.ipynb 내려받기</a></p>
+<details class="fold"><summary>코드 펼치기 (몰라도 됩니다 · 72줄)</summary><div class="codewrap"><button type="button" class="cpy" data-copy="c-ch13">복사</button><pre class="code" id="c-ch13"><code># %% 1. 학습률에 따른 경사하강 (f = θ^2)
+import numpy as np
+import matplotlib.pyplot as plt
+
+def gd_path(theta, alpha, steps):
+    path = [theta]
+    for _ in range(steps):
+        theta = theta - alpha * 2 * theta       # ∇f = 2θ
+        path.append(theta)
+    return np.array(path)
+
+for a in [0.01, 0.1, 0.7, 1.0, 1.1]:
+    p = gd_path(4.0, a, 20); r = 1 - 2 * a
+    kind = &quot;발산&quot; if abs(r) &gt; 1 else &quot;제자리 왕복&quot; if abs(r) == 1 else (&quot;지그재그 수렴&quot; if r &lt; 0 else &quot;수렴&quot;)
+    print(f&quot;α={a:&lt;5} 공비 {r:+.2f} -&gt; 20걸음 뒤 θ = {p[-1]:+.4g} ({kind})&quot;)
+    plt.plot(p ** 2 + 1e-12, label=f&quot;alpha={a}&quot;)
+plt.yscale(&quot;log&quot;); plt.xlabel(&quot;step&quot;); plt.ylabel(&quot;loss&quot;); plt.legend(); plt.title(&quot;Learning rate matters&quot;); plt.show()
+
+# %% 2. 선형 회귀를 경사하강으로 (5장과 같은 데이터)
+x = np.array([1, 2, 3.0]); y = np.array([2, 3, 5.0])
+def grads(w, b):
+    err = y - (w * x + b)
+    return -2 * np.mean(x * err), -2 * np.mean(err), np.mean(err ** 2)
+w = b = 0.0
+for t in range(5000):
+    gw, gb, J = grads(w, b)
+    w, b = w - 0.05 * gw, b - 0.05 * gb
+    if t in (0, 10, 100, 1000, 4999):
+        print(f&quot;걸음 {t:&gt;4}: w = {w:.4f}, b = {b:.4f}, MSE = {J:.5f}&quot;)
+X = np.column_stack([np.ones_like(x), x])
+print(&quot;정규방정식 답:&quot;, np.linalg.solve(X.T @ X, X.T @ y).round(4), &quot;(b, w)&quot;)
+
+# %% 3. 배치 vs SGD vs 미니배치
+rng = np.random.default_rng(0)
+xd = rng.uniform(0, 2, 1000); yd = 3 * xd + 2 + rng.normal(0, 0.5, 1000)
+def train(batch, epochs=20, lr=0.05):
+    w = b = 0.0; hist = []
+    for _ in range(epochs):
+        idx = rng.permutation(len(xd))
+        for s in range(0, len(xd), batch):
+            j = idx[s:s + batch]; err = yd[j] - (w * xd[j] + b)
+            w += lr * 2 * np.mean(xd[j] * err); b += lr * 2 * np.mean(err)
+        hist.append(np.mean((yd - (w * xd + b)) ** 2))
+    return w, b, hist
+for name, bs in [(&quot;batch&quot;, 1000), (&quot;SGD&quot;, 1), (&quot;mini-batch 32&quot;, 32)]:
+    w_, b_, h = train(bs)
+    print(f&quot;{name:14s}: w = {w_:.3f}, b = {b_:.3f}, 마지막 MSE = {h[-1]:.4f}&quot;)
+    plt.plot(h, label=name)
+plt.xlabel(&quot;epoch&quot;); plt.ylabel(&quot;MSE&quot;); plt.legend(); plt.title(&quot;Batch vs SGD vs mini-batch&quot;); plt.show()
+
+# %% 4. 좁고 긴 그릇에서 GD vs 모멘텀 vs Adam
+f = lambda p: p[0] ** 2 + 10 * p[1] ** 2
+g = lambda p: np.array([2 * p[0], 20 * p[1]])
+def run(method, lr, steps=300):
+    p = np.array([5.0, 1.0]); v = np.zeros(2); m = np.zeros(2); s = np.zeros(2)
+    for t in range(1, steps + 1):
+        gr = g(p)
+        if method == &quot;GD&quot;:
+            p = p - lr * gr
+        elif method == &quot;Momentum&quot;:
+            v = 0.9 * v + gr; p = p - lr * v
+        else:  # Adam
+            m = 0.9 * m + 0.1 * gr; s = 0.999 * s + 0.001 * gr ** 2
+            mh, sh = m / (1 - 0.9 ** t), s / (1 - 0.999 ** t)
+            p = p - lr * mh / (np.sqrt(sh) + 1e-8)
+        if f(p) &lt; 1e-6:
+            return t
+    return steps
+for meth, lr in [(&quot;GD&quot;, 0.01), (&quot;Momentum&quot;, 0.01), (&quot;Adam&quot;, 0.1)]:
+    print(f&quot;{meth:8s} (lr={lr}): 손실 &lt; 0.000001 까지 {run(meth, lr, 3000)}걸음&quot;)
+print(&quot;GD를 lr=0.09로 잘 맞추면:&quot;, run(&quot;GD&quot;, 0.09), &quot;걸음 -&gt; 학습률을 잘 고르면 기본 GD도 빠르다.&quot;)
+print(&quot;개선판의 장점: 학습률을 덜 까다롭게 골라도 잘 움직인다(같은 lr=0.01에서 모멘텀이 약 3배 빠름).&quot;)</code></pre></div></details>
+<details class="fold"><summary>실행하면 이렇게 나옵니다 (연구소에서 돌린 결과)</summary><pre class="out">α=0.01  공비 +0.98 -&gt; 20걸음 뒤 θ = +2.67 (수렴)
+α=0.1   공비 +0.80 -&gt; 20걸음 뒤 θ = +0.04612 (수렴)
+α=0.7   공비 -0.40 -&gt; 20걸음 뒤 θ = +4.398e-08 (지그재그 수렴)
+α=1.0   공비 -1.00 -&gt; 20걸음 뒤 θ = +4 (제자리 왕복)
+α=1.1   공비 -1.20 -&gt; 20걸음 뒤 θ = +153.4 (발산)
+걸음    0: w = 0.7667, b = 0.3333, MSE = 12.66667
+걸음   10: w = 1.3945, b = 0.5728, MSE = 0.06399
+걸음  100: w = 1.4645, b = 0.4140, MSE = 0.05651
+걸음 1000: w = 1.5000, b = 0.3333, MSE = 0.05556
+걸음 4999: w = 1.5000, b = 0.3333, MSE = 0.05556
+정규방정식 답: [0.3333 1.5   ] (b, w)
+batch         : w = 2.801, b = 2.198, 마지막 MSE = 0.2750
+SGD           : w = 3.063, b = 1.998, 마지막 MSE = 0.2692
+mini-batch 32 : w = 2.991, b = 2.005, 마지막 MSE = 0.2629
+GD       (lr=0.01): 손실 &lt; 0.000001 까지 422걸음
+Momentum (lr=0.01): 손실 &lt; 0.000001 까지 152걸음
+Adam     (lr=0.1): 손실 &lt; 0.000001 까지 178걸음
+GD를 lr=0.09로 잘 맞추면: 44 걸음 -&gt; 학습률을 잘 고르면 기본 GD도 빠르다.
+개선판의 장점: 학습률을 덜 까다롭게 골라도 잘 움직인다(같은 lr=0.01에서 모멘텀이 약 3배 빠름).</pre><p class="muted" style="font-size:13px">그래프 창은 코랩 화면에 함께 나타납니다. 무작위 실험이 있는 코드는 seed를 고정해 같은 숫자가 나오게 했어요.</p></details></div>
+<div class="labbox"><div class="labh"><span class="lno">③</span> 비교 과제 — AI 코드와 연구소 코드 맞대 보기</div><ol><li>α = 1.1이 발산, α = 1.0이 제자리 왕복으로 나오는지 확인하세요.</li><li>선형 회귀 경사하강의 답이 5장 정규방정식(w = 1.5, b ≈ 0.333)과 같은지 비교하세요.</li><li>AI가 만든 Adam 코드에 "편향 보정"(m̂, v̂)이 들어 있는지, 없다면 결과가 어떻게 달라지는지 물어보세요.</li></ol></div>
+</div></section>
+<section class="sec" id="sum" aria-labelledby="h-sum"><div class="wrap">
+<h2 id="h-sum">정리 — 그래디언트 반대로, 알맞은 걸음으로</h2>
+<div class="tblwrap"><table class="cmp"><thead><tr><th>질문</th><th>답 한 줄</th></tr></thead><tbody><tr><td>최적화란?</td><td>함수를 최소화하는 파라미터 찾기. θ* = argmin f(θ).</td></tr><tr><td>경사하강은?</td><td>θ ← θ − α∇f(θ). f = θ²이면 θ ← θ(1 − 2α).</td></tr><tr><td>학습률은?</td><td>걸음 크기. 너무 크면 발산, 너무 작으면 느림.</td></tr><tr><td>세 가지 경사하강은?</td><td>배치(안정·느림), SGD(빠름·흔들림), 미니배치(균형, 표준).</td></tr><tr><td>개선판은?</td><td>모멘텀·RMSProp·Adam(가장 인기).</td></tr></tbody></table></div>
+<h3>용어 대응 카드</h3><div class="gloss"><div><b>최적화란</b> = 함수를 최소화(또는 최대화)하는 파라미터의 가장 좋은 값을 찾는 것. θ* = argmin f(θ).</div><div><b>최소화와 최대화</b> = 아래로 볼록한 그릇의 바닥(최소화), 위로 볼록한 언덕의 꼭대기(최대화). ML 예: 선형 회귀 MSE, 로지스틱 로그 손실, 신경망 교차 엔트로피, 하이퍼파라미터의 검증 오차.</div><div><b>경사하강</b> = 함수의 최솟값을 찾는 반복 알고리즘. 그래디언트 반대로 α만큼 걷는다: θ_new = θ_old − α∇f(θ).</div><div><b>경사하강의 세 가지</b> = 배치(전체 데이터로 한 걸음), 확률적 SGD(데이터 하나로), 미니배치(데이터 몇십 개로).</div><div><b>학습률</b> = 각 반복의 걸음 크기 α. 너무 크면 최솟값을 넘어가고, 너무 작으면 아주 느리게 수렴한다.</div><div><b>최적화 알고리즘</b> = 경사하강, 모멘텀(지난 기울기로 가속), RMSProp(제곱 기울기 평균으로 학습률 조절), Adam(모멘텀 + RMSProp, 가장 인기), Adagrad, Adadelta, 네스테로프.</div><div><b>ML 최적화 예: 선형 회귀</b> = MSE 손실 J(w, b) = (1/m) Σ (yᵢ − (wxᵢ + b))²를 w ← w − α ∂J/∂w, b ← b − α ∂J/∂b로 줄인다.</div><div><b>손실 곡면 (3D)</b> = 가중치 축(w, b) 위에 손실 J를 높이로 세운 지형. 경사하강은 이 그릇의 바닥으로 내려가는 길.</div></div>
+<h3>원자료와 다르게 쓴 곳</h3><ul><li>원자료 3번의 예 θ_new = θ(1 − 2α)에 "등비수열, |1 − 2α| < 1일 때 수렴"이라는 조건을 덧붙였습니다.</li><li>원자료 7번(선형 회귀)에 5장 데이터로 경사하강을 돌려 정규방정식과 같은 답이 나오는 것을 확인해 넣었습니다.</li></ul>
+<h3>비유와 예시의 한계</h3><ul><li>그릇 비유는 바닥이 하나인 볼록 함수에만 정확히 맞습니다. 신경망 손실은 울퉁불퉁해요.</li><li>실험실은 1차원 그릇만 다룹니다. 좁고 긴 2차원 그릇에서의 모멘텀·Adam 효과는 코랩 코드에서 확인하세요.</li></ul>
+<div class="next"><a href="12_gradient.html"><b>← 12장 편미분과 그래디언트</b><br>여러 방향의 기울기</a><a href="index.html"><b>도감 목차</b><br>열다섯 장과 항목 찾기</a><a href="14_eigen_pca.html"><b>14장 고윳값·고유벡터와 PCA →</b><br>데이터의 주축 찾기</a></div>
+</div></section>
+<section class="sec" id="outro" aria-labelledby="h-outro"><div class="wrap"><h2 id="h-outro">아웃트로 — 다음 장으로</h2><div data-dlg="outro"></div></div></section>
+</main>
+<footer><div class="wrap">
+<h3>출처</h3>
+<table><thead><tr><th>#</th><th>자료</th><th>이 페이지에서 쓴 곳</th></tr></thead><tbody><tr><td>[1]</td><td>연구소 수학 노트 MATH-13 「Optimization」 (인포그래픽 한 장)</td><td>도감 항목 전부, 예시 숫자</td></tr></tbody></table>
+<h3>예시값·설명용 모형인 것</h3><ul><li>항목의 숫자 예시는 설명용이며 연구소가 검산했습니다(code/check_numbers.py).</li><li>코랩 코드는 교육용 예제이며 실제 서비스에 그대로 쓰는 코드가 아닙니다.</li></ul>
+<p>캐릭터 이름·설정·그림은 저작권자 안상선의 허락 없이 사용할 수 없습니다.</p>
+<p>글 · 안상선 ((주)M-Robo 대표) · <a href="https://adminmrobo.github.io/who_am_i/who_am_i.html">저자 소개</a> · <a href="index.html">수리 도감 목차</a> · 자매편 <a href="https://adminmrobo.github.io/hello_space_lab/index.html">좌표 첫걸음</a> · <a href="https://adminmrobo.github.io/optimization_3d_map/first_step_0.html">최적화 첫걸음</a></p>
+</div></footer>
+<script>
+/*@@SPRITES@@*/
+/*@@COMMON@@*/
+/*@@MATHLAB@@*/
+(function(){
+'use strict';
+U.dialogues({"open": [["fly", "fly_point", "13장은 다시 초파리. 질문: AI가 \"학습한다\"고 할 때, 컴퓨터 안에서는 실제로 무엇이 반복될까?"], ["x2", "x2_hint", "(필기하다 멈추고) 공부… 하는 거요?"], ["fly", "fly_magnify", "정확히는 \"손실 재기 → 그래디언트 구하기 → 반대로 한 걸음\" 세 단계를 수천~수백만 번. 그게 경사하강이고, 학습의 전부야."], ["moa", "moa_report", "한 걸음의 크기는 누가 정해요?"], ["fly", "fly_arms", "사람이 정해. 그게 학습률이고, 오늘의 주인공이지. 실험판에서 직접 발산시켜 봐야 감이 와. 터져도 괜찮아, 실험이니까."]], "mid": [["sia", "sia_signal", "배치, SGD, 미니배치… 데이터를 몇 개씩 쓰느냐의 차이네요."], ["asst", "asst_smile", "맞아요. 이제 걸음 크기(학습률)와, 걸음을 더 똑똑하게 만드는 알고리즘들이에요."]], "lab_o": [["doc", "doc_board", "상황: 모델을 학습시켰더니 손실이 5 → 20 → 80 → nan이 됐습니다. 무엇부터 의심해야 할까요?"]], "lab_t": [["robo", "robo_calc", "손실이 커지니까 반대로 걸어야 함! 그래디언트 쪽으로!"], ["fly", "fly_point", "방향은 맞았을 수도 있어. 이걸 눌러 봐. α를 1.1로 올리면 어떻게 되는지."], ["asst", "asst_report", "보고: α = 1.1이면 한 걸음마다 바닥을 더 크게 넘어가요. 손실 곡선이 위로 폭발해요. 방향이 아니라 걸음 크기 문제예요."]], "ai_d": [["robo", "robo_happy", "10걸음 동안 손실이 안 줄었네? 학습률 100배! 해결!"], ["doc", "doc_think", "손실이 안 줄어든 이유를 먼저 구분해 볼까요? 손실 곡선의 모양을 보세요."]], "ai_e": [["robo", "robo_sigh", "지그재그였구나… 오히려 줄여야 했어."], ["fly", "fly_arms", "손실 곡선을 그려 보기 전에는 학습률을 건드리지 않기. 이게 실험 규칙이야."]], "colab": [["fly", "fly_type", "선형 회귀 경사하강이 5장 정규방정식과 같은 답에 닿는 걸 꼭 확인해 봐. 두 길이 같은 곳으로 가는 거야."]], "outro": [["doc", "doc_judge", "해석 문장: \"학습은 그래디언트 반대로 걷는 최적화이고, 학습률은 지형을 얼마나 믿고 걸을지의 선택이다.\""], ["sia", "sia_think", "데이터 특성이 수백 개면 그림도 못 그리잖아요. 중요한 방향만 골라낼 수는 없어요?"], ["doc", "doc_board", "그 질문으로 14장 문을 엽니다. 마지막 응용 장은 제가 직접 안내하지요. 고윳값과 PCA."]]});
+U.fillImgs();
+ML.mountAll();
+ML.copyButtons();
+U.Gloss({"최적화란": ["최적화란", "What is Optimization", "함수를 최소화(또는 최대화)하는 파라미터의 가장 좋은 값을 찾는 것. θ* = argmin f(θ)."], "최소화와 최대화": ["최소화와 최대화", "Types of Optimization Problems", "아래로 볼록한 그릇의 바닥(최소화), 위로 볼록한 언덕의 꼭대기(최대화). ML 예: 선형 회귀 MSE, 로지스틱 로그 손실, 신경망 교차 엔트로피, 하이퍼파라미터의 검증 오차."], "경사하강": ["경사하강", "Gradient Descent", "함수의 최솟값을 찾는 반복 알고리즘. 그래디언트 반대로 α만큼 걷는다: θ_new = θ_old − α∇f(θ)."], "경사하강의 세 가지": ["경사하강의 세 가지", "Types of Gradient Descent", "배치(전체 데이터로 한 걸음), 확률적 SGD(데이터 하나로), 미니배치(데이터 몇십 개로)."], "학습률": ["학습률", "Learning Rate", "각 반복의 걸음 크기 α. 너무 크면 최솟값을 넘어가고, 너무 작으면 아주 느리게 수렴한다."], "최적화 알고리즘": ["최적화 알고리즘", "Optimization Algorithms", "경사하강, 모멘텀(지난 기울기로 가속), RMSProp(제곱 기울기 평균으로 학습률 조절), Adam(모멘텀 + RMSProp, 가장 인기), Adagrad, Adadelta, 네스테로프."], "ML 최적화 예: 선형 회귀": ["ML 최적화 예: 선형 회귀", "Optimization in ML (Example)", "MSE 손실 J(w, b) = (1/m) Σ (yᵢ − (wxᵢ + b))²를 w ← w − α ∂J/∂w, b ← b − α ∂J/∂b로 줄인다."], "손실 곡면 (3D)": ["손실 곡면 (3D)", "Loss Surface (3D View)", "가중치 축(w, b) 위에 손실 J를 높이로 세운 지형. 경사하강은 이 그릇의 바닥으로 내려가는 길."]},["최적화란", "최소화와 최대화", "경사하강", "경사하강의 세 가지", "학습률", "최적화 알고리즘"]);
+U.Study({quiz:{"q": [{"q": "f(θ) = θ², α = 0.1, θ = 4에서 한 걸음 뒤 θ는?", "o": ["3.2", "3.6", "4.8", "0.8"], "a": 0, "why": "4 × (1 − 0.2) = 3.2.", "hint": "θ_new = θ(1 − 2α)."}, {"q": "학습률이 너무 크면?", "o": ["최솟값을 넘어가 진동하거나 발산한다", "수렴이 아주 느려진다", "항상 더 빨리 수렴한다", "아무 영향이 없다"], "a": 0, "why": "걸음이 바닥을 넘어감.", "hint": "롤러코스터 그림."}, {"q": "데이터 하나로 한 걸음씩 가는 경사하강은?", "o": ["확률적 경사하강(SGD)", "배치 경사하강", "미니배치 경사하강", "Adam"], "a": 0, "why": "Stochastic = 무작위 하나.", "hint": "빠르지만 흔들림."}, {"q": "모멘텀과 RMSProp을 합친 인기 있는 알고리즘은?", "o": ["Adam", "Adagrad", "Nesterov", "SGD"], "a": 0, "why": "Adaptive Moment Estimation.", "hint": "딥러닝 기본값으로 자주 쓰는 것."}]}});
+U.start();
+})();
+</script>
+</body>
+</html>

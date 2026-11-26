@@ -1,0 +1,421 @@
+{
+ "version": "1.3",
+ "page": "02_linear_algebra",
+ "nodes": [
+  {
+   "id": "lab:concept/m02-what",
+   "type": "Concept",
+   "label": {
+    "ko": "선형대수란",
+    "en": "What is Linear Algebra"
+   },
+   "page": "02_linear_algebra",
+   "anchor": "#m02-what",
+   "level": 1,
+   "status": "known",
+   "confidence": "high",
+   "coverage": "explained",
+   "family": "math-for-ai",
+   "domain": [
+    "math",
+    "ai"
+   ],
+   "match": [],
+   "definition": {
+    "ko": "벡터·행렬과 \"선형 변환\"을 다루는 수학. 데이터를 숫자 표로 다루는 도구."
+   }
+  },
+  {
+   "id": "lab:concept/m02-scalar",
+   "type": "Concept",
+   "label": {
+    "ko": "스칼라",
+    "en": "Scalar"
+   },
+   "page": "02_linear_algebra",
+   "anchor": "#m02-scalar",
+   "level": 1,
+   "status": "known",
+   "confidence": "high",
+   "coverage": "explained",
+   "family": "math-for-ai",
+   "domain": [
+    "math",
+    "ai"
+   ],
+   "match": [],
+   "definition": {
+    "ko": "숫자 하나. a, b, c 같은 소문자로 씁니다. 예: a = 5."
+   }
+  },
+  {
+   "id": "lab:concept/m02-vector",
+   "type": "Concept",
+   "label": {
+    "ko": "벡터",
+    "en": "Vector"
+   },
+   "page": "02_linear_algebra",
+   "anchor": "#m02-vector",
+   "level": 1,
+   "status": "known",
+   "confidence": "high",
+   "coverage": "explained",
+   "family": "math-for-ai",
+   "domain": [
+    "math",
+    "ai"
+   ],
+   "match": [],
+   "definition": {
+    "ko": "숫자를 한 줄로 늘어놓은 묶음. 굵은 글씨 v나 화살표 v⃗로 씁니다."
+   }
+  },
+  {
+   "id": "lab:concept/m02-matrix",
+   "type": "Concept",
+   "label": {
+    "ko": "행렬",
+    "en": "Matrix"
+   },
+   "page": "02_linear_algebra",
+   "anchor": "#m02-matrix",
+   "level": 1,
+   "status": "known",
+   "confidence": "high",
+   "coverage": "explained",
+   "family": "math-for-ai",
+   "domain": [
+    "math",
+    "ai"
+   ],
+   "match": [],
+   "definition": {
+    "ko": "숫자를 행(가로줄)과 열(세로줄)로 배열한 표. 대문자 A, B로 씁니다."
+   }
+  },
+  {
+   "id": "lab:concept/m02-types",
+   "type": "Concept",
+   "label": {
+    "ko": "행렬의 종류",
+    "en": "Types of Matrices"
+   },
+   "page": "02_linear_algebra",
+   "anchor": "#m02-types",
+   "level": 1,
+   "status": "known",
+   "confidence": "high",
+   "coverage": "explained",
+   "family": "math-for-ai",
+   "domain": [
+    "math",
+    "ai"
+   ],
+   "match": [],
+   "definition": {
+    "ko": "행 행렬·열 행렬·정사각·대각·단위·영행렬 — 모양과 채워진 수로 붙인 이름."
+   }
+  },
+  {
+   "id": "lab:concept/m02-dim",
+   "type": "Concept",
+   "label": {
+    "ko": "행렬의 크기",
+    "en": "Matrix Dimensions"
+   },
+   "page": "02_linear_algebra",
+   "anchor": "#m02-dim",
+   "level": 1,
+   "status": "known",
+   "confidence": "high",
+   "coverage": "explained",
+   "family": "math-for-ai",
+   "domain": [
+    "math",
+    "ai"
+   ],
+   "match": [],
+   "definition": {
+    "ko": "행이 m개, 열이 n개면 m × n 행렬. 행을 먼저, 열을 나중에 읽습니다."
+   }
+  },
+  {
+   "id": "lab:concept/m02-notation",
+   "type": "Concept",
+   "label": {
+    "ko": "자주 쓰는 기호",
+    "en": "Common Notations"
+   },
+   "page": "02_linear_algebra",
+   "anchor": "#m02-notation",
+   "level": 1,
+   "status": "known",
+   "confidence": "high",
+   "coverage": "explained",
+   "family": "math-for-ai",
+   "domain": [
+    "math",
+    "ai"
+   ],
+   "match": [],
+   "definition": {
+    "ko": "A 행렬, Aᵢⱼ i행 j열의 수, Aᵀ 전치, A⁻¹ 역행렬, I 단위, O 영행렬, ℝ^(m×n) m × n 행렬 전체."
+   }
+  },
+  {
+   "id": "lab:concept/m02-data",
+   "type": "Concept",
+   "label": {
+    "ko": "데이터를 행렬로",
+    "en": "Data Representation"
+   },
+   "page": "02_linear_algebra",
+   "anchor": "#m02-data",
+   "level": 1,
+   "status": "known",
+   "confidence": "high",
+   "coverage": "explained",
+   "family": "math-for-ai",
+   "domain": [
+    "math",
+    "ai"
+   ],
+   "match": [],
+   "definition": {
+    "ko": "ML에서 데이터셋은 행렬 X. 행 하나 = 표본(데이터 한 건), 열 하나 = 특성."
+   }
+  },
+  {
+   "id": "lab:concept/m02-interview",
+   "type": "Concept",
+   "label": {
+    "ko": "핵심 정리와 면접 질문",
+    "en": "Key Takeaways & Interview Questions"
+   },
+   "page": "02_linear_algebra",
+   "anchor": "#m02-interview",
+   "level": 1,
+   "status": "known",
+   "confidence": "high",
+   "coverage": "explained",
+   "family": "math-for-ai",
+   "domain": [
+    "math",
+    "ai"
+   ],
+   "match": [],
+   "definition": {
+    "ko": "스칼라 → 숫자 하나, 벡터 → 1차원 배열, 행렬 → 2차원 표. 행렬은 실제 데이터를 담는다."
+   }
+  },
+  {
+   "id": "lab:sim/ch02-lab",
+   "type": "Simulation",
+   "label": {
+    "ko": "표를 행렬로 바꾸는 실험실",
+    "en": "Interactive lab ch02"
+   },
+   "page": "02_linear_algebra",
+   "anchor": "#lab",
+   "level": 1,
+   "status": "known",
+   "confidence": "high",
+   "coverage": "explained",
+   "family": "math-for-ai",
+   "domain": [
+    "math",
+    "ai"
+   ],
+   "match": [],
+   "definition": {
+    "ko": "행렬은 \"모양이 있는 숫자 묶음\"입니다. AI 코드에서 맨 먼저 확인할 것은 값이 아니라 모양이에요. 표본이 몇 개, 특성이 몇 개인지 말할 수 있으면 데이터의 절반을 이해한 것입니다."
+   }
+  },
+  {
+   "id": "lab:analogy/ch02-toon1",
+   "type": "Analogy",
+   "label": {
+    "ko": "전치당한 X2",
+    "en": "Cartoon 1"
+   },
+   "page": "02_linear_algebra",
+   "anchor": "#toon1",
+   "level": 1,
+   "status": "known",
+   "confidence": "high",
+   "coverage": "explained",
+   "family": "math-for-ai",
+   "domain": [
+    "math",
+    "ai"
+   ],
+   "match": [],
+   "definition": {
+    "ko": "전치 Aᵀ: i행 j열의 수가 j행 i열로 이사. 크기 m × n → n × m."
+   }
+  },
+  {
+   "id": "lab:analogy/ch02-toon2",
+   "type": "Analogy",
+   "label": {
+    "ko": "단위행렬은 거울",
+    "en": "Cartoon 2"
+   },
+   "page": "02_linear_algebra",
+   "anchor": "#toon2",
+   "level": 1,
+   "status": "known",
+   "confidence": "high",
+   "coverage": "explained",
+   "family": "math-for-ai",
+   "domain": [
+    "math",
+    "ai"
+   ],
+   "match": [],
+   "definition": {
+    "ko": "단위행렬 I는 행렬 세계의 숫자 1. A × I = I × A = A (크기가 맞을 때)."
+   }
+  },
+  {
+   "id": "lab:question/ch02-ai",
+   "type": "Question",
+   "label": {
+    "ko": "주판봇의 \"이 표는 3 × 4 행렬\"",
+    "en": "AI check ch02"
+   },
+   "page": "02_linear_algebra",
+   "anchor": "#ai",
+   "level": 1,
+   "status": "known",
+   "confidence": "high",
+   "coverage": "explained",
+   "family": "math-for-ai",
+   "domain": [
+    "math",
+    "ai"
+   ],
+   "match": [],
+   "definition": {
+    "ko": "학생 4명(행) × 특성 3개(열)이면 4 × 3 행렬이 맞습니다. 주판봇은 열을 먼저 세어 3 × 4라고 했어요. 숫자 개수(12개)는 같아서 그럴듯해 보이지만, 모양이 뒤집혀 있으면 모델이 \"특성이 4개인 학생 3명\"으로 읽어 버립니다. 실제 코드에서는 X.shape로 꼭 확인하세요."
+   }
+  },
+  {
+   "id": "lab:limitation/ch02-limit",
+   "type": "Limitation",
+   "label": {
+    "ko": "이 장의 한계",
+    "en": "Limitation ch02"
+   },
+   "page": "02_linear_algebra",
+   "anchor": "#sum",
+   "level": 1,
+   "status": "known",
+   "confidence": "high",
+   "coverage": "explained",
+   "family": "math-for-ai",
+   "domain": [
+    "math",
+    "ai"
+   ],
+   "match": [],
+   "definition": {
+    "ko": "출석부 비유는 2차원 표까지만 맞습니다. 컬러 사진처럼 3차원 이상의 묶음(텐서)은 표 한 장으로 그릴 수 없어요."
+   }
+  }
+ ],
+ "edges": [
+  {
+   "s": "lab:concept/m02-what",
+   "p": "lab:prerequisiteOf",
+   "o": "lab:concept/m02-scalar",
+   "anchor": "#m02-scalar",
+   "confidence": "medium"
+  },
+  {
+   "s": "lab:concept/m02-scalar",
+   "p": "lab:prerequisiteOf",
+   "o": "lab:concept/m02-vector",
+   "anchor": "#m02-vector",
+   "confidence": "medium"
+  },
+  {
+   "s": "lab:concept/m02-vector",
+   "p": "lab:prerequisiteOf",
+   "o": "lab:concept/m02-matrix",
+   "anchor": "#m02-matrix",
+   "confidence": "medium"
+  },
+  {
+   "s": "lab:concept/m02-matrix",
+   "p": "lab:prerequisiteOf",
+   "o": "lab:concept/m02-types",
+   "anchor": "#m02-types",
+   "confidence": "medium"
+  },
+  {
+   "s": "lab:concept/m02-types",
+   "p": "lab:prerequisiteOf",
+   "o": "lab:concept/m02-dim",
+   "anchor": "#m02-dim",
+   "confidence": "medium"
+  },
+  {
+   "s": "lab:concept/m02-dim",
+   "p": "lab:prerequisiteOf",
+   "o": "lab:concept/m02-notation",
+   "anchor": "#m02-notation",
+   "confidence": "medium"
+  },
+  {
+   "s": "lab:concept/m02-notation",
+   "p": "lab:prerequisiteOf",
+   "o": "lab:concept/m02-data",
+   "anchor": "#m02-data",
+   "confidence": "medium"
+  },
+  {
+   "s": "lab:concept/m02-data",
+   "p": "lab:prerequisiteOf",
+   "o": "lab:concept/m02-interview",
+   "anchor": "#m02-interview",
+   "confidence": "medium"
+  },
+  {
+   "s": "lab:concept/m02-types",
+   "p": "lab:demonstratedBy",
+   "o": "lab:sim/ch02-lab",
+   "anchor": "#lab",
+   "confidence": "high"
+  },
+  {
+   "s": "lab:analogy/ch02-toon1",
+   "p": "lab:analogyOf",
+   "o": "lab:concept/m02-scalar",
+   "anchor": "#toon1",
+   "confidence": "medium"
+  },
+  {
+   "s": "lab:analogy/ch02-toon2",
+   "p": "lab:analogyOf",
+   "o": "lab:concept/m02-types",
+   "anchor": "#toon2",
+   "confidence": "medium"
+  },
+  {
+   "s": "lab:concept/m02-types",
+   "p": "lab:relatedTo",
+   "o": "lab:question/ch02-ai",
+   "anchor": "#ai",
+   "confidence": "medium"
+  },
+  {
+   "s": "lab:concept/m02-what",
+   "p": "lab:hasLimitation",
+   "o": "lab:limitation/ch02-limit",
+   "anchor": "#sum",
+   "confidence": "medium"
+  }
+ ]
+}

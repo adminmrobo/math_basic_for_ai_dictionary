@@ -1,0 +1,361 @@
+{
+ "version": "1.3",
+ "page": "05_linear_systems",
+ "nodes": [
+  {
+   "id": "lab:concept/m05-what",
+   "type": "Concept",
+   "label": {
+    "ko": "연립일차방정식이란",
+    "en": "What is a System of Linear Equations"
+   },
+   "page": "05_linear_systems",
+   "anchor": "#m05-what",
+   "level": 1,
+   "status": "known",
+   "confidence": "high",
+   "coverage": "explained",
+   "family": "math-for-ai",
+   "domain": [
+    "math",
+    "ai"
+   ],
+   "match": [],
+   "definition": {
+    "ko": "미지수가 여러 개인 일차방정식들의 묶음. 모두 동시에 참이 되는 값을 찾는다."
+   }
+  },
+  {
+   "id": "lab:concept/m05-matrix",
+   "type": "Concept",
+   "label": {
+    "ko": "행렬로 쓰기",
+    "en": "Matrix Representation"
+   },
+   "page": "05_linear_systems",
+   "anchor": "#m05-matrix",
+   "level": 1,
+   "status": "known",
+   "confidence": "high",
+   "coverage": "explained",
+   "family": "math-for-ai",
+   "domain": [
+    "math",
+    "ai"
+   ],
+   "match": [],
+   "definition": {
+    "ko": "Ax = b. A는 계수 행렬, x는 미지수 벡터, b는 상수 벡터."
+   }
+  },
+  {
+   "id": "lab:concept/m05-inverse",
+   "type": "Concept",
+   "label": {
+    "ko": "역행렬로 풀기",
+    "en": "Solving Using Matrix Inverse"
+   },
+   "page": "05_linear_systems",
+   "anchor": "#m05-inverse",
+   "level": 1,
+   "status": "known",
+   "confidence": "high",
+   "coverage": "explained",
+   "family": "math-for-ai",
+   "domain": [
+    "math",
+    "ai"
+   ],
+   "match": [],
+   "definition": {
+    "ko": "A가 가역(det A ≠ 0)이면 x = A⁻¹b."
+   }
+  },
+  {
+   "id": "lab:concept/m05-cramer",
+   "type": "Concept",
+   "label": {
+    "ko": "크라메르 공식",
+    "en": "Cramer's Rule"
+   },
+   "page": "05_linear_systems",
+   "anchor": "#m05-cramer",
+   "level": 1,
+   "status": "known",
+   "confidence": "high",
+   "coverage": "explained",
+   "family": "math-for-ai",
+   "domain": [
+    "math",
+    "ai"
+   ],
+   "match": [],
+   "definition": {
+    "ko": "x = det(Aₓ)/det(A), y = det(A_y)/det(A). A의 열 하나를 b로 바꿔 끼운다."
+   }
+  },
+  {
+   "id": "lab:concept/m05-types",
+   "type": "Concept",
+   "label": {
+    "ko": "해의 종류",
+    "en": "Types of Solutions"
+   },
+   "page": "05_linear_systems",
+   "anchor": "#m05-types",
+   "level": 1,
+   "status": "known",
+   "confidence": "high",
+   "coverage": "explained",
+   "family": "math-for-ai",
+   "domain": [
+    "math",
+    "ai"
+   ],
+   "match": [],
+   "definition": {
+    "ko": "det A ≠ 0 → 해가 하나. det A = 0 → 해가 무수히 많거나(겹침) 없음(평행)."
+   }
+  },
+  {
+   "id": "lab:concept/m05-ml",
+   "type": "Concept",
+   "label": {
+    "ko": "ML에서의 쓰임",
+    "en": "Real-World Use in ML"
+   },
+   "page": "05_linear_systems",
+   "anchor": "#m05-ml",
+   "level": 1,
+   "status": "known",
+   "confidence": "high",
+   "coverage": "explained",
+   "family": "math-for-ai",
+   "domain": [
+    "math",
+    "ai"
+   ],
+   "match": [],
+   "definition": {
+    "ko": "선형 회귀(정규방정식), 최소제곱 최적화, 가중치 구하기, 릿지 회귀."
+   }
+  },
+  {
+   "id": "lab:concept/m05-regression",
+   "type": "Concept",
+   "label": {
+    "ko": "예: 선형 회귀",
+    "en": "Example: Linear Regression"
+   },
+   "page": "05_linear_systems",
+   "anchor": "#m05-regression",
+   "level": 1,
+   "status": "known",
+   "confidence": "high",
+   "coverage": "explained",
+   "family": "math-for-ai",
+   "domain": [
+    "math",
+    "ai"
+   ],
+   "match": [],
+   "definition": {
+    "ko": "점 (1, 2), (2, 3), (3, 5)에 y = β₀ + β₁x를 맞추면 β₀ ≈ 0.333, β₁ = 1.5."
+   }
+  },
+  {
+   "id": "lab:sim/ch05-lab",
+   "type": "Simulation",
+   "label": {
+    "ko": "두 직선 실험실",
+    "en": "Interactive lab ch05"
+   },
+   "page": "05_linear_systems",
+   "anchor": "#lab",
+   "level": 1,
+   "status": "known",
+   "confidence": "high",
+   "coverage": "explained",
+   "family": "math-for-ai",
+   "domain": [
+    "math",
+    "ai"
+   ],
+   "match": [],
+   "definition": {
+    "ko": "연립방정식의 해는 \"직선들이 만나는 곳\"이고, 행렬식은 \"만날 수 있는가\"를 미리 알려 주는 신호입니다. 데이터에 맞는 직선을 찾는 회귀도 결국 이 질문이에요. 다만 점이 많으면 정확히 만나는 곳이 없어서, 가장 가까운 곳(최소제곱)을 찾습니다."
+   }
+  },
+  {
+   "id": "lab:analogy/ch05-toon1",
+   "type": "Analogy",
+   "label": {
+    "ko": "평행선의 짝사랑",
+    "en": "Cartoon 1"
+   },
+   "page": "05_linear_systems",
+   "anchor": "#toon1",
+   "level": 1,
+   "status": "known",
+   "confidence": "high",
+   "coverage": "explained",
+   "family": "math-for-ai",
+   "domain": [
+    "math",
+    "ai"
+   ],
+   "match": [],
+   "definition": {
+    "ko": "기울기가 같고 절편이 다른 두 직선(평행)은 해가 없다. 이때 det A = 0."
+   }
+  },
+  {
+   "id": "lab:analogy/ch05-toon2",
+   "type": "Analogy",
+   "label": {
+    "ko": "쌍둥이 방정식",
+    "en": "Cartoon 2"
+   },
+   "page": "05_linear_systems",
+   "anchor": "#toon2",
+   "level": 1,
+   "status": "known",
+   "confidence": "high",
+   "coverage": "explained",
+   "family": "math-for-ai",
+   "domain": [
+    "math",
+    "ai"
+   ],
+   "match": [],
+   "definition": {
+    "ko": "한 식이 다른 식의 배수면 두 직선이 겹쳐 해가 무수히 많다. 정보가 겹친 것."
+   }
+  },
+  {
+   "id": "lab:question/ch05-ai",
+   "type": "Question",
+   "label": {
+    "ko": "주판봇의 \"점 3개면 직선이 딱 하나로 지나간다\"",
+    "en": "AI check ch05"
+   },
+   "page": "05_linear_systems",
+   "anchor": "#ai",
+   "level": 1,
+   "status": "known",
+   "confidence": "high",
+   "coverage": "explained",
+   "family": "math-for-ai",
+   "domain": [
+    "math",
+    "ai"
+   ],
+   "match": [],
+   "definition": {
+    "ko": "(1,2)→(2,3)의 기울기는 1인데 (2,3)→(3,5)의 기울기는 2라서 세 점은 한 직선 위에 없습니다. 주판봇의 y = x + 1은 앞 두 점만 지나고 (3, 5)에서는 4를 내 1만큼 빗나가요. 세 점 모두에 가장 가까운 직선은 최소제곱 해 y ≈ 0.333 + 1.5x이고, 이 직선도 어느 점은 조금씩 빗나갑니다(정답 − 예측 = 0.17, −0.33, 0.17)."
+   }
+  },
+  {
+   "id": "lab:limitation/ch05-limit",
+   "type": "Limitation",
+   "label": {
+    "ko": "이 장의 한계",
+    "en": "Limitation ch05"
+   },
+   "page": "05_linear_systems",
+   "anchor": "#sum",
+   "level": 1,
+   "status": "known",
+   "confidence": "high",
+   "coverage": "explained",
+   "family": "math-for-ai",
+   "domain": [
+    "math",
+    "ai"
+   ],
+   "match": [],
+   "definition": {
+    "ko": "직선 그림은 미지수 2개까지만 보입니다."
+   }
+  }
+ ],
+ "edges": [
+  {
+   "s": "lab:concept/m05-what",
+   "p": "lab:prerequisiteOf",
+   "o": "lab:concept/m05-matrix",
+   "anchor": "#m05-matrix",
+   "confidence": "medium"
+  },
+  {
+   "s": "lab:concept/m05-matrix",
+   "p": "lab:prerequisiteOf",
+   "o": "lab:concept/m05-inverse",
+   "anchor": "#m05-inverse",
+   "confidence": "medium"
+  },
+  {
+   "s": "lab:concept/m05-inverse",
+   "p": "lab:prerequisiteOf",
+   "o": "lab:concept/m05-cramer",
+   "anchor": "#m05-cramer",
+   "confidence": "medium"
+  },
+  {
+   "s": "lab:concept/m05-cramer",
+   "p": "lab:prerequisiteOf",
+   "o": "lab:concept/m05-types",
+   "anchor": "#m05-types",
+   "confidence": "medium"
+  },
+  {
+   "s": "lab:concept/m05-types",
+   "p": "lab:prerequisiteOf",
+   "o": "lab:concept/m05-ml",
+   "anchor": "#m05-ml",
+   "confidence": "medium"
+  },
+  {
+   "s": "lab:concept/m05-ml",
+   "p": "lab:prerequisiteOf",
+   "o": "lab:concept/m05-regression",
+   "anchor": "#m05-regression",
+   "confidence": "medium"
+  },
+  {
+   "s": "lab:concept/m05-cramer",
+   "p": "lab:demonstratedBy",
+   "o": "lab:sim/ch05-lab",
+   "anchor": "#lab",
+   "confidence": "high"
+  },
+  {
+   "s": "lab:analogy/ch05-toon1",
+   "p": "lab:analogyOf",
+   "o": "lab:concept/m05-matrix",
+   "anchor": "#toon1",
+   "confidence": "medium"
+  },
+  {
+   "s": "lab:analogy/ch05-toon2",
+   "p": "lab:analogyOf",
+   "o": "lab:concept/m05-cramer",
+   "anchor": "#toon2",
+   "confidence": "medium"
+  },
+  {
+   "s": "lab:concept/m05-cramer",
+   "p": "lab:relatedTo",
+   "o": "lab:question/ch05-ai",
+   "anchor": "#ai",
+   "confidence": "medium"
+  },
+  {
+   "s": "lab:concept/m05-what",
+   "p": "lab:hasLimitation",
+   "o": "lab:limitation/ch05-limit",
+   "anchor": "#sum",
+   "confidence": "medium"
+  }
+ ]
+}

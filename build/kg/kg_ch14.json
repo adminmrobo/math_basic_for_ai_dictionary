@@ -1,0 +1,391 @@
+{
+ "version": "1.3",
+ "page": "14_eigen_pca",
+ "nodes": [
+  {
+   "id": "lab:concept/m14-what",
+   "type": "Concept",
+   "label": {
+    "ko": "고윳값과 고유벡터란",
+    "en": "What are Eigenvalues and Eigenvectors"
+   },
+   "page": "14_eigen_pca",
+   "anchor": "#m14-what",
+   "level": 1,
+   "status": "known",
+   "confidence": "high",
+   "coverage": "explained",
+   "family": "math-for-ai",
+   "domain": [
+    "math",
+    "ai"
+   ],
+   "match": [],
+   "definition": {
+    "ko": "정사각 행렬 A에 대해 Ax = λx이면 x는 고유벡터, λ는 고윳값. A를 곱해도 방향은 그대로, 크기만 λ배."
+   }
+  },
+  {
+   "id": "lab:concept/m14-find",
+   "type": "Concept",
+   "label": {
+    "ko": "고윳값 찾기",
+    "en": "How to Find Eigenvalues"
+   },
+   "page": "14_eigen_pca",
+   "anchor": "#m14-find",
+   "level": 1,
+   "status": "known",
+   "confidence": "high",
+   "coverage": "explained",
+   "family": "math-for-ai",
+   "domain": [
+    "math",
+    "ai"
+   ],
+   "match": [],
+   "definition": {
+    "ko": "특성방정식 det(A − λI) = 0을 풀어 λ를 구한다. ① A − λI ② 행렬식 ③ λ에 대해 풀기."
+   }
+  },
+  {
+   "id": "lab:concept/m14-vec",
+   "type": "Concept",
+   "label": {
+    "ko": "고유벡터 찾기",
+    "en": "How to Find Eigenvectors"
+   },
+   "page": "14_eigen_pca",
+   "anchor": "#m14-vec",
+   "level": 1,
+   "status": "known",
+   "confidence": "high",
+   "coverage": "explained",
+   "family": "math-for-ai",
+   "domain": [
+    "math",
+    "ai"
+   ],
+   "match": [],
+   "definition": {
+    "ko": "고윳값 λ마다 (A − λI)x = 0을 풀어 x를 구한다. 0이 아닌 상수배는 모두 같은 고유벡터."
+   }
+  },
+  {
+   "id": "lab:concept/m14-props",
+   "type": "Concept",
+   "label": {
+    "ko": "고윳값의 성질",
+    "en": "Properties of Eigenvalues"
+   },
+   "page": "14_eigen_pca",
+   "anchor": "#m14-props",
+   "level": 1,
+   "status": "known",
+   "confidence": "high",
+   "coverage": "explained",
+   "family": "math-for-ai",
+   "domain": [
+    "math",
+    "ai"
+   ],
+   "match": [],
+   "definition": {
+    "ko": "n × n 행렬은 고윳값 n개(중복 포함). 합 = 대각합 tr A, 곱 = 행렬식 det A. 대칭 행렬은 고윳값이 실수, 고유벡터가 서로 직각."
+   }
+  },
+  {
+   "id": "lab:concept/m14-cov",
+   "type": "Concept",
+   "label": {
+    "ko": "PCA의 공분산 행렬",
+    "en": "Covariance Matrix in PCA"
+   },
+   "page": "14_eigen_pca",
+   "anchor": "#m14-cov",
+   "level": 1,
+   "status": "known",
+   "confidence": "high",
+   "coverage": "explained",
+   "family": "math-for-ai",
+   "domain": [
+    "math",
+    "ai"
+   ],
+   "match": [],
+   "definition": {
+    "ko": "PCA는 먼저 데이터의 공분산 행렬 Σ = (1/(n−1))(X − μ)ᵀ(X − μ)를 계산한다. 대칭이며 특성들이 함께 움직이는 정도를 보여 준다."
+   }
+  },
+  {
+   "id": "lab:concept/m14-pca",
+   "type": "Concept",
+   "label": {
+    "ko": "고유벡터로 하는 PCA",
+    "en": "PCA using Eigenvalues & Eigenvectors"
+   },
+   "page": "14_eigen_pca",
+   "anchor": "#m14-pca",
+   "level": 1,
+   "status": "known",
+   "confidence": "high",
+   "coverage": "explained",
+   "family": "math-for-ai",
+   "domain": [
+    "math",
+    "ai"
+   ],
+   "match": [],
+   "definition": {
+    "ko": "① 표준화 ② 공분산 행렬 Σ ③ Σ의 고윳값·고유벡터 ④ 고윳값 내림차순 정렬 ⑤ 상위 k개 고유벡터(주성분) 선택 ⑥ Z = X_centered · W로 투영."
+   }
+  },
+  {
+   "id": "lab:concept/m14-example",
+   "type": "Concept",
+   "label": {
+    "ko": "PCA 2차원 예제",
+    "en": "PCA Example (2D Data)"
+   },
+   "page": "14_eigen_pca",
+   "anchor": "#m14-example",
+   "level": 1,
+   "status": "known",
+   "confidence": "high",
+   "coverage": "explained",
+   "family": "math-for-ai",
+   "domain": [
+    "math",
+    "ai"
+   ],
+   "match": [],
+   "definition": {
+    "ko": "X = [[0,0],[1,1],[0,−1],[−1,0]] → Σ = [[2/3, 1/3], [1/3, 2/3]] → λ₁ = 1, v₁ = (1/√2)[1, 1], λ₂ = 1/3, v₂ = (1/√2)[1, −1]."
+   }
+  },
+  {
+   "id": "lab:concept/m14-visual",
+   "type": "Concept",
+   "label": {
+    "ko": "PCA 시각화와 정리",
+    "en": "PCA Visualization & Key Takeaways"
+   },
+   "page": "14_eigen_pca",
+   "anchor": "#m14-visual",
+   "level": 1,
+   "status": "known",
+   "confidence": "high",
+   "coverage": "explained",
+   "family": "math-for-ai",
+   "domain": [
+    "math",
+    "ai"
+   ],
+   "match": [],
+   "definition": {
+    "ko": "원래 축(특성1, 특성2) 대신 PC1(가장 넓게 퍼진 방향)과 PC2(그와 직각)를 새 축으로 쓰면, 비스듬한 점 구름이 가로로 눕는다."
+   }
+  },
+  {
+   "id": "lab:sim/ch14-lab",
+   "type": "Simulation",
+   "label": {
+    "ko": "주축 찾기 실험실",
+    "en": "Interactive lab ch14"
+   },
+   "page": "14_eigen_pca",
+   "anchor": "#lab",
+   "level": 1,
+   "status": "known",
+   "confidence": "high",
+   "coverage": "explained",
+   "family": "math-for-ai",
+   "domain": [
+    "math",
+    "ai"
+   ],
+   "match": [],
+   "definition": {
+    "ko": "고유벡터는 \"행렬이 방향을 바꾸지 못하는 화살표\", 공분산 행렬의 고유벡터는 \"데이터가 가장 넓게 퍼진 방향\"입니다. PCA는 그 방향을 새 축으로 삼아, 정보가 적은 축을 버리는 일이에요. 버린 만큼 정보도 조금 잃는다는 것, 그래서 \"몇 %가 남았나\"를 함께 말해야 합니다."
+   }
+  },
+  {
+   "id": "lab:analogy/ch14-toon1",
+   "type": "Analogy",
+   "label": {
+    "ko": "고집 센 화살표",
+    "en": "Cartoon 1"
+   },
+   "page": "14_eigen_pca",
+   "anchor": "#toon1",
+   "level": 1,
+   "status": "known",
+   "confidence": "high",
+   "coverage": "explained",
+   "family": "math-for-ai",
+   "domain": [
+    "math",
+    "ai"
+   ],
+   "match": [],
+   "definition": {
+    "ko": "고유벡터: Ax = λx. A를 곱해도 방향이 그대로인 0이 아닌 벡터. λ는 그 배율. A = [[2,1],[1,2]]이면 [1,1]에 대해 λ = 3."
+   }
+  },
+  {
+   "id": "lab:analogy/ch14-toon2",
+   "type": "Analogy",
+   "label": {
+    "ko": "납작해진 점 구름",
+    "en": "Cartoon 2"
+   },
+   "page": "14_eigen_pca",
+   "anchor": "#toon2",
+   "level": 1,
+   "status": "known",
+   "confidence": "high",
+   "coverage": "explained",
+   "family": "math-for-ai",
+   "domain": [
+    "math",
+    "ai"
+   ],
+   "match": [],
+   "definition": {
+    "ko": "PCA: 가장 넓게 퍼진 방향(PC1)으로 투영해 차원을 줄인다. 설명 비율 = λ₁ / (λ₁ + λ₂) = 1 / (4/3) = 75%."
+   }
+  },
+  {
+   "id": "lab:question/ch14-ai",
+   "type": "Question",
+   "label": {
+    "ko": "주판봇의 \"PCA로 특성 100개를 2개로 줄였어요. 정보 손실 없음!\"",
+    "en": "AI check ch14"
+   },
+   "page": "14_eigen_pca",
+   "anchor": "#ai",
+   "level": 1,
+   "status": "known",
+   "confidence": "high",
+   "coverage": "explained",
+   "family": "math-for-ai",
+   "domain": [
+    "math",
+    "ai"
+   ],
+   "match": [],
+   "definition": {
+    "ko": "버린 축들의 고윳값이 0이 아니라면 그만큼의 분산(정보)을 잃은 것이에요. 반드시 \"설명된 분산 비율\"을 함께 보고해야 합니다. 예를 들어 상위 2개가 60%라면 40%의 정보를 버린 셈이죠. 또, PCA는 분산이 큰 방향을 남길 뿐 \"예측에 중요한 방향\"을 남긴다는 보장은 없어요. 분산은 작지만 정답을 가르는 데 결정적인 방향이 버려질 수도 있습니다."
+   }
+  },
+  {
+   "id": "lab:limitation/ch14-limit",
+   "type": "Limitation",
+   "label": {
+    "ko": "이 장의 한계",
+    "en": "Limitation ch14"
+   },
+   "page": "14_eigen_pca",
+   "anchor": "#sum",
+   "level": 1,
+   "status": "known",
+   "confidence": "high",
+   "coverage": "explained",
+   "family": "math-for-ai",
+   "domain": [
+    "math",
+    "ai"
+   ],
+   "match": [],
+   "definition": {
+    "ko": "연필 묶음 사진 비유는 \"가장 길게 보이는 방향\" 하나까지만 맞습니다. 여러 주성분을 동시에 고르는 것은 그림으로 보기 어려워요."
+   }
+  }
+ ],
+ "edges": [
+  {
+   "s": "lab:concept/m14-what",
+   "p": "lab:prerequisiteOf",
+   "o": "lab:concept/m14-find",
+   "anchor": "#m14-find",
+   "confidence": "medium"
+  },
+  {
+   "s": "lab:concept/m14-find",
+   "p": "lab:prerequisiteOf",
+   "o": "lab:concept/m14-vec",
+   "anchor": "#m14-vec",
+   "confidence": "medium"
+  },
+  {
+   "s": "lab:concept/m14-vec",
+   "p": "lab:prerequisiteOf",
+   "o": "lab:concept/m14-props",
+   "anchor": "#m14-props",
+   "confidence": "medium"
+  },
+  {
+   "s": "lab:concept/m14-props",
+   "p": "lab:prerequisiteOf",
+   "o": "lab:concept/m14-cov",
+   "anchor": "#m14-cov",
+   "confidence": "medium"
+  },
+  {
+   "s": "lab:concept/m14-cov",
+   "p": "lab:prerequisiteOf",
+   "o": "lab:concept/m14-pca",
+   "anchor": "#m14-pca",
+   "confidence": "medium"
+  },
+  {
+   "s": "lab:concept/m14-pca",
+   "p": "lab:prerequisiteOf",
+   "o": "lab:concept/m14-example",
+   "anchor": "#m14-example",
+   "confidence": "medium"
+  },
+  {
+   "s": "lab:concept/m14-example",
+   "p": "lab:prerequisiteOf",
+   "o": "lab:concept/m14-visual",
+   "anchor": "#m14-visual",
+   "confidence": "medium"
+  },
+  {
+   "s": "lab:concept/m14-cov",
+   "p": "lab:demonstratedBy",
+   "o": "lab:sim/ch14-lab",
+   "anchor": "#lab",
+   "confidence": "high"
+  },
+  {
+   "s": "lab:analogy/ch14-toon1",
+   "p": "lab:analogyOf",
+   "o": "lab:concept/m14-find",
+   "anchor": "#toon1",
+   "confidence": "medium"
+  },
+  {
+   "s": "lab:analogy/ch14-toon2",
+   "p": "lab:analogyOf",
+   "o": "lab:concept/m14-cov",
+   "anchor": "#toon2",
+   "confidence": "medium"
+  },
+  {
+   "s": "lab:concept/m14-cov",
+   "p": "lab:relatedTo",
+   "o": "lab:question/ch14-ai",
+   "anchor": "#ai",
+   "confidence": "medium"
+  },
+  {
+   "s": "lab:concept/m14-what",
+   "p": "lab:hasLimitation",
+   "o": "lab:limitation/ch14-limit",
+   "anchor": "#sum",
+   "confidence": "medium"
+  }
+ ]
+}

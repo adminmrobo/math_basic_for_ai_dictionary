@@ -1,0 +1,391 @@
+{
+ "version": "1.3",
+ "page": "06_probability",
+ "nodes": [
+  {
+   "id": "lab:concept/m06-what",
+   "type": "Concept",
+   "label": {
+    "ko": "확률이란",
+    "en": "What is Probability"
+   },
+   "page": "06_probability",
+   "anchor": "#m06-what",
+   "level": 1,
+   "status": "known",
+   "confidence": "high",
+   "coverage": "explained",
+   "family": "math-for-ai",
+   "domain": [
+    "math",
+    "ai"
+   ],
+   "match": [],
+   "definition": {
+    "ko": "어떤 사건이 일어날 가능성을 0과 1 사이 숫자로 나타낸 것. 0은 불가능, 1은 확실."
+   }
+  },
+  {
+   "id": "lab:concept/m06-terms",
+   "type": "Concept",
+   "label": {
+    "ko": "꼭 알아야 할 용어",
+    "en": "Important Terms"
+   },
+   "page": "06_probability",
+   "anchor": "#m06-terms",
+   "level": 1,
+   "status": "known",
+   "confidence": "high",
+   "coverage": "explained",
+   "family": "math-for-ai",
+   "domain": [
+    "math",
+    "ai"
+   ],
+   "match": [],
+   "definition": {
+    "ko": "실험(결과가 불확실한 과정), 결과(가능한 하나), 표본공간 S(결과 전체), 사건 E(표본공간의 부분집합)."
+   }
+  },
+  {
+   "id": "lab:concept/m06-events",
+   "type": "Concept",
+   "label": {
+    "ko": "사건의 종류",
+    "en": "Types of Events"
+   },
+   "page": "06_probability",
+   "anchor": "#m06-events",
+   "level": 1,
+   "status": "known",
+   "confidence": "high",
+   "coverage": "explained",
+   "family": "math-for-ai",
+   "domain": [
+    "math",
+    "ai"
+   ],
+   "match": [],
+   "definition": {
+    "ko": "확실한 사건 P = 1, 불가능한 사건 P = 0, 단순 사건(결과 하나), 복합 사건(결과 여러 개)."
+   }
+  },
+  {
+   "id": "lab:concept/m06-classic",
+   "type": "Concept",
+   "label": {
+    "ko": "고전적 확률",
+    "en": "Classical Probability Formula"
+   },
+   "page": "06_probability",
+   "anchor": "#m06-classic",
+   "level": 1,
+   "status": "known",
+   "confidence": "high",
+   "coverage": "explained",
+   "family": "math-for-ai",
+   "domain": [
+    "math",
+    "ai"
+   ],
+   "match": [],
+   "definition": {
+    "ko": "모든 결과가 똑같이 그럴듯하면 P(E) = 유리한 경우의 수 ÷ 전체 경우의 수."
+   }
+  },
+  {
+   "id": "lab:concept/m06-complement",
+   "type": "Concept",
+   "label": {
+    "ko": "여사건",
+    "en": "Complement of an Event"
+   },
+   "page": "06_probability",
+   "anchor": "#m06-complement",
+   "level": 1,
+   "status": "known",
+   "confidence": "high",
+   "coverage": "explained",
+   "family": "math-for-ai",
+   "domain": [
+    "math",
+    "ai"
+   ],
+   "match": [],
+   "definition": {
+    "ko": "E가 일어나지 않는 사건 Eᶜ. P(Eᶜ) = 1 − P(E)."
+   }
+  },
+  {
+   "id": "lab:concept/m06-union",
+   "type": "Concept",
+   "label": {
+    "ko": "덧셈 법칙 (합사건)",
+    "en": "Addition Rule (Union)"
+   },
+   "page": "06_probability",
+   "anchor": "#m06-union",
+   "level": 1,
+   "status": "known",
+   "confidence": "high",
+   "coverage": "explained",
+   "family": "math-for-ai",
+   "domain": [
+    "math",
+    "ai"
+   ],
+   "match": [],
+   "definition": {
+    "ko": "P(A ∪ B) = P(A) + P(B) − P(A ∩ B). 겹친 부분을 한 번 뺀다."
+   }
+  },
+  {
+   "id": "lab:concept/m06-mult",
+   "type": "Concept",
+   "label": {
+    "ko": "곱셈 법칙 (독립)",
+    "en": "Multiplication Rule (Intersection)"
+   },
+   "page": "06_probability",
+   "anchor": "#m06-mult",
+   "level": 1,
+   "status": "known",
+   "confidence": "high",
+   "coverage": "explained",
+   "family": "math-for-ai",
+   "domain": [
+    "math",
+    "ai"
+   ],
+   "match": [],
+   "definition": {
+    "ko": "A와 B가 서로 영향을 주지 않으면(독립) P(A ∩ B) = P(A) × P(B)."
+   }
+  },
+  {
+   "id": "lab:concept/m06-cond",
+   "type": "Concept",
+   "label": {
+    "ko": "조건부 확률 맛보기",
+    "en": "Conditional Probability"
+   },
+   "page": "06_probability",
+   "anchor": "#m06-cond",
+   "level": 1,
+   "status": "known",
+   "confidence": "high",
+   "coverage": "explained",
+   "family": "math-for-ai",
+   "domain": [
+    "math",
+    "ai"
+   ],
+   "match": [],
+   "definition": {
+    "ko": "B가 이미 일어났을 때 A의 확률. P(A|B) = P(A ∩ B) / P(B)."
+   }
+  },
+  {
+   "id": "lab:sim/ch06-lab",
+   "type": "Simulation",
+   "label": {
+    "ko": "주사위 실험실",
+    "en": "Interactive lab ch06"
+   },
+   "page": "06_probability",
+   "anchor": "#lab",
+   "level": 1,
+   "status": "known",
+   "confidence": "high",
+   "coverage": "explained",
+   "family": "math-for-ai",
+   "domain": [
+    "math",
+    "ai"
+   ],
+   "match": [],
+   "definition": {
+    "ko": "확률은 \"한 번의 결과\"가 아니라 \"많이 되풀이했을 때의 비율\"에 대한 약속입니다. 그래서 적게 던진 결과로 확률을 판정하면 안 되고, AI가 \"93%\"라고 할 때도 그 숫자가 많은 경우에 걸쳐 맞는지(보정)를 따져야 해요."
+   }
+  },
+  {
+   "id": "lab:analogy/ch06-toon1",
+   "type": "Analogy",
+   "label": {
+    "ko": "세 번 연속 홀수 사건",
+    "en": "Cartoon 1"
+   },
+   "page": "06_probability",
+   "anchor": "#toon1",
+   "level": 1,
+   "status": "known",
+   "confidence": "high",
+   "coverage": "explained",
+   "family": "math-for-ai",
+   "domain": [
+    "math",
+    "ai"
+   ],
+   "match": [],
+   "definition": {
+    "ko": "적은 시행의 결과는 들쭉날쭉. 많이 되풀이할수록 비율이 확률에 가까워진다(큰 수의 법칙)."
+   }
+  },
+  {
+   "id": "lab:analogy/ch06-toon2",
+   "type": "Analogy",
+   "label": {
+    "ko": "두 번 센 2번 눈",
+    "en": "Cartoon 2"
+   },
+   "page": "06_probability",
+   "anchor": "#toon2",
+   "level": 1,
+   "status": "known",
+   "confidence": "high",
+   "coverage": "explained",
+   "family": "math-for-ai",
+   "domain": [
+    "math",
+    "ai"
+   ],
+   "match": [],
+   "definition": {
+    "ko": "P(A ∪ B) = P(A) + P(B) − P(A ∩ B). 겹친 부분을 빼지 않으면 확률이 커지고, 1을 넘기도 한다."
+   }
+  },
+  {
+   "id": "lab:question/ch06-ai",
+   "type": "Question",
+   "label": {
+    "ko": "주판봇의 \"동전 두 번 중 앞면이 한 번 이상 나올 확률 = 1/2 + 1/2 = 1\"",
+    "en": "AI check ch06"
+   },
+   "page": "06_probability",
+   "anchor": "#ai",
+   "level": 1,
+   "status": "known",
+   "confidence": "high",
+   "coverage": "explained",
+   "family": "math-for-ai",
+   "domain": [
+    "math",
+    "ai"
+   ],
+   "match": [],
+   "definition": {
+    "ko": "틀렸습니다. 두 사건은 \"둘 다 앞면\"에서 겹치므로 덧셈 법칙대로 1/2 + 1/2 − 1/4 = 3/4이에요. 여사건으로 확인하면 \"한 번도 앞면 없음\" = 뒤·뒤 = 1/4, 그래서 1 − 1/4 = 3/4. 확률 1은 \"반드시\"라는 뜻이라 뒤·뒤가 나올 수 있는 한 1이 될 수 없어요."
+   }
+  },
+  {
+   "id": "lab:limitation/ch06-limit",
+   "type": "Limitation",
+   "label": {
+    "ko": "이 장의 한계",
+    "en": "Limitation ch06"
+   },
+   "page": "06_probability",
+   "anchor": "#sum",
+   "level": 1,
+   "status": "known",
+   "confidence": "high",
+   "coverage": "explained",
+   "family": "math-for-ai",
+   "domain": [
+    "math",
+    "ai"
+   ],
+   "match": [],
+   "definition": {
+    "ko": "리뷰 천 개 비유는 \"많이 볼수록 믿을 만하다\"까지만 맞습니다. 리뷰가 한쪽으로 치우쳐 있으면(편향) 많아도 틀려요."
+   }
+  }
+ ],
+ "edges": [
+  {
+   "s": "lab:concept/m06-what",
+   "p": "lab:prerequisiteOf",
+   "o": "lab:concept/m06-terms",
+   "anchor": "#m06-terms",
+   "confidence": "medium"
+  },
+  {
+   "s": "lab:concept/m06-terms",
+   "p": "lab:prerequisiteOf",
+   "o": "lab:concept/m06-events",
+   "anchor": "#m06-events",
+   "confidence": "medium"
+  },
+  {
+   "s": "lab:concept/m06-events",
+   "p": "lab:prerequisiteOf",
+   "o": "lab:concept/m06-classic",
+   "anchor": "#m06-classic",
+   "confidence": "medium"
+  },
+  {
+   "s": "lab:concept/m06-classic",
+   "p": "lab:prerequisiteOf",
+   "o": "lab:concept/m06-complement",
+   "anchor": "#m06-complement",
+   "confidence": "medium"
+  },
+  {
+   "s": "lab:concept/m06-complement",
+   "p": "lab:prerequisiteOf",
+   "o": "lab:concept/m06-union",
+   "anchor": "#m06-union",
+   "confidence": "medium"
+  },
+  {
+   "s": "lab:concept/m06-union",
+   "p": "lab:prerequisiteOf",
+   "o": "lab:concept/m06-mult",
+   "anchor": "#m06-mult",
+   "confidence": "medium"
+  },
+  {
+   "s": "lab:concept/m06-mult",
+   "p": "lab:prerequisiteOf",
+   "o": "lab:concept/m06-cond",
+   "anchor": "#m06-cond",
+   "confidence": "medium"
+  },
+  {
+   "s": "lab:concept/m06-complement",
+   "p": "lab:demonstratedBy",
+   "o": "lab:sim/ch06-lab",
+   "anchor": "#lab",
+   "confidence": "high"
+  },
+  {
+   "s": "lab:analogy/ch06-toon1",
+   "p": "lab:analogyOf",
+   "o": "lab:concept/m06-terms",
+   "anchor": "#toon1",
+   "confidence": "medium"
+  },
+  {
+   "s": "lab:analogy/ch06-toon2",
+   "p": "lab:analogyOf",
+   "o": "lab:concept/m06-complement",
+   "anchor": "#toon2",
+   "confidence": "medium"
+  },
+  {
+   "s": "lab:concept/m06-complement",
+   "p": "lab:relatedTo",
+   "o": "lab:question/ch06-ai",
+   "anchor": "#ai",
+   "confidence": "medium"
+  },
+  {
+   "s": "lab:concept/m06-what",
+   "p": "lab:hasLimitation",
+   "o": "lab:limitation/ch06-limit",
+   "anchor": "#sum",
+   "confidence": "medium"
+  }
+ ]
+}
