@@ -47,7 +47,7 @@ def build():
 </style></head>
 <body>
 <nav class="top" aria-label="섹션 바로가기"><div class="row"><a class="logo" href="index.html">수리 <i>도감</i></a><div class="links"><a href="#search">도감 검색</a><a href="#before">먼저 볼 곳</a><a href="#toc">열다섯 장</a><a href="#family">연구소 식구</a><a href="#how">쓰는 법</a><a href="practice/index.html">실전 연습장</a><a href="#kg">색인</a></div></div></nav>
-<div class="cover" id="cover"><div class="frame"><img class="art" src="img/cover_index.webp" width="1920" height="1080" alt="흰 연구실. 칠판에 f(x), Ax=b, P(A|B), σ², ∂f/∂x, ∇f, λ, θ ← θ − α∇f가 적혀 있고, 가운데 박사가 지휘봉으로 칠판을 가리킨다. 초파리·하루·주판봇·모아·시아·X1이 나란히 서 있고, 오른쪽 책장에 두꺼운 책이 꽂혀 있다. 16비트 픽셀아트." fetchpriority="high"><span class="cap">수리 도감 · MATH-01 ~ 15</span><span class="cover-chip">인공지능을 위한 수리적 기초</span></div></div>
+<div class="cover" id="cover"><div class="frame"><img class="art" src="img/cover_index.webp" width="1920" height="1080" alt="흰 연구실. 칠판에 f(x), Ax=b, P(A|B), σ², ∂f/∂x, ∇f, λ, θ ← θ − α∇f가 적혀 있고, 가운데 박사가 지휘봉으로 칠판을 가리킨다. 초파리·하루·주판봇·모아·시아·X1·X2·X3까지 연구소 식구 아홉 명이 모두 나란히 서 있고, 오른쪽 책장에 두꺼운 책이 꽂혀 있다. 16비트 픽셀아트." fetchpriority="high"><span class="cap">수리 도감 · MATH-01 ~ 15</span><span class="cover-chip">인공지능을 위한 수리적 기초</span></div></div>
 <header class="hero" id="top"><div class="wrap">
 <div class="eyebrow">수리 도감 · 연구소 식구가 돌아가며 안내하는 열다섯 장 · 좌표 첫걸음의 이웃</div>
 <h1>인공지능을 위한 수리적 기초</h1>

@@ -58,8 +58,8 @@ SIS = {'ch01': ('index.html#c01', '1부 1장 함수'), 'ch02': ('index.html#c02'
 
 def cover_alt(key):
     k, out, slide, short, sub, host, part = TOCD[key]
-    return (f'흰 연구실 칠판에 {slide} {short}의 대표 식이 적혀 있고, 연구소 식구 아홉 명(박사·하루·초파리·주판봇·시아·모아·X1·X2·X3)이 모두 모여 있다. '
-            f'이번 장 안내인 {NAME[host]}가 맨 앞 가운데에 서고, 나머지 식구는 뒷줄에서 함께 설명을 듣는다. 16비트 픽셀아트.')
+    return (f'흰 연구실 칠판에 {slide} {short}의 대표 식이 적혀 있고, 연구소 식구 아홉 명(초파리·하루·주판봇·박사·모아·시아·X1·X2·X3)이 칠판 앞에 한 줄로 모두 모여 있다. '
+            f'이번 장 안내인 {NAME[host]}에게 조명이 비치고 발밑에 GUIDE 이름표가 있다. 16비트 픽셀아트.')
 
 
 def esc(s):

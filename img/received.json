@@ -1,6 +1,21 @@
 {
- "_guide": "Genspark에서 받아 반영한 그림. art/scenes.py는 여기 적힌 파일을 덮어쓰지 않는다. 원본은 img/genspark_in/.",
+ "_guide": "Genspark에서 받아 반영했거나 그것으로 만든 그림. art/scenes.py는 여기 applied에 적힌 파일을 덮어쓰지 않는다.",
  "applied": [
+  "img/cover_ch01.webp",
+  "img/cover_ch02.webp",
+  "img/cover_ch03.webp",
+  "img/cover_ch04.webp",
+  "img/cover_ch05.webp",
+  "img/cover_ch06.webp",
+  "img/cover_ch07.webp",
+  "img/cover_ch08.webp",
+  "img/cover_ch09.webp",
+  "img/cover_ch10.webp",
+  "img/cover_ch11.webp",
+  "img/cover_ch12.webp",
+  "img/cover_ch13.webp",
+  "img/cover_ch14.webp",
+  "img/cover_ch15.webp",
   "img/cover_index.webp",
   "img/cover_practice.webp",
   "img/toon/ch01_a.webp",
@@ -9,10 +24,12 @@
   "img/toon/ch02_b.webp",
   "img/toon/ch03_a.webp",
   "img/toon/ch03_b.webp",
+  "img/toon/ch04_a.webp",
   "img/toon/ch04_b.webp",
   "img/toon/ch05_a.webp",
   "img/toon/ch05_b.webp",
   "img/toon/ch06_a.webp",
+  "img/toon/ch06_b.webp",
   "img/toon/ch07_a.webp",
   "img/toon/ch07_b.webp",
   "img/toon/ch08_a.webp",
@@ -33,23 +50,10 @@
   "img/toon/ch15_b.webp"
  ],
  "rejected": {
-  "img/toon/ch04_a.webp": "BA가 3×3으로 그려짐(2×2끼리 곱이면 2×2여야 함)",
-  "img/toon/ch06_b.webp": "칠판 \"빼면 P(A∪B)=4/6=2/3\"이 틀림(정답 5/6)",
-  "img/cover_ch01.webp": "캐릭터 대부분이 검은 실루엣으로 그려지고 아홉 명보다 많음, 안내 담당이 원래 모습과 다름",
-  "img/cover_ch02.webp": "캐릭터 대부분이 검은 실루엣으로 그려지고 아홉 명보다 많음, 안내 담당이 원래 모습과 다름",
-  "img/cover_ch03.webp": "캐릭터 대부분이 검은 실루엣으로 그려지고 아홉 명보다 많음, 안내 담당이 원래 모습과 다름",
-  "img/cover_ch04.webp": "캐릭터 대부분이 검은 실루엣으로 그려지고 아홉 명보다 많음, 안내 담당이 원래 모습과 다름",
-  "img/cover_ch05.webp": "캐릭터 대부분이 검은 실루엣으로 그려지고 아홉 명보다 많음, 안내 담당이 원래 모습과 다름",
-  "img/cover_ch06.webp": "캐릭터 대부분이 검은 실루엣으로 그려지고 아홉 명보다 많음, 안내 담당이 원래 모습과 다름",
-  "img/cover_ch07.webp": "캐릭터 대부분이 검은 실루엣으로 그려지고 아홉 명보다 많음, 안내 담당이 원래 모습과 다름",
-  "img/cover_ch08.webp": "캐릭터 대부분이 검은 실루엣으로 그려지고 아홉 명보다 많음, 안내 담당이 원래 모습과 다름",
-  "img/cover_ch09.webp": "캐릭터 대부분이 검은 실루엣으로 그려지고 아홉 명보다 많음, 안내 담당이 원래 모습과 다름",
-  "img/cover_ch10.webp": "캐릭터 대부분이 검은 실루엣으로 그려지고 아홉 명보다 많음, 안내 담당이 원래 모습과 다름",
-  "img/cover_ch11.webp": "캐릭터 대부분이 검은 실루엣으로 그려지고 아홉 명보다 많음, 안내 담당이 원래 모습과 다름",
-  "img/cover_ch12.webp": "캐릭터 대부분이 검은 실루엣으로 그려지고 아홉 명보다 많음, 안내 담당이 원래 모습과 다름",
-  "img/cover_ch13.webp": "캐릭터 대부분이 검은 실루엣으로 그려지고 아홉 명보다 많음, 안내 담당이 원래 모습과 다름",
-  "img/cover_ch14.webp": "캐릭터 대부분이 검은 실루엣으로 그려지고 아홉 명보다 많음, 안내 담당이 원래 모습과 다름",
-  "img/cover_ch15.webp": "캐릭터 대부분이 검은 실루엣으로 그려지고 아홉 명보다 많음, 안내 담당이 원래 모습과 다름",
-  "crew_intro.webp": "아홉 명이 모두 검은 실루엣·13명, 배경이 투명하지 않음"
+  "crew_intro.webp": "2차 결과가 1차와 같은 파일(13명 실루엣, 배경 불투명) — 카드는 임시 단체 그림 유지",
+  "cover_ch01~15 (Genspark 2차)": "1차와 같은 그림(실루엣·인원 초과)이라 쓰지 않음. 대신 승인된 목차 표지에서 장 표지를 만듦(art/chapter_covers.py)"
+ },
+ "derived": {
+  "img/cover_chNN.webp": "img/source/cover_index_genspark.png → art/chapter_covers.py (칠판 식 교체 + 안내 담당 조명·GUIDE 이름표)"
  }
 }

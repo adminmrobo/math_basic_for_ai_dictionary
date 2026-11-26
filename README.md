@@ -48,7 +48,8 @@
 │  ├─ kg_defs.py                  지식 색인·서지 → build/kg/
 │  ├─ common.css · common.js · sprites96.js · kgx.js · backbone.json   공용 디자인·캐릭터 팩·색인 모듈 (hello_space_lab에서)
 │  └─ build.js                    조립
-├─ art/scenes.py · covers.py      픽셀 장면 엔진 (표지: 식구 아홉 명이 모두 모이고 안내 담당이 맨 앞, 480×270 ×4, 웃는 그림 600×400 ×2, 무손실 WebP)
+├─ art/chapter_covers.py         장 표지 15장 = 승인된 Genspark 목차 표지(img/source/) + 칠판 식 교체 + 안내 담당 조명
+├─ art/scenes.py · covers.py      임시 그림용 픽셀 장면 엔진(img/received.json에 적힌 그림은 덮어쓰지 않음) (표지: 식구 아홉 명이 모두 모이고 안내 담당이 맨 앞, 480×270 ×4, 웃는 그림 600×400 ×2, 무손실 WebP)
 ├─ colab/                         코랩 노트북 15개
 ├─ code/
 │  ├─ colab_py/                   같은 코드의 .py
