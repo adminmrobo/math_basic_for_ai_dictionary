@@ -297,7 +297,6 @@ EXTRA_CSS = '''
 .cast{display:grid;gap:10px}.castc{display:flex;gap:10px;align-items:center;background:var(--panel);border:1px solid var(--rule);border-left:4px solid var(--cc);border-radius:10px;padding:8px 10px}
 .castc.host{background:#fff;box-shadow:0 0 0 2px var(--cc)}
 .castc img{width:60px;height:60px;flex:none}.castc p{margin:0;font-size:13.5px;color:var(--muted);line-height:1.55}
-.cover img.art{image-rendering:pixelated;image-rendering:crisp-edges}
 .diff{display:inline-block;border:1px solid var(--c-asst);color:var(--c-asst);border-radius:999px;padding:0 10px;font-size:12.5px;margin-left:6px}
 .hostcard{display:flex;gap:14px;align-items:center;border:2px solid var(--cc);border-radius:14px;padding:12px 16px;margin:10px 0 16px;background:#fff}
 .hostcard img{width:84px;height:84px;flex:none}.hostcard p{margin:4px 0 0;color:var(--muted)}
@@ -380,7 +379,7 @@ def load(key):
 
 
 if __name__ == '__main__':
-    keys = sys.argv[1:] or KEYS
+    keys = sys.argv[1:] or (KEYS + ['index', 'practice'])   # 목차·연습장도 늘 다시 만든다
     for k in keys:
         if k in ('index', 'practice'):
             m = importlib.import_module(k + '_page'); m.build(); print('src', k); continue

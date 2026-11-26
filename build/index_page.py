@@ -31,7 +31,7 @@ def build():
 .cgrid{{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:14px;margin:10px 0 22px}}
 .ccard{{display:flex;flex-direction:column;background:var(--panel);border:1px solid var(--rule);border-radius:14px;overflow:hidden;text-decoration:none;color:var(--text)}}
 .ccard:hover{{border-color:var(--terrain)}}.ccard>div{{padding:12px 16px}}.ccard h3{{margin:6px 0 4px;font-size:18px}}.ccard p{{margin:0 0 6px;font-size:14.5px;color:var(--muted)}}
-.cthumb{{width:100%;height:auto;display:block;image-rendering:pixelated;border-bottom:1px solid var(--rule)}}.cno{{font-weight:700;color:var(--terrain)}}.cq{{font-size:13.5px!important}}
+.cthumb{{width:100%;height:auto;display:block;border-bottom:1px solid var(--rule)}}.cno{{font-weight:700;color:var(--terrain)}}.cq{{font-size:13.5px!important}}
 .chost{{display:inline-flex;align-items:center;gap:4px;font-size:13px;color:var(--muted)}}.chost img{{width:24px;height:24px;border-radius:6px}}
 .parth{{margin:26px 0 4px;font-size:20px}}.parth small{{font-size:14px;color:var(--muted);font-weight:500}}
 .rota{{display:flex;flex-wrap:wrap;gap:6px;margin:10px 0}}.rota span{{display:inline-flex;align-items:center;gap:4px;border:1px solid var(--rule);border-radius:999px;padding:2px 10px 2px 3px;font-size:13.5px;background:#fff}}.rota img{{width:26px;height:26px;border-radius:50%}}

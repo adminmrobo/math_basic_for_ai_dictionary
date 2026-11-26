@@ -6,7 +6,7 @@ const fs=require('fs'),path=require('path'),vm=require('vm');
 const B=__dirname,R=path.join(B,'..');
 const rd=f=>fs.readFileSync(path.join(B,f),'utf8');
 const css=rd('common.css'),sprites=rd('sprites96.js'),common=rd('common.js'),mathlab=rd('mathlab.js');
-const kgx=rd('kgx.js');
+const kgx=rd('kgx.js'),pxfix=rd('pxfix.html').trim();
 const BB=JSON.parse(rd('backbone.json'));
 const ctx={document:{readyState:'loading',addEventListener(){},getElementById(){return null;}},window:{},navigator:{},console};
 vm.createContext(ctx);vm.runInContext(kgx+';this.KGX=KGX;',ctx);
@@ -36,6 +36,7 @@ for(const pg of pages){
   const src=pg.key+'.src.html';if(!fs.existsSync(path.join(B,src)))continue;
   let H=rd(src).replace('<!--@@CSS@@-->',()=>'<style>\n'+css+'\n</style>')
     .replace('/*@@SPRITES@@*/',()=>sprites).replace('/*@@COMMON@@*/',()=>common).replace('/*@@MATHLAB@@*/',()=>mathlab);
+  if(!H.includes('<!-- px-fix v1 -->'))H=H.replace('</head>',()=>pxfix+'\n</head>');   // 기본 스킬 18-15-3 픽셀 깨짐 보정 코드
   const kf=path.join(B,'kg','kg_'+pg.key+'.json');
   if(fs.existsSync(kf))H=attach(H,JSON.parse(fs.readFileSync(kf,'utf8')),JSON.parse(rd('kg/refs_'+pg.key+'.json')),JSON.parse(rd('kg/meta_'+pg.key+'.json')));
   const out=path.join(R,pg.out);fs.mkdirSync(path.dirname(out),{recursive:true});
